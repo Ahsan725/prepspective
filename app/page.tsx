@@ -20,7 +20,7 @@ const Hero7 = () => {
         <div className="mt-5 lg:mt-8 flex flex-col sm:items-center gap-4 sm:flex-row sm:gap-3">
           <div className="w-full max-w-6xl sm:max-w-lg lg:w-auto">
             <Label className="sr-only">Search</Label>
-            <Input placeholder="stevejobs@apple.com" type="email" className="w-full" />
+            <Input placeholder="steve@jobs.com" type="email" className="w-full" />
           </div>
           <Button className="w-full sm:w-auto">Join the Waitlist</Button>
         </div>
