@@ -6,18 +6,18 @@ import { Button } from '@/components/ui/button';
 
 const Hero7 = () => {
   return (
-    <section className="flex min-h-screen items-center justify-center bg-gray-50">
+    <section className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-300 to-emerald-100 h-64 w-full">
       <div className="text-center">
         <div className="mx-auto flex max-w-screen-lg flex-col gap-6">
           <h1 className="text-3xl font-extrabold lg:text-6xl">
           The number one interview prep app in the world!
           </h1>
-          <p className="text-balance text-muted-foreground lg:text-lg">
+          <p className="text-balance lg:text-xl">
           PrepSpective: Share Your Interview Story, Learn from Others, and Get Ready to Ace any Interview.
           </p>
         </div>
         <Button size="lg" className="mt-10">
-          Discover all components
+          Join Waitlist
         </Button>
         <div className="mx-auto mt-10 flex w-fit flex-col items-center gap-4 sm:flex-row">
           <span className="mx-4 inline-flex items-center -space-x-4">
