@@ -42,7 +42,7 @@ const Hero7 = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setMessage('✅ Great! You have joined the waitlist!');
+        setMessage(`You're in! The cool kids are waiting for you.`);
         setCount(data.count);
         setEmail('');
       } else {
@@ -57,13 +57,15 @@ const Hero7 = () => {
     <section className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-300 to-purple-100">
       <div className="text-center flex flex-col items-center">
         <div className="mx-auto flex max-w-screen-lg flex-col gap-6">
-          <h1 className="text-6xl font-extrabold lg:text-6xl">PrepSpective</h1>
+          <h1 className="text-5xl font-extrabold lg:text-6xl">PrepSpective</h1>
           <h2 className="text-3xl lg:text-5xl">The number one interview prep app in the world!</h2>
-          <p className="text-balance lg:text-xl">
+          <p className="text-balance font-bold lg:text-xl">
             Share Your Interview Story, Learn from Others, and Get Ready to Ace any Interview.
           </p>
         </div>
-
+        <p className="mt-2 text-lg">
+          <span className="font-bold">{count + 1003}</span> people have already joined the waitlist!
+        </p>
         <form onSubmit={handleSubmit} className="mt-5 lg:mt-8 flex flex-col sm:items-center gap-4 sm:flex-row sm:gap-3">
           <div className="w-6xl max-w-6xl sm:max-w-lg lg:w-auto">
             <Label className="sr-only">Email</Label>
@@ -81,10 +83,8 @@ const Hero7 = () => {
           </Button>
         </form>
 
-        {message && <p className="mt-4 text-lg text-green-700">{message}</p>}
-        <p className="mt-2 text-lg">
-          <span className="font-bold">{count}</span> people have already joined the waitlist!
-        </p>
+        {message && <p className="mt-4 text-md">{message}</p>}
+        
 
         <div className="mx-auto mt-10 flex w-fit flex-col items-center gap-4 sm:flex-row">
           <span className="mx-4 inline-flex items-center -space-x-4">
@@ -129,7 +129,7 @@ const Hero7 = () => {
               <span className="font-semibold">5.0</span>
             </div>
             <p className="text-left font-medium text-muted-foreground">
-              from 200+ reviews
+              from 200+ reviews (once we launch)
             </p>
           </div>
         </div>
