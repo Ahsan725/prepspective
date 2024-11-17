@@ -42,7 +42,7 @@ const Hero7 = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setMessage('Great! You have joined the waitlist!');
+        setMessage('✅ Great! You have joined the waitlist!');
         setCount(data.count);
         setEmail('');
       } else {
