@@ -1,24 +1,29 @@
 import { Star } from 'lucide-react';
 import React from 'react';
-
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 const Hero7 = () => {
   return (
-    <section className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-300 to-purple-100 h-64 w-full">
-      <div className="text-center">
+    <section className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-300 to-purple-100">
+      <div className="text-center flex flex-col items-center">
         <div className="mx-auto flex max-w-screen-lg flex-col gap-6">
           <h1 className="text-3xl font-extrabold lg:text-6xl">
-          The number one interview prep app in the world!
+            The number one interview prep app in the world!
           </h1>
           <p className="text-balance lg:text-xl">
-          PrepSpective: Share Your Interview Story, Learn from Others, and Get Ready to Ace any Interview.
+            PrepSpective: Share Your Interview Story, Learn from Others, and Get Ready to Ace any Interview.
           </p>
         </div>
-        <Button size="lg" className="mt-10">
-          Join Waitlist
-        </Button>
+        <div className="mt-5 lg:mt-8 flex flex-col sm:items-center gap-4 sm:flex-row sm:gap-3">
+          <div className="w-full max-w-6xl sm:max-w-lg lg:w-auto">
+            <Label className="sr-only">Search</Label>
+            <Input placeholder="stevejobs@apple.com" type="email" className="w-full" />
+          </div>
+          <Button className="w-full sm:w-auto">Join the Waitlist</Button>
+        </div>
         <div className="mx-auto mt-10 flex w-fit flex-col items-center gap-4 sm:flex-row">
           <span className="mx-4 inline-flex items-center -space-x-4">
             <Avatar className="size-14 border">
