@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 const Hero7 = () => {
   return (
-    <section className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-300 to-emerald-100 h-64 w-full">
+    <section className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-300 to-purple-100 h-64 w-full">
       <div className="text-center">
         <div className="mx-auto flex max-w-screen-lg flex-col gap-6">
           <h1 className="text-3xl font-extrabold lg:text-6xl">
