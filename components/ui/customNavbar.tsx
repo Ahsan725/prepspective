@@ -112,7 +112,7 @@ const CustomNavbar = () => {
                             <li key={idx}>
                               <a
                                 className={cn(
-                                  'flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+                                  'flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-indigo-50',
                                 )}
                                 href="#"
                               >
@@ -141,7 +141,7 @@ const CustomNavbar = () => {
                             <li key={idx}>
                               <a
                                 className={cn(
-                                  'flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+                                  'flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-indigo-50',
                                 )}
                                 href="#"
                               >
@@ -203,7 +203,7 @@ const CustomNavbar = () => {
                 className="w-8"
                 alt="logo"
               /> */}
-              <span className="text-xl font-extrabold text-indigo-700">PrepSpective</span>
+              <span className="text-xl font-bold text-indigo-700"><span className="text-xl font-extrabold lg:text-xl text-indigo-700">{"{P}rep"}</span>Spective</span>
             </div>
             <Sheet>
               <SheetTrigger asChild>
@@ -220,7 +220,7 @@ const CustomNavbar = () => {
                         className="w-8"
                         alt="logo"
                       /> */}
-                      <span className="text-xl font-extrabold text-indigo-700">PrepSpective</span>
+                      <span className="text-xl font-bold text-indigo-700"><span className="text-xl font-extrabold lg:text-xl text-indigo-700">{"{P}rep"}</span>Spective</span>
                     </div>
                   </SheetTitle>
                 </SheetHeader>
@@ -238,7 +238,7 @@ const CustomNavbar = () => {
                           <a
                             key={idx}
                             className={cn(
-                              'flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+                              'flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-indigo-50',
                             )}
                             href="#"
                           >
