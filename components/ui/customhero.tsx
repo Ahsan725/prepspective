@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import NumberTicker from "@/components/ui/number-ticker";
 
 const CustomHero = () => {
   const [email, setEmail] = useState('');
@@ -78,9 +79,10 @@ const CustomHero = () => {
         </div>
 
         {/* Waitlist Count */}
-        <p className="mt-2 text-md">
-          <span className="font-bold text-indigo-600">{count + 1003}</span> people have already joined the waitlist!
-        </p>
+       
+          <p className="whitespace-pre-wrap tracking-tighter">
+      <NumberTicker value={count + 1003} className='text-xl text-indigo-600 font-extrabold' /> people have already joined the waitlist!
+    </p>
 
         {/* Waitlist Form */}
         <form

@@ -264,7 +264,7 @@ const CustomNavbar = () => {
                           <a
                             key={idx}
                             className={cn(
-                              'flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+                              'flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-indigo-50',
                             )}
                             href="#"
                           >
