@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 
-const customhero = () => {
+const CustomHero = () => {
   const [email, setEmail] = useState('');
   const [count, setCount] = useState(0);
   const { toast } = useToast();
@@ -110,4 +110,4 @@ const customhero = () => {
   );
 };
 
-export default customhero;
+export default CustomHero;
