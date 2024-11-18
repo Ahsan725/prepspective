@@ -45,14 +45,14 @@ const CustomHero = () => {
         setCount(data.count);
         setEmail('');
         toast({
-          title: 'Success',
-          description: `You're in! The cool kids are waiting for you.`,
+          title: `Success, You're in!`,
+          description: `The cool kids are waiting for you. Don’t go too far, we’ll be in touch soon.`,
         });
       } else {
         const errorMessage = data.error || 'Failed to add email.';
         toast({
           title: "Uh oh! Something went wrong.",
-          description: errorMessage,
+          description: `We’re not saying it’s wrong, but the system is squinting.`,
         });
       }
     } catch (error) {
@@ -64,11 +64,11 @@ const CustomHero = () => {
   };
 
   return (
-    <section className="flex min-h-screen items-center justify-center bg-gradient-to-r from-stone-50 to-indigo-300">
+    <section className="flex min-h-screen items-center justify-center">
       <div className="flex flex-col items-center text-center w-full max-w-4xl px-6 py-12">
         {/* Main Header */}
         <div className="mb-8">
-          <h1 className="text-5xl font-bold lg:text-6xl text-indigo-700"><span className="text-5xl font-extrabold lg:text-6xl text-indigo-700">Prep</span>Spective</h1>
+          <h1 className="text-5xl font-bold lg:text-6xl text-indigo-700" ><span className="text-5xl font-extrabold lg:text-6xl text-indigo-700">Prep</span>Spective</h1>
           <h2 className="mt-4 text-2xl font-semibold lg:text-3xl">
             The number one interview prep app in the world!
           </h2>
@@ -79,7 +79,7 @@ const CustomHero = () => {
 
         {/* Waitlist Count */}
         <p className="mt-2 text-md">
-          <span className="font-bold">{count + 1003}</span> people have already joined the waitlist!
+          <span className="font-bold text-indigo-600">{count + 1003}</span> people have already joined the waitlist!
         </p>
 
         {/* Waitlist Form */}
@@ -95,14 +95,14 @@ const CustomHero = () => {
       id="email"
       placeholder="steve@jobs.com"
       type="email"
-      className="w-full sm:w-[400px] h-10 text-center placeholder:text-center"
+      className="w-full sm:w-[400px] h-10 text-center placeholder:text-center shadow-lg border-none"
       value={email}
       onChange={(e) => setEmail(e.target.value)}
       required
     />
   </div>
   <Button type="submit" className="w-full sm:w-auto">
-    Join the Waitlist <ArrowBigRight size={24} />
+    Join the Waitlist <ArrowBigRight size={24}  fill='white'/>
   </Button>
 </form>
 
