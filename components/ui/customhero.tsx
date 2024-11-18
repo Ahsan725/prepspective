@@ -68,7 +68,7 @@ const CustomHero = () => {
       <div className="flex flex-col items-center text-center w-full max-w-4xl px-6 py-12">
         {/* Main Header */}
         <div className="mb-8">
-          <h1 className="text-5xl font-bold lg:text-6xl text-indigo-700" ><span className="text-5xl font-extrabold lg:text-6xl text-indigo-700">Prep</span>Spective</h1>
+          <h1 className="text-5xl font-bold lg:text-6xl text-indigo-700" ><span className="text-5xl font-extrabold lg:text-6xl text-indigo-700">{"{P}rep"}</span>Spective</h1>
           <h2 className="mt-4 text-2xl font-semibold lg:text-3xl">
             The number one interview prep app in the world!
           </h2>
