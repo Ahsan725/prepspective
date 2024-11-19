@@ -1,9 +1,11 @@
 import CustomHero from '@/components/ui/customhero';
+import { CustomFeature }  from '@/components/ui/customfeature';
 
 export default function HomePage() {
   return (
     <main>
-      <CustomHero/>
+      <CustomHero />
+      {/* <CustomFeature/> */}
     </main>
   );
 }

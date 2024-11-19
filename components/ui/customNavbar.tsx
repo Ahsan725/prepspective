@@ -1,4 +1,5 @@
 import { Book, Menu, Sunset, Trees, Zap } from 'lucide-react';
+import Link from 'next/link';
 
 import {
   Accordion,
@@ -87,18 +88,18 @@ const CustomNavbar = () => {
               <span className="text-2xl font-bold text-indigo-700"><span className="text-2xl font-extrabold lg:text-2xl text-indigo-700">{"{P}rep"}</span>Spective</span>
             </div>
             <div className="flex items-center">
-              <a
-                className={cn(
-                  'text-muted-foreground',
-                  navigationMenuTriggerStyle,
-                  buttonVariants({
-                    variant: 'ghost',
-                  }),
-                )}
-                href="#"
-              >
-                Home
-              </a>
+            <Link
+  href="/"
+  className={cn(
+    'text-muted-foreground',
+    navigationMenuTriggerStyle,
+    buttonVariants({
+      variant: 'ghost',
+    })
+  )}
+>
+  Home
+</Link>
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem className="text-muted-foreground">
@@ -164,18 +165,18 @@ const CustomNavbar = () => {
                 </NavigationMenuList>
               </NavigationMenu>
 
-              <a
-                className={cn(
-                  'text-muted-foreground',
-                  navigationMenuTriggerStyle,
-                  buttonVariants({
-                    variant: 'ghost',
-                  }),
-                )}
-                href="#"
-              >
-                Pricing
-              </a>
+              <Link
+  href="/about"
+  className={cn(
+    'text-muted-foreground',
+    navigationMenuTriggerStyle,
+    buttonVariants({
+      variant: 'ghost',
+    })
+  )}
+>
+  About
+</Link>
               <a
                 className={cn(
                   'text-muted-foreground',
@@ -225,9 +226,9 @@ const CustomNavbar = () => {
                   </SheetTitle>
                 </SheetHeader>
                 <div className="my-8 flex flex-col gap-4">
-                  <a href="#" className="font-semibold">
-                    Home
-                  </a>
+                <Link href="/" className="font-semibold">
+  Home
+</Link>
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="products" className="border-b-0">
                       <AccordionTrigger className="mb-4 py-0 font-semibold hover:no-underline">
@@ -282,9 +283,9 @@ const CustomNavbar = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <a href="#" className="font-semibold">
-                    Pricing
-                  </a>
+                  <Link href="/about" className="font-semibold">
+  About
+</Link>
                   <a href="#" className="font-semibold">
                     Blog
                   </a>

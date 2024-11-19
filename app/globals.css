@@ -70,3 +70,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+::selection {
+  background-color: #d4d2f8; /* Indigo-500 */
+  color: #3129a1;; /* White */
+}
+
