@@ -208,8 +208,8 @@ const CustomNavbar = () => {
             </div>
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant={'outline'} size={'icon'}>
-                  <Menu className="size-4" />
+                <Button variant={'secondary'} size={'icon'}>
+                  <Menu className="size-4 border-none" />
                 </Button>
               </SheetTrigger>
               <SheetContent className="overflow-y-auto">
