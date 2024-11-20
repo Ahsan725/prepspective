@@ -1,6 +1,5 @@
 import { Menu } from "lucide-react";
 import Link from "next/link";
-
 import {
   Sheet,
   SheetContent,
@@ -10,6 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import ContactForm from "@/components/ui/contactForm"; // Import the ContactForm component
 
 const TempNavbar = () => {
   return (
@@ -42,19 +42,12 @@ const TempNavbar = () => {
               >
                 
               </Link>
-              <Link
-                href="/contact"
-                className={cn(
-                  "text-indigo-700 font-medium hover:underline",
-                  "transition-colors duration-300"
-                )}
-              >
-                
-              </Link>
+              {/* Placeholder for other links */}
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline">Contact</Button>
+            {/* Embed the ContactForm Component */}
+            <ContactForm />
             <Button>Coming Soon!</Button>
           </div>
         </nav>
@@ -91,15 +84,10 @@ const TempNavbar = () => {
                 >
                   
                 </Link>
-                <Link
-                  href="/contact"
-                  className="text-indigo-700 font-medium hover:underline"
-                >
-                  
-                </Link>
               </div>
               <div className="border-t pt-4 flex flex-col gap-3">
-                <Button variant="outline">Contact</Button>
+                {/* Embed the ContactForm Component */}
+                <ContactForm />
                 <Button>Coming Soon!</Button>
               </div>
             </SheetContent>
