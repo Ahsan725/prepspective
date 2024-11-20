@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
 import CustomNavbar from "@/components/ui/customNavbar";
+import TempNavbar from "@/components/ui/tempNavbar";
 
 
 const geistSans = localFont({
@@ -34,7 +35,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CustomNavbar />
+        {/* <CustomNavbar /> */}
+        <TempNavbar/>
         {children}
         <Toaster />
       </body>
