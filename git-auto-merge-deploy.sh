@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# Set a commit message
-commit_message="auto merge and deploy"
+# Check if a custom commit message is provided as an argument
+if [ -z "$1" ]; then
+  commit_message="auto merge and deploy"
+  echo "No commit message provided. Using default: '$commit_message'"
+else
+  commit_message="$1"
+  echo "Using custom commit message: '$commit_message'"
+fi
 
 # Add all changes, commit, and push
 echo "Adding all changes..."
