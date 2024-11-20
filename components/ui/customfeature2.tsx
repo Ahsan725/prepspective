@@ -51,9 +51,12 @@ export const FeaturesSection = () => {
   return (
     <section id="features" className="ml-8 mr-8 py-0 px-0">
       {/* Section Header */}
-      <h2 className="text-lg text-primary text-center mb-2 tracking-wider">
-        Features
-      </h2>
+      <div className="flex items-center justify-center mb-4">
+  <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
+    FEATURES
+  </h2>
+</div>
+
 
       <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
         What Makes Us Different
@@ -72,19 +75,19 @@ export const FeaturesSection = () => {
             <Card className="h-full shadow-none bg-white border-none rounded-lg flex flex-col items-center text-center">
               {/* Card Header */}
               <CardHeader className="flex flex-col items-center">
-                <div className="bg-gradient-to-r from-indigo-800 to-indigo-500 p-3 rounded-full mb-4">
+                <div className="bg-gradient-to-r from-indigo-800 to-indigo-500 p-3 rounded-full mb-4 bg-primary/20 ">
                   <Icon
                     name={icon as keyof typeof icons}
                     size={40}
                     // color="hsl(var(--primary))"
-                    className="text-white "
+                    className="text-white"
                   />
                 </div>
-                <CardTitle className="text-lg font-semibold">{title}</CardTitle>
+                <CardTitle className="text-xl font-semibold text-indigo-800">{title}</CardTitle>
               </CardHeader>
 
               {/* Card Content */}
-              <CardContent className="text-muted-foreground">
+              <CardContent className="text-muted-foreground sm:text-sm  lg:text-base">
                 {description}
               </CardContent>
             </Card>

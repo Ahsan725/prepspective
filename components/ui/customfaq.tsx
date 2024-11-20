@@ -40,9 +40,14 @@ const FAQSection = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-36">
         {/* Header */}
         <div className="mb-16 text-center">
-          <h6 className="text-lg text-indigo-700 font-medium mb-2">FAQs</h6>
-          <h2 className="text-4xl font-manrope font-bold text-gray-900 leading-[3.25rem]">
-            Frequently asked questions
+        <div className="flex items-center justify-center mb-4">
+  <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
+    FREQUENTLY ASKED QUESTIONS
+  </h2>
+</div>
+
+          <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
+            Some Questions You Might Have
           </h2>
         </div>
 
@@ -62,8 +67,8 @@ const FAQSection = () => {
                <h5
   className={`transition-all duration-300 ${
     activeAccordion === faq.id
-      ? "text-indigo-700 font-medium text-lg scale-100 opacity-100"
-      : "font-medium scale-90 text-lg opacity-80"
+      ? "text-indigo-700 font-medium text-sm lg:text-lg scale-100 opacity-100"
+      : "font-medium scale-90 text-sm lg:text-lg opacity-80"
   }`}
 >
   {faq.question}
@@ -93,7 +98,7 @@ const FAQSection = () => {
                   activeAccordion === faq.id ? "max-h-40" : "max-h-0"
                 }`}
               >
-                <p className="text-sm text-gray-900 leading-6 mt-4">{faq.answer}</p>
+                <p className="text-xs lg:text-sm text-gray-900 leading-6 mt-4">{faq.answer}</p>
               </div>
             </div>
           ))}

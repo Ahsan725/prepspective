@@ -73,7 +73,7 @@ const CustomHero = () => {
           <h2 className="mt-4 text-2xl font-semibold lg:text-3xl">
             The number one interview prep app in the world!
           </h2>
-          <p className="mt-10 text-lg lg:text-xl">
+          <p className="mt-10 text-lg lg:text-xl text-muted-foreground">
             Share Your Interview Story, Learn from Others, and Get Ready to Ace any Interview.
           </p>
         </div>
