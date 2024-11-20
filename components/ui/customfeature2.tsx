@@ -49,7 +49,7 @@ const featureList: FeaturesProps[] = [
 
 export const FeaturesSection = () => {
   return (
-    <section id="features" className="ml-8 mr-8 py-0 px-0">
+    <section id="features" className="ml-8 mr-8 py-16 px-0">
       {/* Section Header */}
       <div className="flex items-center justify-center mb-4">
   <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
