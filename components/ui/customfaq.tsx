@@ -46,7 +46,7 @@ const FAQSection = () => {
   </h2>
 </div>
 
-          <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl text-center font-bold mb-4 md:w-1/2 mx-auto">
             Common Questions
           </h2>
         </div>
