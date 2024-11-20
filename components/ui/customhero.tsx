@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import NumberTicker from "@/components/ui/number-ticker";
-
 const CustomHero = () => {
   const [email, setEmail] = useState('');
   const [count, setCount] = useState(0);
@@ -105,7 +104,7 @@ const CustomHero = () => {
   </div>
   <Button type="submit" className="w-full sm:w-auto">
     Join the Waitlist <ArrowBigRight size={24}  fill='white'/>
-  </Button>
+          </Button>          
 </form>
 
       </div>

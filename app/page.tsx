@@ -10,7 +10,7 @@ export default function HomePage() {
       <CustomHero />
       {/* <CustomFeature/> */}
       <FeaturesSection/>
-      < FAQSection/>
+      < FAQSection />
     </main>
   );
 }

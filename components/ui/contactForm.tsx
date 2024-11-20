@@ -37,7 +37,7 @@ const ContactForm = () => {
       {/* Popover Trigger */}
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline">Contact Us</Button>
+          <Button variant="outline" className="">Contact Us</Button>
         </PopoverTrigger>
         {/* Popover Content */}
         <PopoverContent className="w-96 p-4">
