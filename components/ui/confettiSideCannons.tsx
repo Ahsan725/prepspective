@@ -11,7 +11,7 @@ export function ConfettiSideCannons() {
       if (Date.now() > end) return;
 
       confetti({
-        particleCount: 2,
+        particleCount: 10,
         angle: 60,
         spread: 55,
         startVelocity: 60,
@@ -19,7 +19,7 @@ export function ConfettiSideCannons() {
         colors: colors,
       });
       confetti({
-        particleCount: 2,
+        particleCount: 10,
         angle: 120,
         spread: 55,
         startVelocity: 60,
