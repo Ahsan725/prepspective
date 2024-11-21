@@ -58,10 +58,10 @@ const CustomHero = () => {
     window.addEventListener('keydown', handleKeyDown);
 
     // Cleanup the timer and event listener
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+    // return () => {
+    //   clearTimeout(timer);
+    //   window.removeEventListener('keydown', handleKeyDown);
+    // };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
