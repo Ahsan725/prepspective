@@ -20,6 +20,7 @@ const ContactForm = () => {
     email: '',
     message: '',
   });
+  const [result, setResult] = useState(''); // For form submission status
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Control modal visibility
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -27,16 +28,41 @@ const ContactForm = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Show toast notification
-    toast({
-      title: 'Message Sent',
-      description: 'Your message has been successfully sent.',
-      variant: 'default',
-    });
-    setFormData({ name: '', email: '', message: '' }); // Reset form data
-    setIsDialogOpen(false); // Close the modal
+    setResult('Sending...');
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('access_key', '89b85a1d-9630-4362-85b2-76ff6fc9f6ee'); // Replace with your actual access key
+    formDataToSend.append('name', formData.name);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('message', formData.message);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formDataToSend,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setResult('Form Submitted Successfully');
+        toast({
+          title: 'Message Sent',
+          description: 'Your message has been successfully sent.',
+          variant: 'default',
+        });
+        setFormData({ name: '', email: '', message: '' }); // Reset form data
+        setIsDialogOpen(false); // Close the modal
+      } else {
+        console.error('Error:', data);
+        setResult(data.message);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setResult('An error occurred. Please try again.');
+    }
   };
 
   return (
@@ -104,6 +130,7 @@ const ContactForm = () => {
               Send Message
             </Button>
           </form>
+          <span className="text-sm text-gray-600">{result}</span>
         </DialogContent>
       </Dialog>
     </div>
