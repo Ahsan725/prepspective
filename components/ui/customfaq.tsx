@@ -12,12 +12,12 @@ const FAQSection = () => {
   const faqs = [
     {
       id: "faq-1",
-      question: "Is this website really free?",
-      answer: "Yes! Our goal is to democratize access to interview preparation. No hidden charges or subscriptions.",
+      question: "Can I still use this platform if I’m just starting and don’t have an interview yet?",
+      answer: "Absolutely! Use it to understand the general expectations of interviews at your dream companies, start identifying patterns, and focus your preparation. Knowing what’s commonly asked and how processes work can give you a huge advantage before you even apply.",
     },
     {
       id: "faq-2",
-      question: "Is the submission anonymous?",
+      question: "Are the submissions anonymous?",
       answer: "Yes, all information is 100% anonymous. Nothing is ever linked to you or any other information that could be used to identify you. We prioritize your privacy so you can share your experiences candidly.",
     },
     {
@@ -29,6 +29,11 @@ const FAQSection = () => {
       id: "faq-4",
       question: "How do I know if the experiences shared apply to my specific role or location?",
       answer: "We tag entries by job title, level, location, and many other filters so you can filter results to match your specific circumstances. While some companies have consistent processes across roles, we recommend using filters for the most relevant results.",
+    },
+    {
+      id: "faq-5",
+      question: "Is this website really free?",
+      answer: "Yes! Our goal is to democratize access to interview preparation. No hidden charges or subscriptions.",
     },
   ];
   
