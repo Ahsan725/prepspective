@@ -1,6 +1,7 @@
 'use client';
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import { ArrowBigRight, MousePointerClick } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -14,6 +15,12 @@ import ContactForm from "@/components/ui/contactForm"; // Import the ContactForm
 import { ConfettiSideCannons } from "@/components/ui/confettiSideCannons";
 
 const TempNavbar = () => {
+
+    // Mimic the behavior of pressing the "Escape" key
+    const handleEscapeButtonClick = () => {
+      const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+      window.dispatchEvent(escapeEvent);
+    };
   return (
     <section className="py-4 px-4">
       <div className="container">
@@ -50,7 +57,13 @@ const TempNavbar = () => {
           <div className="flex gap-2">
             {/* Embed the ContactForm Component */}
             <ContactForm />
-            <ConfettiSideCannons/>
+            <Button
+            onClick={handleEscapeButtonClick}
+            variant="outline"
+          >
+            Disable Fancy Cursor <MousePointerClick />
+            </Button>
+            <ConfettiSideCannons />
           </div>
         </nav>
 
@@ -90,7 +103,14 @@ const TempNavbar = () => {
               <div className="border-t pt-4 flex flex-col gap-3">
                 {/* Embed the ContactForm Component */}
                 <ContactForm />
-                <ConfettiSideCannons/>
+
+                <Button
+            onClick={handleEscapeButtonClick}
+            variant="outline"
+          >
+            Disable Fancy Cursor <MousePointerClick />
+                </Button>
+                <ConfettiSideCannons />
               </div>
             </SheetContent>
           </Sheet>

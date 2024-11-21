@@ -1,22 +1,24 @@
 'use client'; // Add this directive at the very top
 
 import { useState, useEffect } from 'react';
-import { Star, ArrowBigRight } from 'lucide-react';
+import { ArrowBigRight, MousePointerClick } from 'lucide-react';
 import React from 'react';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import NumberTicker from "@/components/ui/number-ticker";
-import { ConfettiButton } from "@/components/ui/confetti";
-import { ConfettiSideCannons } from "@/components/ui/confettiSideCannons";
 
 const CustomHero = () => {
   const [email, setEmail] = useState('');
   const [count, setCount] = useState(0);
   const { toast } = useToast();
   const [showMessage, setShowMessage] = useState(true);
+
+  const handleEscapePress = () => {
+    console.log("Escape key behavior triggered!");
+    setShowMessage(false);
+  };
 
   useEffect(() => {
     // Fetch the count of waitlist members
@@ -34,29 +36,31 @@ const CustomHero = () => {
 
     fetchCount();
 
-     // Check if the user is on a mobile device
-  const isOnMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  if (isOnMobile) {
-    setShowMessage(false); // Hide the message immediately on mobile
-    return; // Exit early since no further setup is needed for mobile
-  }
+    // Check if the user is on a mobile device
+    const isOnMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isOnMobile) {
+      setShowMessage(false); // Hide the message immediately on mobile
+      return;
+    }
 
-    // Set up a timer to hide the message after 15 seconds
-    const timer = setTimeout(() => {
-      setShowMessage(false);
-    }, 15000);
+    // // Set up a timer to hide the message after 15 seconds
+    // const timer = setTimeout(() => {
+    //   setShowMessage(false);
+    // }, 15000);
 
     // Set up an event listener to hide the message on keypress
-    const handleKeyPress = () => {
-      setShowMessage(false);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleEscapePress();
+      }
     };
 
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('keydown', handleKeyDown);
 
     // Cleanup the timer and event listener
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
@@ -93,6 +97,12 @@ const CustomHero = () => {
     }
   };
 
+  // // Mimic the behavior of pressing the "Escape" key
+  // const handleEscapeButtonClick = () => {
+  //   const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+  //   window.dispatchEvent(escapeEvent);
+  // };
+
   return (
     <section className="flex items-start justify-center mt-12 mb-56">
       <div className="flex flex-col items-center text-center w-full max-w-4xl px-6 py-12">
@@ -104,7 +114,7 @@ const CustomHero = () => {
 
           {/* {showMessage && (
             <div id="test-message" className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-indigo-100 px-4 py-2 rounded-md shadow-xl z-50">
-              <p className='text-sm text-indigo-700'>Press any key to start using the website!</p> 
+              <p className='text-sm text-indigo-700'>Press Escape to start using the website!</p> 
             </div>
           )} */}
 
@@ -114,6 +124,14 @@ const CustomHero = () => {
           <p className="mt-10 text-lg lg:text-xl text-muted-foreground">
             Share Your Interview Story, Learn from Others, and Get Ready to Ace any Interview.
           </p>
+
+          {/* Button to Mimic Escape Key */}
+          {/* <Button
+            onClick={handleEscapeButtonClick}
+            className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700"
+          >
+            Disable Fancy Cursor <MousePointerClick />
+          </Button> */}
         </div>
 
         {/* Waitlist Count */}
