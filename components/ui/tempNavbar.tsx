@@ -1,3 +1,4 @@
+'use client';
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import {
@@ -10,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import ContactForm from "@/components/ui/contactForm"; // Import the ContactForm component
+import { ConfettiSideCannons } from "@/components/ui/confettiSideCannons";
 
 const TempNavbar = () => {
   return (
@@ -48,7 +50,7 @@ const TempNavbar = () => {
           <div className="flex gap-2">
             {/* Embed the ContactForm Component */}
             <ContactForm />
-            <Button>Coming Soon!</Button>
+            <ConfettiSideCannons/>
           </div>
         </nav>
 
@@ -88,7 +90,7 @@ const TempNavbar = () => {
               <div className="border-t pt-4 flex flex-col gap-3">
                 {/* Embed the ContactForm Component */}
                 <ContactForm />
-                <Button>Coming Soon!</Button>
+                <ConfettiSideCannons/>
               </div>
             </SheetContent>
           </Sheet>

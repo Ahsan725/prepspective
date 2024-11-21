@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import NumberTicker from "@/components/ui/number-ticker";
+import { ConfettiButton } from "@/components/ui/confetti";
+import { ConfettiSideCannons } from "@/components/ui/confettiSideCannons";
 
 const CustomHero = () => {
   const [email, setEmail] = useState('');
