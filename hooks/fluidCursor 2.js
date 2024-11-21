@@ -2,20 +2,7 @@ const useFluidCursor = () => {
     const canvas = document.getElementById("fluid");
     resizeCanvas();
   
-  //try to adjust settings
-  
-  let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  let isRunning = !isMobile; // Disable by default on mobileg
-  let animationFrameId; // Store the ID of the animation frame
-  
-
-  // Key press event to stop the animation
-  window.addEventListener("keydown", () => {
-    isRunning = false; // Disable the animation
-
-    // Disable pointer events on the canvas
-    if (canvas) canvas.style.pointerEvents = "none";
-  });
+    //try to adjust settings
   
     let config = {
       SIM_RESOLUTION: 128,
@@ -795,30 +782,15 @@ const useFluidCursor = () => {
     let colorUpdateTimer = 0.0;
   
     function update() {
-      if (!isRunning) {
-        if (animationFrameId) cancelAnimationFrame(animationFrameId); // Stop the animation
-    
-        // Remove the parent div containing the canvas
-        const container = document.getElementById("fluid-container");
-        if (container) {
-          container.remove();
-        }
-    
-        return;
-      }
-    
       const dt = calcDeltaTime();
+      // console.log(dt)
       if (resizeCanvas()) initFramebuffers();
       updateColors(dt);
       applyInputs();
       step(dt);
       render(null);
-    
-      // Save the animation frame ID
-      animationFrameId = requestAnimationFrame(update);
+      requestAnimationFrame(update);
     }
-    
-    
   
     function calcDeltaTime() {
       let now = Date.now();
@@ -1100,7 +1072,7 @@ const useFluidCursor = () => {
     function generateColor() {
       const indigoHue = 0.625 + Math.random() * (0.76 - 0.625); // Indigo hue range
       const saturation = 0.3; // Full saturation
-      const value = 0.4 + Math.random() * 0.2; // Randomize brightness slightly (0.8–1.0 for smoothness)
+      const value = 0.3 + Math.random() * 0.2; // Randomize brightness slightly (0.8–1.0 for smoothness)
     
       const { r, g, b } = HSVtoRGB(indigoHue, saturation, value);
     
@@ -1180,8 +1152,6 @@ const useFluidCursor = () => {
       }
       return hash;
     }
-    update(); // Start the animation loop
-
   };
   
   export default useFluidCursor;
