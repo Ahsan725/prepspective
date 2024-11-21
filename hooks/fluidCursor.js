@@ -1,28 +1,41 @@
 const useFluidCursor = () => {
-    const canvas = document.getElementById("fluid");
-    resizeCanvas();
-  
-  //try to adjust settings
-  
+  const canvas = document.getElementById("fluid");
+
+  // Ensure the canvas is styled to be at the bottom layer
+  if (canvas) {
+    canvas.style.position = "fixed"; // Fix it to the viewport
+    canvas.style.top = "0";
+    canvas.style.left = "0";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.zIndex = "-1"; // Ensure it is below all other elements
+    canvas.style.pointerEvents = "none"; // Prevent interaction with the canvas
+  }
+
+  resizeCanvas();
+
   let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  let isRunning = !isMobile; // Disable by default on mobileg
+  let isRunning = !isMobile; // Disable by default on mobile
   let animationFrameId; // Store the ID of the animation frame
-  
 
   // Key press event to stop the animation
-  window.addEventListener("keydown", () => {
-    isRunning = false; // Disable the animation
-
-    // Disable pointer events on the canvas
-    if (canvas) canvas.style.pointerEvents = "none";
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") { // Check if the key pressed is 'K' (case-insensitive)
+      isRunning = false; // Disable the animation
+      console.log("Animation disabled with 'K' key press.");
+      
+      // Optionally, disable pointer events on the canvas
+      if (canvas) {
+        canvas.style.pointerEvents = "none";
+      }
+    }
   });
-
-  setTimeout(() => {
-    isRunning = false; // Disable the animation
-    console.log("Fluid animation disabled after 5 seconds");
-    update(); // Explicitly call the update function
-  }, 15000);
   
+  // setTimeout(() => {
+  //   isRunning = false; // Disable the animation
+  //   console.log("Fluid animation disabled after 5 seconds");
+  //   update(); // Explicitly call the update function
+  // }, 1500000);
   
     let config = {
       SIM_RESOLUTION: 128,
