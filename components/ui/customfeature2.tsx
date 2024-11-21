@@ -11,21 +11,21 @@ interface FeaturesProps {
 const featureList: FeaturesProps[] = [
   {
     icon: "TabletSmartphone",
-    title: "Mobile Friendly",
+    title: "Personalized Preparation",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam, consectetur.",
+      "Tailor your study plan based on company-specific trends.",
   },
   {
     icon: "BadgeCheck",
-    title: "Social Proof",
+    title: "Time-Saving",
     description:
-      "Lorem ipsum dolor sit amet consectetur. Natus consectetur, odio ea accusamus aperiam.",
+      "Skip irrelevant prep by focusing on what actually matters.",
   },
   {
     icon: "Goal",
-    title: "Targeted Content",
+    title: "Company-Specific Prep",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. odio ea accusamus aperiam.",
+      "Know what to expect from each company.",
   },
   {
     icon: "PictureInPicture",
