@@ -41,7 +41,7 @@ const FAQSection = () => {
       <div className="w-full px-4 sm:px-6 lg:px-12">
         <div className="grid gap-8 lg:grid-cols-3 items-start">
           {/* Left Side: Headings */}
-          <div className="space-y-4 lg:pr-8">
+          <div className="space-y-4 lg:pr-8 z-30">
             <div className="flex items-center justify-center">
               <h2 className="inline-block font-extrabold text-xs sm:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
                 FREQUENTLY ASKED QUESTIONS
@@ -53,7 +53,7 @@ const FAQSection = () => {
           </div>
 
           {/* Right Side: Accordion */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 space-y-4 z-30 bg-white rounded-lg">
             {faqs.map((faq) => (
               <div
                 key={faq.id}

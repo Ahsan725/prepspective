@@ -102,11 +102,11 @@ const CustomHero = () => {
             <span className="text-5xl font-extrabold lg:text-6xl text-indigo-700">{"{P}rep"}</span>Spective
           </h1>
 
-          {showMessage && (
+          {/* {showMessage && (
             <div id="test-message" className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-indigo-100 px-4 py-2 rounded-md shadow-xl z-50">
               <p className='text-sm text-indigo-700'>Press any key to start using the website!</p> 
             </div>
-          )}
+          )} */}
 
           <h2 className="mt-4 text-2xl font-semibold lg:text-3xl">
             The number one interview prep app in the world!
@@ -124,7 +124,7 @@ const CustomHero = () => {
         {/* Waitlist Form */}
         <form
           onSubmit={handleSubmit}
-          className="mt-2 flex flex-col items-center gap-4 sm:flex-row sm:gap-3"
+          className="mt-2 flex flex-col items-center gap-4 sm:flex-row sm:gap-3 z-30"
         >
           <div className="w-full sm:w-auto">
             <Label htmlFor="email" className="sr-only">
