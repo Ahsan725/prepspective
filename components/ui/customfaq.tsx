@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from "react";
-import ContactForm from "@/components/ui/contactForm";
 
 const FAQSection = () => {
   const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
@@ -111,7 +110,6 @@ const FAQSection = () => {
               </div>
             ))}
           </div>
-          <ContactForm/>
         </div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 'use client';
-// this uses modal dialogue not popover
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,6 +20,7 @@ const ContactForm = () => {
     email: '',
     message: '',
   });
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // Control modal visibility
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -35,12 +36,13 @@ const ContactForm = () => {
       variant: 'default',
     });
     setFormData({ name: '', email: '', message: '' }); // Reset form data
+    setIsDialogOpen(false); // Close the modal
   };
 
   return (
     <div>
       {/* Modal Trigger */}
-      <Dialog>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
           <Button variant="outline">Contact Us</Button>
         </DialogTrigger>
