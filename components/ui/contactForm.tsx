@@ -58,7 +58,7 @@ const ContactForm = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name Input */}
             <div>
-              <label htmlFor="name" className="text-sm font-medium text-gray-700">
+              <label htmlFor="name" className="text-sm font-semibold text-indigo-700">
                 Name
               </label>
               <Input
@@ -72,7 +72,7 @@ const ContactForm = () => {
             </div>
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="text-sm font-semibold text-indigo-700">
                 Email
               </label>
               <Input
@@ -87,7 +87,7 @@ const ContactForm = () => {
             </div>
             {/* Message Input */}
             <div>
-              <label htmlFor="message" className="text-sm font-medium text-gray-700">
+              <label htmlFor="message" className="text-sm font-semibold text-indigo-700">
                 Message
               </label>
               <Textarea
