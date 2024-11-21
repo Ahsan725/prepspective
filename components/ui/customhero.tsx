@@ -17,6 +17,7 @@ const CustomHero = () => {
   const [showMessage, setShowMessage] = useState(true);
 
   useEffect(() => {
+    // Fetch the count of waitlist members
     const fetchCount = async () => {
       try {
         const response = await fetch('/api/waitlist-count', { method: 'GET' });
@@ -31,12 +32,23 @@ const CustomHero = () => {
 
     fetchCount();
 
-    // Hide the "Test" message after 15 seconds
+    // Set up a timer to hide the message after 15 seconds
     const timer = setTimeout(() => {
       setShowMessage(false);
     }, 15000);
 
-    return () => clearTimeout(timer); // Clean up the timer
+    // Set up an event listener to hide the message on keypress
+    const handleKeyPress = () => {
+      setShowMessage(false);
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+
+    // Cleanup the timer and event listener
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('keydown', handleKeyPress);
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
