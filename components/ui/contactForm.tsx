@@ -1,11 +1,18 @@
 'use client';
-
+// this uses modal dialogue not popover
 import { useState } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +20,6 @@ const ContactForm = () => {
     email: '',
     message: '',
   });
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -22,27 +28,32 @@ const ContactForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., send the data to an API)
+    // Show toast notification
     toast({
       title: 'Message Sent',
       description: 'Your message has been successfully sent.',
       variant: 'default',
     });
-    setIsPopoverOpen(false); // Close the popover
-    setFormData({ name: '', email: '', message: '' }); // Reset the form
+    setFormData({ name: '', email: '', message: '' }); // Reset form data
   };
 
   return (
     <div>
-      {/* Popover Trigger */}
-      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-        <PopoverTrigger asChild>
-          <Button variant="outline" className="">Contact Us</Button>
-        </PopoverTrigger>
-        {/* Popover Content */}
-        <PopoverContent className="w-96 p-4">
+      {/* Modal Trigger */}
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="outline">Contact Us</Button>
+        </DialogTrigger>
+
+        {/* Modal Content */}
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Contact Us</DialogTitle>
+            <DialogDescription>
+              Fill out the form below to send us your message.
+            </DialogDescription>
+          </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <h3 className="text-lg font-bold text-center">Contact Us</h3>
             {/* Name Input */}
             <div>
               <label htmlFor="name" className="text-sm font-medium text-gray-700">
@@ -91,8 +102,8 @@ const ContactForm = () => {
               Send Message
             </Button>
           </form>
-        </PopoverContent>
-      </Popover>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
