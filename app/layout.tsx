@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
 import CustomNavbar from "@/components/ui/customNavbar";
 import TempNavbar from "@/components/ui/tempNavbar";
+import FluidCursor from "@/components/ui/fluidCursor";
 
 
 const geistSans = localFont({
@@ -39,6 +40,7 @@ export default function RootLayout({
         <TempNavbar/>
         {children}
         <Toaster />
+        <FluidCursor />
       </body>
     </html>
   );
