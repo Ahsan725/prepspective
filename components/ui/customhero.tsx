@@ -101,8 +101,8 @@ const CustomHero = () => {
           </h1>
 
           {showMessage && (
-            <div id="test-message" className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-md shadow-xl z-50">
-              <p>Press any key to start using the website!</p> 
+            <div id="test-message" className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-indigo-800 to-indigo-500 px-4 py-2 rounded-md shadow-xl z-50">
+              <p className='text-sm text-white'>Press any key to start using the website!</p> 
             </div>
           )}
 
