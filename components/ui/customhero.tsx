@@ -1,4 +1,4 @@
-'use client';
+'use client'; // Add this directive at the very top
 
 import { useState, useEffect } from 'react';
 import { Star, ArrowBigRight } from 'lucide-react';
@@ -9,10 +9,12 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import NumberTicker from "@/components/ui/number-ticker";
+
 const CustomHero = () => {
   const [email, setEmail] = useState('');
   const [count, setCount] = useState(0);
   const { toast } = useToast();
+  const [showMessage, setShowMessage] = useState(true);
 
   useEffect(() => {
     const fetchCount = async () => {
@@ -28,6 +30,13 @@ const CustomHero = () => {
     };
 
     fetchCount();
+
+    // Hide the "Test" message after 15 seconds
+    const timer = setTimeout(() => {
+      setShowMessage(false);
+    }, 15000);
+
+    return () => clearTimeout(timer); // Clean up the timer
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,7 +77,16 @@ const CustomHero = () => {
       <div className="flex flex-col items-center text-center w-full max-w-4xl px-6 py-12">
         {/* Main Header */}
         <div className="mb-8">
-          <h1 className="text-5xl font-bold lg:text-6xl text-indigo-700" ><span className="text-5xl font-extrabold lg:text-6xl text-indigo-700">{"{P}rep"}</span>Spective</h1>
+          <h1 className="text-5xl font-bold lg:text-6xl text-indigo-700">
+            <span className="text-5xl font-extrabold lg:text-6xl text-indigo-700">{"{P}rep"}</span>Spective
+          </h1>
+
+          {showMessage && (
+            <div id="test-message" className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-md shadow-xl z-50">
+              <p>Press any key to start using the website!</p> 
+            </div>
+          )}
+
           <h2 className="mt-4 text-2xl font-semibold lg:text-3xl">
             The number one interview prep app in the world!
           </h2>
@@ -78,35 +96,33 @@ const CustomHero = () => {
         </div>
 
         {/* Waitlist Count */}
-       
-          <p className="whitespace-pre-wrap tracking-tighter">
-      <NumberTicker value={count + 1003} className='text-xl text-indigo-600 font-extrabold' /> people have already joined the waitlist!
-    </p>
+        <p className="whitespace-pre-wrap tracking-tighter">
+          <NumberTicker value={count + 1003} className="text-xl text-indigo-600 font-extrabold" /> people have already joined the waitlist!
+        </p>
 
         {/* Waitlist Form */}
         <form
-  onSubmit={handleSubmit}
-  className="mt-2 flex flex-col items-center gap-4 sm:flex-row sm:gap-3"
->
-  <div className="w-full sm:w-auto">
-    <Label htmlFor="email" className="sr-only">
-      Email
-    </Label>
-    <Input
-      id="email"
-      placeholder="steve@jobs.com"
-      type="email"
-      className="w-full sm:w-[400px] h-10 text-center placeholder:text-center shadow-lg border-none"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      required
-    />
-  </div>
-  <Button type="submit" className="w-full sm:w-auto">
-    Join the Waitlist <ArrowBigRight size={24}  fill='white'/>
-          </Button>          
-</form>
-
+          onSubmit={handleSubmit}
+          className="mt-2 flex flex-col items-center gap-4 sm:flex-row sm:gap-3"
+        >
+          <div className="w-full sm:w-auto">
+            <Label htmlFor="email" className="sr-only">
+              Email
+            </Label>
+            <Input
+              id="email"
+              placeholder="steve@jobs.com"
+              type="email"
+              className="w-full sm:w-[400px] h-10 text-center placeholder:text-center shadow-lg border-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <Button type="submit" className="w-full sm:w-auto">
+            Join the Waitlist <ArrowBigRight size={24} fill="white" />
+          </Button>
+        </form>
       </div>
     </section>
   );
