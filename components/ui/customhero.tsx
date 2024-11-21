@@ -32,6 +32,13 @@ const CustomHero = () => {
 
     fetchCount();
 
+     // Check if the user is on a mobile device
+  const isOnMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isOnMobile) {
+    setShowMessage(false); // Hide the message immediately on mobile
+    return; // Exit early since no further setup is needed for mobile
+  }
+
     // Set up a timer to hide the message after 15 seconds
     const timer = setTimeout(() => {
       setShowMessage(false);
