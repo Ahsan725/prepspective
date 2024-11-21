@@ -16,6 +16,13 @@ const useFluidCursor = () => {
     // Disable pointer events on the canvas
     if (canvas) canvas.style.pointerEvents = "none";
   });
+
+  setTimeout(() => {
+    isRunning = false; // Disable the animation
+    console.log("Fluid animation disabled after 5 seconds");
+    update(); // Explicitly call the update function
+  }, 9000);
+  
   
     let config = {
       SIM_RESOLUTION: 128,
