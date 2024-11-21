@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Run linting before proceeding
+echo "Running linter..."
+npm run lint || { echo "Linting failed. Fix the issues before proceeding."; exit 1; }
+
 # Check if a custom commit message is provided as an argument
 if [ -z "$1" ]; then
   commit_message="auto merge and deploy"
