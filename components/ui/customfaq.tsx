@@ -36,7 +36,6 @@ const FAQSection = () => {
       answer: "Yes! Our goal is to democratize access to interview preparation. No hidden charges or subscriptions.",
     },
   ];
-  
 
   return (
     <section className="py-24">
@@ -50,68 +49,62 @@ const FAQSection = () => {
               </h2>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-center">
-            Your Burning Questions (Extinguished)
+              Your Burning Questions (Extinguished)
             </h2>
             <p className="text-center text-gray-700">
-            Here’s a list of questions people keep asking us. If yours isn’t here, don’t panic we’re not psychic, but we do answer emails! </p>
+              Here’s a list of questions people keep asking us. If yours isn’t here, don’t panic we’re not psychic, but we do answer emails!
+            </p>
           </div>
 
           {/* Right Side: Accordion */}
           <div className="lg:col-span-2 space-y-4 z-30 bg-white rounded-lg">
             {faqs.map((faq) => (
-              <div
+              <button
                 key={faq.id}
-                className={`accordion py-4 px-4 shadow-sm rounded-md transition-all duration-500 ${
+                onClick={() => toggleAccordion(faq.id)}
+                className={`accordion w-full text-left py-4 px-4 shadow-sm rounded-md transition-all duration-500 ${
                   activeAccordion === faq.id
-                    ? "bg-indigo-50"
-                    : "hover:bg-indigo-50"
+                    ? "bg-indigo-50 border-indigo-700"
+                    : "bg-white hover:bg-indigo-50 border-gray-200"
                 }`}
               >
-                <button
-                  onClick={() => toggleAccordion(faq.id)}
-                  className="accordion-toggle group inline-flex items-center justify-between w-full text-left leading-8 text-gray-900 hover:text-indigo-700 transition duration-500"
-                >
+                <div className="flex justify-between items-center">
                   <h5
-                    className={`transition-all duration-300 ${
+                    className={`transition-transform duration-300 ${
                       activeAccordion === faq.id
-                        ? "text-indigo-700 font-medium text-xs lg:text-sm opacity-100"
-                        : "font-medium text-xs lg:text-sm opacity-80"
+                        ? "text-indigo-700 font-medium text-xs lg:text-sm scale-105 pl-4"
+                        : "text-gray-800 font-medium text-xs lg:text-sm pl-4"
                     }`}
                   >
                     {faq.question}
                   </h5>
-
                   <svg
-                    className={`text-gray-500 transition-transform duration-500 group-hover:text-indigo-700 ${
-                      activeAccordion === faq.id
-                        ? "rotate-180 text-indigo-700"
-                        : ""
+                    className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
+                      activeAccordion === faq.id ? "rotate-180" : ""
                     }`}
-                    width="22"
-                    height="22"
-                    viewBox="0 0 22 22"
-                    fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
                     <path
-                      d="M16.5 8.25L12.4142 12.3358C11.7475 13.0025 11.4142 13.3358 11 13.3358C10.5858 13.3358 10.2525 13.0025 9.58579 12.3358L5.5 8.25"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                    ></path>
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
-                </button>
+                </div>
                 <div
-                  className={`accordion-content w-full px-0 overflow-hidden transition-max-height duration-500 ${
+                  className={`mt-2 overflow-hidden transition-max-height duration-500 ${
                     activeAccordion === faq.id ? "max-h-40" : "max-h-0"
                   }`}
                 >
-                  <p className="text-xs lg:text-sm text-gray-900 leading-6 mt-4">
+                  <p className="text-xs lg:text-sm text-gray-700 leading-6 mt-2">
                     {faq.answer}
                   </p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
