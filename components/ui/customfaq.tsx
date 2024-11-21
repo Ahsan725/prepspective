@@ -12,29 +12,26 @@ const FAQSection = () => {
   const faqs = [
     {
       id: "faq-1",
-      question: "How do I update my billing information?",
-      answer:
-        "To update your billing information, log in to your account, navigate to 'Settings' or 'Billing,' and follow the prompts to update your payment details.",
+      question: "Is this website really free?",
+      answer: "Yes! Our goal is to democratize access to interview preparation. No hidden charges or subscriptions.",
     },
     {
       id: "faq-2",
-      question: "How can I contact customer support?",
-      answer:
-        "To contact customer support, look for a 'Contact us' or 'Help' button on the website. You may be able to email, call, or chat for assistance.",
+      question: "Is the submission anonymous?",
+      answer: "Yes, all information is 100% anonymous. Nothing is ever linked to you or any other information that could be used to identify you. We prioritize your privacy so you can share your experiences candidly.",
     },
     {
       id: "faq-3",
-      question: "How do I update my profile information?",
-      answer:
-        "To update your profile information, log in to your account, go to 'Profile Settings,' and make the desired changes.",
+      question: "What if I can’t find interview experiences for a specific company or role?",
+      answer: "Our database grows as users contribute. If you can’t find information for your target company or role, you can be the first to add your experience after completing your interview. This way, you help others while we continue building the database.",
     },
     {
       id: "faq-4",
-      question: "How do I find my purchase history?",
-      answer:
-        "To find your purchase history, log in to your account, navigate to 'Order History' or 'Purchase History' in the dashboard.",
+      question: "How do I know if the experiences shared apply to my specific role or location?",
+      answer: "We tag entries by job title, level, location, and many other filters so you can filter results to match your specific circumstances. While some companies have consistent processes across roles, we recommend using filters for the most relevant results.",
     },
   ];
+  
 
   return (
     <section className="py-24">
@@ -70,8 +67,8 @@ const FAQSection = () => {
                   <h5
                     className={`transition-all duration-300 ${
                       activeAccordion === faq.id
-                        ? "text-indigo-700 font-medium text-sm lg:text-lg scale-100 opacity-100"
-                        : "font-medium scale-90 text-sm lg:text-lg opacity-80"
+                        ? "text-indigo-700 font-medium text-xs lg:text-sm opacity-100"
+                        : "font-medium text-xs lg:text-sm opacity-80"
                     }`}
                   >
                     {faq.question}
