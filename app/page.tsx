@@ -2,7 +2,6 @@ import CustomHero from '@/components/ui/customhero';
 import FAQSection from '@/components/ui/customfaq';
 import { FeaturesSection } from "@/components/ui/customfeature2";
 import Pitch from "@/components/ui/pitch"
-import Pitch2 from "@/components/ui/pitch2"
 
 
 export default function HomePage() {
