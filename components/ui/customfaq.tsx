@@ -48,7 +48,7 @@ const FAQSection = () => {
                 FREQUENTLY ASKED QUESTIONS
               </h2>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
               Your Burning Questions (Extinguished)
             </h2>
             <p className="text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
