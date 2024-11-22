@@ -5,9 +5,12 @@ const Pitch: React.FC = () => {
     <section className="bg-white dark:bg-gray-900">
       <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:grid-cols-3 lg:gap-8 xl:gap-0 lg:py-16">
         <div className="order-2 lg:order-1 place-self-center lg:col-span-2 text-center lg:text-left">
-          <h1 className="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none md:text-5xl lg:text-6xl bg-gradient-to-b from-indigo-800 via-indigo-500 to-indigo-800 text-transparent bg-clip-text">
-            Take the Fear Out of Interviews
-          </h1>
+          <h1 className="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none md:text-5xl lg:text-3xl">
+            Take the <span className="bg-gradient-to-b from-indigo-800 via-indigo-500 to-indigo-300 text-transparent bg-clip-text">Fear of Uncertainty </span>Out of Interviews
+                  </h1>
+                  <div className="my-8">
+          <hr className="border-gray-300 dark:border-gray-700" />
+        </div>
           <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
             What’s your biggest fear before an interview? Is it walking into the unknown, unsure of what to expect? Is it spending weeks preparing the wrong way, only to stumble when it matters most? With our platform, you’ll never have to face those fears alone again.
           </p>
