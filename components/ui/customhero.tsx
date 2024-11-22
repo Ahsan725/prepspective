@@ -115,7 +115,7 @@ const CustomHero = () => {
           {/* {showMessage && (
             <div id="test-message" className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-indigo-100 px-4 py-2 rounded-md shadow-xl z-50">
               <p className='text-sm text-indigo-700'>Press Escape to start using the website!</p> 
-            </div>
+            </div> 
           )} */}
 <p className=" font-light text-gray-500 mt-10 text-2xl lg:text-4xl mb-16">
             Share Your Interview Story, Learn from Others, and Get Ready to Ace any Interview.
