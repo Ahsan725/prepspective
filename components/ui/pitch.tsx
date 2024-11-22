@@ -6,14 +6,23 @@ const Pitch: React.FC = () => {
     <>
       {/* First Section */}
       <section className="bg-white dark:bg-gray-900">
+      <div className="flex items-center justify-center mb-4">
+        <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
+          MISSION STATEMENT
+        </h2>
+      </div>
+
+      <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
+        What is PrepSpective
+      </h2>
         <div className="grid max-w-screen-xl px-4 py-6 mx-auto lg:grid-cols-3 lg:gap-8 xl:gap-0 lg:py-10">
           <div className="order-2 lg:order-1 place-self-center lg:col-span-2 text-center lg:text-left">
             <h1 className="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none md:text-5xl lg:text-3xl">
-              Take the{' '}
+              
               <span className="bg-gradient-to-b from-indigo-800 via-indigo-700 to-indigo-400 text-transparent bg-clip-text">
-                Fear of Uncertainty{' '}
+              Take the{' '}Fear of Uncertainty{' '}Out of Interviews
               </span>
-              Out of Interviews
+              
             </h1>
             <div className="my-4">
               <hr className="border-gray-300 dark:border-gray-700" />
@@ -23,25 +32,10 @@ const Pitch: React.FC = () => {
             </p>
             <p className="max-w-2xl mb-4 font-light text-gray-500 lg:mb-6 md:text-lg lg:text-xl dark:text-gray-400">
             </p>
-            
-            <a
-              href="#"
-              className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
-            >
-              Get Started
-              <svg
-                className="w-5 h-5 ml-2 -mr-1"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </a>
+            <div className="bg-gradient-to-l from-indigo-800 via-indigo-600 to-indigo-500 rounded-xl lg:mx-32">
+              <h3 className="text-2xl font-bold text-white px-8 py-8">Get Started Today On That Long Sentence That We Will Use To Get Your Attention</h3>
+              <p className="text-white text-lg px-8 pb-8">This is the other text that needs to go here. What’s your biggest fear before an interview? Is it walking into the unknown, unsure of what to expect? Is it spending weeks preparing the wrong way, only to stumble when it matters most? With our platform, you’ll never have to face those fears alone again.</p>
+            </div>
           </div>
           <div className="order-1 lg:order-2 flex justify-center lg:justify-end lg:col-span-1 mb-6 lg:mb-0">
             <Image
@@ -69,9 +63,9 @@ const Pitch: React.FC = () => {
           </div>
           <div className="order-2 lg:order-2 place-self-center lg:col-span-2 text-center lg:text-left">
             <h1 className="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none md:text-5xl lg:text-3xl">
-              Designed for{' '}
+              
               <span className="bg-gradient-to-b from-indigo-800 via-indigo-700 to-indigo-400 text-transparent bg-clip-text">
-                Your Success
+              Designed for{' '} Your Success
               </span>
             </h1>
             <div className="my-4">
@@ -83,24 +77,10 @@ const Pitch: React.FC = () => {
             <p className="max-w-2xl mb-4 font-light text-gray-500 lg:mb-6 md:text-lg lg:text-xl dark:text-gray-400">
             Gain clarity, confidence, and control with real insights from others who’ve been in your shoes. It’s free, anonymous, and designed to prepare you for success. Let’s make sure you walk into your next interview fearless and ready to conquer it.
             </p>
-            <a
-              href="#"
-              className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
-            >
-              Learn More
-              <svg
-                className="w-5 h-5 ml-2 -mr-1"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </a>
+            <div className="bg-gradient-to-r from-indigo-800 via-indigo-500 to-indigo-600 rounded-xl lg:mx-32">
+              <h3 className="text-2xl font-bold text-white px-8 py-8">Get Started Today On That Long Sentence That We Will Use To Get Your Attention</h3>
+              <p className="text-white text-lg px-8 pb-8">This is the other text that needs to go here. What’s your biggest fear before an interview? Is it walking into the unknown, unsure of what to expect? Is it spending weeks preparing the wrong way, only to stumble when it matters most? With our platform, you’ll never have to face those fears alone again.</p>
+            </div>
           </div>
         </div>
       </section>
