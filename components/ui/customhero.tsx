@@ -117,13 +117,13 @@ const CustomHero = () => {
               <p className='text-sm text-indigo-700'>Press Escape to start using the website!</p> 
             </div>
           )} */}
-
-          <h2 className="mt-4 text-2xl font-semibold lg:text-5xl text-gray-500">
-            The number one interview prep app in the world!
-          </h2>
-          <p className=" font-light text-gray-500 mt-10 text-lg lg:text-xl">
+<p className=" font-light text-gray-500 mt-10 text-2xl lg:text-4xl mb-16">
             Share Your Interview Story, Learn from Others, and Get Ready to Ace any Interview.
           </p>
+          <h2 className="tracking-tight leading-none mt-4 text-sm font-medium lg:text-xl text-indigo-700">
+            THE <span className="font-bold">BEST</span> INTERVIEW PREP PLATFORM IN THE WORLD!
+          </h2>
+          
 
           {/* Button to Mimic Escape Key */}
           {/* <Button
