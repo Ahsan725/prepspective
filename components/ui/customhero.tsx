@@ -1,7 +1,7 @@
 'use client'; // Add this directive at the very top
 
 import { useState, useEffect } from 'react';
-import { ArrowBigRight, MousePointerClick } from 'lucide-react';
+import { ArrowBigRight} from 'lucide-react';
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
