@@ -61,7 +61,7 @@ const TempNavbar = () => {
             onClick={handleEscapeButtonClick}
             variant="outline"
           >
-            Disable Fancy Cursor <MousePointerClick />
+          <MousePointerClick />
             </Button>
             <ConfettiSideCannons />
           </div>
