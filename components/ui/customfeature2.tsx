@@ -61,13 +61,13 @@ export const FeaturesSection = () => {
 
       {/* Feature List */}
       <div className="max-w-4xl mx-auto mt-12">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 lg:gap-y-16">
+        <div className="grid grid-cols-1 gap-x-4 gap-y-8 lg:grid-cols-2 lg:gap-y-10">
           {featureList.map(({ icon, title, description }) => (
             <div key={title} className="relative pl-16">
               <div className="absolute left-0 top-0 flex w-10 h-10 items-center justify-center rounded-lg bg-indigo-600">
                 <Icon
                   name={icon as keyof typeof icons}
-                  size={25}
+                  size={20}
                   className="text-white"
                   aria-hidden="true"
                 />
