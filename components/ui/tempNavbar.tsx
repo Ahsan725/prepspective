@@ -16,7 +16,7 @@ import { ConfettiSideCannons } from "@/components/ui/confettiSideCannons";
 
 const TempNavbar = () => {
 
-    // Mimic the behavior of pressing the "Escape" key
+    // Mimic the behavior of pressing the "Escape" key 
     const handleEscapeButtonClick = () => {
       const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' });
       window.dispatchEvent(escapeEvent);
