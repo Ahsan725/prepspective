@@ -108,8 +108,8 @@ const CustomHero = () => {
       <div className="flex flex-col items-center text-center w-full max-w-4xl px-6 py-12">
         {/* Main Header */}
         <div className="mb-8">
-          <h1 className="text-5xl font-bold lg:text-6xl text-indigo-700">
-            <span className="text-5xl font-extrabold lg:text-6xl text-indigo-700">{"{P}rep"}</span>Spective
+          <h1 className="text-5xl font-bold lg:text-6xl bg-gradient-to-b from-indigo-800 via-indigo-700 to-indigo-400 text-transparent bg-clip-text">
+            <span className="text-5xl font-extrabold lg:text-6xl bg-gradient-to-b from-indigo-800 via-indigo-700 to-indigo-400 text-transparent bg-clip-text">{"{P}rep"}</span>Spective
           </h1>
 
           {/* {showMessage && (
@@ -118,10 +118,10 @@ const CustomHero = () => {
             </div>
           )} */}
 
-          <h2 className="mt-4 text-2xl font-semibold lg:text-3xl">
+          <h2 className="mt-4 text-2xl font-semibold lg:text-5xl text-gray-500">
             The number one interview prep app in the world!
           </h2>
-          <p className="mt-10 text-lg lg:text-xl text-muted-foreground">
+          <p className=" font-light text-gray-500 mt-10 text-lg lg:text-xl">
             Share Your Interview Story, Learn from Others, and Get Ready to Ace any Interview.
           </p>
 

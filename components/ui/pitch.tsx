@@ -10,7 +10,7 @@ const Pitch: React.FC = () => {
           <div className="order-2 lg:order-1 place-self-center lg:col-span-2 text-center lg:text-left">
             <h1 className="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none md:text-5xl lg:text-3xl">
               Take the{' '}
-              <span className="bg-gradient-to-b from-indigo-800 via-indigo-500 to-indigo-300 text-transparent bg-clip-text">
+              <span className="bg-gradient-to-b from-indigo-800 via-indigo-700 to-indigo-400 text-transparent bg-clip-text">
                 Fear of Uncertainty{' '}
               </span>
               Out of Interviews
@@ -70,7 +70,7 @@ const Pitch: React.FC = () => {
           <div className="order-2 lg:order-2 place-self-center lg:col-span-2 text-center lg:text-left">
             <h1 className="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none md:text-5xl lg:text-3xl">
               Designed for{' '}
-              <span className="bg-gradient-to-b from-indigo-800 via-indigo-500 to-indigo-300 text-transparent bg-clip-text">
+              <span className="bg-gradient-to-b from-indigo-800 via-indigo-700 to-indigo-400 text-transparent bg-clip-text">
                 Your Success
               </span>
             </h1>
