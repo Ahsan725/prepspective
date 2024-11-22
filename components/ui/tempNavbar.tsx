@@ -56,13 +56,13 @@ const TempNavbar = () => {
           </div>
           <div className="flex gap-2">
             {/* Embed the ContactForm Component */}
-            <ContactForm />
             <Button
             onClick={handleEscapeButtonClick}
             variant="outline"
           >
           <MousePointerClick />
             </Button>
+            <ContactForm />
             <ConfettiSideCannons />
           </div>
         </nav>
@@ -102,14 +102,12 @@ const TempNavbar = () => {
               </div>
               <div className="border-t pt-4 flex flex-col gap-3">
                 {/* Embed the ContactForm Component */}
-                <ContactForm />
-
                 <Button
             onClick={handleEscapeButtonClick}
             variant="outline"
-          >
-            Disable Fancy Cursor <MousePointerClick />
+          ><MousePointerClick />
                 </Button>
+                <ContactForm />
                 <ConfettiSideCannons />
               </div>
             </SheetContent>
