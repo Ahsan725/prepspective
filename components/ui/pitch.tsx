@@ -17,7 +17,7 @@ const Pitch: React.FC = () => {
       </h2>
         <div className="grid max-w-screen-xl px-4 py-6 mx-auto lg:grid-cols-3 lg:gap-8 xl:gap-0 lg:py-10">
           <div className="order-2 lg:order-1 place-self-center lg:col-span-2 text-center lg:text-left">
-            <h1 className="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none md:text-5xl lg:text-3xl">
+            <h1 className="max-w-2xl mb-4 text-2xl font-bold tracking-tight leading-none md:text-3xl lg:text-3xl">
               
               <span className="bg-gradient-to-b from-indigo-800 via-indigo-700 to-indigo-400 text-transparent bg-clip-text">
               Take the{' '}Fear of Uncertainty{' '}Out of Interviews
