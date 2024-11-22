@@ -20,7 +20,7 @@ const Pitch: React.FC = () => {
             <h1 className="max-w-2xl mb-4 text-2xl font-bold tracking-tight leading-none md:text-3xl lg:text-3xl">
               
               <span className="bg-gradient-to-b from-indigo-800 via-indigo-700 to-indigo-400 text-transparent bg-clip-text">
-              Take the{' '}Fear of Uncertainty{' '}Out of Interviews
+              Take the{' '}Fear of Uncertainty{' '}Out of the Interviews
               </span>
               
             </h1>
