@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
-import CustomNavbar from "@/components/ui/customNavbar";
 import TempNavbar from "@/components/ui/tempNavbar";
 import FluidCursor from "@/components/ui/fluidCursor";
 
@@ -31,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-      <link rel="icon" href="/logo.png" />
+      <link rel="icon" href="/logo.png" /> 
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
