@@ -49,7 +49,7 @@ const FAQSection = () => {
               </h2>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-              Your Burning Questions (Extinguished)
+              Your Burning Questions
             </h2>
             <p className="text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
               Here’s a list of questions people keep asking us. If yours isn’t here, don’t panic we’re not psychic, but we do answer emails!
