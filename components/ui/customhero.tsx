@@ -104,7 +104,7 @@ const CustomHero = () => {
   // };
 
   return (
-    <section className="flex items-start justify-center mt-12 mb-56">
+    <section className="flex items-start justify-center mt-12 mb-36">
       <div className="flex flex-col items-center text-center w-full max-w-4xl px-6 py-12">
         {/* Main Header */}
         <div className="mb-8">

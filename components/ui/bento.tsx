@@ -2,15 +2,15 @@ import React from "react";
 
 const FeaturesGrid: React.FC = () => {
   return (
-    <div className="bg-gray-50 sm:py-32 lg:pt-0">
-      <div className="mx-auto max-w-2xl lg:max-w-7xl px-4 sm:px-6 lg:px-4">
+    <div className="sm:py-32 lg:pt-0">
+      <div className="lg:max-w-7xl sm:px-6 lg:px-0 mx-auto max-w-full">
         <h2 className="text-center text-base/7 font-semibold text-indigo-600">
           Deploy faster
         </h2>
         <p className="mx-auto mt-2 max-w-lg text-balance text-center text-4xl font-semibold tracking-tight text-gray-950 sm:text-5xl">
           Everything you need to deploy your app
         </p>
-        <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
+        <div className="mt-10 grid gap-1 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
           {/* Feature 1: Mobile Friendly */}
           <div className="relative lg:row-span-2">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800 lg:rounded-l-[2rem]"></div>
