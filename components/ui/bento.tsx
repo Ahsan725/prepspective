@@ -2,9 +2,9 @@ import React from "react";
 
 const FeaturesGrid: React.FC = () => {
   return (
-    <div className="sm:py-32 lg:pt-0">
+    <div className="sm:py-32 px-2 lg:pt-0">
       <div className="lg:max-w-7xl sm:px-6 lg:px-0 mx-auto max-w-full">
-      <div className="flex items-center justify-center mb-4">
+         <div className="flex items-center justify-center mb-4">
         <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
           MISSION STATEMENT
         </h2>
@@ -42,13 +42,13 @@ const FeaturesGrid: React.FC = () => {
 
           {/* Feature 2: Performance */}
           <div className="relative max-lg:row-start-1">
-            <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800 max-lg:rounded-t-[2rem]"></div>
+            <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-200 via-indigo-100 to-indigo-50 max-lg:rounded-t-[2rem]"></div>
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
               <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-                <p className="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center">
+                <p className="mt-2 text-lg font-medium tracking-tight text-indigo-700 max-lg:text-center">
                   Performance
                 </p>
-                <p className="mt-2 max-w-lg text-sm/6 text-white max-lg:text-center">
+                <p className="mt-2 max-w-lg text-sm/6 text-indigo-700 max-lg:text-center">
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit
                   maiores impedit.
                 </p>
@@ -66,13 +66,13 @@ const FeaturesGrid: React.FC = () => {
 
           {/* Feature 3: Security */}
           <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
-            <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800"></div>
+            <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-50 via-indigo-100 to-indigo-200 "></div>
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
               <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-                <p className="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center">
+                <p className="mt-2 text-lg font-medium tracking-tight text-indigo-700 max-lg:text-center">
                   Security
                 </p>
-                <p className="mt-2 max-w-lg text-sm/6 text-white max-lg:text-center">
+                <p className="mt-2 max-w-lg text-sm/6 text-indigo-700 max-lg:text-center">
                   Morbi viverra dui mi arcu sed. Tellus semper adipiscing
                   suspendisse semper morbi.
                 </p>
@@ -113,7 +113,9 @@ const FeaturesGrid: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="px-6 pb-14 pt-6">{/* Your code example */}</div>
+                  <div className="text-white px-6 pb-14 pt-6">{/* Your code example */}
+                  System.out.println(Hello, World!);
+                  </div>
                 </div>
               </div>
             </div>
