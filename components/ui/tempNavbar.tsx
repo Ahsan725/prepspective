@@ -29,7 +29,7 @@ const TempNavbar = () => {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <span className="text-2xl font-extrabold text-indigo-700">
-                {"{P}rep"}Spective
+                {"{P}rep"}<span className="font-bold text-indigo-700 text-2xl">Spective</span> 
               </span>
             </div>
             <div className="flex items-center gap-4">
@@ -70,9 +70,9 @@ const TempNavbar = () => {
         {/* Mobile Navbar */}
         <div className="lg:hidden flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <span className="text-xl font-extrabold text-indigo-700">
-              {"{P}rep"}Spective
-            </span>
+          <span className="text-2xl font-extrabold text-indigo-700">
+                {"{P}rep"}<span className="font-bold text-indigo-700 text-2xl">Spective</span> 
+              </span>
           </div>
           <Sheet>
             <SheetTrigger asChild>
