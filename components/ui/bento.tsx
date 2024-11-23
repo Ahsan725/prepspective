@@ -4,12 +4,15 @@ const FeaturesGrid: React.FC = () => {
   return (
     <div className="sm:py-32 lg:pt-0">
       <div className="lg:max-w-7xl sm:px-6 lg:px-0 mx-auto max-w-full">
-        <h2 className="text-center text-base/7 font-semibold text-indigo-600">
-          Deploy faster
+      <div className="flex items-center justify-center mb-4">
+        <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
+          MISSION STATEMENT
         </h2>
-        <p className="mx-auto mt-2 max-w-lg text-balance text-center text-4xl font-semibold tracking-tight text-gray-950 sm:text-5xl">
-          Everything you need to deploy your app
-        </p>
+      </div>
+
+      <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
+        What is PrepSpective
+      </h2>
         <div className="mt-10 grid gap-1 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
           {/* Feature 1: Mobile Friendly */}
           <div className="relative lg:row-span-2">
