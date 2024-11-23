@@ -57,7 +57,7 @@ const FAQSection = () => {
           </div>
 
           {/* Right Side: Accordion */}
-          <div className="lg:col-span-2 space-y-4 z-30 bg-white rounded-lg">
+          <div className="lg:col-span-2 z-30 bg-white rounded-lg">
             {faqs.map((faq) => (
               <button
                 key={faq.id}
@@ -72,7 +72,7 @@ const FAQSection = () => {
                   <h5
                     className={`transition-transform duration-300 ${
                       activeAccordion === faq.id
-                        ? "text-indigo-700 font-medium text-xs lg:text-sm scale-105 pl-2"
+                        ? "text-indigo-700 font-medium text-xs lg:text-sm pl-2"
                         : "text-gray-800 font-medium text-xs lg:text-sm pl-2"
                     }`}
                   >
