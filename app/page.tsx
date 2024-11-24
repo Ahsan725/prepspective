@@ -10,7 +10,6 @@ export default function HomePage() {
     <main>
       <CustomHero />
       <Bento/>
-      <Pitch />
       {/* <CustomFeature/> */}
       <FeaturesSection/>
       < FAQSection />
