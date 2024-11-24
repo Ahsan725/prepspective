@@ -20,15 +20,25 @@ const FeaturesGrid: React.FC = () => {
           <div className="relative lg:row-span-2">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800 lg:rounded-l-[2rem]"></div>
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
-              <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                <p className="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Comprehensive Insights
+              <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10 text-center">
+                <p className="text-6xl font-bold text-white">1,500+</p>
+                <p className="mt-2 text-xl font-semibold tracking-tight text-white">
+                  Anonymous Interviews Shared
                 </p>
-                <p className="py-4 max-w-lg text-sm/6 text-white max-lg:text-center">
-                  Gain detailed information about interview processes, from past
-                  questions to technical and behavioral round expectations. Be
-                  ready for every step of your dream job’s interview.
+                <p className="pb-8 mt-4 max-w-lg text-sm/6 text-white">
+                  Leverage the collective wisdom of thousands of candidates to
+                  better prepare for your interviews.
                 </p>
+                <div className="border-t border-white/30 mt-6 pt-4">
+                  <h3 className="text-lg font-semibold text-white">
+                    Extensive Insights
+                  </h3>
+                  <p className="mt-2 text-sm text-white">
+                    Access detailed breakdowns of interview processes,
+                    including past questions, difficulty levels, and candidate
+                    feedback.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -37,13 +47,14 @@ const FeaturesGrid: React.FC = () => {
           <div className="relative max-lg:row-start-1">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-200 via-indigo-100 to-indigo-50 max-lg:rounded-t-[2rem]"></div>
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
-              <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-                <p className="mt-2 text-lg font-medium tracking-tight text-indigo-700 max-lg:text-center">
-                  Community-Powered Platform
+              <div className="px-8 pt-8 sm:px-10 sm:pt-10 text-center">
+                <p className="text-6xl font-bold text-indigo-700">500+</p>
+                <p className="mt-2 text-xl font-semibold tracking-tight text-indigo-700">
+                  Companies Covered
                 </p>
-                <p className="py-4 max-w-lg text-sm/6 text-indigo-700 max-lg:text-center">
-                  Share anonymous interview experiences and help others succeed.
-                  Together, we create a supportive ecosystem for career growth.
+                <p className="pb-8 mt-4 max-w-lg text-sm/6 text-indigo-700">
+                  Insights from startups to tech giants across industries,
+                  tailored to your preparation.
                 </p>
               </div>
             </div>
@@ -53,14 +64,14 @@ const FeaturesGrid: React.FC = () => {
           <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-50 via-indigo-100 to-indigo-200"></div>
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
-              <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-                <p className="mt-2 text-lg font-medium tracking-tight text-indigo-700 max-lg:text-center">
-                  Targeted Preparation
+              <div className="px-8 pt-8 sm:px-10 sm:pt-10 text-center">
+                <p className="text-6xl font-bold text-indigo-700">10,000+</p>
+                <p className="mt-2 text-xl font-semibold tracking-tight text-indigo-700">
+                  Questions Categorized
                 </p>
-                <p className="py-4 max-w-lg text-sm/6 text-indigo-700 max-lg:text-center">
-                  Know what to expect in your interviews: from specific company
-                  questions to required skills and round formats. Prep smart,
-                  not hard.
+                <p className="pb-8 mt-4 max-w-lg text-sm/6 text-indigo-700">
+                  Real interview questions organized by difficulty, type, and
+                  company for targeted preparation.
                 </p>
               </div>
             </div>
@@ -70,15 +81,24 @@ const FeaturesGrid: React.FC = () => {
           <div className="relative lg:row-span-2">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]"></div>
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
-              <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
-                <p className="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center">
-                  Free and Accessible
+              <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10 text-center">
+                <p className="text-6xl font-bold text-white">1 Platform</p>
+                <p className="mt-2 text-xl font-semibold tracking-tight text-white">
+                  Infinite Possibilities
                 </p>
-                <p className="py-4 max-w-lg text-sm/6 text-white max-lg:text-center">
-                  PrepSpective is 100% free to use. No hidden costs, no premium
-                  subscriptions—just honest, community-driven resources for
-                  everyone.
+                <p className="mt-4 max-w-lg text-sm/6 text-white">
+                  Empower yourself with everything from timelines to question
+                  types for confident interview preparation.
                 </p>
+                <div className="border-t border-white/30 mt-6 pt-4">
+                  <h3 className="text-lg font-semibold text-white">
+                    Built for the Community
+                  </h3>
+                  <p className="mt-2 text-sm text-white">
+                    Join events, share insights, and collaborate with others to
+                    grow and succeed in your career.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
