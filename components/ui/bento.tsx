@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import NumberTicker from "@/components/ui/number-ticker";
 import HyperText from "@/components/ui/hyper-text";
+import SparklesText from "@/components/ui/sparkles-text";
 
 const FeaturesGrid: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -128,10 +129,11 @@ const FeaturesGrid: React.FC = () => {
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)] px-8 py-8">
                           {/* <p className="text-6xl font-bold text-white">1 Platform</p> */}
-                          <HyperText
+                          {/* <HyperText
       className="text-6xl font-Optima font-bold text-white"
       text="1 Platform"
-    />
+                          /> */}
+                          <SparklesText text="1 Platform" className="text-6xl font-Optima font-bold text-white" />
               <p className="mt-2 text-xl font-semibold tracking-tight text-white">
                 Infinite Possibilities
               </p>
