@@ -120,7 +120,7 @@ const CustomHero = () => {
 <p className=" font-light text-gray-500 mt-10 text-2xl lg:text-4xl mb-16">
             Share Your Interview Story, Learn from Others, and Get Ready to Ace any Interview.
           </p>
-          <h2 className="inline-block tracking-tight leading-none mt-4 text-sm font-medium lg:text-md border-2 border-indigo-700 text-indigo-700 bg-indigo-50 px-4 py-2 rounded-full">
+          <h2 className="inline-block tracking-tight leading-none mt-4 text-xs font-medium lg:text-md border-2 border-indigo-700 text-indigo-700 bg-indigo-50 px-4 py-2 rounded-full">
   THE <span className="font-bold">BEST</span> INTERVIEW PREP PLATFORM IN THE WORLD!
 </h2>
 
