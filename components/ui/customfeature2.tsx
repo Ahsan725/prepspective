@@ -9,34 +9,34 @@ interface FeaturesProps {
 
 const featureList: FeaturesProps[] = [
   {
-    icon: "TabletSmartphone",
-    title: "Personalized Preparation",
-    description: "Tailor your study plan based on company-specific trends.",
+    icon: "Users",
+    title: "Community-Driven Insights",
+    description: "Tap into a wealth of real, anonymous interview experiences shared by individuals who’ve been in your shoes, giving you unmatched preparation advantages.",
   },
   {
-    icon: "BadgeCheck",
-    title: "Time-Saving",
-    description: "Skip irrelevant prep by focusing on what actually matters.",
+    icon: "TrendingUp",
+    title: "Company-Specific Preparation",
+    description: "Learn the exact trends, technical expectations, and interview patterns of your target companies to tailor your preparation effectively.",
   },
   {
-    icon: "Goal",
-    title: "Company-Specific Prep",
-    description: "Know what to expect from each company.",
+    icon: "Clock",
+    title: "Effortless Time Optimization",
+    description: "Focus only on what truly matters by cutting out unnecessary preparation and targeting high-value areas, saving you countless hours.",
   },
   {
-    icon: "PictureInPicture",
-    title: "Strong Visuals",
-    description: "Engage with clean, modern, and visually appealing designs.",
+    icon: "FileText",
+    title: "Detailed Interview Breakdown",
+    description: "Understand interview structures, including question types, expected difficulty, recruiter timelines, and what it takes to succeed at each stage.",
   },
   {
-    icon: "MousePointerClick",
-    title: "Clear CTA",
-    description: "Get actionable steps and know exactly how to move forward.",
+    icon: "Target",
+    title: "Clarity & Confidence",
+    description: "Minimize uncertainty with actionable insights on interview expectations, boosting your confidence and helping you perform at your best.",
   },
   {
-    icon: "Newspaper",
-    title: "Clear Headline",
-    description: "Understand key information quickly with focused headlines.",
+    icon: "Infinity",
+    title: "Unparalleled Accessibility",
+    description: "Access a robust platform offering comprehensive insights and resources that evolve with your needs—empowering everyone from students to seasoned professionals.",
   },
 ];
 
@@ -51,17 +51,16 @@ export const FeaturesSection = () => {
       </div>
 
       <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
-        What Makes Us Different
+        What Sets Us Apart
       </h2>
 
       <h3 className="md:w-1/2 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-        Our platform stands out by combining actionable insights, user-focused
-        design, and a supportive community to help you ace your interviews.
+        Our platform revolutionizes interview preparation with tailored insights, expert breakdowns, and a supportive community designed to help you succeed.
       </h3>
 
       {/* Feature List */}
-      <div className="max-w-4xl mx-auto mt-12">
-        <div className="grid grid-cols-1 gap-x-4 gap-y-8 lg:grid-cols-2 lg:gap-y-10">
+      <div className="max-w-5xl mx-auto mt-12">
+        <div className="grid grid-cols-1 gap-x-4 gap-y-8 lg:grid-cols-3 lg:gap-y-10">
           {featureList.map(({ icon, title, description }) => (
             <div key={title} className="relative pl-16">
               <div className="absolute left-0 top-0 flex w-10 h-10 items-center justify-center rounded-lg bg-indigo-600">

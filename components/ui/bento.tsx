@@ -2,7 +2,7 @@ import React from "react";
 
 const FeaturesGrid: React.FC = () => {
   return (
-    <div className="sm:py-32 px-2 lg:pt-0 bg-gray-50">
+    <div className="sm:py-32 px-2 lg:pt-0">
       <div className="lg:max-w-7xl sm:px-6 lg:px-0 mx-auto max-w-full">
         {/* Mission Statement */}
         <div className="flex items-center justify-center mb-4">
