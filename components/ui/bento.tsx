@@ -94,7 +94,7 @@ const FeaturesGrid: React.FC = () => {
                 </p>
               )}
               <p className="mt-2 text-xl font-semibold tracking-tight text-indigo-700">
-                Companies Covered
+                Companies Supported
               </p>
               <p className="mt-4 text-sm/6 text-indigo-700">
                 Insights from startups to tech giants across industries,
