@@ -13,7 +13,10 @@ const FeaturesGrid: React.FC = () => {
 
         <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
           What is PrepSpective
-        </h2>
+              </h2>
+              <h3 className="md:w-1/2 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+        Our platform revolutionizes interview preparation with tailored insights, expert breakdowns, and a supportive community designed to help you succeed.
+      </h3>
 
         <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
           {/* Feature 1: Comprehensive Insights */}
@@ -68,9 +71,9 @@ const FeaturesGrid: React.FC = () => {
           <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2 flex items-center justify-center text-center py-8">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-50 via-indigo-100 to-indigo-200"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] px-8 py-8">
-              <p className="text-6xl font-bold text-indigo-700">10,000+</p>
+              <p className="text-6xl font-bold text-indigo-700">10X</p>
               <p className="mt-2 text-xl font-semibold tracking-tight text-indigo-700">
-                Questions Categorized
+                Faster Prep Time
               </p>
               <p className="mt-4 text-sm/6 text-indigo-700">
                 Real interview questions organized by difficulty, type, and
