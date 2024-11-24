@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState } from "react";
 import NumberTicker from "@/components/ui/number-ticker";
-import HyperText from "@/components/ui/hyper-text";
 import SparklesText from "@/components/ui/sparkles-text";
 
 const FeaturesGrid: React.FC = () => {
