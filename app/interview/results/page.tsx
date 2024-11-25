@@ -216,26 +216,37 @@ const CombinedView: React.FC = () => {
           />
         </div>
         <ul className="mt-4">
-          {loading ? (
-            <div>Loading...</div>
-          ) : filteredResults.length > 0 ? (
-            filteredResults.map((result) => (
-              <li
-                key={result.id}
-                className={`p-2 border rounded cursor-pointer hover:bg-gray-100 ${
-                  selectedInterviewId === result.id ? 'bg-gray-100' : ''
-                }`}
-                onClick={() => handleViewDetails(result.id)}
-              >
-                <div>{result.company}</div>
-                <div>{result.interviewDate}</div>
-                <div>{result.overallExperience}</div>
-              </li>
-            ))
+  {loading ? (
+    <div>Loading...</div>
+  ) : filteredResults.length > 0 ? (
+    filteredResults.map((result) => (
+      <li
+        key={result.id}
+        className={`p-2 border rounded cursor-pointer hover:bg-gray-100 ${
+          selectedInterviewId === result.id ? 'bg-gray-100' : ''
+        }`}
+        onClick={() => handleViewDetails(result.id)}
+      >
+        <div className="font-bold">{result.company}</div>
+        <div>{new Date(result.interviewDate).toLocaleDateString()}</div>
+        <div>
+          {result.jobOffer ? (
+            <span className="inline-block px-2 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded">
+              Offer Received
+            </span>
           ) : (
-            <div>No results found</div>
+            <span className="inline-block px-2 py-1 text-sm font-semibold text-red-800 bg-red-100 rounded">
+              Offer Not Received
+            </span>
           )}
-        </ul>
+        </div>
+      </li>
+    ))
+  ) : (
+    <div>No results found</div>
+  )}
+</ul>
+
       </div>
 
       {/* Detailed View with Tabs - Full width on mobile, 2/3 of screen on larger screens */}
