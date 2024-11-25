@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { useParams } from 'next/navigation';
+import Loader from '@/components/ui/loader';
 import {
   Building,
   MessageCircle,
@@ -89,7 +90,7 @@ const DetailView: React.FC = () => {
   if (!interview)
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="text-indigo-600 text-xl font-bold">Loading...</div>
+         <Loader />
       </div>
     );
 
