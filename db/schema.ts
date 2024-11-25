@@ -33,6 +33,40 @@ export const waitlistTable = sqliteTable('waitlist', {
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`).notNull(), // Fix default value to store actual timestamp
 });
 
+export const interviewsTable = sqliteTable('interviews', {
+  id: integer('id').primaryKey(),
+  company: text('company').notNull(),
+  interviewDate: text('interview_date').notNull(),
+  createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`).notNull(),
+  updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`).notNull().$onUpdate(() => sql`CURRENT_TIMESTAMP`),
+  overallExperience: text('overall_experience'),
+  jobOffer: integer('job_offer', { mode: 'boolean' }).default(false),
+});
+
+export const roundsTable = sqliteTable('rounds', {
+  id: integer('id').primaryKey(),
+  interviewId: integer('interview_id').references(() => interviewsTable.id, { onDelete: 'cascade' }),
+  roundType: text('round_type').notNull(),
+  roundDate: text('round_date').notNull(),
+  experience: text('experience'),
+});
+
+export const ratingsTable = sqliteTable('ratings', {
+  id: integer('id').primaryKey(),
+  interviewId: integer('interview_id').references(() => interviewsTable.id, { onDelete: 'cascade' }),
+  category: text('category').notNull(),
+  score: integer('score').notNull(),
+});
+
+export const questionsTable = sqliteTable('questions', {
+  id: integer('id').primaryKey(),
+  interviewId: integer('interview_id').references(() => interviewsTable.id, { onDelete: 'cascade' }),
+  type: text('type').notNull(),
+  question: text('question').notNull(),
+  leetcodeLink: text('leetcode_link'),
+});
+
+
 // Type inference for users
 export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;
