@@ -217,7 +217,7 @@ const CombinedView: React.FC = () => {
         </div>
         <ul className="mt-4">
   {loading ? (
-    <div>Loading...</div>
+    <Loader/>
   ) : filteredResults.length > 0 ? (
     filteredResults.map((result) => (
       <li
@@ -250,38 +250,48 @@ const CombinedView: React.FC = () => {
       </div>
 
       {/* Detailed View with Tabs - Full width on mobile, 2/3 of screen on larger screens */}
-      <div className="w-full sm:w-2/3 p-4">
-        {interview && (
-          <>
-            <div className="border-b border-gray-200 dark:border-gray-700">
-              <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
-                {[
-                  { key: 'company', label: 'Company', icon: <Building className="w-4 h-4" /> },
-                  { key: 'questions', label: 'Questions', icon: <MessageCircle className="w-4 h-4" /> },
-                  { key: 'ratings', label: 'Ratings', icon: <Star className="w-4 h-4" /> },
-                  { key: 'rounds', label: 'Rounds', icon: <List className="w-4 h-4" /> },
-                  { key: 'leetcode', label: 'LeetCode', icon: <CheckCircle className="w-4 h-4" /> },
-                ].map(({ key, label, icon }) => (
-                  <li key={key} className="me-2">
-                    <button
-                      onClick={() => setActiveTab(key)}
-                      className={`inline-flex items-center justify-center p-4 border-b-2 ${
-                        activeTab === key
-                          ? 'text-white bg-indigo-700 font-semibold border-indigo-600 rounded-t-lg px-4 py-2 dark:text-indigo-500 dark:border-indigo-500'
-                          : 'border-transparent px-4 py-2 font-semibold hover:text-indigo-700 hover:border-indigo-700 dark:hover:text-gray-300'
-                      }`}
-                    >
-                      <span className="block">{icon}</span>
-                      <span className="hidden sm:block ml-2">{label}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg mt-4">{renderContent()}</div>
-          </>
-        )}
+{/* Detailed View with Tabs - Full width on mobile, 2/3 of screen on larger screens */}
+<div className="w-full sm:w-2/3 p-4">
+  {selectedInterviewId && !interview ? (
+    // Show the loader while fetching interview details
+    <div className="flex justify-center items-center h-full">
+      <Loader />
+    </div>
+  ) : interview ? (
+    <>
+      <div className="border-b border-gray-200 dark:border-gray-700">
+        <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+          {[
+            { key: 'company', label: 'Company', icon: <Building className="w-4 h-4" /> },
+            { key: 'questions', label: 'Questions', icon: <MessageCircle className="w-4 h-4" /> },
+            { key: 'ratings', label: 'Ratings', icon: <Star className="w-4 h-4" /> },
+            { key: 'rounds', label: 'Rounds', icon: <List className="w-4 h-4" /> },
+            { key: 'leetcode', label: 'LeetCode', icon: <CheckCircle className="w-4 h-4" /> },
+          ].map(({ key, label, icon }) => (
+            <li key={key} className="me-2">
+              <button
+                onClick={() => setActiveTab(key)}
+                className={`inline-flex items-center justify-center p-4 border-b-2 ${
+                  activeTab === key
+                    ? 'text-white bg-indigo-700 font-semibold border-indigo-600 rounded-t-lg px-4 py-2 dark:text-indigo-500 dark:border-indigo-500'
+                    : 'border-transparent px-4 py-2 font-semibold hover:text-indigo-700 hover:border-indigo-700 dark:hover:text-gray-300'
+                }`}
+              >
+                <span className="block">{icon}</span>
+                <span className="hidden sm:block ml-2">{label}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
+      <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg mt-4">{renderContent()}</div>
+    </>
+  ) : (
+    // Placeholder for when no interview is selected
+    <div className="text-gray-500 text-center">Select an interview to view details</div>
+  )}
+</div>
+
     </div>
   );
 };
