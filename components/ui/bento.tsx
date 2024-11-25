@@ -58,7 +58,7 @@ const FeaturesGrid: React.FC = () => {
                 </p>
               )}
               <p className="mt-2 text-xl font-semibold tracking-tight text-white">
-                Anonymous Interviews Shared
+                Anonymous Interviews Sourced
               </p>
               <p className="mt-4 text-sm/6 text-white">
                 Leverage the collective wisdom of thousands of candidates to
