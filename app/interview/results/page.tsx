@@ -1,136 +1,278 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { Badge } from '@/components/ui/badge';
+import Loader from '@/components/ui/loader';
+import { Building, MessageCircle, Star, List, CheckCircle } from 'lucide-react';
 
-type SearchFilters = {
-  company?: string;
-  startDate?: string;
-  endDate?: string;
-  sort?: 'asc' | 'desc';
+type Question = {
+  id: number;
+  interviewId: number;
+  type: string;
+  question: string;
+  leetcodeLink?: string | null;
+};
+
+type Rating = {
+  id: number;
+  interviewId: number;
+  category: string;
+  score: number;
+};
+
+type Round = {
+  id: number;
+  interviewId: number;
+  roundType: string;
+  roundDate: string;
+  experience: string;
 };
 
 type Interview = {
   id: number;
   company: string;
   interviewDate: string;
+  createdAt: string;
+  updatedAt: string;
   overallExperience: string;
+  jobOffer: boolean;
+  questions: Question[];
+  ratings: Rating[];
+  rounds: Round[];
 };
 
-const ResultsPage: React.FC = () => {
-  const [searchFilters, setSearchFilters] = useState<SearchFilters>({});
+const CombinedView: React.FC = () => {
   const [results, setResults] = useState<Interview[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [filteredResults, setFilteredResults] = useState<Interview[]>([]);
   const [query, setQuery] = useState<string>('');
-  const [debouncedQuery, setDebouncedQuery] = useState<string>('');
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
-  // Debounce search input
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 300); // Adjust delay as needed
-    return () => clearTimeout(handler);
-  }, [query]);
+  const [selectedInterviewId, setSelectedInterviewId] = useState<number | null>(null);
+  const [interview, setInterview] = useState<Interview | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('company');
 
+  // Fetch all results
   const fetchResults = async () => {
-    if (!debouncedQuery && !searchFilters.startDate && !searchFilters.endDate) {
-      setResults([]); // Show no results when there's no input
-      return;
-    }
-  
     setLoading(true);
     try {
-      const params = new URLSearchParams({
-        ...searchFilters,
-        company: debouncedQuery || '',
-      } as Record<string, string>);
-  
-      const res = await fetch(`/api/interviews?${params.toString()}`);
-      const data = await res.json();
-  
-      // Only show results that match the query
-      const filteredData = data.filter((item: Interview) =>
-        (!debouncedQuery || item.company.toLowerCase().includes(debouncedQuery.toLowerCase())) &&
-        (!searchFilters.startDate || item.interviewDate >= searchFilters.startDate) &&
-        (!searchFilters.endDate || item.interviewDate <= searchFilters.endDate)
-      );
-  
-      setResults(filteredData);
+      const res = await fetch(`/api/interviews`);
+      const data: Interview[] = await res.json();
+      setResults(data);
+      setFilteredResults(data); // Set initial filtered results
     } catch (error) {
       console.error('Error fetching results:', error);
     } finally {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     fetchResults();
-  }, [debouncedQuery, searchFilters]);
+  }, []);
 
-  const handleViewDetails = (id: number) => {
-    router.push(`/interview/results/${id}`);
+  // Filter results dynamically based on the query
+  useEffect(() => {
+    if (query.trim() === '') {
+      setFilteredResults(results); // Show all results if query is empty
+    } else {
+      const lowerCaseQuery = query.toLowerCase();
+      const filtered = results.filter((result) =>
+        result.company.toLowerCase().includes(lowerCaseQuery)
+      );
+      setFilteredResults(filtered);
+    }
+  }, [query, results]);
+
+  // Fetch interview details
+  const fetchInterview = async (id: number) => {
+    setError(null);
+    setInterview(null);
+    try {
+      const res = await fetch(`/api/interviews/${id}`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch interview details');
+      }
+      const data: Interview = await res.json();
+      setInterview(data);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred');
+    }
   };
 
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSearchFilters({ ...searchFilters, sort: e.target.value as 'asc' | 'desc' });
+  const handleViewDetails = (id: number) => {
+    setSelectedInterviewId(id);
+    fetchInterview(id);
+  };
+
+  const renderContent = () => {
+    if (error) {
+      return <div className="text-red-600">{error}</div>;
+    }
+    if (!interview) {
+      return <Loader />;
+    }
+
+    const taggedQuestion = interview.questions.find(
+      (q) => q.leetcodeLink && q.leetcodeLink.trim() !== ''
+    );
+
+    switch (activeTab) {
+      case 'company':
+        return (
+          <>
+            <h3 className="text-2xl font-bold">{interview.company}</h3>
+            <p>
+              <strong>Interview Date:</strong> {interview.interviewDate}
+            </p>
+            <p>
+              <strong>Job Offer:</strong>{' '}
+              {interview.jobOffer ? (
+                <Badge className="bg-green-100 text-green-800">Yes</Badge>
+              ) : (
+                <Badge className="bg-red-100 text-red-800">No</Badge>
+              )}
+            </p>
+            <p>
+              <strong>Overall Experience:</strong> {interview.overallExperience}
+            </p>
+          </>
+        );
+      case 'questions':
+        return (
+          <>
+            <h3 className="text-lg font-bold">Questions</h3>
+            <ul>
+              {interview.questions.map((q) => (
+                <li key={q.id}>
+                  <Badge>{q.type}</Badge> {q.question}
+                </li>
+              ))}
+            </ul>
+          </>
+        );
+      case 'ratings':
+        return (
+          <>
+            <h3 className="text-lg font-bold">Ratings</h3>
+            <ul>
+              {interview.ratings.map((r) => (
+                <li key={r.id}>
+                  {r.category}: {r.score}/5
+                </li>
+              ))}
+            </ul>
+          </>
+        );
+      case 'rounds':
+        return (
+          <>
+            <h3 className="text-lg font-bold">Rounds</h3>
+            <ul>
+              {interview.rounds.map((round) => (
+                <li key={round.id}>
+                  <p>{round.roundType}</p>
+                  <p>{round.roundDate}</p>
+                  <p>{round.experience}</p>
+                </li>
+              ))}
+            </ul>
+          </>
+        );
+      case 'leetcode':
+        return taggedQuestion ? (
+          <>
+            <h3 className="text-lg font-bold">LeetCode Question</h3>
+            <p>{taggedQuestion.question}</p>
+            <a
+              href={taggedQuestion.leetcodeLink ?? undefined}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-indigo-500 underline mt-2"
+            >
+              View LeetCode Problem
+            </a>
+          </>
+        ) : (
+          <p>No tagged LeetCode question available</p>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Search Interviews</h1>
-      <div className="space-y-4 mb-6">
-        <input
-          type="text"
-          placeholder="Search by company"
-          className="w-full p-2 border rounded"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <input
-          type="date"
-          placeholder="Start Date"
-          className="w-full p-2 border rounded"
-          onChange={(e) => setSearchFilters({ ...searchFilters, startDate: e.target.value })}
-        />
-        <input
-          type="date"
-          placeholder="End Date"
-          className="w-full p-2 border rounded"
-          onChange={(e) => setSearchFilters({ ...searchFilters, endDate: e.target.value })}
-        />
-        <select
-          className="w-full p-2 border rounded"
-          onChange={handleSortChange}
-        >
-          <option value="">Sort by Date</option>
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </select>
+    <div className="flex">
+      {/* Search and Results - 1/3 of screen */}
+      <div className="w-1/3 p-4 border-r">
+        <h1 className="text-2xl font-bold mb-4">Search Interviews</h1>
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Search by company"
+            className="w-full p-2 border rounded"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+        <ul className="mt-4">
+          {loading ? (
+            <div>Loading...</div>
+          ) : filteredResults.length > 0 ? (
+            filteredResults.map((result) => (
+              <li
+                key={result.id}
+                className={`p-2 border rounded cursor-pointer hover:bg-gray-100 ${
+                  selectedInterviewId === result.id ? 'bg-gray-100' : ''
+                }`}
+                onClick={() => handleViewDetails(result.id)}
+              >
+                <div>{result.company}</div>
+                <div>{result.interviewDate}</div>
+                <div>{result.overallExperience}</div>
+              </li>
+            ))
+          ) : (
+            <div>No results found</div>
+          )}
+        </ul>
       </div>
 
-      {loading ? (
-        <div>Loading...</div>
-      ) : results.length > 0 ? (
-        <ul className="space-y-4">
-          {results.map((result) => (
-            <li
-              key={result.id}
-              className="p-4 border rounded cursor-pointer hover:bg-gray-100"
-              onClick={() => handleViewDetails(result.id)}
-            >
-              <div className="font-bold">{result.company}</div>
-              <div>{result.interviewDate}</div>
-              <div>{result.overallExperience}</div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div>No results found</div>
-      )}
+      {/* Detailed View with Tabs - 2/3 of screen */}
+      <div className="w-2/3 p-4">
+        {interview && (
+          <>
+            <div className="border-b border-gray-200 dark:border-gray-700">
+              <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+                {[
+                  { key: 'company', label: 'Company', icon: <Building className="w-4 h-4" /> },
+                  { key: 'questions', label: 'Questions', icon: <MessageCircle className="w-4 h-4" /> },
+                  { key: 'ratings', label: 'Ratings', icon: <Star className="w-4 h-4" /> },
+                  { key: 'rounds', label: 'Rounds', icon: <List className="w-4 h-4" /> },
+                  { key: 'leetcode', label: 'LeetCode', icon: <CheckCircle className="w-4 h-4" /> },
+                ].map(({ key, label, icon }) => (
+                  <li key={key} className="me-2">
+                    <button
+                      onClick={() => setActiveTab(key)}
+                      className={`inline-flex items-center justify-center p-4 border-b-2 ${
+                        activeTab === key
+                          ? 'text-white bg-indigo-700 font-semibold border-indigo-600 rounded-t-lg px-4 py-2 dark:text-indigo-500 dark:border-indigo-500'
+                          : 'border-transparent px-4 py-2 font-semibold hover:text-indigo-700 hover:border-indigo-700 dark:hover:text-gray-300'
+                      }`}
+                    >
+                      <span className="block">{icon}</span>
+                      <span className="hidden sm:block ml-2">{label}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg mt-4">{renderContent()}</div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
 
-export default ResultsPage;
+export default CombinedView;
