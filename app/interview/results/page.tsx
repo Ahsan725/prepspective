@@ -226,7 +226,6 @@ const CombinedView: React.FC = () => {
     <Loader />
   ) : filteredResults.length > 0 ? (
     filteredResults.map((result) => {
-      // Determine if the entry has behavioral or technical questions
       const hasBehavioral = result.questions.some((q) => q.type.toLowerCase() === 'behavioral');
       const hasTechnical = result.questions.some((q) => q.type.toLowerCase() === 'technical');
 
@@ -240,26 +239,26 @@ const CombinedView: React.FC = () => {
         >
           <div className="font-bold">{result.company}</div>
           <div>{new Date(result.interviewDate).toLocaleDateString()}</div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 mt-2 items-center">
+            {/* Offer Tag */}
             {result.jobOffer === true ? (
               <span className="inline-block px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
-                Offer Received
+                Job Offered
               </span>
             ) : result.jobOffer === false ? (
               <span className="inline-block px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">
-                Offer Not Received
+                No Offer
               </span>
             ) : (
               <span className="inline-block px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">
                 Pending
               </span>
             )}
-          </div>
-          {/* Add badges for question types */}
-          <div className="mt-2 flex gap-2">
+            {/* Behavioral Tag */}
             {hasBehavioral && (
               <Badge className="bg-blue-100 text-blue-800">Behavioral</Badge>
             )}
+            {/* Technical Tag */}
             {hasTechnical && (
               <Badge className="bg-purple-100 text-purple-800">Technical</Badge>
             )}
@@ -271,6 +270,7 @@ const CombinedView: React.FC = () => {
     <div>No results found</div>
   )}
 </ul>
+
 
 
       </div>
