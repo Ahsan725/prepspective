@@ -201,8 +201,8 @@ const DetailView: React.FC = () => {
                 onClick={() => setActiveTab(key)}
                 className={`inline-flex items-center justify-center p-4 border-b-2 ${
                   activeTab === key
-                    ? 'text-indigo-600 border-indigo-600 dark:text-indigo-500 dark:border-indigo-500'
-                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
+                    ? 'text-white bg-indigo-700 border-indigo-600 rounded-lg px-2 py-2 dark:text-indigo-500 dark:border-indigo-500'
+                    : 'border-transparent px-2 py-2 hover:text-indigo-700 hover:border-indigo-700 dark:hover:text-gray-300'
                 }`}
               >
                 {icon}
