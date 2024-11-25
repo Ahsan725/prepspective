@@ -202,9 +202,9 @@ const CombinedView: React.FC = () => {
   };
 
   return (
-    <div className="flex">
-      {/* Search and Results - 1/3 of screen */}
-      <div className="w-1/3 p-4 border-r">
+    <div className="flex flex-col sm:flex-row">
+      {/* Search and Results - Full width on mobile, 1/3 of screen on larger screens */}
+      <div className="w-full sm:w-1/3 p-4 border-b sm:border-r sm:border-b-0">
         <h1 className="text-2xl font-bold mb-4">Search Interviews</h1>
         <div className="space-y-4">
           <input
@@ -238,8 +238,8 @@ const CombinedView: React.FC = () => {
         </ul>
       </div>
 
-      {/* Detailed View with Tabs - 2/3 of screen */}
-      <div className="w-2/3 p-4">
+      {/* Detailed View with Tabs - Full width on mobile, 2/3 of screen on larger screens */}
+      <div className="w-full sm:w-2/3 p-4">
         {interview && (
           <>
             <div className="border-b border-gray-200 dark:border-gray-700">
