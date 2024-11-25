@@ -1,5 +1,5 @@
 import React from 'react';
-import InterviewForm from './InterviewForm';
+import InterviewForm from '../../components/ui/InterviewForm';
 import InterviewTable from './InterviewTable';
 
 const Page = () => {
