@@ -4,13 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { useParams } from 'next/navigation';
 import Loader from '@/components/ui/loader';
-import {
-  Building,
-  MessageCircle,
-  Star,
-  List,
-  CheckCircle,
-} from 'lucide-react';
+import { Building, MessageCircle, Star, List, CheckCircle } from 'lucide-react';
 
 type Question = {
   id: number;
@@ -52,7 +46,7 @@ const DetailView: React.FC = () => {
   const params = useParams();
   const [interview, setInterview] = useState<Interview | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<string>('company'); // Default tab: company
+  const [activeTab, setActiveTab] = useState<string>('company');
 
   useEffect(() => {
     const fetchInterview = async () => {
@@ -62,17 +56,11 @@ const DetailView: React.FC = () => {
           if (!res.ok) {
             throw new Error('Failed to fetch interview details');
           }
-          const data: Interview = await res.json(); // Explicitly typing API response
+          const data: Interview = await res.json();
           setInterview(data);
         }
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error('Error fetching interview details:', error.message);
-          setError(error.message);
-        } else {
-          console.error('Unexpected error:', error);
-          setError('An unexpected error occurred');
-        }
+      } catch (error) {
+        setError(error instanceof Error ? error.message : 'An unexpected error occurred');
       }
     };
 
@@ -90,7 +78,7 @@ const DetailView: React.FC = () => {
   if (!interview)
     return (
       <div className="flex justify-center items-center h-screen">
-         <Loader />
+        <Loader />
       </div>
     );
 
@@ -131,9 +119,7 @@ const DetailView: React.FC = () => {
             <ul className="space-y-3">
               {interview.questions.map((q) => (
                 <li key={q.id}>
-                  <Badge className="bg-indigo-100 text-indigo-600 mr-2">
-                    {q.type}
-                  </Badge>
+                  <Badge className="bg-indigo-100 text-indigo-600 mr-2">{q.type}</Badge>
                   <span>{q.question}</span>
                 </li>
               ))}
@@ -200,77 +186,33 @@ const DetailView: React.FC = () => {
   };
 
   return (
-    <div className="md:flex px-6 py-4">
-      <ul className="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
-        <li>
-          <button
-            onClick={() => setActiveTab('company')}
-            className={`inline-flex items-center px-4 py-3 rounded-lg w-full ${
-              activeTab === 'company'
-                ? 'bg-indigo-700 text-white'
-                : 'bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700'
-            }`}
-          >
-            <Building className="w-4 h-4 mr-2" />
-            Company
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => setActiveTab('questions')}
-            className={`inline-flex items-center px-4 py-3 rounded-lg w-full ${
-              activeTab === 'questions'
-                ? 'bg-indigo-700 text-white'
-                : 'bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700'
-            }`}
-          >
-            <MessageCircle className="w-4 h-4 mr-2" />
-            Questions
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => setActiveTab('ratings')}
-            className={`inline-flex items-center px-4 py-3 rounded-lg w-full ${
-              activeTab === 'ratings'
-                ? 'bg-indigo-700 text-white'
-                : 'bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700'
-            }`}
-          >
-            <Star className="w-4 h-4 mr-2" />
-            Ratings
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => setActiveTab('rounds')}
-            className={`inline-flex items-center px-4 py-3 rounded-lg w-full ${
-              activeTab === 'rounds'
-                ? 'bg-indigo-700 text-white'
-                : 'bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700'
-            }`}
-          >
-            <List className="w-4 h-4 mr-2" />
-            Rounds
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => setActiveTab('leetcode')}
-            className={`inline-flex items-center px-4 py-3 rounded-lg w-full ${
-              activeTab === 'leetcode'
-                ? 'bg-indigo-700 text-white'
-                : 'bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700'
-            }`}
-          >
-            <CheckCircle className="w-4 h-4 mr-2" />
-            LeetCode
-          </button>
-        </li>
-      </ul>
-      <div className="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
-        {renderContent()}
+    <div className="px-6 py-4">
+      <div className="border-b border-gray-200 dark:border-gray-700">
+        <ul className="flex flex-wrap -mb-px lg:text-sm text-xs font-medium text-center text-gray-500 dark:text-gray-400">
+          {[
+            { key: 'company', label: 'Company', icon: <Building className="w-4 h-4 mr-2" /> },
+            { key: 'questions', label: 'Questions', icon: <MessageCircle className="w-4 h-4 mr-2" /> },
+            { key: 'ratings', label: 'Ratings', icon: <Star className="w-4 h-4 mr-2" /> },
+            { key: 'rounds', label: 'Rounds', icon: <List className="w-4 h-4 mr-2" /> },
+            { key: 'leetcode', label: 'LeetCode', icon: <CheckCircle className="w-4 h-4 mr-2" /> },
+          ].map(({ key, label, icon }) => (
+            <li key={key} className="me-2">
+              <button
+                onClick={() => setActiveTab(key)}
+                className={`inline-flex items-center justify-center p-4 border-b-2 ${
+                  activeTab === key
+                    ? 'text-indigo-600 border-indigo-600 dark:text-indigo-500 dark:border-indigo-500'
+                    : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
+                }`}
+              >
+                {icon}
+                {label}
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
+      <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg mt-4">{renderContent()}</div>
     </div>
   );
 };
