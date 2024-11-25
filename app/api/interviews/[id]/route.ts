@@ -3,8 +3,14 @@ import { db } from '@/db';
 import { interviewsTable, questionsTable, ratingsTable, roundsTable } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
-  const interviewId = parseInt(params.id);
+type Context = {
+  params: {
+    id: string;
+  };
+};
+
+export async function GET(req: Request, context: Context) {
+  const interviewId = parseInt(context.params.id);
 
   if (isNaN(interviewId)) {
     return NextResponse.json({ error: 'Invalid interview ID' }, { status: 400 });
