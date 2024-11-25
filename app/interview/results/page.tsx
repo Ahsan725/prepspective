@@ -57,7 +57,9 @@ const CombinedView: React.FC = () => {
     setLoading(true);
     try {
       const res = await fetch(`/api/interviews`);
-      const data: Interview[] = await res.json();
+      let data: Interview[] = await res.json();
+      // Sort results by `interviewDate` in descending order
+      data = data.sort((a, b) => new Date(b.interviewDate).getTime() - new Date(a.interviewDate).getTime());
       setResults(data);
       setFilteredResults(data); // Set initial filtered results
     } catch (error) {
@@ -66,6 +68,7 @@ const CombinedView: React.FC = () => {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchResults();
@@ -77,12 +80,15 @@ const CombinedView: React.FC = () => {
       setFilteredResults(results); // Show all results if query is empty
     } else {
       const lowerCaseQuery = query.toLowerCase();
-      const filtered = results.filter((result) =>
-        result.company.toLowerCase().includes(lowerCaseQuery)
-      );
+      const filtered = results
+        .filter((result) =>
+          result.company.toLowerCase().includes(lowerCaseQuery)
+        )
+        .sort((a, b) => new Date(b.interviewDate).getTime() - new Date(a.interviewDate).getTime()); // Keep descending order
       setFilteredResults(filtered);
     }
   }, [query, results]);
+  
 
   // Fetch interview details
   const fetchInterview = async (id: number) => {
@@ -221,26 +227,31 @@ const CombinedView: React.FC = () => {
   ) : filteredResults.length > 0 ? (
     filteredResults.map((result) => (
       <li
-        key={result.id}
-        className={`p-2 border rounded cursor-pointer hover:bg-gray-100 ${
-          selectedInterviewId === result.id ? 'bg-gray-100' : ''
-        }`}
-        onClick={() => handleViewDetails(result.id)}
-      >
-        <div className="font-bold">{result.company}</div>
-        <div>{new Date(result.interviewDate).toLocaleDateString()}</div>
-        <div>
-          {result.jobOffer ? (
-            <span className="inline-block px-2 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded">
-              Offer Received
-            </span>
-          ) : (
-            <span className="inline-block px-2 py-1 text-sm font-semibold text-red-800 bg-red-100 rounded">
-              Offer Not Received
-            </span>
-          )}
-        </div>
-      </li>
+      key={result.id}
+      className={`p-2 border rounded cursor-pointer hover:bg-gray-100 ${
+        selectedInterviewId === result.id ? 'bg-gray-100' : ''
+      }`}
+      onClick={() => handleViewDetails(result.id)}
+    >
+      <div className="font-bold">{result.company}</div>
+      <div>{new Date(result.interviewDate).toLocaleDateString()}</div>
+      <div>
+        {result.jobOffer === true ? (
+          <span className="inline-block px-1 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded">
+            Offer Received
+          </span>
+        ) : result.jobOffer === false ? (
+          <span className="inline-block px-1 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded">
+            Offer Not Received
+          </span>
+        ) : (
+          <span className="inline-block px-1 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded">
+            Pending
+          </span>
+        )}
+      </div>
+    </li>
+    
     ))
   ) : (
     <div>No results found</div>
