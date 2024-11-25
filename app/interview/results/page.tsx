@@ -7,6 +7,7 @@ type SearchFilters = {
   company?: string;
   startDate?: string;
   endDate?: string;
+  sort?: 'asc' | 'desc';
 };
 
 type Interview = {
@@ -20,28 +21,60 @@ const ResultsPage: React.FC = () => {
   const [searchFilters, setSearchFilters] = useState<SearchFilters>({});
   const [results, setResults] = useState<Interview[]>([]);
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState<string>('');
+  const [debouncedQuery, setDebouncedQuery] = useState<string>('');
   const router = useRouter();
 
+  // Debounce search input
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300); // Adjust delay as needed
+    return () => clearTimeout(handler);
+  }, [query]);
+
   const fetchResults = async () => {
+    if (!debouncedQuery && !searchFilters.startDate && !searchFilters.endDate) {
+      setResults([]); // Show no results when there's no input
+      return;
+    }
+  
     setLoading(true);
     try {
-      const params = new URLSearchParams(searchFilters as Record<string, string>);
+      const params = new URLSearchParams({
+        ...searchFilters,
+        company: debouncedQuery || '',
+      } as Record<string, string>);
+  
       const res = await fetch(`/api/interviews?${params.toString()}`);
       const data = await res.json();
-      setResults(data);
+  
+      // Only show results that match the query
+      const filteredData = data.filter((item: Interview) =>
+        (!debouncedQuery || item.company.toLowerCase().includes(debouncedQuery.toLowerCase())) &&
+        (!searchFilters.startDate || item.interviewDate >= searchFilters.startDate) &&
+        (!searchFilters.endDate || item.interviewDate <= searchFilters.endDate)
+      );
+  
+      setResults(filteredData);
     } catch (error) {
       console.error('Error fetching results:', error);
     } finally {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchResults();
-  }, [searchFilters]);
+  }, [debouncedQuery, searchFilters]);
 
   const handleViewDetails = (id: number) => {
     router.push(`/interview/results/${id}`);
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchFilters({ ...searchFilters, sort: e.target.value as 'asc' | 'desc' });
   };
 
   return (
@@ -52,7 +85,8 @@ const ResultsPage: React.FC = () => {
           type="text"
           placeholder="Search by company"
           className="w-full p-2 border rounded"
-          onChange={(e) => setSearchFilters({ ...searchFilters, company: e.target.value })}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
         <input
           type="date"
@@ -66,17 +100,19 @@ const ResultsPage: React.FC = () => {
           className="w-full p-2 border rounded"
           onChange={(e) => setSearchFilters({ ...searchFilters, endDate: e.target.value })}
         />
-        <button
-          className="p-2 bg-blue-500 text-white rounded"
-          onClick={fetchResults}
+        <select
+          className="w-full p-2 border rounded"
+          onChange={handleSortChange}
         >
-          Search
-        </button>
+          <option value="">Sort by Date</option>
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
       </div>
 
       {loading ? (
         <div>Loading...</div>
-      ) : (
+      ) : results.length > 0 ? (
         <ul className="space-y-4">
           {results.map((result) => (
             <li
@@ -90,6 +126,8 @@ const ResultsPage: React.FC = () => {
             </li>
           ))}
         </ul>
+      ) : (
+        <div>No results found</div>
       )}
     </div>
   );
