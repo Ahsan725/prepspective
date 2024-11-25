@@ -242,15 +242,15 @@ const CombinedView: React.FC = () => {
           <div>{new Date(result.interviewDate).toLocaleDateString()}</div>
           <div className="flex gap-2">
             {result.jobOffer === true ? (
-              <span className="inline-block px-1 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded">
+              <span className="inline-block px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
                 Offer Received
               </span>
             ) : result.jobOffer === false ? (
-              <span className="inline-block px-1 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded">
+              <span className="inline-block px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">
                 Offer Not Received
               </span>
             ) : (
-              <span className="inline-block px-1 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded">
+              <span className="inline-block px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">
                 Pending
               </span>
             )}
