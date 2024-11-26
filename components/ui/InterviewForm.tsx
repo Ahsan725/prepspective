@@ -407,7 +407,8 @@ const InterviewForm: React.FC = () => {
             <div className="space-y-2">
             <Select
   options={[
-    { label: 'System Design', value: 'System Design' },
+                  { label: 'System Design', value: 'System Design' },
+                  { label: 'OA', value: 'OA' },
     { label: 'Behavioral', value: 'Behavioral' },
     { label: 'Pre-Screen', value: 'Pre-Screen' },
     { label: 'Technical', value: 'Technical' },
