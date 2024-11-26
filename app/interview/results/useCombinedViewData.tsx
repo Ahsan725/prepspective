@@ -47,7 +47,7 @@ export const useCombinedViewData = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>('company');
 
-  // Fetch all results
+  // Fetch all results  s
   const fetchResults = async () => {
     setLoading(true);
     try {

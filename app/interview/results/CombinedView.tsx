@@ -202,7 +202,7 @@ const CombinedView: React.FC = () => {
     <div className="flex flex-col sm:flex-row gap-6">
       {/* Search Section */}
       <div className="w-full sm:w-1/3 p-4">
-        <h1 className="text-lg font-bold text-indigo-700">Search Interviews</h1>
+        <h1 className="text-lg font-medium text-indigo-700">Search Interviews</h1>
         <input
           type="text"
           placeholder="Search by company"
