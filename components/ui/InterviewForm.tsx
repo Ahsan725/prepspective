@@ -99,9 +99,26 @@ const InterviewForm: React.FC = () => {
   };
 
   const addRating = () => {
-    handleChange('ratings', [...formData.ratings, currentRating]);
+    setFormData((prev) => {
+      const existingRatingIndex = prev.ratings.findIndex(
+        (r) => r.category === currentRating.category
+      );
+  
+      if (existingRatingIndex !== -1) {
+        // Update the existing rating's score
+        const updatedRatings = [...prev.ratings];
+        updatedRatings[existingRatingIndex] = { ...updatedRatings[existingRatingIndex], score: currentRating.score };
+        return { ...prev, ratings: updatedRatings };
+      }
+  
+      // Add a new rating if it doesn't exist
+      return { ...prev, ratings: [...prev.ratings, currentRating] };
+    });
+  
+    // Reset the currentRating
     setCurrentRating({ category: '', score: 0 });
   };
+  
 
   const addRound = () => {
     handleChange('rounds', [...formData.rounds, currentRound]);
@@ -246,9 +263,8 @@ const InterviewForm: React.FC = () => {
                   type="number"
                   value={currentRating.score === 0 ? '' : currentRating.score} // Clear `0` on empty
                   onChange={(e) => {
-                    const value = e.target.value; // Keep the raw input
+                    const value = e.target.value;
                     if (/^[1-5]?$/.test(value)) {
-                      // Allow only numbers 1 to 5 or empty
                       setCurrentRating((prev) => ({ ...prev, score: value === '' ? 0 : +value }));
                     }
                   }}
@@ -265,7 +281,7 @@ const InterviewForm: React.FC = () => {
                   }}
                   type="button"
                 >
-                  Add Rating
+                  Add/Update Rating
                 </Button>
               </div>
         
@@ -279,6 +295,7 @@ const InterviewForm: React.FC = () => {
               </ul>
             </div>
           );
+        
                 
         
       case 'rounds':
