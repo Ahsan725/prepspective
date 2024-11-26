@@ -283,7 +283,7 @@ const CombinedView: React.FC = () => {
     )}
 
     {result.rounds.some((round) =>
-      round.roundType.toLowerCase().includes('online assessment')
+      round.roundType.toLowerCase().includes('oa')
     ) && (
       <span className="px-2 py-1 text-xs font-semibold text-teal-800 bg-teal-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
         OA
