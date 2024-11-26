@@ -29,7 +29,7 @@ type Round = {
 type FormData = {
   company: string;
   interviewDate: string;
-  jobOffer: boolean;
+  jobOffer: boolean | null; // Updated to include null
   overallExperience: string;
   questions: Question[];
   ratings: Rating[];
@@ -119,10 +119,10 @@ const InterviewForm: React.FC = () => {
 
   const handleChange = (
     field: keyof FormData,
-    value: string | boolean | Question[] | Rating[] | Round[]
+    value: string | boolean | null | Question[] | Rating[] | Round[]
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  };  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -247,13 +247,16 @@ const InterviewForm: React.FC = () => {
   options={[
     { label: 'Yes', value: true },
     { label: 'No', value: false },
+    { label: 'Pending/Unsure', value: null }, // Added the new option
   ]}
-  onChange={(selectedOption: { label: string; value: boolean } | null) =>
-    handleChange('jobOffer', selectedOption ? selectedOption.value : false)
+  onChange={(selectedOption: { label: string; value: boolean | null } | null) =>
+    handleChange('jobOffer', selectedOption ? selectedOption.value : null)
   }
   placeholder="Select an option"
   isClearable
 />
+
+
 
             </div>
             <div>
@@ -384,13 +387,27 @@ const InterviewForm: React.FC = () => {
           <div>
             <h3 className="text-lg font-medium">Rounds</h3>
             <div className="space-y-2">
-              <Input
-                placeholder="Round Type (e.g., Technical, HR)"
-                value={currentRound.roundType}
-                onChange={(e) =>
-                  setCurrentRound((prev) => ({ ...prev, roundType: e.target.value }))
-                }
-              />
+            <Select
+  options={[
+    { label: 'System Design', value: 'System Design' },
+    { label: 'Behavioral', value: 'Behavioral' },
+    { label: 'Pre-Screen', value: 'Pre-Screen' },
+    { label: 'Technical', value: 'Technical' },
+    { label: 'Onsite Technical', value: 'Onsite Technical' },
+    { label: 'Onsite Behavioral', value: 'Onsite Behavioral' },
+    { label: 'HR', value: 'HR' },
+    { label: 'Team Matching', value: 'Team Matching' },
+  ]}
+  onChange={(selectedOption: { label: string; value: string } | null) =>
+    setCurrentRound((prev) => ({
+      ...prev,
+      roundType: selectedOption ? selectedOption.value : '',
+    }))
+  }
+  placeholder="Select round type"
+  isClearable
+/>
+
               <Popover>
                 <PopoverTrigger asChild>
                   <button className="w-full p-2 text-left bg-white border border-gray-300 rounded-md">
