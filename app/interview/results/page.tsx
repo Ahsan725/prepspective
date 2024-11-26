@@ -144,19 +144,54 @@ const CombinedView: React.FC = () => {
             </p>
           </>
         );
-      case 'questions':
-        return (
-          <>
-            <h3 className="text-lg font-bold">Questions</h3>
-            <ul>
-              {interview.questions.map((q) => (
-                <li key={q.id}>
-                  <Badge>{q.type}</Badge> {q.question}
-                </li>
-              ))}
-            </ul>
-          </>
-        );
+        case 'questions':
+          const technicalQuestions = interview.questions.filter(
+            (q) => q.type.toLowerCase() === 'technical'
+          );
+          const behavioralQuestions = interview.questions.filter(
+            (q) => q.type.toLowerCase() === 'behavioral'
+          );
+        
+          return (
+            <>
+              <h3 className="text-lg font-bold mb-4">Questions</h3>
+              {/* Technical Questions */}
+              {technicalQuestions.length > 0 && (
+                <>
+                  <h4 className="text-md font-semibold text-indigo-600">Technical Questions</h4>
+                  <ul className="list-disc pl-6 mb-4">
+                    {technicalQuestions.map((q) => (
+                      <li key={q.id}>
+                        {q.question}
+                        {q.leetcodeLink && (
+                          <a
+                            href={q.leetcodeLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="ml-2 text-sm text-indigo-500 underline"
+                          >
+                            LeetCode Link
+                          </a>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {/* Behavioral Questions */}
+              {behavioralQuestions.length > 0 && (
+                <>
+                  <h4 className="text-md font-semibold text-indigo-600">Behavioral Questions</h4>
+                  <ul className="list-disc pl-6">
+                    {behavioralQuestions.map((q) => (
+                      <li key={q.id}>{q.question}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </>
+          );
+        
       case 'ratings':
         return (
           <>
