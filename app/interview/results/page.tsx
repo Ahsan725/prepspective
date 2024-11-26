@@ -185,23 +185,34 @@ const CombinedView: React.FC = () => {
             </ul>
           </>
         );
-      case 'leetcode':
-        return taggedQuestion ? (
-          <>
-            <h3 className="text-lg font-bold">LeetCode Question</h3>
-            <p>{taggedQuestion.question}</p>
-            <a
-              href={taggedQuestion.leetcodeLink ?? undefined}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-indigo-500 underline mt-2"
-            >
-              View LeetCode Problem
-            </a>
-          </>
-        ) : (
-          <p>No tagged LeetCode question available</p>
-        );
+        case 'leetcode':
+          const leetcodeQuestions = interview.questions.filter(
+            (q) => q.leetcodeLink && q.leetcodeLink.trim() !== ''
+          );
+        
+          return leetcodeQuestions.length > 0 ? (
+            <>
+              <h3 className="text-lg font-bold">LeetCode Questions</h3>
+              <ul className="list-disc pl-6 space-y-2">
+                {leetcodeQuestions.map((q) => (
+                  <li key={q.id}>
+                    <p>{q.question}</p>
+                    <a
+                      href={q.leetcodeLink ?? undefined}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-indigo-500 underline mt-2"
+                    >
+                      View LeetCode Problem
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <p>No tagged LeetCode questions available</p>
+          );
+        
       default:
         return null;
     }
