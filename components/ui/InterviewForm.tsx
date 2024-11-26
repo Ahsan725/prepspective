@@ -220,37 +220,67 @@ const InterviewForm: React.FC = () => {
             </ul>
           </div>
         );
-      case 'ratings':
-        return (
-          <div>
-            <h3 className="text-lg font-medium">Ratings</h3>
-            <div className="space-y-2">
-              <Input
-                placeholder="Category (e.g., Friendliness)"
-                value={currentRating.category}
-                onChange={(e) => setCurrentRating((prev) => ({ ...prev, category: e.target.value }))}
-              />
-              <Input
-                placeholder="Score (1-5)"
-                type="number"
-                min={1}
-                max={5}
-                value={currentRating.score}
-                onChange={(e) => setCurrentRating((prev) => ({ ...prev, score: +e.target.value }))}
-              />
-              <Button onClick={addRating} type="button">
-                Add Rating
-              </Button>
+        case 'ratings':
+          return (
+            <div>
+              <h3 className="text-lg font-medium">Ratings</h3>
+              <div className="space-y-2">
+                {/* Category Dropdown */}
+                <Select
+                  onValueChange={(value) => setCurrentRating((prev) => ({ ...prev, category: value }))}
+                  value={currentRating.category}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Difficulty">Difficulty</SelectItem>
+                    <SelectItem value="Friendliness">Friendliness</SelectItem>
+                    <SelectItem value="Responsiveness">Responsiveness</SelectItem>
+                  </SelectContent>
+                </Select>
+        
+                {/* Score Input */}
+                <Input
+                  placeholder="Score (1-5)"
+                  type="number"
+                  value={currentRating.score === 0 ? '' : currentRating.score} // Clear `0` on empty
+                  onChange={(e) => {
+                    const value = e.target.value; // Keep the raw input
+                    if (/^[1-5]?$/.test(value)) {
+                      // Allow only numbers 1 to 5 or empty
+                      setCurrentRating((prev) => ({ ...prev, score: value === '' ? 0 : +value }));
+                    }
+                  }}
+                />
+        
+                {/* Add Rating Button */}
+                <Button
+                  onClick={() => {
+                    if (currentRating.category && currentRating.score >= 1 && currentRating.score <= 5) {
+                      addRating();
+                    } else {
+                      alert('Please select a valid category and score (1-5)');
+                    }
+                  }}
+                  type="button"
+                >
+                  Add Rating
+                </Button>
+              </div>
+        
+              {/* Ratings List */}
+              <ul className="list-disc pl-6 mt-4">
+                {formData.ratings.map((r, index) => (
+                  <li key={index}>
+                    {r.category}: {r.score}/5
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="list-disc pl-6">
-              {formData.ratings.map((r, index) => (
-                <li key={index}>
-                  {r.category}: {r.score}/5
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
+          );
+                
+        
       case 'rounds':
         return (
           <div>
