@@ -199,18 +199,18 @@ const CombinedView: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-6">
+    <div className="flex flex-col sm:flex-row">
       {/* Search Section */}
-      <div className="w-full sm:w-1/3 p-4">
-        <h1 className="text-lg font-medium text-indigo-700">Search Interviews</h1>
+      <div className="w-full sm:w-1/3 p-2">
+        <h1 className="text-md lg:text-lg font-medium text-indigo-700">Search Interviews</h1>
         <input
           type="text"
           placeholder="Search by company"
-          className="w-full mt-4 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          className="w-full mt-1 mb-0 p-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-<ul className="mt-6 space-y-4 lg:max-h-[34rem] max-h-[8rem] overflow-y-auto">
+<ul className="mt-0 space-y-4 lg:max-h-[34rem] max-h-[8rem] overflow-y-auto">
   {loading ? (
     <div className="flex justify-center items-center h-[8rem] mt-4">
       <Loader />
