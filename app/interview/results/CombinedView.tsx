@@ -29,10 +29,10 @@ const CombinedView: React.FC = () => {
       return <Loader />;
     }
 
-    const headingClasses = "font-semibold text-indigo-700 text-xl";
-    const subheadingClasses = "text-lg font-semibold text-indigo-600";
-    const paragraphClasses = "text-sm text-gray-800";
-    const labelClasses = "font-semibold text-gray-600";
+    const headingClasses = "leading-tight font-semibold text-indigo-700 text-xl";
+    const subheadingClasses = "leading-tight text-lg font-semibold text-indigo-600";
+    const paragraphClasses = "leading-tight text-sm text-gray-800";
+    const labelClasses = "leading-tight font-semibold text-gray-600";
     
     switch (activeTab) {
       case 'company':
