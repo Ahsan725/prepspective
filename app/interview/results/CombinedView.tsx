@@ -38,7 +38,7 @@ const CombinedView: React.FC = () => {
             <div className="mt-4 space-y-2">
               <p>
                 <span className="font-semibold text-gray-600">Company:</span>{' '}
-                <span className="text-gray-800">{interview.company}</span>
+                <span className="text-gray-800 text-xl font-semibold">{interview.company}</span>
               </p>
               <p>
                 <span className="font-semibold text-gray-600">Interview Date:</span>{' '}
@@ -214,7 +214,7 @@ const CombinedView: React.FC = () => {
                 <li
                   key={result.id}
                   className={`p-4 border rounded-md cursor-pointer hover:bg-gray-100 ${
-                    selectedInterviewId === result.id ? 'bg-indigo-50' : ''
+                    selectedInterviewId === result.id ? 'border-indigo-700 bg-indigo-50 text-white border-2' : ''
                   }`}
                   onClick={() => handleViewDetails(result.id)}
                 >
@@ -237,7 +237,7 @@ const CombinedView: React.FC = () => {
                       </span>
                     )}
                     {hasBehavioral && (
-                      <span className="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full">
+                      <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full">
                         Behavioral
                       </span>
                     )}
