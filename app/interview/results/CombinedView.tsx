@@ -200,7 +200,9 @@ const CombinedView: React.FC = () => {
         />
         <ul className="mt-6 space-y-4 max-h-[34rem] overflow-y-auto">
           {loading ? (
+            <div className="flex justify-center items-center h-[8rem] mt-4">
             <Loader />
+          </div>
           ) : filteredResults.length > 0 ? (
             filteredResults.map((result) => {
               const hasBehavioral = result.questions.some(
