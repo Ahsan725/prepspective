@@ -4,10 +4,16 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 
 type Question = {
   type: 'behavioral' | 'technical';
@@ -47,13 +53,26 @@ const InterviewForm: React.FC = () => {
     rounds: [],
   });
 
-  const [currentTab, setCurrentTab] = useState<'basic' | 'questions' | 'ratings' | 'rounds'>('basic');
+  const [currentTab, setCurrentTab] = useState<'basic' | 'questions' | 'ratings' | 'rounds'>(
+    'basic'
+  );
 
-  const [currentQuestion, setCurrentQuestion] = useState<Question>({ type: 'behavioral', question: '', leetcodeLink: '' });
+  const [currentQuestion, setCurrentQuestion] = useState<Question>({
+    type: 'behavioral',
+    question: '',
+    leetcodeLink: '',
+  });
   const [currentRating, setCurrentRating] = useState<Rating>({ category: '', score: 0 });
-  const [currentRound, setCurrentRound] = useState<Round>({ roundType: '', roundDate: '', experience: '' });
+  const [currentRound, setCurrentRound] = useState<Round>({
+    roundType: '',
+    roundDate: '',
+    experience: '',
+  });
 
-  const handleChange = (field: keyof FormData, value: string | boolean | Question[] | Rating[] | Round[]) => {
+  const handleChange = (
+    field: keyof FormData,
+    value: string | boolean | Question[] | Rating[] | Round[]
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -103,22 +122,24 @@ const InterviewForm: React.FC = () => {
       const existingRatingIndex = prev.ratings.findIndex(
         (r) => r.category === currentRating.category
       );
-  
+
       if (existingRatingIndex !== -1) {
         // Update the existing rating's score
         const updatedRatings = [...prev.ratings];
-        updatedRatings[existingRatingIndex] = { ...updatedRatings[existingRatingIndex], score: currentRating.score };
+        updatedRatings[existingRatingIndex] = {
+          ...updatedRatings[existingRatingIndex],
+          score: currentRating.score,
+        };
         return { ...prev, ratings: updatedRatings };
       }
-  
+
       // Add a new rating if it doesn't exist
       return { ...prev, ratings: [...prev.ratings, currentRating] };
     });
-  
+
     // Reset the currentRating
     setCurrentRating({ category: '', score: 0 });
   };
-  
 
   const addRound = () => {
     handleChange('rounds', [...formData.rounds, currentRound]);
@@ -150,17 +171,26 @@ const InterviewForm: React.FC = () => {
                 <PopoverTrigger asChild>
                   <button className="w-full p-2 text-left bg-white border border-gray-300 rounded-md">
                     {formData.interviewDate
-                      ? format(new Date(formData.interviewDate), 'MMMM dd, yyyy')
+                      ? format(
+                          parse(formData.interviewDate, 'yyyy-MM-dd', new Date()),
+                          'MMMM dd, yyyy'
+                        )
                       : 'Pick a date'}
                   </button>
                 </PopoverTrigger>
                 <PopoverContent>
                   <Calendar
                     mode="single"
-                    selected={formData.interviewDate ? new Date(formData.interviewDate) : undefined}
-                    onSelect={(date: Date | undefined) =>
-                      handleChange('interviewDate', date ? format(date, 'yyyy-MM-dd') : '')
+                    selected={
+                      formData.interviewDate
+                        ? parse(formData.interviewDate, 'yyyy-MM-dd', new Date())
+                        : undefined
                     }
+                    onSelect={(date) => {
+                      if (date) {
+                        handleChange('interviewDate', format(date, 'yyyy-MM-dd'));
+                      }
+                    }}
                   />
                 </PopoverContent>
               </Popover>
@@ -201,7 +231,9 @@ const InterviewForm: React.FC = () => {
             <h3 className="text-lg font-medium">Questions</h3>
             <div className="space-y-2">
               <Select
-                onValueChange={(value) => setCurrentQuestion((prev) => ({ ...prev, type: value as Question['type'] }))}
+                onValueChange={(value) =>
+                  setCurrentQuestion((prev) => ({ ...prev, type: value as Question['type'] }))
+                }
                 value={currentQuestion.type}
               >
                 <SelectTrigger>
@@ -215,13 +247,17 @@ const InterviewForm: React.FC = () => {
               <Input
                 placeholder="Enter question"
                 value={currentQuestion.question}
-                onChange={(e) => setCurrentQuestion((prev) => ({ ...prev, question: e.target.value }))}
+                onChange={(e) =>
+                  setCurrentQuestion((prev) => ({ ...prev, question: e.target.value }))
+                }
               />
               {currentQuestion.type === 'technical' && (
                 <Input
                   placeholder="LeetCode link (optional)"
                   value={currentQuestion.leetcodeLink}
-                  onChange={(e) => setCurrentQuestion((prev) => ({ ...prev, leetcodeLink: e.target.value }))}
+                  onChange={(e) =>
+                    setCurrentQuestion((prev) => ({ ...prev, leetcodeLink: e.target.value }))
+                  }
                 />
               )}
               <Button onClick={addQuestion} type="button">
@@ -231,73 +267,81 @@ const InterviewForm: React.FC = () => {
             <ul className="list-disc pl-6">
               {formData.questions.map((q, index) => (
                 <li key={index}>
-                  {q.type}: {q.question} {q.leetcodeLink && `(LeetCode: ${q.leetcodeLink})`}
+                  {q.type}: {q.question}{' '}
+                  {q.leetcodeLink && (
+                    <a href={q.leetcodeLink} target="_blank" rel="noopener noreferrer">
+                      (LeetCode Link)
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
         );
-        case 'ratings':
-          return (
-            <div>
-              <h3 className="text-lg font-medium">Ratings</h3>
-              <div className="space-y-2">
-                {/* Category Dropdown */}
-                <Select
-                  onValueChange={(value) => setCurrentRating((prev) => ({ ...prev, category: value }))}
-                  value={currentRating.category}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Difficulty">Difficulty</SelectItem>
-                    <SelectItem value="Friendliness">Friendliness</SelectItem>
-                    <SelectItem value="Responsiveness">Responsiveness</SelectItem>
-                  </SelectContent>
-                </Select>
-        
-                {/* Score Input */}
-                <Input
-                  placeholder="Score (1-5)"
-                  type="number"
-                  value={currentRating.score === 0 ? '' : currentRating.score} // Clear `0` on empty
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (/^[1-5]?$/.test(value)) {
-                      setCurrentRating((prev) => ({ ...prev, score: value === '' ? 0 : +value }));
-                    }
-                  }}
-                />
-        
-                {/* Add Rating Button */}
-                <Button
-                  onClick={() => {
-                    if (currentRating.category && currentRating.score >= 1 && currentRating.score <= 5) {
-                      addRating();
-                    } else {
-                      alert('Please select a valid category and score (1-5)');
-                    }
-                  }}
-                  type="button"
-                >
-                  Add/Update Rating
-                </Button>
-              </div>
-        
-              {/* Ratings List */}
-              <ul className="list-disc pl-6 mt-4">
-                {formData.ratings.map((r, index) => (
-                  <li key={index}>
-                    {r.category}: {r.score}/5
-                  </li>
-                ))}
-              </ul>
+      case 'ratings':
+        return (
+          <div>
+            <h3 className="text-lg font-medium">Ratings</h3>
+            <div className="space-y-2">
+              {/* Category Dropdown */}
+              <Select
+                onValueChange={(value) =>
+                  setCurrentRating((prev) => ({ ...prev, category: value }))
+                }
+                value={currentRating.category}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Difficulty">Difficulty</SelectItem>
+                  <SelectItem value="Friendliness">Friendliness</SelectItem>
+                  <SelectItem value="Responsiveness">Responsiveness</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* Score Input */}
+              <Input
+                placeholder="Score (1-5)"
+                type="number"
+                value={currentRating.score === 0 ? '' : currentRating.score} // Clear `0` on empty
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^[1-5]?$/.test(value)) {
+                    setCurrentRating((prev) => ({ ...prev, score: value === '' ? 0 : +value }));
+                  }
+                }}
+              />
+
+              {/* Add Rating Button */}
+              <Button
+                onClick={() => {
+                  if (
+                    currentRating.category &&
+                    currentRating.score >= 1 &&
+                    currentRating.score <= 5
+                  ) {
+                    addRating();
+                  } else {
+                    alert('Please select a valid category and score (1-5)');
+                  }
+                }}
+                type="button"
+              >
+                Add/Update Rating
+              </Button>
             </div>
-          );
-        
-                
-        
+
+            {/* Ratings List */}
+            <ul className="list-disc pl-6 mt-4">
+              {formData.ratings.map((r, index) => (
+                <li key={index}>
+                  {r.category}: {r.score}/5
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
       case 'rounds':
         return (
           <div>
@@ -306,33 +350,46 @@ const InterviewForm: React.FC = () => {
               <Input
                 placeholder="Round Type (e.g., Technical, HR)"
                 value={currentRound.roundType}
-                onChange={(e) => setCurrentRound((prev) => ({ ...prev, roundType: e.target.value }))}
+                onChange={(e) =>
+                  setCurrentRound((prev) => ({ ...prev, roundType: e.target.value }))
+                }
               />
               <Popover>
                 <PopoverTrigger asChild>
                   <button className="w-full p-2 text-left bg-white border border-gray-300 rounded-md">
                     {currentRound.roundDate
-                      ? format(new Date(currentRound.roundDate), 'MMMM dd, yyyy')
+                      ? format(
+                          parse(currentRound.roundDate, 'yyyy-MM-dd', new Date()),
+                          'MMMM dd, yyyy'
+                        )
                       : 'Pick a date'}
                   </button>
                 </PopoverTrigger>
                 <PopoverContent>
                   <Calendar
                     mode="single"
-                    selected={currentRound.roundDate ? new Date(currentRound.roundDate) : undefined}
-                    onSelect={(date: Date | undefined) =>
-                      setCurrentRound((prev) => ({
-                        ...prev,
-                        roundDate: date ? format(date, 'yyyy-MM-dd') : '',
-                      }))
+                    selected={
+                      currentRound.roundDate
+                        ? parse(currentRound.roundDate, 'yyyy-MM-dd', new Date())
+                        : undefined
                     }
+                    onSelect={(date) => {
+                      if (date) {
+                        setCurrentRound((prev) => ({
+                          ...prev,
+                          roundDate: format(date, 'yyyy-MM-dd'),
+                        }));
+                      }
+                    }}
                   />
                 </PopoverContent>
               </Popover>
               <Textarea
                 placeholder="Experience in this round"
                 value={currentRound.experience}
-                onChange={(e) => setCurrentRound((prev) => ({ ...prev, experience: e.target.value }))}
+                onChange={(e) =>
+                  setCurrentRound((prev) => ({ ...prev, experience: e.target.value }))
+                }
               />
               <Button onClick={addRound} type="button">
                 Add Round
@@ -372,25 +429,33 @@ const InterviewForm: React.FC = () => {
     <div>
       <div className="flex space-x-4 border-b">
         <button
-          className={`py-2 px-4 ${currentTab === 'basic' ? 'border-b-2 border-indigo-500 font-semibold' : ''}`}
+          className={`py-2 px-4 ${
+            currentTab === 'basic' ? 'border-b-2 border-indigo-500 font-semibold' : ''
+          }`}
           onClick={() => setCurrentTab('basic')}
         >
           Basic Info
         </button>
         <button
-          className={`py-2 px-4 ${currentTab === 'questions' ? 'border-b-2 border-indigo-500 font-semibold' : ''}`}
+          className={`py-2 px-4 ${
+            currentTab === 'questions' ? 'border-b-2 border-indigo-500 font-semibold' : ''
+          }`}
           onClick={() => setCurrentTab('questions')}
         >
           Questions
         </button>
         <button
-          className={`py-2 px-4 ${currentTab === 'ratings' ? 'border-b-2 border-indigo-500 font-semibold' : ''}`}
+          className={`py-2 px-4 ${
+            currentTab === 'ratings' ? 'border-b-2 border-indigo-500 font-semibold' : ''
+          }`}
           onClick={() => setCurrentTab('ratings')}
         >
           Ratings
         </button>
         <button
-          className={`py-2 px-4 ${currentTab === 'rounds' ? 'border-b-2 border-indigo-500 font-semibold' : ''}`}
+          className={`py-2 px-4 ${
+            currentTab === 'rounds' ? 'border-b-2 border-indigo-500 font-semibold' : ''
+          }`}
           onClick={() => setCurrentTab('rounds')}
         >
           Rounds
