@@ -205,21 +205,35 @@ const CombinedView: React.FC = () => {
             </ul>
           </>
         );
-      case 'rounds':
-        return (
-          <>
-            <h3 className="text-lg font-bold">Rounds</h3>
-            <ul>
-              {interview.rounds.map((round) => (
-                <li key={round.id}>
-                  <p>{round.roundType}</p>
-                  <p>{round.roundDate}</p>
-                  <p>{round.experience}</p>
-                </li>
-              ))}
-            </ul>
-          </>
-        );
+        case 'rounds':
+  return (
+    <>
+      <h3 className="text-lg font-bold mb-4">Interview Rounds</h3>
+      {interview.rounds.map((round, index) => (
+        <div key={round.id} className="mb-6">
+          {/* Round Type Heading */}
+          <h4 className="text-md font-semibold text-indigo-600">
+            {round.roundType}
+          </h4>
+          {/* Round Details */}
+          <div className="text-md text-gray-700 mt-2">
+            <p>
+              <strong>Date:</strong> {new Date(round.roundDate).toLocaleDateString()}
+            </p>
+            <p>
+              <strong>Experience:</strong> {round.experience}
+            </p>
+          </div>
+          {/* Divider */}
+          {index !== interview.rounds.length - 1 && (
+            <div className="border-t border-gray-300 mt-4"></div>
+          )}
+        </div>
+      ))}
+    </>
+  );
+
+        
         case 'leetcode':
           const leetcodeQuestions = interview.questions.filter(
             (q) => q.leetcodeLink && q.leetcodeLink.trim() !== ''
