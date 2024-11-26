@@ -340,9 +340,10 @@ const CombinedView: React.FC = () => {
 <div className="w-full sm:w-2/3 p-4">
   {selectedInterviewId && !interview ? (
     // Show the loader while fetching interview details
-    <div className="flex justify-center items-center h-full">
-      <Loader />
-    </div>
+<div className="min-h-screen flex justify-center items-start pt-10">
+  <Loader />
+</div>
+
   ) : interview ? (
     <>
       <div className="border-b border-gray-200 dark:border-gray-700">
