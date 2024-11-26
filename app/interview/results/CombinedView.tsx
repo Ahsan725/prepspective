@@ -210,85 +210,85 @@ const CombinedView: React.FC = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <ul className="mt-6 space-y-4 lg:max-h-[34rem] max-h-[16rem] overflow-y-auto">
-          {loading ? (
-            <div className="flex justify-center items-center h-[8rem] mt-4">
-            <Loader />
+<ul className="mt-6 space-y-4 lg:max-h-[34rem] max-h-[8rem] overflow-y-auto">
+  {loading ? (
+    <div className="flex justify-center items-center h-[8rem] mt-4">
+      <Loader />
+    </div>
+  ) : filteredResults.length > 0 ? (
+    filteredResults.map((result) => {
+      const hasBehavioral = result.questions.some(
+        (q) => q.type.toLowerCase() === 'behavioral'
+      );
+      const hasTechnical = result.questions.some(
+        (q) => q.type.toLowerCase() === 'technical'
+      );
+
+      return (
+        <li
+          key={result.id}
+          className={`p-1 lg:p-4 my-0 border rounded-md cursor-pointer hover:bg-gray-100 ${
+            selectedInterviewId === result.id
+              ? 'border-indigo-700 my-0 lg:p-4 p-1 bg-indigo-50 text-white border-2'
+              : ''
+          } sm:p-2 sm:border sm:rounded`}
+          onClick={() => handleViewDetails(result.id)}
+        >
+          <div className="font-semibold lg:text-base text-gray-900 text-sm">{result.company}</div>
+          <div className="text-xs text-gray-500 sm:text-[10px]">
+            {new Date(result.interviewDate).toLocaleDateString()}
           </div>
-          ) : filteredResults.length > 0 ? (
-            filteredResults.map((result) => {
-              const hasBehavioral = result.questions.some(
-                (q) => q.type.toLowerCase() === 'behavioral'
-              );
-              const hasTechnical = result.questions.some(
-                (q) => q.type.toLowerCase() === 'technical'
-              );
+          <div className="flex flex-wrap gap-1 mt-1 sm:mt-1">
+            {result.jobOffer === true ? (
+              <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                Job Offered
+              </span>
+            ) : result.jobOffer === false ? (
+              <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                No Offer
+              </span>
+            ) : (
+              <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                Unsure
+              </span>
+            )}
 
-              return (
-                <li
-                  key={result.id}
-                  className={`p-4 border rounded-md cursor-pointer hover:bg-gray-100 ${
-                    selectedInterviewId === result.id ? 'border-indigo-700 bg-indigo-50 text-white border-2' : ''
-                  }`}
-                  onClick={() => handleViewDetails(result.id)}
-                >
-                  <div className="font-semibold text-base text-gray-900">{result.company}</div>
-                  <div className="text-xs text-gray-500">
-                    {new Date(result.interviewDate).toLocaleDateString()}
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
-  {result.jobOffer === true ? (
-    <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
-      Job Offered
-    </span>
-  ) : result.jobOffer === false ? (
-    <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">
-      No Offer
-    </span>
-  ) : result.jobOffer === isNull? ( // Explicitly handle `null` for "Unsure"
-    <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">
-      Unsure
-    </span>
+            {hasBehavioral && (
+              <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                Behavioral
+              </span>
+            )}
+
+            {hasTechnical && (
+              <span className="px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                Technical
+              </span>
+            )}
+
+            {result.rounds.some((round) =>
+              round.roundType.toLowerCase().includes('system design')
+            ) && (
+              <span className="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                System Design
+              </span>
+            )}
+
+            {result.rounds.some((round) =>
+              round.roundType.toLowerCase().includes('pre screen')
+            ) && (
+              <span className="px-2 py-1 text-xs font-semibold text-cyan-800 bg-cyan-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                Pre Screen
+              </span>
+            )}
+          </div>
+        </li>
+      );
+    })
   ) : (
-    <span className="px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 rounded-full">
-      Unknown
-    </span> // Fallback for unexpected values
+    <div className="text-sm text-gray-500">No results found</div>
   )}
+</ul>
 
-  {hasBehavioral && (
-    <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full">
-      Behavioral
-    </span>
-  )}
-
-  {hasTechnical && (
-    <span className="px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full">
-      Technical
-    </span>
-  )}
-
-  {result.rounds.some((round) => round.roundType.toLowerCase().includes('system design')) && (
-    <span className="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full">
-      System Design
-    </span>
-  )}
-
-  {result.rounds.some((round) => round.roundType.toLowerCase().includes('pre screen')) && (
-    <span className="px-2 py-1 text-xs font-semibold text-cyan-800 bg-cyan-100 rounded-full">
-      Pre Screen
-    </span>
-  )}
-</div>
-
-
-
-                </li>
-              );
-            })
-          ) : (
-            <div className="text-sm text-gray-500">No results found</div>
-          )}
-        </ul>
       </div>
 
       {/* Detailed View Section */}
