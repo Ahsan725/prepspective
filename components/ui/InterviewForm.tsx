@@ -8,6 +8,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { format, parse } from 'date-fns';
 import Select from 'react-select';
+import { useToast } from '@/hooks/use-toast';
+
 
 type Question = {
   type: 'behavioral' | 'technical';
@@ -100,6 +102,7 @@ const InterviewForm: React.FC = () => {
     ratings: [],
     rounds: [],
   });
+  const { toast } = useToast();
 
   const [currentTab, setCurrentTab] = useState<'basic' | 'questions' | 'ratings' | 'rounds'>(
     'basic'
@@ -124,23 +127,31 @@ const InterviewForm: React.FC = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };  
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (!formData.company || !formData.interviewDate) {
-      alert('Please fill out all required fields.');
+      toast({
+        title: 'Error',
+        description: 'Please fill out all required fields.',
+      });
       return;
     }
-
+  
     try {
       const res = await fetch('/api/interviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
+  
       if (res.ok) {
-        alert('Interview entry submitted successfully!');
+        toast({
+          title: 'Success',
+          description: 'Interview entry submitted successfully!',
+        });
+  
         setFormData({
           company: '',
           interviewDate: '',
@@ -152,13 +163,20 @@ const InterviewForm: React.FC = () => {
         });
         setCurrentTab('basic'); // Reset to the first tab
       } else {
-        alert('Failed to save data.');
+        toast({
+          title: 'Failed to Save',
+          description: 'Failed to save data. Please try again.',
+        });
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An unexpected error occurred.');
+      toast({
+        title: 'Unexpected Error',
+        description: 'An unexpected error occurred. Please try again later.',
+      });
     }
   };
+  
 
   const addQuestion = () => {
     handleChange('questions', [...formData.questions, currentQuestion]);
