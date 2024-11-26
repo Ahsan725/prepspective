@@ -30,7 +30,7 @@ type Interview = {
   createdAt: string;
   updatedAt: string;
   overallExperience: string;
-  jobOffer: boolean;
+  jobOffer: boolean | null;
   questions: Question[];
   ratings: Rating[];
   rounds: Round[];

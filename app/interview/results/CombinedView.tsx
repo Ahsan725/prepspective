@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import Loader from '@/components/ui/loader';
 import { Building, MessageCircle, Star, List, CheckCircle } from 'lucide-react';
 import { useCombinedViewData } from './useCombinedViewData';
+import { isNull } from 'drizzle-orm';
 
 const CombinedView: React.FC = () => {
   const {
@@ -50,13 +51,18 @@ const CombinedView: React.FC = () => {
                 <span className={paragraphClasses}>{interview.interviewDate}</span>
               </p>
               <p>
-                <span className={labelClasses}>Job Offer:</span>{' '}
-                {interview.jobOffer ? (
-                  <Badge className="bg-green-100 text-green-800">Yes</Badge>
-                ) : (
-                  <Badge className="bg-red-100 text-red-800">No</Badge>
-                )}
-              </p>
+  <span className={labelClasses}>Job Offer:</span>{' '}
+  {interview.jobOffer === true ? (
+    <Badge className="bg-green-100 text-green-800">Yes</Badge>
+  ) : interview.jobOffer === false ? (
+    <Badge className="bg-red-100 text-red-800">No</Badge>
+  ) : (
+    <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+      Unsure
+    </span>
+  )}
+</p>
+
               <p>
                 <span className={labelClasses}>Overall Experience:</span>{' '}
                 <span className={paragraphClasses}>{interview.overallExperience}</span>
@@ -231,30 +237,51 @@ const CombinedView: React.FC = () => {
                     {new Date(result.interviewDate).toLocaleDateString()}
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {result.jobOffer === true ? (
-                      <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
-                        Job Offered
-                      </span>
-                    ) : result.jobOffer === false ? (
-                      <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">
-                        No Offer
-                      </span>
-                    ) : (
-                      <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">
-                        Pending
-                      </span>
-                    )}
-                    {hasBehavioral && (
-                      <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full">
-                        Behavioral
-                      </span>
-                    )}
-                    {hasTechnical && (
-                      <span className="px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full">
-                        Technical
-                      </span>
-                    )}
-                  </div>
+  {result.jobOffer === true ? (
+    <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
+      Job Offered
+    </span>
+  ) : result.jobOffer === false ? (
+    <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">
+      No Offer
+    </span>
+  ) : result.jobOffer === isNull? ( // Explicitly handle `null` for "Unsure"
+    <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+      Unsure
+    </span>
+  ) : (
+    <span className="px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 rounded-full">
+      Unknown
+    </span> // Fallback for unexpected values
+  )}
+
+  {hasBehavioral && (
+    <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full">
+      Behavioral
+    </span>
+  )}
+
+  {hasTechnical && (
+    <span className="px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full">
+      Technical
+    </span>
+  )}
+
+  {result.rounds.some((round) => round.roundType.toLowerCase().includes('system design')) && (
+    <span className="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full">
+      System Design
+    </span>
+  )}
+
+  {result.rounds.some((round) => round.roundType.toLowerCase().includes('pre screen')) && (
+    <span className="px-2 py-1 text-xs font-semibold text-cyan-800 bg-cyan-100 rounded-full">
+      Pre Screen
+    </span>
+  )}
+</div>
+
+
+
                 </li>
               );
             })
