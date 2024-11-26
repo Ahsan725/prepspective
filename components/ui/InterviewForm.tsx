@@ -4,16 +4,10 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { format, parse } from 'date-fns';
+import Select from 'react-select';
 
 type Question = {
   type: 'behavioral' | 'technical';
@@ -41,6 +35,60 @@ type FormData = {
   ratings: Rating[];
   rounds: Round[];
 };
+
+const topTechCompanies = [
+  "Google",
+  "Amazon",
+  "Meta (Facebook)",
+  "Apple",
+  "Microsoft",
+  "Netflix",
+  "Tesla",
+  "Adobe",
+  "Salesforce",
+  "Intel",
+  "IBM",
+  "Cisco",
+  "Oracle",
+  "NVIDIA",
+  "Zoom",
+  "Spotify",
+  "Twitter",
+  "Snapchat",
+  "Slack",
+  "Dropbox",
+  "Uber",
+  "Lyft",
+  "Airbnb",
+  "Square",
+  "Shopify",
+  "Stripe",
+  "PayPal",
+  "eBay",
+  "Dell",
+  "HP",
+  "Samsung",
+  "TikTok",
+  "Pinterest",
+  "Reddit",
+  "Quora",
+  "LinkedIn",
+  "GitHub",
+  "Atlassian",
+  "Twilio",
+  "Cloudflare",
+  "Coinbase",
+  "Block",
+  "Robinhood",
+  "Datadog",
+  "MongoDB",
+  "Snowflake",
+  "Zscaler",
+  "Okta",
+  "Elastic",
+  "HubSpot",
+  "ZoomInfo",
+];
 
 const InterviewForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -124,7 +172,6 @@ const InterviewForm: React.FC = () => {
       );
 
       if (existingRatingIndex !== -1) {
-        // Update the existing rating's score
         const updatedRatings = [...prev.ratings];
         updatedRatings[existingRatingIndex] = {
           ...updatedRatings[existingRatingIndex],
@@ -133,11 +180,8 @@ const InterviewForm: React.FC = () => {
         return { ...prev, ratings: updatedRatings };
       }
 
-      // Add a new rating if it doesn't exist
       return { ...prev, ratings: [...prev.ratings, currentRating] };
     });
-
-    // Reset the currentRating
     setCurrentRating({ category: '', score: 0 });
   };
 
@@ -155,14 +199,16 @@ const InterviewForm: React.FC = () => {
               <label htmlFor="company" className="block text-sm font-medium text-gray-700">
                 Company
               </label>
-              <Input
-                id="company"
-                placeholder="Enter company name"
-                value={formData.company}
-                onChange={(e) => handleChange('company', e.target.value)}
-              />
-            </div>
+              <Select
+  options={topTechCompanies.map((company) => ({ label: company, value: company }))}
+  onChange={(selectedOption: { label: string; value: string } | null) =>
+    handleChange('company', selectedOption ? selectedOption.value : '')
+  }
+  placeholder="Search and select a company"
+  isClearable
+/>
 
+            </div>
             <div>
               <label htmlFor="interviewDate" className="block text-sm font-medium text-gray-700">
                 Interview Date
@@ -195,23 +241,21 @@ const InterviewForm: React.FC = () => {
                 </PopoverContent>
               </Popover>
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700">Job Offer</label>
               <Select
-                onValueChange={(value) => handleChange('jobOffer', value === 'true')}
-                value={formData.jobOffer.toString()}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select an option" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="true">Yes</SelectItem>
-                  <SelectItem value="false">No</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+  options={[
+    { label: 'Yes', value: true },
+    { label: 'No', value: false },
+  ]}
+  onChange={(selectedOption: { label: string; value: boolean } | null) =>
+    handleChange('jobOffer', selectedOption ? selectedOption.value : false)
+  }
+  placeholder="Select an option"
+  isClearable
+/>
 
+            </div>
             <div>
               <label htmlFor="overallExperience" className="block text-sm font-medium text-gray-700">
                 Overall Experience
@@ -230,20 +274,20 @@ const InterviewForm: React.FC = () => {
           <div>
             <h3 className="text-lg font-medium">Questions</h3>
             <div className="space-y-2">
-              <Select
-                onValueChange={(value) =>
-                  setCurrentQuestion((prev) => ({ ...prev, type: value as Question['type'] }))
-                }
-                value={currentQuestion.type}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select question type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="behavioral">Behavioral</SelectItem>
-                  <SelectItem value="technical">Technical</SelectItem>
-                </SelectContent>
-              </Select>
+            <Select
+  options={[
+    { label: 'Behavioral', value: 'behavioral' },
+    { label: 'Technical', value: 'technical' },
+  ]}
+  onChange={(selectedOption: { label: string; value: 'behavioral' | 'technical' } | null) =>
+    setCurrentQuestion((prev) => ({
+      ...prev,
+      type: selectedOption?.value || 'behavioral',
+    }))
+  }
+  placeholder="Select question type"
+/>
+
               <Input
                 placeholder="Enter question"
                 value={currentQuestion.question}
@@ -283,28 +327,25 @@ const InterviewForm: React.FC = () => {
           <div>
             <h3 className="text-lg font-medium">Ratings</h3>
             <div className="space-y-2">
-              {/* Category Dropdown */}
-              <Select
-                onValueChange={(value) =>
-                  setCurrentRating((prev) => ({ ...prev, category: value }))
-                }
-                value={currentRating.category}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Difficulty">Difficulty</SelectItem>
-                  <SelectItem value="Friendliness">Friendliness</SelectItem>
-                  <SelectItem value="Responsiveness">Responsiveness</SelectItem>
-                </SelectContent>
-              </Select>
+            <Select
+  options={[
+    { label: 'Difficulty', value: 'Difficulty' },
+    { label: 'Friendliness', value: 'Friendliness' },
+    { label: 'Responsiveness', value: 'Responsiveness' },
+  ]}
+  onChange={(selectedOption: { label: string; value: string } | null) =>
+    setCurrentRating((prev) => ({
+      ...prev,
+      category: selectedOption?.value || '',
+    }))
+  }
+  placeholder="Select a category"
+/>
 
-              {/* Score Input */}
               <Input
                 placeholder="Score (1-5)"
                 type="number"
-                value={currentRating.score === 0 ? '' : currentRating.score} // Clear `0` on empty
+                value={currentRating.score === 0 ? '' : currentRating.score}
                 onChange={(e) => {
                   const value = e.target.value;
                   if (/^[1-5]?$/.test(value)) {
@@ -312,8 +353,6 @@ const InterviewForm: React.FC = () => {
                   }
                 }}
               />
-
-              {/* Add Rating Button */}
               <Button
                 onClick={() => {
                   if (
@@ -331,8 +370,6 @@ const InterviewForm: React.FC = () => {
                 Add/Update Rating
               </Button>
             </div>
-
-            {/* Ratings List */}
             <ul className="list-disc pl-6 mt-4">
               {formData.ratings.map((r, index) => (
                 <li key={index}>
