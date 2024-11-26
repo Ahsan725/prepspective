@@ -29,23 +29,28 @@ const CombinedView: React.FC = () => {
       return <Loader />;
     }
 
+    const headingClasses = "font-semibold text-indigo-700 text-xl";
+    const subheadingClasses = "text-lg font-semibold text-indigo-600";
+    const paragraphClasses = "text-sm text-gray-800";
+    const labelClasses = "font-semibold text-gray-600";
+    
     switch (activeTab) {
       case 'company':
         return (
           <div className="p-4 rounded-lg">
-            <h3 className="text-xl font-semibold text-indigo-700">Company Information</h3>
+            <h3 className={headingClasses}>Company Information</h3>
             <hr className="border-t border-gray-300 my-4" />
             <div className="mt-4 space-y-2">
               <p>
-                <span className="font-semibold text-gray-600">Company:</span>{' '}
-                <span className="text-gray-800 text-xl font-semibold">{interview.company}</span>
+                <span className={labelClasses}>Company:</span>{' '}
+                <span className={`${paragraphClasses} text-xl font-semibold`}>{interview.company}</span>
               </p>
               <p>
-                <span className="font-semibold text-gray-600">Interview Date:</span>{' '}
-                <span className="text-gray-800">{interview.interviewDate}</span>
+                <span className={labelClasses}>Interview Date:</span>{' '}
+                <span className={paragraphClasses}>{interview.interviewDate}</span>
               </p>
               <p>
-                <span className="font-semibold text-gray-600">Job Offer:</span>{' '}
+                <span className={labelClasses}>Job Offer:</span>{' '}
                 {interview.jobOffer ? (
                   <Badge className="bg-green-100 text-green-800">Yes</Badge>
                 ) : (
@@ -53,13 +58,13 @@ const CombinedView: React.FC = () => {
                 )}
               </p>
               <p>
-                <span className="font-semibold text-gray-600">Overall Experience:</span>{' '}
-                <span className="text-gray-800">{interview.overallExperience}</span>
+                <span className={labelClasses}>Overall Experience:</span>{' '}
+                <span className={paragraphClasses}>{interview.overallExperience}</span>
               </p>
             </div>
           </div>
         );
-
+    
       case 'questions':
         const technicalQuestions = interview.questions.filter(
           (q) => q.type.toLowerCase() === 'technical'
@@ -67,18 +72,18 @@ const CombinedView: React.FC = () => {
         const behavioralQuestions = interview.questions.filter(
           (q) => q.type.toLowerCase() === 'behavioral'
         );
-
+    
         return (
           <div className="p-4 rounded-lg">
-            <h3 className="text-xl font-semibold text-indigo-700">Interview Questions</h3>
+            <h3 className={headingClasses}>Interview Questions</h3>
             <hr className="border-t border-gray-300 my-4" />
             <div className="mt-4">
               {technicalQuestions.length > 0 && (
                 <>
-                  <h4 className="text-lg font-semibold text-indigo-600">Technical Questions</h4>
+                  <h4 className={subheadingClasses}>Technical Questions</h4>
                   <ul className="list-disc pl-6 mt-2 mb-4">
                     {technicalQuestions.map((q) => (
-                      <li key={q.id} className="text-sm text-gray-800">
+                      <li key={q.id} className={paragraphClasses}>
                         {q.question}
                         {q.leetcodeLink && (
                           <a
@@ -98,10 +103,10 @@ const CombinedView: React.FC = () => {
               )}
               {behavioralQuestions.length > 0 && (
                 <>
-                  <h4 className="text-lg font-semibold text-indigo-600">Behavioral Questions</h4>
+                  <h4 className={subheadingClasses}>Behavioral Questions</h4>
                   <ul className="list-disc pl-6 mt-2">
                     {behavioralQuestions.map((q) => (
-                      <li key={q.id} className="text-sm text-gray-800">
+                      <li key={q.id} className={paragraphClasses}>
                         {q.question}
                       </li>
                     ))}
@@ -111,38 +116,38 @@ const CombinedView: React.FC = () => {
             </div>
           </div>
         );
-
+    
       case 'ratings':
         return (
           <div className="p-4 rounded-lg">
-            <h3 className="text-xl font-semibold text-indigo-700">Ratings</h3>
+            <h3 className={headingClasses}>Ratings</h3>
             <hr className="border-t border-gray-300 my-4" />
             <ul className="mt-4 space-y-2">
               {interview.ratings.map((r) => (
-                <li key={r.id} className="text-sm text-gray-800">
-                  <span className="font-semibold text-gray-600">{r.category}:</span>{' '}
+                <li key={r.id} className={paragraphClasses}>
+                  <span className={labelClasses}>{r.category}:</span>{' '}
                   <span>{r.score}/5</span>
                 </li>
               ))}
             </ul>
           </div>
         );
-
+    
       case 'rounds':
         return (
           <div className="p-4 rounded-lg">
-            <h3 className="text-xl font-semibold text-indigo-700">Interview Rounds</h3>
+            <h3 className={headingClasses}>Interview Rounds</h3>
             <hr className="border-t border-gray-300 my-4" />
             <div className="mt-4 space-y-4">
               {interview.rounds.map((round, index) => (
                 <div key={round.id}>
-                  <h4 className="text-lg font-semibold text-indigo-600">{round.roundType}</h4>
-                  <p className="text-sm text-gray-800">
-                    <span className="font-semibold text-gray-600">Date:</span>{' '}
+                  <h4 className={subheadingClasses}>{round.roundType}</h4>
+                  <p className={paragraphClasses}>
+                    <span className={labelClasses}>Date:</span>{' '}
                     {new Date(round.roundDate).toLocaleDateString()}
                   </p>
-                  <p className="text-sm text-gray-800">
-                    <span className="font-semibold text-gray-600">Experience:</span>{' '}
+                  <p className={paragraphClasses}>
+                    <span className={labelClasses}>Experience:</span>{' '}
                     {round.experience}
                   </p>
                   {index !== interview.rounds.length - 1 && (
@@ -153,19 +158,19 @@ const CombinedView: React.FC = () => {
             </div>
           </div>
         );
-
+    
       case 'leetcode':
         const leetcodeQuestions = interview.questions.filter(
           (q) => q.leetcodeLink && q.leetcodeLink.trim() !== ''
         );
-
+    
         return (
           <div className="p-4 rounded-lg">
-            <h3 className="text-xl font-semibold text-indigo-700">LeetCode Questions</h3>
+            <h3 className={headingClasses}>LeetCode Questions</h3>
             <hr className="border-t border-gray-300 my-4" />
             <ul className="list-disc pl-6 space-y-2 mt-4">
               {leetcodeQuestions.map((q) => (
-                <li key={q.id} className="text-sm text-gray-800">
+                <li key={q.id} className={paragraphClasses}>
                   {q.question}
                   <a
                     href={q.leetcodeLink || undefined}
@@ -180,10 +185,11 @@ const CombinedView: React.FC = () => {
             </ul>
           </div>
         );
-
+    
       default:
         return null;
     }
+    
   };
 
   return (
