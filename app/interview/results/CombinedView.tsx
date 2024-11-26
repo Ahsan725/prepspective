@@ -30,10 +30,11 @@ const CombinedView: React.FC = () => {
       return <Loader />;
     }
 
-    const headingClasses = "leading-tight font-semibold text-indigo-700 text-xl";
+    const headingClasses = "leading-tight font-extrabold text-xl lg:text-2xl bg-gradient-to-b from-indigo-800 via-indigo-700 to-indigo-400 text-transparent bg-clip-text text-center";
     const subheadingClasses = "leading-tight text-lg font-semibold text-indigo-600";
     const paragraphClasses = "leading-tight text-sm text-gray-800";
-    const labelClasses = "leading-tight font-semibold text-gray-600";
+    const labelClasses = "leading-tight font-semibold text-indigo-600";
+    const sublabelClasses = "leading-tight font-medium text-gray-500";
     
     switch (activeTab) {
       case 'company':
@@ -149,11 +150,11 @@ const CombinedView: React.FC = () => {
                 <div key={round.id}>
                   <h4 className={subheadingClasses}>{round.roundType}</h4>
                   <p className={paragraphClasses}>
-                    <span className={labelClasses}>Date:</span>{' '}
+                    <span className={sublabelClasses}>Date:</span>{' '}
                     {new Date(round.roundDate).toLocaleDateString()}
                   </p>
                   <p className={paragraphClasses}>
-                    <span className={labelClasses}>Experience:</span>{' '}
+                    <span className={sublabelClasses}>Experience:</span>{' '}
                     {round.experience}
                   </p>
                   {index !== interview.rounds.length - 1 && (
@@ -202,7 +203,7 @@ const CombinedView: React.FC = () => {
     <div className="flex flex-col sm:flex-row">
       {/* Search Section */}
       <div className="w-full sm:w-1/3 p-2">
-        <h1 className="text-md lg:text-lg font-medium text-indigo-700">Search Interviews</h1>
+        <h1 className="text-md lg:text-2xl text-center font-bold">Search Interviews</h1>
         <input
           type="text"
           placeholder="Search by company"
