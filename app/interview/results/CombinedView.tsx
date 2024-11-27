@@ -202,112 +202,82 @@ const CombinedView: React.FC = () => {
   return (
     <div className="flex flex-col sm:flex-row">
       {/* Search Section */}
-      <div className="w-full sm:w-1/3 p-2">
-        <h1 className="text-md lg:text-2xl text-center font-bold">Search Interviews</h1>
-        <input
-          type="text"
-          placeholder="Search by company"
-          className="w-full mt-1 mb-0 p-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-<ul className="mt-0 space-y-4 lg:max-h-[34rem] max-h-[8rem] overflow-y-auto">
-  {loading ? (
-    <div className="flex justify-center items-center h-[8rem] mt-4">
-      <Loader />
-    </div>
-  ) : filteredResults.length > 0 ? (
-    filteredResults.map((result) => {
-      const hasBehavioral = result.questions.some(
-        (q) => q.type.toLowerCase() === 'behavioral'
-      );
-      const hasTechnical = result.questions.some(
-        (q) => q.type.toLowerCase() === 'technical'
-      );
-
-      return (
-<li
-  key={result.id}
-  className={`p-1 lg:p-4 my-0 border rounded-md cursor-pointer hover:bg-gray-100 ${
-    selectedInterviewId === result.id
-      ? 'border-indigo-700 my-0 lg:p-4 p-1 bg-indigo-50 text-white border-2'
-      : ''
-  } sm:p-2 sm:border sm:rounded`}
-  onClick={() => handleViewDetails(result.id)}
->
-  <div className="font-semibold lg:text-base text-gray-900 text-xs">{result.company}</div>
-  <div className="text-xs text-gray-500 sm:text-[10px]">
-    {new Date(result.interviewDate).toLocaleDateString()}
-  </div>
-  <div className="flex flex-wrap gap-1 mt-1 sm:mt-1">
-    {result.jobOffer === true ? (
-      <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Offer
-      </span>
-    ) : result.jobOffer === false ? (
-      <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        No Offer
-      </span>
-    ) : (
-      <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Unsure
-      </span>
-    )}
-
-    {hasBehavioral && (
-      <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Behavioral
-      </span>
-    )}
-
-    {hasTechnical && (
-      <span className="px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Technical
-      </span>
-    )}
-
-    {result.rounds.some((round) =>
-      round.roundType.toLowerCase().includes('system design')
-    ) && (
-      <span className="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        System Design
-      </span>
-    )}
-
-    {result.rounds.some((round) =>
-      round.roundType.toLowerCase().includes('pre screen')
-    ) && (
-      <span className="px-2 py-1 text-xs font-semibold text-fuchsia-800 bg-fuchsia-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Pre Screen
-      </span>
-    )}
-
-    {result.rounds.some((round) =>
-      round.roundType.toLowerCase().includes('oa')
-    ) && (
-      <span className="px-2 py-1 text-xs font-semibold text-teal-800 bg-teal-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        OA
-      </span>
-    )}
-
-    {/* LeetCode Badge */}
-    {result.questions.some((q) => q.leetcodeLink) && (
-      <span className="px-2 py-1 text-xs font-semibold text-cyan-800 bg-cyan-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        LeetCode
-      </span>
-    )}
-  </div>
-</li>
-
-
-      );
-    })
-  ) : (
-    <div className="text-sm text-gray-500">No results found</div>
-  )}
-</ul>
-
+      <div className="w-full sm:w-1/3 p-2 relative">
+  <h1 className="text-md lg:text-2xl text-center font-bold">Search Interviews</h1>
+  <input
+    type="text"
+    placeholder="Search by company"
+    className="w-full mt-1 mb-0 p-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+    value={query}
+    onChange={(e) => setQuery(e.target.value)}
+  />
+  <ul className="mt-0 space-y-4 lg:max-h-[34rem] max-h-[8rem] overflow-y-auto relative">
+    {loading ? (
+      <div className="flex justify-center items-center h-[8rem] mt-4">
+        <Loader />
       </div>
+    ) : filteredResults.length > 0 ? (
+      filteredResults.map((result) => {
+        const hasBehavioral = result.questions.some(
+          (q) => q.type.toLowerCase() === 'behavioral'
+        );
+        const hasTechnical = result.questions.some(
+          (q) => q.type.toLowerCase() === 'technical'
+        );
+
+        return (
+          <li
+            key={result.id}
+            className={`p-1 lg:p-4 my-0 border rounded-md cursor-pointer hover:bg-gray-100 ${
+              selectedInterviewId === result.id
+                ? 'border-indigo-700 my-0 lg:p-4 p-1 bg-indigo-50 text-white border-2'
+                : ''
+            } sm:p-2 sm:border sm:rounded`}
+            onClick={() => handleViewDetails(result.id)}
+          >
+            <div className="font-semibold lg:text-base text-gray-900 text-xs">{result.company}</div>
+            <div className="text-xs text-gray-500 sm:text-[10px]">
+              {new Date(result.interviewDate).toLocaleDateString()}
+            </div>
+            <div className="flex flex-wrap gap-1 mt-1 sm:mt-1">
+              {result.jobOffer === true ? (
+                <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  Offer
+                </span>
+              ) : result.jobOffer === false ? (
+                <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  No Offer
+                </span>
+              ) : (
+                <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  Unsure
+                </span>
+              )}
+
+              {hasBehavioral && (
+                <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  Behavioral
+                </span>
+              )}
+
+              {hasTechnical && (
+                <span className="px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  Technical
+                </span>
+              )}
+              {/* Additional Conditions */}
+            </div>
+          </li>
+        );
+      })
+    ) : (
+      <div className="text-sm text-gray-500">No results found</div>
+    )}
+  </ul>
+  {/* Shadow Overlay */}
+  <div className="absolute bottom-0 left-0 w-full h-8 pointer-events-none bg-gradient-to-t from-gray-100 to-transparent"></div>
+</div>
+
 
       {/* Detailed View Section */}
       <div className="w-full sm:w-2/3 p-4 rounded-lg">
