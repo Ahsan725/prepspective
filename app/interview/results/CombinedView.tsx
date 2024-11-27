@@ -226,7 +226,7 @@ const CombinedView: React.FC = () => {
     value={query}
     onChange={(e) => setQuery(e.target.value)}
   />
-  <ul className="mt-0 space-y-4 lg:max-h-[34rem] max-h-[8rem] overflow-y-auto relative">
+  <ul className="mt-0 space-y-4 lg:max-h-[34rem] overflow-y-auto relative">
     {loading ? (
       <div className="flex justify-center items-center h-[8rem] mt-4">
         <Loader />
