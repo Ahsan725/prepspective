@@ -223,7 +223,7 @@ const CombinedView: React.FC = () => {
   <input
     type="text"
     placeholder="Search by company"
-    className="w-full mt-1 mb-0 p-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+    className="w-full mt-1 mb-0 p-2 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
     value={query}
     onChange={(e) => setQuery(e.target.value)}
   />
