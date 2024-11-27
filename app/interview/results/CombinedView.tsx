@@ -241,48 +241,79 @@ const CombinedView: React.FC = () => {
         );
 
         return (
-          <li
-            key={result.id}
-            className={`p-1 lg:p-4 my-0 border rounded-md cursor-pointer hover:bg-gray-100 ${
-              selectedInterviewId === result.id
-                ? 'border-indigo-700 my-0 lg:p-4 p-1 bg-indigo-50 text-white border-2'
-                : ''
-            } sm:p-2 sm:border sm:rounded`}
-            onClick={() => handleMobileRedirect(result.id)}
-          >
-            <div className="font-semibold lg:text-base text-gray-900 text-xs">{result.company}</div>
-            <div className="text-xs text-gray-500 sm:text-[10px]">
-              {new Date(result.interviewDate).toLocaleDateString()}
-            </div>
-            <div className="flex flex-wrap gap-1 mt-1 sm:mt-1">
-              {result.jobOffer === true ? (
-                <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-                  Offer
-                </span>
-              ) : result.jobOffer === false ? (
-                <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-                  No Offer
-                </span>
-              ) : (
-                <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-                  Unsure
-                </span>
-              )}
+<li
+  key={result.id}
+  className={`p-1 lg:p-4 my-0 border rounded-md cursor-pointer hover:bg-gray-100 ${
+    selectedInterviewId === result.id
+      ? 'border-indigo-700 my-0 lg:p-4 p-1 bg-indigo-50 text-white border-2'
+      : ''
+  } sm:p-2 sm:border sm:rounded`}
+  onClick={() => handleMobileRedirect(result.id)}
+>
+  <div className="font-semibold lg:text-base text-gray-900 text-sm">{result.company}</div>
+  <div className="text-xs text-gray-500 sm:text-[10px]">
+    {new Date(result.interviewDate).toLocaleDateString()}
+  </div>
+  <div className="flex flex-wrap gap-1 mt-1 sm:mt-1">
+    {result.jobOffer === true ? (
+      <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+        Job Offered
+      </span>
+    ) : result.jobOffer === false ? (
+      <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+        No Offer
+      </span>
+    ) : (
+      <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+        Unsure
+      </span>
+    )}
 
-              {hasBehavioral && (
-                <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-                  Behavioral
-                </span>
-              )}
+    {hasBehavioral && (
+      <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+        Behavioral
+      </span>
+    )}
 
-              {hasTechnical && (
-                <span className="px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-                  Technical
-                </span>
-              )}
-              {/* Additional Conditions */}
-            </div>
-          </li>
+    {hasTechnical && (
+      <span className="px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+        Technical
+      </span>
+    )}
+
+    {result.rounds.some((round) =>
+      round.roundType.toLowerCase().includes('system design')
+    ) && (
+      <span className="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+        System Design
+      </span>
+    )}
+
+    {result.rounds.some((round) =>
+      round.roundType.toLowerCase().includes('pre screen')
+    ) && (
+      <span className="px-2 py-1 text-xs font-semibold text-cyan-800 bg-cyan-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+        Pre Screen
+      </span>
+    )}
+
+    {result.rounds.some((round) =>
+      round.roundType.toLowerCase().includes('oa')
+    ) && (
+      <span className="px-2 py-1 text-xs font-semibold text-teal-800 bg-teal-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+        OA
+      </span>
+    )}
+
+    {/* LeetCode Badge */}
+    {result.questions.some((q) => q.leetcodeLink) && (
+      <span className="px-2 py-1 text-xs font-semibold text-indigo-800 bg-indigo-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+        LeetCode
+      </span>
+    )}
+  </div>
+</li>
+
         );
       })
     ) : (
@@ -295,7 +326,7 @@ const CombinedView: React.FC = () => {
 
 
       {/* Detailed View Section */}
-      <div className="w-full sm:w-2/3 p-4 rounded-lg">
+      <div className="hidden sm:block sm:w-2/3 lg:w-full p-4 rounded-lg">
         {selectedInterviewId && !interview ? (
           <div className="flex justify-center items-center min-h-[10rem]">
             <Loader />
