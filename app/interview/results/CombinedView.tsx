@@ -30,7 +30,7 @@ const CombinedView: React.FC = () => {
       return <Loader />;
     }
 
-    const headingClasses = "leading-tight font-extrabold text-xl lg:text-2xl bg-gradient-to-b from-indigo-800 via-indigo-700 to-indigo-400 text-transparent bg-clip-text text-center";
+    const headingClasses = "leading-tight font-extrabold text-xl lg:text-2xl bg-gradient-to-b from-indigo-800 via-indigo-600 to-indigo-200 text-transparent bg-clip-text text-center";
     const subheadingClasses = "leading-tight text-lg font-semibold text-indigo-600";
     const paragraphClasses = "leading-tight text-sm text-gray-800";
     const labelClasses = "leading-tight font-semibold text-indigo-600";
@@ -277,7 +277,7 @@ const CombinedView: React.FC = () => {
     {result.rounds.some((round) =>
       round.roundType.toLowerCase().includes('pre screen')
     ) && (
-      <span className="px-2 py-1 text-xs font-semibold text-cyan-800 bg-cyan-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+      <span className="px-2 py-1 text-xs font-semibold text-fuchsia-800 bg-fuchsia-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
         Pre Screen
       </span>
     )}
@@ -289,8 +289,16 @@ const CombinedView: React.FC = () => {
         OA
       </span>
     )}
+
+    {/* LeetCode Badge */}
+    {result.questions.some((q) => q.leetcodeLink) && (
+      <span className="px-2 py-1 text-xs font-semibold text-cyan-800 bg-cyan-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+        LeetCode
+      </span>
+    )}
   </div>
 </li>
+
 
       );
     })
