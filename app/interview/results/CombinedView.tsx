@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge';
 import Loader from '@/components/ui/loader';
 import { Building, MessageCircle, Star, List, CheckCircle } from 'lucide-react';
 import { useCombinedViewData } from './useCombinedViewData';
-import { isNull } from 'drizzle-orm';
 import { useRouter } from 'next/navigation';
 
 
@@ -45,11 +44,11 @@ const CombinedView: React.FC = () => {
       return <Loader />;
     }
 
-    const headingClasses = "leading-tight font-extrabold text-xl lg:text-2xl bg-gradient-to-b from-indigo-800 via-indigo-600 to-indigo-200 text-transparent bg-clip-text text-center";
+    const headingClasses = "leading-tight font-bold text-xl lg:text-2xl text-center";
     const subheadingClasses = "leading-tight text-lg font-semibold text-indigo-600";
-    const paragraphClasses = "leading-tight text-sm text-gray-800";
+    const paragraphClasses = "text-md font-light text-gray-700";
     const labelClasses = "leading-tight font-semibold text-indigo-600";
-    const sublabelClasses = "leading-tight font-medium text-gray-500";
+    const sublabelClasses = "leading-tight text-sm font-medium text-gray-500";
     
     switch (activeTab) {
       case 'company':
@@ -59,15 +58,15 @@ const CombinedView: React.FC = () => {
             <hr className="border-t border-gray-300 my-4" />
             <div className="mt-4 space-y-2">
               <p>
-                <span className={labelClasses}>Company:</span>{' '}
+                <span className={sublabelClasses}></span>{' '}
                 <span className={`${paragraphClasses} text-xl font-semibold`}>{interview.company}</span>
               </p>
               <p>
-                <span className={labelClasses}>Interview Date:</span>{' '}
+                <span className={sublabelClasses}>Interview Date:</span>{' '}
                 <span className={paragraphClasses}>{interview.interviewDate}</span>
               </p>
               <p>
-  <span className={labelClasses}>Job Offer:</span>{' '}
+  <span className={sublabelClasses}>Job Offer:</span>{' '}
   {interview.jobOffer === true ? (
     <Badge className="bg-green-100 text-green-800">Yes</Badge>
   ) : interview.jobOffer === false ? (
@@ -80,7 +79,7 @@ const CombinedView: React.FC = () => {
 </p>
 
               <p>
-                <span className={labelClasses}>Overall Experience:</span>{' '}
+                <span className={sublabelClasses}>Overall Experience:</span>{' '}
                 <span className={paragraphClasses}>{interview.overallExperience}</span>
               </p>
             </div>
@@ -147,7 +146,7 @@ const CombinedView: React.FC = () => {
             <ul className="mt-4 space-y-2">
               {interview.ratings.map((r) => (
                 <li key={r.id} className={paragraphClasses}>
-                  <span className={labelClasses}>{r.category}:</span>{' '}
+                  <span className={subheadingClasses}>{r.category}:</span>{' '}
                   <span>{r.score}/5</span>
                 </li>
               ))}
