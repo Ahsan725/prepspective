@@ -235,14 +235,14 @@ const CombinedView: React.FC = () => {
   } sm:p-2 sm:border sm:rounded`}
   onClick={() => handleViewDetails(result.id)}
 >
-  <div className="font-semibold lg:text-base text-gray-900 text-sm">{result.company}</div>
+  <div className="font-semibold lg:text-base text-gray-900 text-xs">{result.company}</div>
   <div className="text-xs text-gray-500 sm:text-[10px]">
     {new Date(result.interviewDate).toLocaleDateString()}
   </div>
   <div className="flex flex-wrap gap-1 mt-1 sm:mt-1">
     {result.jobOffer === true ? (
       <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Job Offered
+        Offer
       </span>
     ) : result.jobOffer === false ? (
       <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
