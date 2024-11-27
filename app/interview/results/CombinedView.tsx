@@ -384,7 +384,7 @@ const CombinedView: React.FC = () => {
                 ))}
               </ul>
             </div>
-            {renderContent()}
+            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg mt-4">{renderContent()}</div>
           </>
         ) : (
           <div className="text-sm text-gray-500 text-center">
