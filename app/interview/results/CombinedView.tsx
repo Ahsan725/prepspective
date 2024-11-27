@@ -252,7 +252,7 @@ const CombinedView: React.FC = () => {
 </div>
 
 
-  <ul className="mt-0 space-y-4 lg:max-h-[34rem] max-h-[34rem] overflow-y-auto relative">
+  <ul className="mt-0 space-y-4 lg:max-h-[28rem] max-h-[20rem] overflow-y-auto relative">
     {loading ? (
       <div className="flex justify-center items-center h-[8rem] mt-4">
         <Loader />
