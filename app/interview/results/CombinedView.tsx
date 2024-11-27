@@ -21,6 +21,8 @@ const CombinedView: React.FC = () => {
     activeTab,
     setActiveTab,
     handleViewDetails,
+    selectedBadges,
+    setSelectedBadges,
   } = useCombinedViewData();
 
   const router = useRouter();
@@ -225,6 +227,31 @@ const CombinedView: React.FC = () => {
     value={query}
     onChange={(e) => setQuery(e.target.value)}
   />
+
+  {/* Badge Filters */}
+<div className="flex flex-wrap gap-2 mb-4 mt-4">
+  {['LeetCode', 'System Design', 'Pre Screen', 'OA', 'Behavioral', 'Technical'].map((badge) => (
+    <button
+      key={badge}
+      className={`px-3 py-1 text-xs font-semibold rounded-full ${
+        selectedBadges.includes(badge)
+          ? 'bg-indigo-500 text-white'
+          : 'bg-gray-100 text-gray-700'
+      }`}
+      onClick={() => {
+        setSelectedBadges((prev) =>
+          prev.includes(badge)
+            ? prev.filter((selected) => selected !== badge) // Remove badge if already selected
+            : [...prev, badge] // Add badge if not already selected
+        );
+      }}
+    >
+      {badge}
+    </button>
+  ))}
+</div>
+
+
   <ul className="mt-0 space-y-4 lg:max-h-[34rem] max-h-[34rem] overflow-y-auto relative">
     {loading ? (
       <div className="flex justify-center items-center h-[8rem] mt-4">
@@ -240,79 +267,78 @@ const CombinedView: React.FC = () => {
         );
 
         return (
-<li
-  key={result.id}
-  className={`p-1 lg:p-4 my-0 border rounded-md cursor-pointer hover:bg-gray-100 ${
-    selectedInterviewId === result.id
-      ? 'border-indigo-700 my-0 lg:p-4 p-1 bg-indigo-50 text-white border-2'
-      : ''
-  } sm:p-2 sm:border sm:rounded`}
-  onClick={() => handleMobileRedirect(result.id)}
->
-  <div className="font-semibold lg:text-base text-gray-900 text-sm">{result.company}</div>
-  <div className="text-xs text-gray-500 sm:text-[10px]">
-    {new Date(result.interviewDate).toLocaleDateString()}
-  </div>
-  <div className="flex flex-wrap gap-1 mt-1 sm:mt-1">
-    {result.jobOffer === true ? (
-      <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Job Offered
-      </span>
-    ) : result.jobOffer === false ? (
-      <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        No Offer
-      </span>
-    ) : (
-      <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Unsure
-      </span>
-    )}
+          <li
+            key={result.id}
+            className={`p-1 lg:p-4 my-0 border rounded-md cursor-pointer hover:bg-gray-100 ${
+              selectedInterviewId === result.id
+                ? 'border-indigo-700 my-0 lg:p-4 p-1 bg-indigo-50 text-white border-2'
+                : ''
+            } sm:p-2 sm:border sm:rounded`}
+            onClick={() => handleMobileRedirect(result.id)}
+          >
+            <div className="font-semibold lg:text-base text-gray-900 text-sm">{result.company}</div>
+            <div className="text-xs text-gray-500 sm:text-[10px]">
+              {new Date(result.interviewDate).toLocaleDateString()}
+            </div>
+            <div className="flex flex-wrap gap-1 mt-1 sm:mt-1">
+              {result.jobOffer === true ? (
+                <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  Job Offered
+                </span>
+              ) : result.jobOffer === false ? (
+                <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  No Offer
+                </span>
+              ) : (
+                <span className="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  Unsure
+                </span>
+              )}
 
-    {hasBehavioral && (
-      <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Behavioral
-      </span>
-    )}
+              {hasBehavioral && (
+                <span className="px-2 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  Behavioral
+                </span>
+              )}
 
-    {hasTechnical && (
-      <span className="px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Technical
-      </span>
-    )}
+              {hasTechnical && (
+                <span className="px-2 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  Technical
+                </span>
+              )}
 
-    {result.rounds.some((round) =>
-      round.roundType.toLowerCase().includes('system design')
-    ) && (
-      <span className="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        System Design
-      </span>
-    )}
+              {result.rounds.some((round) =>
+                round.roundType.toLowerCase().includes('system design')
+              ) && (
+                <span className="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  System Design
+                </span>
+              )}
 
-    {result.rounds.some((round) =>
-      round.roundType.toLowerCase().includes('pre screen')
-    ) && (
-      <span className="px-2 py-1 text-xs font-semibold text-cyan-800 bg-cyan-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        Pre Screen
-      </span>
-    )}
+              {result.rounds.some((round) =>
+                round.roundType.toLowerCase().includes('pre screen')
+              ) && (
+                <span className="px-2 py-1 text-xs font-semibold text-cyan-800 bg-cyan-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  Pre Screen
+                </span>
+              )}
 
-    {result.rounds.some((round) =>
-      round.roundType.toLowerCase().includes('oa')
-    ) && (
-      <span className="px-2 py-1 text-xs font-semibold text-fuchsia-800 bg-fuchsia-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        OA
-      </span>
-    )}
+              {result.rounds.some((round) =>
+                round.roundType.toLowerCase().includes('oa')
+              ) && (
+                <span className="px-2 py-1 text-xs font-semibold text-fuchsia-800 bg-fuchsia-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  OA
+                </span>
+              )}
 
-    {/* LeetCode Badge */}
-    {result.questions.some((q) => q.leetcodeLink) && (
-      <span className="px-2 py-1 text-xs font-semibold text-teal-800 bg-teal-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-        LeetCode
-      </span>
-    )}
-  </div>
-</li>
-
+              {/* LeetCode Badge */}
+              {result.questions.some((q) => q.leetcodeLink) && (
+                <span className="px-2 py-1 text-xs font-semibold text-teal-800 bg-teal-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                  LeetCode
+                </span>
+              )}
+            </div>
+          </li>
         );
       })
     ) : (
@@ -322,6 +348,7 @@ const CombinedView: React.FC = () => {
   {/* Shadow Overlay */}
   <div className=""></div>
 </div>
+
 
 
       {/* Detailed View Section */}

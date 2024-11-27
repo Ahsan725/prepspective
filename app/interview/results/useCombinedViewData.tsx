@@ -41,13 +41,14 @@ export const useCombinedViewData = () => {
   const [filteredResults, setFilteredResults] = useState<Interview[]>([]);
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectedBadges, setSelectedBadges] = useState<string[]>([]); // Allow multiple badges
 
   const [selectedInterviewId, setSelectedInterviewId] = useState<number | null>(null);
   const [interview, setInterview] = useState<Interview | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>('company');
 
-  // Fetch all results  s
+  // Fetch all results
   const fetchResults = async () => {
     setLoading(true);
     try {
@@ -69,18 +70,55 @@ export const useCombinedViewData = () => {
     fetchResults();
   }, []);
 
-  // Filter results dynamically based on the query
+  // Filter results dynamically based on the query and selected badges
   useEffect(() => {
-    if (query.trim() === '') {
-      setFilteredResults(results);
-    } else {
+    let filtered = results;
+
+    if (query.trim()) {
       const lowerCaseQuery = query.toLowerCase();
-      const filtered = results.filter((r) =>
+      filtered = filtered.filter((r) =>
         r.company.toLowerCase().includes(lowerCaseQuery)
       );
-      setFilteredResults(filtered);
     }
-  }, [query, results]);
+
+    if (selectedBadges.length > 0) {
+      filtered = filtered.filter((r) => {
+        return selectedBadges.every((badge) => {
+          if (badge === 'LeetCode') {
+            return r.questions.some((q) => q.leetcodeLink);
+          }
+          if (badge === 'System Design') {
+            return r.rounds.some((round) =>
+              round.roundType.toLowerCase().includes('system design')
+            );
+          }
+          if (badge === 'Pre Screen') {
+            return r.rounds.some((round) =>
+              round.roundType.toLowerCase().includes('pre screen')
+            );
+          }
+          if (badge === 'OA') {
+            return r.rounds.some((round) =>
+              round.roundType.toLowerCase().includes('oa')
+            );
+          }
+          if (badge === 'Behavioral') {
+            return r.questions.some(
+              (q) => q.type.toLowerCase() === 'behavioral'
+            );
+          }
+          if (badge === 'Technical') {
+            return r.questions.some(
+              (q) => q.type.toLowerCase() === 'technical'
+            );
+          }
+          return false;
+        });
+      });
+    }
+
+    setFilteredResults(filtered);
+  }, [query, results, selectedBadges]);
 
   // Fetch interview details
   const fetchInterview = async (id: number) => {
@@ -114,5 +152,7 @@ export const useCombinedViewData = () => {
     activeTab,
     setActiveTab,
     handleViewDetails,
+    selectedBadges,
+    setSelectedBadges, // Add setter for badges
   };
 };
