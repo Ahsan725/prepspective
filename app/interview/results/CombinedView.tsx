@@ -6,6 +6,8 @@ import Loader from '@/components/ui/loader';
 import { Building, MessageCircle, Star, List, CheckCircle } from 'lucide-react';
 import { useCombinedViewData } from './useCombinedViewData';
 import { isNull } from 'drizzle-orm';
+import { useRouter } from 'next/navigation';
+
 
 const CombinedView: React.FC = () => {
   const {
@@ -21,6 +23,19 @@ const CombinedView: React.FC = () => {
     setActiveTab,
     handleViewDetails,
   } = useCombinedViewData();
+
+  const router = useRouter();
+
+  // Check if the device is mobile
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+
+  const handleMobileRedirect = (id: number) => {
+    if (isMobile) {
+      router.push(`/interview/results/${id}`);
+    } else {
+      handleViewDetails(id); // Desktop behavior
+    }
+  };
 
   const renderContent = () => {
     if (error) {
@@ -233,7 +248,7 @@ const CombinedView: React.FC = () => {
                 ? 'border-indigo-700 my-0 lg:p-4 p-1 bg-indigo-50 text-white border-2'
                 : ''
             } sm:p-2 sm:border sm:rounded`}
-            onClick={() => handleViewDetails(result.id)}
+            onClick={() => handleMobileRedirect(result.id)}
           >
             <div className="font-semibold lg:text-base text-gray-900 text-xs">{result.company}</div>
             <div className="text-xs text-gray-500 sm:text-[10px]">
