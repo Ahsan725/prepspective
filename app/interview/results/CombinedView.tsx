@@ -113,7 +113,7 @@ const CombinedView: React.FC = () => {
                             rel="noopener noreferrer"
                             className="ml-2 text-indigo-500 underline"
                           >
-                            View on LeetCode
+                            Open Link
                           </a>
                         )}
                       </li>
@@ -199,7 +199,7 @@ const CombinedView: React.FC = () => {
                     rel="noopener noreferrer"
                     className="ml-2 text-indigo-500 underline"
                   >
-                    View on LeetCode
+                    Open Link
                   </a>
                 </li>
               ))}
@@ -299,14 +299,14 @@ const CombinedView: React.FC = () => {
     {result.rounds.some((round) =>
       round.roundType.toLowerCase().includes('oa')
     ) && (
-      <span className="px-2 py-1 text-xs font-semibold text-teal-800 bg-teal-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+      <span className="px-2 py-1 text-xs font-semibold text-fuchsia-800 bg-fuchsia-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
         OA
       </span>
     )}
 
     {/* LeetCode Badge */}
     {result.questions.some((q) => q.leetcodeLink) && (
-      <span className="px-2 py-1 text-xs font-semibold text-indigo-800 bg-indigo-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+      <span className="px-2 py-1 text-xs font-semibold text-teal-800 bg-teal-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
         LeetCode
       </span>
     )}
@@ -320,7 +320,7 @@ const CombinedView: React.FC = () => {
     )}
   </ul>
   {/* Shadow Overlay */}
-  <div className="absolute bottom-0 left-0 w-full h-8 pointer-events-none bg-gradient-to-t from-gray-100 to-transparent"></div>
+  <div className=""></div>
 </div>
 
 
