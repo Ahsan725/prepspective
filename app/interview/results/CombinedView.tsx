@@ -47,8 +47,8 @@ const CombinedView: React.FC = () => {
     }
 
     const headingClasses = "leading-tight font-bold text-xl lg:text-2xl text-center";
-    const subheadingClasses = "leading-tight text-lg font-semibold text-indigo-600";
-    const paragraphClasses = "text-md font-light text-gray-700";
+    const subheadingClasses = "leading-tight text-md font-semibold text-indigo-600";
+    const paragraphClasses = "text-sm font-light text-gray-700";
     const labelClasses = "leading-tight font-semibold text-indigo-600";
     const sublabelClasses = "leading-tight text-sm font-medium text-gray-500";
     
@@ -352,7 +352,7 @@ const CombinedView: React.FC = () => {
 
 
       {/* Detailed View Section */}
-      <div className="hidden sm:block sm:w-2/3 lg:w-full p-4 rounded-lg">
+      <div className="hidden sm:block sm:w-2/3 lg:w-full p-4 rounded-lg mx-2">
         {selectedInterviewId && !interview ? (
           <div className="flex justify-center items-center min-h-[10rem]">
             <Loader />
@@ -373,8 +373,8 @@ const CombinedView: React.FC = () => {
                       onClick={() => setActiveTab(key)}
                       className={`flex items-center gap-1 px-3 py-2 rounded-md ${
                         activeTab === key
-                          ? 'bg-indigo-700 text-white'
-                          : 'text-gray-600 hover:text-indigo-700'
+                          ? 'text-white bg-indigo-700 font-semibold border-indigo-600 rounded-t-lg px-4 py-2 dark:text-indigo-500 dark:border-indigo-500'
+                          : 'border-transparent px-4 py-2 font-semibold hover:text-indigo-700 hover:border-indigo-700 dark:hover:text-gray-300'
                       }`}
                     >
                       {icon}
