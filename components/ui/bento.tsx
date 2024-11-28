@@ -75,11 +75,10 @@ const FeaturesGrid: React.FC = () => {
               </div>
               <div className="border-t border-white/30 mt-6 pt-4 w-full">
                 <h3 className="text-lg font-semibold text-white">
-                  Built for the Community
+                Can&apos;t Believe It&apos;s Free
                 </h3>
                 <p className="mt-2 text-sm text-white">
-                  Join events, share insights, and collaborate with others to
-                  grow and succeed in your career.
+Unlike pricey platforms like LeetCode Premium or Glassdoor, PrepSpective is completely free and focused on eliminating the frustration of outdated or mislabeled information.TLDR for Reddit minus the sassiness.  
                 </p>
               </div>
             </div>
@@ -137,14 +136,21 @@ const FeaturesGrid: React.FC = () => {
                 Infinite Possibilities
               </p>
               <p className="mt-4 text-sm/6 text-white">
-                Empower yourself with everything from timelines to question
-                types for confident interview preparation.
+              PrepSpective brings everything from timelines to question and all interview experiences together in one place, making it easy to find the exact information you need for your target company and role.
               </p>
               <div className="border-t border-white/30 mt-6 pt-4 w-full">
                 <h3 className="text-lg font-semibold text-white">Built for the Community</h3>
                 <p className="mt-2 text-sm text-white">
                   Join events, share insights, and collaborate with others to
                   grow and succeed in your career.
+                </p>
+              </div>
+              <div className="border-t border-white/30 mt-6 pt-4 w-full">
+                <h3 className="text-lg font-semibold text-white">
+                Prepare Smarter, Not Harder
+                </h3>
+                <p className="mt-2 text-sm text-white">
+                Understand company-specific trends, question patterns, interview formats, rounds, evaluation criteria and difficulty levels to optimize time spent prepping.
                 </p>
               </div>
             </div>
