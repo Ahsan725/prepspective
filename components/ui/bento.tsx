@@ -75,7 +75,7 @@ const FeaturesGrid: React.FC = () => {
               </div>
               <div className="border-t border-white/30 mt-6 pt-4 w-full">
                 <h3 className="text-lg font-semibold text-white">
-                Can&apos;t Believe It&apos;s Free
+                Can&apos;t Believe It&apos;s Free!
                 </h3>
                 <p className="mt-2 text-sm text-white">
 Unlike pricey platforms like LeetCode Premium or Glassdoor, PrepSpective is completely free and focused on eliminating the frustration of outdated or mislabeled information.TLDR for Reddit minus the sassiness.  
