@@ -34,7 +34,7 @@ const CombinedView: React.FC = () => {
     if (isMobile) {
       router.push(`/interview/results/${id}`);
     } else {
-      handleViewDetails(id); // Desktop behavior
+      handleViewDetails(id); // Desktop behavior is enabled by this
     }
   };
 
