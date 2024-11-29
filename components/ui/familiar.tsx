@@ -77,7 +77,7 @@ const Testimonial14 = () => {
       </div>
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
-        Wait... is this show about me?
+        This feels oddly familiar...
         </h2>
         <p className="md:w-1/2 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
           
