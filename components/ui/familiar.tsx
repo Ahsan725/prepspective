@@ -14,37 +14,37 @@ const testimonials = [
   {
     id: 'testimonial-1',
     heading: 'The Reddit Rabbit Hole',
-    text: 'You finally land an interview at your dream company, but panic sets in—what do they even ask? Suddenly, you’re neck-deep in Reddit threads, wading through sass, memes, and two-year-old "vague experiences" that might as well be bedtime stories. By the time you’ve pieced together what might happen, you’ve lost precious prep time. Enter PrepSpective: no sass, no fluff—just clear, accurate insights.',
+    text: 'You finally land an interview at your dream company, but panic sets in—what do they even ask? Suddenly, you’re neck-deep in Reddit threads, wading through sass, memes, and two-year-old "vague experiences" that might as well be bedtime stories. By the time you’ve pieced together what might happen, you’ve lost precious prep time.',
   },
   {
     id: 'testimonial-2',
     heading: 'Glassdoor Guesswork',
-    text: 'You’re searching for "Software Engineer Intern interviews" on Glassdoor and end up reading about marketing intern interviews. The only takeaway? The office has free coffee. PrepSpective? No irrelevant roles, no clutter—just the exact information you need to crush your interview.',
+    text: 'You’re searching for "Software Engineer Intern interviews" on Glassdoor and end up reading about marketing intern interviews for that company. The only takeaway? The office has free coffee. PrepSpective? No irrelevant roles, no clutter—just the exact information you need to crush your interview.',
   },
   {
     id: 'testimonial-3',
-    heading: 'The LeetCode Premium Gamble',
-    text: 'You’ve shelled out for LeetCode Premium to unlock “company-specific” questions, only to discover Meta tagged with dynamic programming. (Spoiler: Meta doesn’t ask DP questions.) PrepSpective solves this with reliable, community-driven insights that keep you focused on what actually matters.',
+    heading: 'The Premium Gamble',
+    text: 'You’ve shelled out for LeetCode Premium to unlock “company-specific” questions, only to discover inaccurate and outdated tags. Not to mention not everyone is fortunate enough to have money to spend on false promises. PrepSpective solves this with reliable, community-driven insights that keep you focused on what actually matters.',
   },
   {
     id: 'testimonial-4',
-    heading: 'The Recruiter Black Hole',
-    text: 'You finish your interview, unsure if you crushed it or bombed it. Weeks go by with no callback. Did they love your problem-solving skills or hate your edge-case explanation? With PrepSpective, read real experiences so you’ll know what’s normal and what’s worth stressing over.',
+    heading: 'Got Ghosted Again?',
+    text: 'You finish your interview, unsure if you crushed it or bombed it. Weeks go by with no callback. Did they love your problem-solving skills or hate your edge-case explanation? With PrepSpective, read real experiences so you’ll know what’s the normal timeline to hear back and what’s worth stressing over.',
   },
   {
     id: 'testimonial-5',
-    heading: 'Speed vs. Depth Dilemma',
-    text: 'You ace your first question, explaining every detail, only to realize you’ve got five minutes left for the second. Turns out, the expectation was solving two questions to pass. Ouch. PrepSpective prepares you for time management with insights on interview formats and pacing.',
+    heading: 'Hidden rubric',
+    text: 'You ace your first question, explaining every detail, only to realize you’ve got five minutes left for the second. Turns out, the expectation was solving two questions to pass. Ouch. PrepSpective prepares you for interview formats and pacing by sharing the interview format and pattern.',
   },
   {
     id: 'testimonial-6',
-    heading: 'The Generic Advice Void',
-    text: 'Most prep platforms offer cookie-cutter advice: “Just practice more!” But how do you practice for a system design round when you expected algorithms? PrepSpective ensures you know exactly what to prep for, no generic advice required.',
+    heading: 'One Size Does Not Fit All',
+    text: 'Most prep platforms offer cookie-cutter advice: “Just practice more!” But how do you practice for an interview round you did not know was part of the hiring process. PrepSpective ensures you know exactly what to prep for, no generic advice required.',
   },
   {
     id: 'testimonial-7',
-    heading: 'Free-But-Not-Really Platforms',
-    text: 'Sure, Glassdoor and Reddit are “free,” but the hours you’ll waste sorting through junk content? Priceless. And don’t even get us started on LeetCode Premium draining your wallet. PrepSpective? 100% free, with high-quality, organized content made by people who get it.',
+    heading: 'Free-But-Not-Really',
+    text: 'Sure, Glassdoor and Reddit are “free,” but the hours you’ll waste sorting through junk content? And don’t even get us started on LeetCode Premium draining your wallet. PrepSpective? 100% free, with high-quality, organized content made by people who walked so you could run.',
   },
 ];
 
@@ -116,7 +116,7 @@ const Testimonial14 = () => {
               <button
                 key={testimonial.id}
                 className={`w-3 h-3 rounded-full ${
-                  index === current ? 'bg-blue-700' : 'bg-gray-300'
+                  index === current ? 'bg-blue-600' : 'bg-gray-300'
                 }`}
                 onClick={() => api?.scrollTo(index)}
                 aria-label={`Go to slide ${index + 1}`}

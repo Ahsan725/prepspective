@@ -138,7 +138,7 @@ const CustomHero = () => {
 
         {/* Waitlist Count */}
         <p className="whitespace-pre-wrap tracking-tighter">
-          <NumberTicker value={count + 1003} className="text-xl text-indigo-600 font-extrabold" /> people have already joined the waitlist!
+          <NumberTicker value={count + 163} className="text-xl text-indigo-600 font-extrabold" /> people have already joined the waitlist!
         </p>
 
         {/* Waitlist Form */}

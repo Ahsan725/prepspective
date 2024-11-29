@@ -51,7 +51,7 @@ const FeaturesGrid: React.FC = () => {
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800 lg:rounded-l-[2rem]"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)] px-8 py-8">
               {isVisible && (
-                <p className="whitespace-pre-wrap tracking-tighter text-6xl font-bold text-white">
+                <p className="whitespace-pre-wrap tracking-tighter text-8xl font-bold text-white">
                   <NumberTicker value={1000} className="text-white tracking-tighter" />+
                 </p>
               )}
@@ -87,7 +87,7 @@ Unlike pricey platforms like LeetCode Premium or Glassdoor, PrepSpective is comp
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-200 via-indigo-100 to-indigo-50 max-lg:rounded-t-[2rem]"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)] px-8 py-8">
               {isVisible && (
-                <p className="whitespace-pre-wrap tracking-tighter text-6xl font-bold text-indigo-700">
+                <p className="whitespace-pre-wrap tracking-tighter text-8xl font-bold text-indigo-700">
                   <NumberTicker value={500} className="text-indigo-700 tracking-tighter" />+
                 </p>
               )}
@@ -106,7 +106,7 @@ Unlike pricey platforms like LeetCode Premium or Glassdoor, PrepSpective is comp
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-50 via-indigo-100 to-indigo-200"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] px-8 py-8">
               {isVisible && (
-                <p className="whitespace-pre-wrap tracking-tighter text-6xl font-bold text-indigo-700">
+                <p className="whitespace-pre-wrap tracking-tighter text-8xl font-bold text-indigo-700">
                   <NumberTicker value={10} className="text-indigo-700 tracking-tighter" />X
                 </p>
               )}
@@ -124,9 +124,9 @@ Unlike pricey platforms like LeetCode Premium or Glassdoor, PrepSpective is comp
           <div className="relative lg:row-span-2 flex items-center justify-center text-center py-8">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)] px-8 py-8">
-                          {/* <p className="text-6xl font-bold text-white">1 Platform</p> */}
+                          {/* <p className="text-7xl font-bold text-white">1 Platform</p> */}
                           {/* <HyperText
-      className="text-6xl font-Optima font-bold text-white"
+      className="text-7xl font-Optima font-bold text-white"
       text="1 Platform"
                           /> */}
                           <SparklesText text="1 Platform" className="text-6xl font-Optima font-bold text-white" />
