@@ -51,7 +51,7 @@ const FeaturesGrid: React.FC = () => {
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800 lg:rounded-l-[2rem]"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)] px-8 py-8">
               {isVisible && (
-                <p className="whitespace-pre-wrap tracking-tighter text-8xl font-bold text-white">
+                <p className="whitespace-pre-wrap tracking-tighter text-6xl font-bold text-white">
                   <NumberTicker value={1000} className="text-white tracking-tighter" />+
                 </p>
               )}
@@ -87,7 +87,7 @@ Unlike pricey platforms like LeetCode Premium or Glassdoor, PrepSpective is comp
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-200 via-indigo-100 to-indigo-50 max-lg:rounded-t-[2rem]"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)] px-8 py-8">
               {isVisible && (
-                <p className="whitespace-pre-wrap tracking-tighter text-8xl font-bold text-indigo-700">
+                <p className="whitespace-pre-wrap tracking-tighter text-6xl font-bold text-indigo-700">
                   <NumberTicker value={500} className="text-indigo-700 tracking-tighter" />+
                 </p>
               )}
@@ -106,7 +106,7 @@ Unlike pricey platforms like LeetCode Premium or Glassdoor, PrepSpective is comp
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-50 via-indigo-100 to-indigo-200"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] px-8 py-8">
               {isVisible && (
-                <p className="whitespace-pre-wrap tracking-tighter text-8xl font-bold text-indigo-700">
+                <p className="whitespace-pre-wrap tracking-tighter text-6xl font-bold text-indigo-700">
                   <NumberTicker value={10} className="text-indigo-700 tracking-tighter" />X
                 </p>
               )}
@@ -114,7 +114,7 @@ Unlike pricey platforms like LeetCode Premium or Glassdoor, PrepSpective is comp
                 Faster Prep Time
               </p>
               <p className="mt-4 text-sm/6 text-indigo-700">
-                Real interview questions organized by difficulty, type, and
+              Achieve in hours what used to take days. Interview questions organized by difficulty, type, and
                 company for targeted preparation.
               </p>
             </div>

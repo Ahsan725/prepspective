@@ -13,37 +13,37 @@ import {
 const testimonials = [
   {
     id: 'testimonial-1',
-    heading: 'The Reddit Rabbit Hole',
+    heading: '',
     text: 'You finally land an interview at your dream company, but panic sets in—what do they even ask? Suddenly, you’re neck-deep in Reddit threads, wading through sass, memes, and two-year-old "vague experiences" that might as well be bedtime stories. By the time you’ve pieced together what might happen, you’ve lost precious prep time.',
   },
   {
     id: 'testimonial-2',
-    heading: 'Glassdoor Guesswork',
+    heading: '',
     text: 'You’re searching for "Software Engineer Intern interviews" on Glassdoor and end up reading about marketing intern interviews for that company. The only takeaway? The office has free coffee. PrepSpective? No irrelevant roles, no clutter—just the exact information you need to crush your interview.',
   },
   {
     id: 'testimonial-3',
-    heading: 'The Premium Gamble',
+    heading: '',
     text: 'You’ve shelled out for LeetCode Premium to unlock “company-specific” questions, only to discover inaccurate and outdated tags. Not to mention not everyone is fortunate enough to have money to spend on false promises. PrepSpective solves this with reliable, community-driven insights that keep you focused on what actually matters.',
   },
   {
     id: 'testimonial-4',
-    heading: 'Got Ghosted Again?',
+    heading: '',
     text: 'You finish your interview, unsure if you crushed it or bombed it. Weeks go by with no callback. Did they love your problem-solving skills or hate your edge-case explanation? With PrepSpective, read real experiences so you’ll know what’s the normal timeline to hear back and what’s worth stressing over.',
   },
   {
     id: 'testimonial-5',
-    heading: 'Hidden rubric',
+    heading: '',
     text: 'You ace your first question, explaining every detail, only to realize you’ve got five minutes left for the second. Turns out, the expectation was solving two questions to pass. Ouch. PrepSpective prepares you for interview formats and pacing by sharing the interview format and pattern.',
   },
   {
     id: 'testimonial-6',
-    heading: 'One Size Does Not Fit All',
+    heading: '',
     text: 'Most prep platforms offer cookie-cutter advice: “Just practice more!” But how do you practice for an interview round you did not know was part of the hiring process. PrepSpective ensures you know exactly what to prep for, no generic advice required.',
   },
   {
     id: 'testimonial-7',
-    heading: 'Free-But-Not-Really',
+    heading: '',
     text: 'Sure, Glassdoor and Reddit are “free,” but the hours you’ll waste sorting through junk content? And don’t even get us started on LeetCode Premium draining your wallet. PrepSpective? 100% free, with high-quality, organized content made by people who walked so you could run.',
   },
 ];
@@ -77,7 +77,7 @@ const Testimonial14 = () => {
       </div>
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
-        This feels oddly familiar...
+        Does This Sound familiar...
         </h2>
         <p className="md:w-1/2 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
           
