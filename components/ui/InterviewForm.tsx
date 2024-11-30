@@ -9,7 +9,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { format, parse } from 'date-fns';
 import Select from 'react-select';
 import { useToast } from '@/hooks/use-toast';
-
+import Loader from "@/components/ui/loader";
 
 type Question = {
   type: 'behavioral' | 'technical';
@@ -31,7 +31,7 @@ type Round = {
 type FormData = {
   company: string;
   interviewDate: string;
-  jobOffer: boolean | null; // Updated to include null
+  jobOffer: boolean | null;
   overallExperience: string;
   questions: Question[];
   ratings: Rating[];
@@ -39,69 +39,26 @@ type FormData = {
 };
 
 const topTechCompanies = [
-  "Google",
-  "Amazon",
-  "Meta (Facebook)",
-  "Apple",
-  "Microsoft",
-  "Netflix",
-  "Tesla",
-  "Adobe",
-  "Salesforce",
-  "Intel",
-  "IBM",
-  "Cisco",
-  "Oracle",
-  "NVIDIA",
-  "Zoom",
-  "Spotify",
-  "Twitter",
-  "Snapchat",
-  "Slack",
-  "Dropbox",
-  "Uber",
-  "Lyft",
-  "Airbnb",
-  "Square",
-  "Shopify",
-  "Stripe",
-  "PayPal",
-  "eBay",
-  "Dell",
-  "HP",
-  "Samsung",
-  "TikTok",
-  "Pinterest",
-  "Reddit",
-  "Quora",
-  "LinkedIn",
-  "GitHub",
-  "Atlassian",
-  "Twilio",
-  "Cloudflare",
-  "Coinbase",
-  "Block",
-  "Robinhood",
-  "Datadog",
-  "MongoDB",
-  "Snowflake",
-  "Zscaler",
-  "Okta",
-  "Elastic",
-  "HubSpot",
-  "ZoomInfo",
+  'Google',
+  'Amazon',
+  'Meta (Facebook)',
+  'Apple',
+  'Microsoft',
+  'Netflix',
+  'Tesla',
 ];
 
 const InterviewForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     company: '',
     interviewDate: '',
-    jobOffer: false,
+    jobOffer: null,
     overallExperience: '',
     questions: [],
     ratings: [],
     rounds: [],
   });
+
   const { toast } = useToast();
 
   const [currentTab, setCurrentTab] = useState<'basic' | 'questions' | 'ratings' | 'rounds'>(
@@ -113,7 +70,9 @@ const InterviewForm: React.FC = () => {
     question: '',
     leetcodeLink: '',
   });
+
   const [currentRating, setCurrentRating] = useState<Rating>({ category: '', score: 0 });
+
   const [currentRound, setCurrentRound] = useState<Round>({
     roundType: '',
     roundDate: '',
@@ -125,8 +84,9 @@ const InterviewForm: React.FC = () => {
     value: string | boolean | null | Question[] | Rating[] | Round[]
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-  };  
+  };
 
+  const [loading, setLoading] = useState(false); // State to track loading
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,6 +98,8 @@ const InterviewForm: React.FC = () => {
       });
       return;
     }
+  
+    setLoading(true); // Set loading to true when submitting
   
     try {
       const res = await fetch('/api/interviews', {
@@ -151,17 +113,16 @@ const InterviewForm: React.FC = () => {
           title: 'Success',
           description: 'Interview entry submitted successfully!',
         });
-  
         setFormData({
           company: '',
           interviewDate: '',
-          jobOffer: false,
+          jobOffer: null,
           overallExperience: '',
           questions: [],
           ratings: [],
           rounds: [],
         });
-        setCurrentTab('basic'); // Reset to the first tab
+        setCurrentTab('basic');
       } else {
         toast({
           title: 'Failed to Save',
@@ -174,63 +135,72 @@ const InterviewForm: React.FC = () => {
         title: 'Unexpected Error',
         description: 'An unexpected error occurred. Please try again later.',
       });
+    } finally {
+      setLoading(false); // Reset loading to false after submission
     }
   };
   
 
   const addQuestion = () => {
-    handleChange('questions', [...formData.questions, currentQuestion]);
+    setFormData((prev) => ({
+      ...prev,
+      questions: [...prev.questions, currentQuestion],
+    }));
     setCurrentQuestion({ type: 'behavioral', question: '', leetcodeLink: '' });
   };
 
   const addRating = () => {
     setFormData((prev) => {
-      const existingRatingIndex = prev.ratings.findIndex(
-        (r) => r.category === currentRating.category
+      const updatedRatings = [...prev.ratings];
+      const existingIndex = updatedRatings.findIndex(
+        (rating) => rating.category === currentRating.category
       );
-
-      if (existingRatingIndex !== -1) {
-        const updatedRatings = [...prev.ratings];
-        updatedRatings[existingRatingIndex] = {
-          ...updatedRatings[existingRatingIndex],
-          score: currentRating.score,
-        };
-        return { ...prev, ratings: updatedRatings };
+      if (existingIndex !== -1) {
+        updatedRatings[existingIndex] = currentRating;
+      } else {
+        updatedRatings.push(currentRating);
       }
-
-      return { ...prev, ratings: [...prev.ratings, currentRating] };
+      return { ...prev, ratings: updatedRatings };
     });
     setCurrentRating({ category: '', score: 0 });
   };
 
   const addRound = () => {
-    handleChange('rounds', [...formData.rounds, currentRound]);
+    setFormData((prev) => ({
+      ...prev,
+      rounds: [...prev.rounds, currentRound],
+    }));
     setCurrentRound({ roundType: '', roundDate: '', experience: '' });
+  };
+
+  const navigateTab = (direction: 'next' | 'previous') => {
+    const tabs = ['basic', 'questions', 'ratings', 'rounds'];
+    const currentIndex = tabs.indexOf(currentTab);
+    const newIndex =
+      direction === 'next'
+        ? Math.min(currentIndex + 1, tabs.length - 1)
+        : Math.max(currentIndex - 1, 0);
+    setCurrentTab(tabs[newIndex] as typeof currentTab);
   };
 
   const renderTabContent = () => {
     switch (currentTab) {
       case 'basic':
         return (
-          <div>
+          <div className="space-y-4">
             <div>
-              <label htmlFor="company" className="block text-sm font-medium text-gray-700">
-                Company
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Company</label>
               <Select
-  options={topTechCompanies.map((company) => ({ label: company, value: company }))}
-  onChange={(selectedOption: { label: string; value: string } | null) =>
-    handleChange('company', selectedOption ? selectedOption.value : '')
-  }
-  placeholder="Search and select a company"
-  isClearable
-/>
-
+                options={topTechCompanies.map((company) => ({ label: company, value: company }))}
+                onChange={(selectedOption) =>
+                  handleChange('company', selectedOption ? selectedOption.value : '')
+                }
+                placeholder="Select a company"
+                isClearable
+              />
             </div>
             <div>
-              <label htmlFor="interviewDate" className="block text-sm font-medium text-gray-700">
-                Interview Date
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Interview Date</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <button className="w-full p-2 text-left bg-white border border-gray-300 rounded-md">
@@ -262,135 +232,120 @@ const InterviewForm: React.FC = () => {
             <div>
               <label className="block text-sm font-medium text-gray-700">Job Offer</label>
               <Select
-  options={[
-    { label: 'Yes', value: true },
-    { label: 'No', value: false },
-    { label: 'Pending/Unsure', value: null }, // Added the new option
-  ]}
-  onChange={(selectedOption: { label: string; value: boolean | null } | null) =>
-    handleChange('jobOffer', selectedOption ? selectedOption.value : null)
-  }
-  placeholder="Select an option"
-  isClearable
-/>
-
-
-
+                options={[
+                  { label: 'Yes', value: true },
+                  { label: 'No', value: false },
+                  { label: 'Pending/Unsure', value: null },
+                ]}
+                onChange={(selectedOption) =>
+                  handleChange('jobOffer', selectedOption ? selectedOption.value : null)
+                }
+                placeholder="Select an option"
+                isClearable
+              />
             </div>
             <div>
-              <label htmlFor="overallExperience" className="block text-sm font-medium text-gray-700">
-                Overall Experience
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Overall Experience</label>
               <Textarea
-                id="overallExperience"
                 placeholder="Describe your experience"
                 value={formData.overallExperience}
                 onChange={(e) => handleChange('overallExperience', e.target.value)}
+                className="mt-1"
               />
             </div>
           </div>
         );
-      case 'questions':
-        return (
-          <div>
-            <h3 className="text-lg font-medium">Questions</h3>
-            <div className="space-y-2">
-            <Select
-  options={[
-    { label: 'Behavioral', value: 'behavioral' },
-    { label: 'Technical', value: 'technical' },
-  ]}
-  onChange={(selectedOption: { label: string; value: 'behavioral' | 'technical' } | null) =>
-    setCurrentQuestion((prev) => ({
-      ...prev,
-      type: selectedOption?.value || 'behavioral',
-    }))
-  }
-  placeholder="Select question type"
-/>
-
-              <Input
-                placeholder="Enter question"
-                value={currentQuestion.question}
-                onChange={(e) =>
-                  setCurrentQuestion((prev) => ({ ...prev, question: e.target.value }))
-                }
-              />
-              {currentQuestion.type === 'technical' && (
+        case 'questions':
+          return (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Question Type</label>
+                <Select
+                  options={[
+                    { label: 'Behavioral', value: 'behavioral' },
+                    { label: 'Technical', value: 'technical' },
+                  ]}
+                  onChange={(selectedOption) =>
+                    setCurrentQuestion((prev) => ({
+                      ...prev,
+                      type: (selectedOption?.value as 'behavioral' | 'technical') || 'behavioral',
+                    }))
+                  }
+                  placeholder="Select question type"
+                />
+              </div>
+              <div>
                 <Input
-                  placeholder="LeetCode link (optional)"
-                  value={currentQuestion.leetcodeLink}
+                  placeholder="Enter question"
+                  value={currentQuestion.question}
                   onChange={(e) =>
-                    setCurrentQuestion((prev) => ({ ...prev, leetcodeLink: e.target.value }))
+                    setCurrentQuestion((prev) => ({ ...prev, question: e.target.value }))
                   }
                 />
+              </div>
+              {currentQuestion.type === 'technical' && (
+                <div>
+                  <Input
+                    placeholder="LeetCode link (optional)"
+                    value={currentQuestion.leetcodeLink}
+                    onChange={(e) =>
+                      setCurrentQuestion((prev) => ({
+                        ...prev,
+                        leetcodeLink: e.target.value,
+                      }))
+                    }
+                  />
+                </div>
               )}
-              <Button onClick={addQuestion} type="button">
+              <Button variant="secondary" onClick={addQuestion} type="button">
                 Add Question
               </Button>
+              <ul className="list-disc pl-6 mt-4">
+                {formData.questions.map((q, index) => (
+                  <li key={index}>
+                    {q.type}: {q.question}{' '}
+                    {q.leetcodeLink && <a href={q.leetcodeLink}>LeetCode Link</a>}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="list-disc pl-6">
-              {formData.questions.map((q, index) => (
-                <li key={index}>
-                  {q.type}: {q.question}{' '}
-                  {q.leetcodeLink && (
-                    <a href={q.leetcodeLink} target="_blank" rel="noopener noreferrer">
-                      (LeetCode Link)
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
+          );
+        
       case 'ratings':
         return (
-          <div>
+          <div className="space-y-4">
             <h3 className="text-lg font-medium">Ratings</h3>
-            <div className="space-y-2">
             <Select
-  options={[
-    { label: 'Difficulty', value: 'Difficulty' },
-    { label: 'Friendliness', value: 'Friendliness' },
-    { label: 'Responsiveness', value: 'Responsiveness' },
-  ]}
-  onChange={(selectedOption: { label: string; value: string } | null) =>
-    setCurrentRating((prev) => ({
-      ...prev,
-      category: selectedOption?.value || '',
-    }))
-  }
-  placeholder="Select a category"
-/>
-
-              <Input
-                placeholder="Score (1-5)"
-                type="number"
-                value={currentRating.score === 0 ? '' : currentRating.score}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (/^[1-5]?$/.test(value)) {
-                    setCurrentRating((prev) => ({ ...prev, score: value === '' ? 0 : +value }));
-                  }
-                }}
-              />
-              <Button
-                onClick={() => {
-                  if (
-                    currentRating.category &&
-                    currentRating.score >= 1 &&
-                    currentRating.score <= 5
-                  ) {
-                    addRating();
-                  } else {
-                    alert('Please select a valid category and score (1-5)');
-                  }
-                }}
-                type="button"
-              >
-                Add/Update Rating
-              </Button>
-            </div>
+              options={[
+                { label: 'Difficulty', value: 'Difficulty' },
+                { label: 'Friendliness', value: 'Friendliness' },
+                { label: 'Responsiveness', value: 'Responsiveness' },
+              ]}
+              onChange={(selectedOption) =>
+                setCurrentRating((prev) => ({
+                  ...prev,
+                  category: selectedOption?.value || '',
+                }))
+              }
+              placeholder="Select a category"
+            />
+            <Input
+              placeholder="Score (1-5)"
+              type="number"
+              value={currentRating.score === 0 ? '' : currentRating.score}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^[1-5]?$/.test(value)) {
+                  setCurrentRating((prev) => ({
+                    ...prev,
+                    score: value === '' ? 0 : +value,
+                  }));
+                }
+              }}
+            />
+            <Button onClick={addRating} variant="secondary" type="button">
+              Add/Update Rating
+            </Button>
             <ul className="list-disc pl-6 mt-4">
               {formData.ratings.map((r, index) => (
                 <li key={index}>
@@ -402,73 +357,69 @@ const InterviewForm: React.FC = () => {
         );
       case 'rounds':
         return (
-          <div>
+          <div className="space-y-4">
             <h3 className="text-lg font-medium">Rounds</h3>
-            <div className="space-y-2">
             <Select
-  options={[
-                  { label: 'System Design', value: 'System Design' },
-                  { label: 'OA', value: 'OA' },
-    { label: 'Behavioral', value: 'Behavioral' },
-    { label: 'Pre-Screen', value: 'Pre-Screen' },
-    { label: 'Technical', value: 'Technical' },
-    { label: 'Onsite Technical', value: 'Onsite Technical' },
-    { label: 'Onsite Behavioral', value: 'Onsite Behavioral' },
-    { label: 'HR', value: 'HR' },
-    { label: 'Team Matching', value: 'Team Matching' },
-  ]}
-  onChange={(selectedOption: { label: string; value: string } | null) =>
-    setCurrentRound((prev) => ({
-      ...prev,
-      roundType: selectedOption ? selectedOption.value : '',
-    }))
-  }
-  placeholder="Select round type"
-  isClearable
-/>
-
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button className="w-full p-2 text-left bg-white border border-gray-300 rounded-md">
-                    {currentRound.roundDate
-                      ? format(
-                          parse(currentRound.roundDate, 'yyyy-MM-dd', new Date()),
-                          'MMMM dd, yyyy'
-                        )
-                      : 'Pick a date'}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <Calendar
-                    mode="single"
-                    selected={
-                      currentRound.roundDate
-                        ? parse(currentRound.roundDate, 'yyyy-MM-dd', new Date())
-                        : undefined
+              options={[
+                { label: 'System Design', value: 'System Design' },
+                { label: 'OA', value: 'OA' },
+                { label: 'Behavioral', value: 'Behavioral' },
+                { label: 'Pre-Screen', value: 'Pre Screen' },
+                { label: 'Technical', value: 'Technical' },
+                { label: 'Onsite Technical', value: 'Onsite Technical' },
+                { label: 'Onsite Behavioral', value: 'Onsite Behavioral' },
+                { label: 'HR', value: 'HR' },
+                { label: 'Team Matching', value: 'Team Matching' },
+              ]}
+              onChange={(selectedOption) =>
+                setCurrentRound((prev) => ({
+                  ...prev,
+                  roundType: selectedOption ? selectedOption.value : '',
+                }))
+              }
+              placeholder="Select round type"
+            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="w-full p-2 text-left bg-white border border-gray-300 rounded-md">
+                  {currentRound.roundDate
+                    ? format(
+                        parse(currentRound.roundDate, 'yyyy-MM-dd', new Date()),
+                        'MMMM dd, yyyy'
+                      )
+                    : 'Pick a date'}
+                </button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <Calendar
+                  mode="single"
+                  selected={
+                    currentRound.roundDate
+                      ? parse(currentRound.roundDate, 'yyyy-MM-dd', new Date())
+                      : undefined
+                  }
+                  onSelect={(date) => {
+                    if (date) {
+                      setCurrentRound((prev) => ({
+                        ...prev,
+                        roundDate: format(date, 'yyyy-MM-dd'),
+                      }));
                     }
-                    onSelect={(date) => {
-                      if (date) {
-                        setCurrentRound((prev) => ({
-                          ...prev,
-                          roundDate: format(date, 'yyyy-MM-dd'),
-                        }));
-                      }
-                    }}
-                  />
-                </PopoverContent>
-              </Popover>
-              <Textarea
-                placeholder="Experience in this round"
-                value={currentRound.experience}
-                onChange={(e) =>
-                  setCurrentRound((prev) => ({ ...prev, experience: e.target.value }))
-                }
-              />
-              <Button onClick={addRound} type="button">
-                Add Round
-              </Button>
-            </div>
-            <ul className="list-disc pl-6">
+                  }}
+                />
+              </PopoverContent>
+            </Popover>
+            <Textarea
+              placeholder="Experience in this round"
+              value={currentRound.experience}
+              onChange={(e) =>
+                setCurrentRound((prev) => ({ ...prev, experience: e.target.value }))
+              }
+            />
+            <Button onClick={addRound} variant="secondary" type="button">
+              Add/Update Round
+            </Button>
+            <ul className="list-disc pl-6 mt-4">
               {formData.rounds.map((r, index) => (
                 <li key={index}>
                   {r.roundType} on {r.roundDate}: {r.experience}
@@ -482,77 +433,46 @@ const InterviewForm: React.FC = () => {
     }
   };
 
-  const handleNext = () => {
-    const tabs = ['basic', 'questions', 'ratings', 'rounds'];
-    const currentIndex = tabs.indexOf(currentTab);
-    if (currentIndex < tabs.length - 1) {
-      setCurrentTab(tabs[currentIndex + 1] as typeof currentTab);
-    }
-  };
-
-  const handlePrevious = () => {
-    const tabs = ['basic', 'questions', 'ratings', 'rounds'];
-    const currentIndex = tabs.indexOf(currentTab);
-    if (currentIndex > 0) {
-      setCurrentTab(tabs[currentIndex - 1] as typeof currentTab);
-    }
-  };
-
   return (
-    <div>
-      <div className="flex space-x-4 border-b">
-        <button
-          className={`py-2 px-4 ${
-            currentTab === 'basic' ? 'border-b-2 border-indigo-500 font-semibold' : ''
-          }`}
-          onClick={() => setCurrentTab('basic')}
-        >
-          Basic Info
-        </button>
-        <button
-          className={`py-2 px-4 ${
-            currentTab === 'questions' ? 'border-b-2 border-indigo-500 font-semibold' : ''
-          }`}
-          onClick={() => setCurrentTab('questions')}
-        >
-          Questions
-        </button>
-        <button
-          className={`py-2 px-4 ${
-            currentTab === 'ratings' ? 'border-b-2 border-indigo-500 font-semibold' : ''
-          }`}
-          onClick={() => setCurrentTab('ratings')}
-        >
-          Ratings
-        </button>
-        <button
-          className={`py-2 px-4 ${
-            currentTab === 'rounds' ? 'border-b-2 border-indigo-500 font-semibold' : ''
-          }`}
-          onClick={() => setCurrentTab('rounds')}
-        >
-          Rounds
-        </button>
+    <div className="max-w-3xl mx-auto p-4">
+      <div className="flex justify-between border-b mb-6">
+        {['basic', 'questions', 'ratings', 'rounds'].map((tab) => (
+          <button
+            key={tab}
+            className={`py-2 px-4 text-base ${
+              currentTab === tab
+                ? 'border-b-2 border-indigo-500 font-semibold text-indigo-700'
+                : 'text-gray-500'
+            }`}
+            onClick={() => setCurrentTab(tab as typeof currentTab)}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
       </div>
-      <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {renderTabContent()}
-        <div className="flex justify-between mt-4">
-          {currentTab !== 'basic' && (
-            <Button type="button" onClick={handlePrevious}>
-              Previous
-            </Button>
-          )}
-          {currentTab !== 'rounds' && (
-            <Button type="button" onClick={handleNext}>
-              Next
-            </Button>
-          )}
-          {currentTab === 'rounds' && (
-            <Button type="submit" className="ml-auto">
-              Submit
-            </Button>
-          )}
-        </div>
+        <div className="flex justify-between items-center">
+  {currentTab !== 'basic' && (
+    <Button variant="secondary" onClick={() => navigateTab('previous')} type="button">
+      Previous
+    </Button>
+  )}
+  {currentTab !== 'rounds' && (
+    <Button variant="secondary" onClick={() => navigateTab('next')} type="button">
+      Next
+    </Button>
+  )}
+  {currentTab === 'rounds' && (
+    <div className="relative">
+      <Button variant="default" type="submit" disabled={loading}>
+        {loading ? 'Submitting...' : 'Submit'}
+      </Button>
+      {loading && <Loader/>}
+    </div>
+  )}
+</div>
+
       </form>
     </div>
   );

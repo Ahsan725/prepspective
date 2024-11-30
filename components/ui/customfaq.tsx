@@ -38,7 +38,7 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24">
       <div className="w-full px-4 sm:px-6 lg:px-12">
         <div className="grid gap-8 lg:grid-cols-3 items-start">
           {/* Left Side: Headings */}
