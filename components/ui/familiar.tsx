@@ -68,7 +68,7 @@ const Testimonial14 = () => {
   }, [api]);
 
   return (
-    <section className="py-16 mx-8 bg-gray-50">
+    <section className="py-16 my-4 bg-gray-50">
           {/* Heading */}
           <div className="flex items-center justify-center mb-4">
         <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
