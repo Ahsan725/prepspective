@@ -352,7 +352,7 @@ const CombinedView: React.FC = () => {
 
 
       {/* Detailed View Section */}
-      <div className="hidden sm:block sm:w-2/3 lg:w-full p-4 rounded-lg mx-2">
+      <div className="hidden sm:block sm:w-2/3 lg:w-full p-4 rounded-lg mx-2 lg:max-h-[40rem] overflow-y-auto relative">
         {selectedInterviewId && !interview ? (
           <div className="flex justify-center items-center min-h-[10rem]">
             <Loader />

@@ -64,6 +64,23 @@ body {
   }
 }
 
+@layer utilities {
+  /* Custom scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 6px; /* Set scrollbar width */
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #6366F1; /* Tailwind's indigo-700 hex color */
+    border-radius: 6px; /* Optional: Round the scrollbar corners */
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #3531b7; /* Slightly darker indigo-800 for hover effect */
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #f7fafc; /* Optional: light gray for the track */
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
