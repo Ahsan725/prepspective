@@ -10,6 +10,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 import { cn } from "@/lib/utils";
 import ContactForm from "@/components/ui/contactForm"; // Import the ContactForm component
 import { ConfettiSideCannons } from "@/components/ui/confettiSideCannons";
@@ -56,12 +63,21 @@ const TempNavbar = () => {
           </div>
           <div className="flex gap-2">
             {/* Embed the ContactForm Component */}
-            <Button
+            <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
             onClick={handleEscapeButtonClick}
             variant="outline"
           >
-          <MousePointerClick />
-            </Button>
+            <MousePointerClick />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Press ESC or click to disable the cursor.</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
             <ContactForm />
             <ConfettiSideCannons />
           </div>
