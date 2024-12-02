@@ -220,7 +220,7 @@ const CombinedView: React.FC = () => {
       {/* Search Section */}
       <div className="w-full sm:w-1/3 p-2 relative">
       <div className="flex items-center justify-center">
-        <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
+        <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-sm text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
           SEARCH INTERVIEWS
         </h2>
       </div>
@@ -256,7 +256,7 @@ const CombinedView: React.FC = () => {
 </div>
 
 
-  <ul className="mt-0 space-y-4 lg:max-h-[28rem] max-h-[24rem] overflow-y-auto relative">
+  <ul className="mt-0 lg:max-h-[28rem] max-h-[24rem] overflow-y-auto relative">
     {loading ? (
       <div className="flex justify-center items-center h-[8rem] mt-4">
         <Loader />
@@ -356,7 +356,7 @@ const CombinedView: React.FC = () => {
 
 
       {/* Detailed View Section */}
-      <div className="hidden sm:block sm:w-2/3 lg:w-full p-4 rounded-lg mx-2 lg:max-h-[40rem] overflow-y-auto relative">
+      <div className="hidden sm:block sm:w-2/3 lg:w-full p-4 rounded-lg mx-2 lg:max-h-[39rem] overflow-y-auto relative">
         {selectedInterviewId && !interview ? (
           <div className="flex justify-center items-center min-h-[10rem]">
             <Loader />
