@@ -434,15 +434,15 @@ const InterviewForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 shadow-2xl rounded-xl">
-      <div className="flex justify-between border-b mb-6">
+    <div className="max-w-3xl mx-auto p-4 shadow-2xl rounded-xl bg-gradient-to-l from-white via-indigo-50 to-white">
+      <div className="flex justify-between border-b mb-2">
         {['basic', 'questions', 'ratings', 'rounds'].map((tab) => (
           <button
             key={tab}
             className={`py-2 px-4 text-base ${
               currentTab === tab
                 ? 'border-b-2 border-indigo-500 font-semibold text-indigo-700'
-                : 'text-gray-500'
+                : 'text-gray-600'
             }`}
             onClick={() => setCurrentTab(tab as typeof currentTab)}
           >
@@ -450,7 +450,7 @@ const InterviewForm: React.FC = () => {
           </button>
         ))}
       </div>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4">
         {renderTabContent()}
         <div className="flex justify-between items-center">
   {currentTab !== 'basic' && (
@@ -468,7 +468,7 @@ const InterviewForm: React.FC = () => {
       <Button variant="default" type="submit" disabled={loading}>
         {loading ? 'Submitting...' : 'Submit'}
       </Button>
-      {loading && <Loader/>}
+      {/* {loading && <Loader/>} */}
     </div>
   )}
 </div>
