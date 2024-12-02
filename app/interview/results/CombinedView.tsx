@@ -219,7 +219,7 @@ const CombinedView: React.FC = () => {
     <div className="flex flex-col sm:flex-row">
       {/* Search Section */}
       <div className="w-full sm:w-1/3 p-2 relative">
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center mb-2">
         <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-sm text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
           SEARCH INTERVIEWS
         </h2>
