@@ -190,7 +190,7 @@ const DetailView: React.FC = () => {
   return (
     <div className="px-6 py-4">
       <Button
-        onClick={() => router.push('/interview/results')}
+        onClick={() => router.push('/interview/search')}
         className="mb-4 bg-indigo-600 text-white hover:bg-indigo-700"
       >
         Back to Search

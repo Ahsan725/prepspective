@@ -32,7 +32,7 @@ const CombinedView: React.FC = () => {
 
   const handleMobileRedirect = (id: number) => {
     if (isMobile) {
-      router.push(`/interview/results/${id}`);
+      router.push(`/interview/search/${id}`);
     } else {
       handleViewDetails(id); // Desktop behavior is enabled by this
     }
