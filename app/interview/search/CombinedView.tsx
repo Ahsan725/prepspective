@@ -287,7 +287,7 @@ const CombinedView: React.FC = () => {
             <div className="flex flex-wrap gap-1 mt-1 sm:mt-1">
               {result.jobOffer === true ? (
                 <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
-                  Job Offered
+                  Offer
                 </span>
               ) : result.jobOffer === false ? (
                 <span className="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
