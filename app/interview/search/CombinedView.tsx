@@ -50,7 +50,7 @@ const CombinedView: React.FC = () => {
     const subheadingClasses = "leading-tight text-md font-semibold text-indigo-600";
     const paragraphClasses = "text-sm font-light text-gray-700";
     const labelClasses = "leading-tight font-semibold text-indigo-600";
-    const sublabelClasses = "leading-tight text-sm font-medium text-gray-500";
+    const sublabelClasses = "leading-tight text-sm font-medium uppercase text-indigo-700";
     
     switch (activeTab) {
       case 'company':
