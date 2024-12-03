@@ -65,21 +65,28 @@ body {
 }
 
 @layer utilities {
-  /* Custom scrollbar styles */
+  /* Custom scrollbar styles for Webkit browsers (Chrome, Edge, Safari) */
   ::-webkit-scrollbar {
-    width: 6px; /* Set scrollbar width */
+    width: 6px; 
   }
   ::-webkit-scrollbar-thumb {
-    background-color: #6366F1; /* Tailwind's indigo-700 hex color */
-    border-radius: 6px; /* Optional: Round the scrollbar corners */
+    background-color: #6366F1; 
+    border-radius: 6px; 
   }
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #3531b7; /* Slightly darker indigo-800 for hover effect */
+    background-color: #3531b7;
   }
   ::-webkit-scrollbar-track {
-    background-color: #f7fafc; /* Optional: light gray for the track */
+    background-color: #f7fafc;
+  }
+
+  /* Custom scrollbar styles for Firefox */
+  html {
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #6366F1 #f7fafc; /* thumb color track color */
   }
 }
+
 
 @layer base {
   * {
