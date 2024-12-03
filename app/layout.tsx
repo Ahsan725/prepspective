@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster"
+import { ClerkProvider } from "@clerk/nextjs"; // Import ClerkProvider
+import { Toaster } from "@/components/ui/toaster";
 import TempNavbar from "@/components/ui/tempNavbar";
 import FluidCursor from "@/components/ui/fluidCursor";
-
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,19 +28,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-      <link rel="icon" href="/favicon.ico" /> 
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {/* <CustomNavbar /> this will be used later*/} 
-        <TempNavbar/>
-        {children}
-        <Toaster />
-        <FluidCursor />
-      </body>
-    </html>
+    <ClerkProvider>
+      {/* Wrap the entire app with ClerkProvider */}
+      <html lang="en">
+        <head>
+          <link rel="icon" href="/favicon.ico" />
+        </head>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {/* <CustomNavbar /> this will be used later */}
+          <TempNavbar />
+          {children}
+          <Toaster />
+          <FluidCursor />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

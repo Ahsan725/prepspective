@@ -1,4 +1,4 @@
-'use client'; // Add this directive at the very top
+'use client';
 
 import { useState, useEffect } from 'react';
 import { ArrowBigRight} from 'lucide-react';
