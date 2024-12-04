@@ -16,7 +16,7 @@ const buttonVariants = cva(
         outline:
         "border-2 border-indigo-700 text-indigo-700 hover:bg-indigo-100 hover:text-indigo-700 relative overflow-hidden rounded-md px-5 py-2.5 duration-300 shadow-lg hover:shadow-lg [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:translate-y-1 active:scale-105",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "bg-gray-600 text-white hover:bg-gray-600/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
