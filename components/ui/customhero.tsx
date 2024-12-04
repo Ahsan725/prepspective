@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import NumberTicker from "@/components/ui/number-ticker";
+import FluidCursor from "@/components/ui/fluidCursor";
 
 const CustomHero = () => {
   const [email, setEmail] = useState('');
@@ -105,6 +106,7 @@ const CustomHero = () => {
 
   return (
     <section className="flex items-start justify-center mt-12 mb-40">
+      <FluidCursor />
       <div className="flex flex-col items-center text-center w-full max-w-4xl px-6 py-12">
         {/* Main Header */}
         <div className="mb-8">

@@ -4,7 +4,6 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs"; // Import ClerkProvider
 import { Toaster } from "@/components/ui/toaster";
 import TempNavbar from "@/components/ui/tempNavbar";
-import FluidCursor from "@/components/ui/fluidCursor";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,7 +40,7 @@ export default function RootLayout({
           <TempNavbar />
           {children}
           <Toaster />
-          <FluidCursor />
+          {/* <FluidCursor /> */}
         </body>
       </html>
     </ClerkProvider>
