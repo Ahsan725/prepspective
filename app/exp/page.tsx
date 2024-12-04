@@ -241,7 +241,7 @@ const InterviewForm: React.FC = () => {
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
-                      variant="outline"
+                      variant="ghost"
                       className="w-full justify-start text-left font-normal bg-white border-gray-200"
                     >
                       {formData.interviewDate
@@ -553,7 +553,7 @@ const InterviewForm: React.FC = () => {
                       <PopoverTrigger asChild>
                         <Button
                           id="roundDate"
-                          variant="outline"
+                          variant="ghost"
                           className="w-full justify-start text-left font-normal bg-white border-gray-200"
                         >
                           {currentRound.roundDate
