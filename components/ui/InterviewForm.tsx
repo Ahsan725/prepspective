@@ -9,7 +9,6 @@ import { Calendar } from '@/components/ui/calendar';
 import { format, parse } from 'date-fns';
 import Select from 'react-select';
 import { useToast } from '@/hooks/use-toast';
-import Loader from "@/components/ui/loader";
 
 type Question = {
   type: 'behavioral' | 'technical';
