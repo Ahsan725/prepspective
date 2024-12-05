@@ -250,7 +250,7 @@ const editQuestion = (id: string) => {
 
     toast({
       title: 'Edit Mode',
-      description: 'You are now editing the selected question.',
+      description: 'You are now editing the selected question. Scroll Up to make changes.',
     });
   }
 };
@@ -283,7 +283,7 @@ const editQuestion = (id: string) => {
     if (!currentRound.roundType || !currentRound.roundDate || !currentRound.experience.trim()) {
       toast({
         title: 'Error',
-        description: 'Please fill out all the fields, including Round Experience, before adding the round.',
+        description: 'Please fill out all the fields: type, date and experience, before adding the round.',
       });
       return;
     }
@@ -307,7 +307,7 @@ const editQuestion = (id: string) => {
   
       toast({
         title: 'Edit Mode',
-        description: 'You are now editing the selected round.',
+        description: 'You are now editing the selected round. Scroll Up to make changes.',
       });
     }
   };
