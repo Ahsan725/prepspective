@@ -602,7 +602,7 @@ const editQuestion = (id: string) => {
       placeholder="Describe your overall interview experience"
       value={formData.overallExperience}
       onChange={(e) => handleChange('overallExperience', e.target.value)}
-      className="flex-1 min-h-[250px] bg-white border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+      className="flex-1 min-h-[250px] bg-white border-gray-200 rounded-lg resize-none"
     />
   </CardContent>
 </Card>
@@ -642,7 +642,7 @@ const editQuestion = (id: string) => {
             onChange={(e) =>
               setCurrentQuestion((prev) => ({ ...prev, question: e.target.value }))
             }
-            className="flex-1 min-h-[150px] bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+            className="flex-1 min-h-[150px] bg-white border-gray-200 rounded-lg resize-none"
           />
           <Button
             onClick={editingQuestionId ? saveQuestion : addQuestion}
@@ -668,7 +668,7 @@ const editQuestion = (id: string) => {
               leetcodeLink: e.target.value,
             }))
           }
-          className="bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          className="bg-white border-gray-200 rounded-lg"
         />
       </div>
     )}
@@ -747,7 +747,7 @@ const editQuestion = (id: string) => {
                           }));
                         }
                       }}
-                      className="bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="bg-white border-gray-200 rounded-lg"
                     />
                   </div>
                   <div className="flex items-end">
@@ -846,7 +846,7 @@ const editQuestion = (id: string) => {
                   onChange={(e) =>
                     setCurrentRound((prev) => ({ ...prev, experience: e.target.value }))
                   }
-                  className="min-h-[100px] bg-white border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="min-h-[100px] bg-white border-gray-200 rounded-lg resize-none"
                 />
               </div>
               <div className="space-y-2">
