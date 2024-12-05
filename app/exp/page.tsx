@@ -785,9 +785,9 @@ const editQuestion = (id: string) => {
                     <li key={r.id} className="bg-gray-50 p-3 rounded-lg">
                       <div className="flex justify-between items-start">
                         <div>
-                          <div className="font-medium text-gray-900">{r.roundType}</div>
-                          <div className="text-sm text-gray-600">on {r.roundDate}</div>
-                          <div className="mt-2 text-gray-700 text-sm">{r.experience}</div>
+                          <div className="font-semibold text-indigo-600">{r.roundType}</div>
+                          <div className="text-sm pt-0 mt-0 text-indigo-600 text-right">{r.roundDate}</div>
+                          <div className="mt-2 text-gray-700 text-sm leading-loose">{r.experience}</div>
                         </div>
                         <Button onClick={() => editRound(r.id)} type="button" size="sm" variant="ghost">
                           <Edit className="h-4 w-4" />
