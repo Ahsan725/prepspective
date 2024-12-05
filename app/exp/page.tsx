@@ -423,7 +423,7 @@ const editQuestion = (id: string) => {
           </h2>
 
           <h3 className="md:w-1/2 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-            Help others prepare by sharing your interview experience. Your insights could be the key to someone else&apos;s success.
+            Help others prepare by sharing your interview experience. Your insights could be the key to someone&apos;s success.
           </h3>
           <div className="flex justify-center items-center">
   <Button 
