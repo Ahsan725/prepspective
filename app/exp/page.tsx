@@ -183,47 +183,78 @@ const addQuestion = (e: React.MouseEvent) => {
       questions: [...prev.questions, newQuestion],
     }));
 
+    // toast({
+    //   title: 'Question Added',
+    //   description: 'The question was added successfully.',
+    // });
+
     setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: undefined });
   }
 };
 
 const saveQuestion = () => {
-  const validatedLink: string | undefined = currentQuestion.leetcodeLink
-    ? ensureHttpsAndValidate(currentQuestion.leetcodeLink) || undefined
-    : undefined;
+  if (editingQuestionId) {
+    const validatedLink: string | undefined = currentQuestion.leetcodeLink
+      ? ensureHttpsAndValidate(currentQuestion.leetcodeLink) || undefined
+      : undefined;
 
-  if (currentQuestion.leetcodeLink && !validatedLink) {
-    toast({
-      title: 'Invalid Link!',
-      description: 'We only support LeetCode and GeeksforGeeks links.',
-    });
-    return;
+    if (currentQuestion.leetcodeLink && !validatedLink) {
+      toast({
+        title: 'Invalid Link!',
+        description: 'We only support LeetCode and GeeksforGeeks links.',
+      });
+      return;
+    }
+
+    if (!currentQuestion.question.trim()) {
+      // If question text is empty, remove the question
+      setFormData((prev) => ({
+        ...prev,
+        questions: prev.questions.filter((q) => q.id !== editingQuestionId),
+      }));
+
+      toast({
+        title: 'Question Deleted',
+        description: 'The question was deleted as the text was cleared.',
+      });
+    } else {
+      // Otherwise, save the updated question
+      setFormData((prev) => ({
+        ...prev,
+        questions: prev.questions.map((q) =>
+          q.id === editingQuestionId
+            ? {
+                ...currentQuestion,
+                leetcodeLink: validatedLink,
+              }
+            : q
+        ),
+      }));
+
+      toast({
+        title: 'Question Updated',
+        description: 'The question was updated successfully.',
+      });
+    }
+
+    setEditingQuestionId(null);
+    setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: undefined });
   }
-
-  setFormData((prev) => ({
-    ...prev,
-    questions: prev.questions.map((q) =>
-      q.id === editingQuestionId
-        ? {
-            ...currentQuestion,
-            leetcodeLink: validatedLink,
-          }
-        : q
-    ),
-  }));
-
-  setEditingQuestionId(null);
-  setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: undefined });
 };
-
 
 const editQuestion = (id: string) => {
   const questionToEdit = formData.questions.find((q) => q.id === id);
   if (questionToEdit) {
     setCurrentQuestion(questionToEdit);
     setEditingQuestionId(id);
+
+    toast({
+      title: 'Edit Mode',
+      description: 'You are now editing the selected question.',
+    });
   }
 };
+
 
 
 
@@ -269,12 +300,18 @@ const editQuestion = (id: string) => {
   };
   
   const editRound = (id: string) => {
-    const roundToEdit = formData.rounds.find(r => r.id === id);
+    const roundToEdit = formData.rounds.find((r) => r.id === id);
     if (roundToEdit) {
       setCurrentRound(roundToEdit);
       setEditingRoundId(id);
+  
+      toast({
+        title: 'Edit Mode',
+        description: 'You are now editing the selected round.',
+      });
     }
   };
+  
   
   const saveRound = () => {
     if (editingRoundId) {
