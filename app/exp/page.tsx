@@ -423,8 +423,10 @@ const editQuestion = (id: string) => {
           </h2>
 
           <h3 className="md:w-1/2 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-            Help others prepare by sharing your interview experience. Your insights could be the key to someone&apos;s success.
-          </h3>
+  Help others prepare by sharing your interview experience. Your insights could be the key to someone&apos;s success or <em>yours—because what goes around comes around</em>
+</h3>
+
+
           <div className="flex justify-center items-center">
   <Button 
               type="submit" 
@@ -446,7 +448,7 @@ const editQuestion = (id: string) => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 {/* Basic Info */}
-<Card className="bg-white shadow-2xl border border-gray-100 rounded-xl">
+<Card className="bg-white shadow-xl border border-gray-100 rounded-xl">
   <CardHeader className="border-b border-gray-100 bg-white p-6">
     <CardTitle className="text-xl font-semibold text-gray-900">
       Basic Information
@@ -593,7 +595,7 @@ const editQuestion = (id: string) => {
 
 
           {/* Overall Experience */}
-          <Card className="bg-white shadow-2xl border border-gray-100 rounded-xl md:col-span-2 flex flex-col">
+          <Card className="bg-white shadow-xl border border-gray-100 rounded-xl md:col-span-2 flex flex-col">
   <CardHeader className="border-b border-gray-100 bg-white p-6">
     <CardTitle className="text-xl font-semibold text-gray-900">Overall Experience</CardTitle>
   </CardHeader>
@@ -610,7 +612,7 @@ const editQuestion = (id: string) => {
 
 
           {/* Interview Questions */}
-          <Card className="bg-white shadow-2xl border border-gray-100 rounded-xl lg:col-span-2">
+          <Card className="bg-white shadow-xl border border-gray-100 rounded-xl lg:col-span-2">
   <CardHeader className="border-b border-gray-100 bg-white p-6">
     <CardTitle className="text-xl font-semibold text-gray-900">Interview Questions</CardTitle>
   </CardHeader>
@@ -708,7 +710,7 @@ const editQuestion = (id: string) => {
 
 
           {/* Interview Ratings */}
-          <Card className="bg-white shadow-2xl border border-gray-100 rounded-xl">
+          <Card className="bg-white shadow-xl border border-gray-100 rounded-xl">
             <CardHeader className="border-b border-gray-100 bg-white p-6">
               <CardTitle className="text-xl font-semibold text-gray-900">Interview Ratings</CardTitle>
             </CardHeader>
@@ -773,7 +775,7 @@ const editQuestion = (id: string) => {
           </Card>
 
           {/* Interview Rounds */}
-          <Card className="bg-white shadow-2xl border border-gray-100 rounded-xl md:col-span-2 lg:col-span-3">
+          <Card className="bg-white shadow-xl border border-gray-100 rounded-xl md:col-span-2 lg:col-span-3">
             <CardHeader className="border-b border-gray-100 bg-white p-6">
               <CardTitle className="text-xl font-semibold text-gray-900">Interview Rounds</CardTitle>
             </CardHeader>
