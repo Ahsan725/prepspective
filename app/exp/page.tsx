@@ -586,10 +586,10 @@ const editQuestion = (id: string) => {
     </div>
     {currentQuestion.type === 'technical' && (
       <div>
-        <Label htmlFor="leetcodeLink" className="text-sm font-medium text-gray-700">LeetCode Link (optional)</Label>
+        <Label htmlFor="leetcodeLink" className="text-sm font-medium text-gray-700">Qeustion Link</Label>
         <Input
           id="leetcodeLink"
-          placeholder="LeetCode link"
+          placeholder="LeetCode or GeeksforGeeks only"
           value={currentQuestion.leetcodeLink}
           onChange={(e) =>
             setCurrentQuestion((prev) => ({
