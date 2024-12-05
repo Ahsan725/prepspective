@@ -17,9 +17,10 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Loader2, Plus } from 'lucide-react';
+import { Loader2, Plus, Edit, Save, X } from 'lucide-react';
 
 type Question = {
+  id: string;
   type: 'behavioral' | 'technical';
   question: string;
   leetcodeLink?: string;
@@ -31,6 +32,7 @@ type Rating = {
 };
 
 type Round = {
+  id: string;
   roundType: string;
   roundDate: string;
   experience: string;
@@ -69,6 +71,7 @@ const InterviewForm: React.FC = () => {
   });
 
   const [currentQuestion, setCurrentQuestion] = useState<Question>({
+    id: '',
     type: 'behavioral',
     question: '',
     leetcodeLink: '',
@@ -77,10 +80,14 @@ const InterviewForm: React.FC = () => {
   const [currentRating, setCurrentRating] = useState<Rating>({ category: '', score: 0 });
 
   const [currentRound, setCurrentRound] = useState<Round>({
+    id: '',
     roundType: '',
     roundDate: '',
     experience: '',
   });
+
+  const [editingQuestionId, setEditingQuestionId] = useState<string | null>(null);
+  const [editingRoundId, setEditingRoundId] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -94,12 +101,30 @@ const InterviewForm: React.FC = () => {
   const addQuestion = (e: React.MouseEvent) => {
     e.preventDefault();
     if (currentQuestion.question) {
+      const newQuestion = { ...currentQuestion, id: Date.now().toString() };
       setFormData((prev) => ({
         ...prev,
-        questions: [...prev.questions, currentQuestion],
+        questions: [...prev.questions, newQuestion],
       }));
-      setCurrentQuestion({ type: 'behavioral', question: '', leetcodeLink: '' });
+      setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: '' });
     }
+  };
+
+  const editQuestion = (id: string) => {
+    const questionToEdit = formData.questions.find(q => q.id === id);
+    if (questionToEdit) {
+      setCurrentQuestion(questionToEdit);
+      setEditingQuestionId(id);
+    }
+  };
+
+  const saveQuestion = () => {
+    setFormData(prev => ({
+      ...prev,
+      questions: prev.questions.map(q => q.id === editingQuestionId ? currentQuestion : q)
+    }));
+    setEditingQuestionId(null);
+    setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: '' });
   };
 
   const addOrUpdateRating = () => {
@@ -123,9 +148,27 @@ const InterviewForm: React.FC = () => {
   const addRound = (e: React.MouseEvent) => {
     e.preventDefault();
     if (currentRound.roundType && currentRound.roundDate) {
-      setFormData((prev) => ({ ...prev, rounds: [...prev.rounds, currentRound] }));
-      setCurrentRound({ roundType: '', roundDate: '', experience: '' });
+      const newRound = { ...currentRound, id: Date.now().toString() };
+      setFormData((prev) => ({ ...prev, rounds: [...prev.rounds, newRound] }));
+      setCurrentRound({ id: '', roundType: '', roundDate: '', experience: '' });
     }
+  };
+
+  const editRound = (id: string) => {
+    const roundToEdit = formData.rounds.find(r => r.id === id);
+    if (roundToEdit) {
+      setCurrentRound(roundToEdit);
+      setEditingRoundId(id);
+    }
+  };
+
+  const saveRound = () => {
+    setFormData(prev => ({
+      ...prev,
+      rounds: prev.rounds.map(r => r.id === editingRoundId ? currentRound : r)
+    }));
+    setEditingRoundId(null);
+    setCurrentRound({ id: '', roundType: '', roundDate: '', experience: '' });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -237,7 +280,7 @@ const InterviewForm: React.FC = () => {
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
-                      variant="ghost"
+                      variant="outline"
                       className="w-full justify-start text-left font-normal"
                     >
                       {formData.interviewDate
@@ -301,6 +344,7 @@ const InterviewForm: React.FC = () => {
                 <div className="flex-1">
                   <Label htmlFor="questionType" className="text-sm font-medium text-gray-700">Type</Label>
                   <Select
+                    value={currentQuestion.type}
                     onValueChange={(value) => setCurrentQuestion(prev => ({ ...prev, type: value as 'behavioral' | 'technical' }))}
                   >
                     <SelectTrigger className="w-full">
@@ -324,8 +368,8 @@ const InterviewForm: React.FC = () => {
                       }
                       className="flex-1 bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     />
-                    <Button onClick={addQuestion} type="button" size="icon" className="h-10 w-10 bg-indigo-600 hover:bg-indigo-700">
-                      <Plus className="h-4 w-4" />
+                    <Button onClick={editingQuestionId ? saveQuestion : addQuestion} type="button" size="icon" className="h-10 w-10 bg-indigo-600 hover:bg-indigo-700">
+                      {editingQuestionId ? <Save className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
                     </Button>
                   </div>
                 </div>
@@ -351,14 +395,19 @@ const InterviewForm: React.FC = () => {
                 <h4 className="text-sm font-medium text-gray-700">Added Questions:</h4>
                 <ul className="space-y-2">
                   {formData.questions.map((q, index) => (
-                    <li key={index} className="bg-gray-50 p-3 rounded-lg">
-                      <span className="font-medium text-gray-900">{q.type}:</span>{' '}
-                      <span className="text-gray-700">{q.question}</span>{' '}
-                      {q.leetcodeLink && (
-                        <a href={q.leetcodeLink} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-700 hover:underline">
-                          LeetCode Link
-                        </a>
-                      )}
+                    <li key={q.id} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
+                      <div>
+                        <span className="font-medium text-gray-900">{q.type}:</span>{' '}
+                        <span className="text-gray-700">{q.question}</span>{' '}
+                        {q.leetcodeLink && (
+                          <a href={q.leetcodeLink} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-700 hover:underline">
+                            LeetCode Link
+                          </a>
+                        )}
+                      </div>
+                      <Button onClick={() => editQuestion(q.id)} type="button" size="sm" variant="ghost">
+                        <Edit className="h-4 w-4" />
+                      </Button>
                     </li>
                   ))}
                 </ul>
@@ -366,166 +415,174 @@ const InterviewForm: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Interview Ratings */}<Card className="bg-white shadow-sm border border-gray-100 rounded-xl">
-      <CardHeader className="border-b border-gray-100 bg-white p-6">
-        <CardTitle className="text-xl font-semibold text-gray-900">Interview Ratings</CardTitle>
-      </CardHeader>
-      <CardContent className="p-6 space-y-6">
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="ratingCategory" className="text-sm font-medium text-gray-700">Category</Label>
-            <Select
-              value={currentRating.category}
-              onValueChange={(value) => setCurrentRating(prev => ({ ...prev, category: value }))}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Difficulty">Difficulty</SelectItem>
-                <SelectItem value="Friendliness">Friendliness</SelectItem>
-                <SelectItem value="Responsiveness">Responsiveness</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex gap-2">
-            <div className="flex-1">
-              <Label htmlFor="ratingScore" className="text-sm font-medium text-gray-700">Score (1-5)</Label>
-              <Input
-                id="ratingScore"
-                type="number"
-                min="1"
-                max="5"
-                value={currentRating.score === 0 ? '' : currentRating.score}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (/^[1-5]?$/.test(value)) {
-                    setCurrentRating(prev => ({
-                      ...prev,
-                      score: value === '' ? 0 : +value,
-                    }));
-                  }
-                }}
-                className="bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
-            <div className="flex items-end">
-              <Button onClick={addOrUpdateRating} type="button" size="icon" className="h-10 w-10 bg-indigo-600 hover:bg-indigo-700">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <h4 className="text-sm font-medium text-gray-700">Current Ratings:</h4>
-          <ul className="space-y-2">
-            {formData.ratings.map((r, index) => (
-              <li key={index} className="bg-gray-50 p-3 rounded-lg">
-                <span className="font-medium text-gray-900">{r.category}:</span>{' '}
-                <span className="text-gray-700">{r.score}/5</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </CardContent>
-    </Card>
-
-    {/* Interview Rounds */}
-    <Card className="bg-white shadow-sm border border-gray-100 rounded-xl md:col-span-2 lg:col-span-3">
-      <CardHeader className="border-b border-gray-100 bg-white p-6">
-        <CardTitle className="text-xl font-semibold text-gray-900">Interview Rounds</CardTitle>
-      </CardHeader>
-      <CardContent className="p-6 space-y-6">
-        <div className="flex gap-4">
-          <div className="flex-1">
-            <Label htmlFor="roundType" className="text-sm font-medium text-gray-700">Round Type</Label>
-            <Select
-              value={currentRound.roundType}
-              onValueChange={(value) => setCurrentRound(prev => ({ ...prev, roundType: value }))}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select round type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="System Design">System Design</SelectItem>
-                <SelectItem value="OA">OA</SelectItem>
-                <SelectItem value="Behavioral">Behavioral</SelectItem>
-                <SelectItem value="Pre Screen">Pre-Screen</SelectItem>
-                <SelectItem value="Technical">Technical</SelectItem>
-                <SelectItem value="Onsite Technical">Onsite Technical</SelectItem>
-                <SelectItem value="Onsite Behavioral">Onsite Behavioral</SelectItem>
-                <SelectItem value="HR">HR</SelectItem>
-                <SelectItem value="Team Matching">Team Matching</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex-1">
-            <Label htmlFor="roundDate" className="text-sm font-medium text-gray-700">Round Date</Label>
-            <div className="flex gap-2">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    id="roundDate"
-                    variant="ghost"
-                    className="w-full justify-start text-left font-normal"
+          {/* Interview Ratings */}
+          <Card className="bg-white shadow-sm border border-gray-100 rounded-xl">
+            <CardHeader className="border-b border-gray-100 bg-white p-6">
+              <CardTitle className="text-xl font-semibold text-gray-900">Interview Ratings</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 space-y-6">
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="ratingCategory" className="text-sm font-medium text-gray-700">Category</Label>
+                  <Select
+                    value={currentRating.category}
+                    onValueChange={(value) => setCurrentRating(prev => ({ ...prev, category: value }))}
                   >
-                    {currentRound.roundDate
-                      ? format(parse(currentRound.roundDate, 'yyyy-MM-dd', new Date()), 'MMMM dd, yyyy')
-                      : 'Pick a date'}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={currentRound.roundDate ? parse(currentRound.roundDate, 'yyyy-MM-dd', new Date()) : undefined}
-                    onSelect={(date) => {
-                      if (date) {
-                        setCurrentRound((prev) => ({
-                          ...prev,
-                          roundDate: format(date, 'yyyy-MM-dd'),
-                        }));
-                      }
-                    }}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <Button onClick={addRound} type="button" size="icon" className="h-10 w-10 bg-indigo-600 hover:bg-indigo-700">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Difficulty">Difficulty</SelectItem>
+                      <SelectItem value="Friendliness">Friendliness</SelectItem>
+                      <SelectItem value="Responsiveness">Responsiveness</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex gap-2">
+                  <div className="flex-1">
+                    <Label htmlFor="ratingScore" className="text-sm font-medium text-gray-700">Score (1-5)</Label>
+                    <Input
+                      id="ratingScore"
+                      type="number"
+                      min="1"
+                      max="5"
+                      value={currentRating.score === 0 ? '' : currentRating.score}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^[1-5]?$/.test(value)) {
+                          setCurrentRating(prev => ({
+                            ...prev,
+                            score: value === '' ? 0 : +value,
+                          }));
+                        }
+                      }}
+                      className="bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    />
+                  </div>
+                  <div className="flex items-end">
+                    <Button onClick={addOrUpdateRating} type="button" size="icon" className="h-10 w-10 bg-indigo-600 hover:bg-indigo-700">
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium text-gray-700">Current Ratings:</h4>
+                <ul className="space-y-2">
+                  {formData.ratings.map((r, index) => (
+                    <li key={index} className="bg-gray-50 p-3 rounded-lg">
+                      <span className="font-medium text-gray-900">{r.category}:</span>{' '}
+                      <span className="text-gray-700">{r.score}/5</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Interview Rounds */}
+          <Card className="bg-white shadow-sm border border-gray-100 rounded-xl md:col-span-2 lg:col-span-3">
+            <CardHeader className="border-b border-gray-100 bg-white p-6">
+              <CardTitle className="text-xl font-semibold text-gray-900">Interview Rounds</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 space-y-6">
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <Label htmlFor="roundType" className="text-sm font-medium text-gray-700">Round Type</Label>
+                  <Select
+                    value={currentRound.roundType}
+                    onValueChange={(value) => setCurrentRound(prev => ({ ...prev, roundType: value }))}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select round type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="System Design">System Design</SelectItem>
+                      <SelectItem value="OA">OA</SelectItem>
+                      <SelectItem value="Behavioral">Behavioral</SelectItem>
+                      <SelectItem value="Pre Screen">Pre-Screen</SelectItem>
+                      <SelectItem value="Technical">Technical</SelectItem>
+                      <SelectItem value="Onsite Technical">Onsite Technical</SelectItem>
+                      <SelectItem value="Onsite Behavioral">Onsite Behavioral</SelectItem>
+                      <SelectItem value="HR">HR</SelectItem>
+                      <SelectItem value="Team Matching">Team Matching</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex-1">
+                  <Label htmlFor="roundDate" className="text-sm font-medium text-gray-700">Round Date</Label>
+                  <div className="flex gap-2">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          id="roundDate"
+                          variant="outline"
+                          className="w-full justify-start text-left font-normal"
+                        >
+                          {currentRound.roundDate
+                            ? format(parse(currentRound.roundDate, 'yyyy-MM-dd', new Date()), 'MMMM dd, yyyy')
+                            : 'Pick a date'}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={currentRound.roundDate ? parse(currentRound.roundDate, 'yyyy-MM-dd', new Date()) : undefined}
+                          onSelect={(date) => {
+                            if (date) {
+                              setCurrentRound((prev) => ({
+                                ...prev,
+                                roundDate: format(date, 'yyyy-MM-dd'),
+                              }));
+                            }
+                          }}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <Button onClick={editingRoundId ? saveRound : addRound} type="button" size="icon" className="h-10 w-10 bg-indigo-600 hover:bg-indigo-700">
+                      {editingRoundId ? <Save className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="roundExperience" className="text-sm font-medium text-gray-700">Round Experience</Label>
+                <Textarea
+                  id="roundExperience"
+                  placeholder="Describe your experience in this round"
+                  value={currentRound.experience}
+                  onChange={(e) =>
+                    setCurrentRound((prev) => ({ ...prev, experience: e.target.value }))
+                  }
+                  className="min-h-[100px] bg-white border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium text-gray-700">Interview Rounds:</h4>
+                <ul className="space-y-2">
+                  {formData.rounds.map((r) => (
+                    <li key={r.id} className="bg-gray-50 p-3 rounded-lg">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <div className="font-medium text-gray-900">{r.roundType}</div>
+                          <div className="text-sm text-gray-600">on {r.roundDate}</div>
+                          <div className="mt-2 text-gray-700">{r.experience}</div>
+                        </div>
+                        <Button onClick={() => editRound(r.id)} type="button" size="sm" variant="ghost">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-        <div>
-          <Label htmlFor="roundExperience" className="text-sm font-medium text-gray-700">Round Experience</Label>
-          <Textarea
-            id="roundExperience"
-            placeholder="Describe your experience in this round"
-            value={currentRound.experience}
-            onChange={(e) =>
-              setCurrentRound((prev) => ({ ...prev, experience: e.target.value }))
-            }
-            className="min-h-[100px] bg-white border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-          />
-        </div>
-        <div className="space-y-2">
-          <h4 className="text-sm font-medium text-gray-700">Interview Rounds:</h4>
-          <ul className="space-y-2">
-            {formData.rounds.map((r, index) => (
-              <li key={index} className="bg-gray-50 p-3 rounded-lg">
-                <div className="font-medium text-gray-900">{r.roundType}</div>
-                <div className="text-sm text-gray-600">on {r.roundDate}</div>
-                <div className="mt-2 text-gray-700">{r.experience}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </CardContent>
-    </Card>
-  </div>
-</div>
-</form>
-);
+      </div>
+    </form>
+  );
 };
 
 export default InterviewForm;
