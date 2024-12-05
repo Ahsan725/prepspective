@@ -18,6 +18,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Loader2, Plus, Edit, Save, X } from 'lucide-react';
+import { ErrorMessage } from '@/components/error-message';
 
 type Question = {
   id: string;
@@ -38,9 +39,20 @@ type Round = {
   experience: string;
 };
 
+type InterviewLevel =
+  | "Intern"
+  | "New Grad"
+  | "Junior Engineer"
+  | "Senior Engineer"
+  | "Staff Engineer"
+  | "Principal Engineer"
+  | "Associate"
+  | "Engineering Manager";
+
 type FormData = {
   company: string;
   interviewDate: string;
+  level: InterviewLevel;
   jobOffer: boolean | null;
   overallExperience: string;
   questions: Question[];
@@ -63,6 +75,7 @@ const InterviewForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     company: '',
     interviewDate: '',
+    level: 'New Grad', // Default value
     jobOffer: null,
     overallExperience: '',
     questions: [],
@@ -90,10 +103,11 @@ const InterviewForm: React.FC = () => {
   const [editingRoundId, setEditingRoundId] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(false);
+  const [invalidFields, setInvalidFields] = useState(new Set<keyof FormData>());
 
   const handleChange = (
     field: keyof FormData,
-    value: string | boolean | null | Question[] | Rating[] | Round[]
+    value: string | boolean | null | Question[] | Rating[] | Round[] | InterviewLevel
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -149,7 +163,10 @@ const InterviewForm: React.FC = () => {
     e.preventDefault();
     if (currentRound.roundType && currentRound.roundDate) {
       const newRound = { ...currentRound, id: Date.now().toString() };
-      setFormData((prev) => ({ ...prev, rounds: [...prev.rounds, newRound] }));
+      setFormData((prev) => ({
+        ...prev,
+        rounds: [...prev.rounds, newRound],
+      }));
       setCurrentRound({ id: '', roundType: '', roundDate: '', experience: '' });
     }
   };
@@ -174,7 +191,17 @@ const InterviewForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.company || !formData.interviewDate) {
+    const requiredFields: (keyof FormData)[] = ['company', 'interviewDate', 'level'];
+    const newInvalidFields = new Set<keyof FormData>();
+
+    requiredFields.forEach((field) => {
+      if (!formData[field]) {
+        newInvalidFields.add(field);
+      }
+    });
+
+    if (newInvalidFields.size > 0) {
+      setInvalidFields(newInvalidFields);
       toast({
         title: 'Error',
         description: 'Please fill out all required fields.',
@@ -182,6 +209,7 @@ const InterviewForm: React.FC = () => {
       return;
     }
 
+    setInvalidFields(new Set());
     setLoading(true);
 
     try {
@@ -199,6 +227,7 @@ const InterviewForm: React.FC = () => {
         setFormData({
           company: '',
           interviewDate: '',
+          level: 'New Grad',
           jobOffer: null,
           overallExperience: '',
           questions: [],
@@ -256,67 +285,156 @@ const InterviewForm: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Basic Info */}
-          <Card className="bg-white shadow-sm border border-gray-100 rounded-xl">
-            <CardHeader className="border-b border-gray-100 bg-white p-6">
-              <CardTitle className="text-xl font-semibold text-gray-900">Basic Information</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6 space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="company" className="text-sm font-medium text-gray-700">Company</Label>
-                <Select onValueChange={(value) => handleChange('company', value)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a company" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {topTechCompanies.map((company) => (
-                      <SelectItem key={company} value={company}>{company}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="interviewDate" className="text-sm font-medium text-gray-700">Interview Date</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start text-left font-normal"
-                    >
-                      {formData.interviewDate
-                        ? format(parse(formData.interviewDate, 'yyyy-MM-dd', new Date()), 'MMMM dd, yyyy')
-                        : 'Pick a date'}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={formData.interviewDate ? parse(formData.interviewDate, 'yyyy-MM-dd', new Date()) : undefined}
-                      onSelect={(date) => {
-                        if (date) {
-                          handleChange('interviewDate', format(date, 'yyyy-MM-dd'));
-                        }
-                      }}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="jobOffer" className="text-sm font-medium text-gray-700">Job Offer</Label>
-                <Select onValueChange={(value) => handleChange('jobOffer', value === 'true' ? true : value === 'false' ? false : null)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select an option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="true">Yes</SelectItem>
-                    <SelectItem value="false">No</SelectItem>
-                    <SelectItem value="null">Pending/Unsure</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
+{/* Basic Info */}
+<Card className="bg-white shadow-sm border border-gray-100 rounded-xl">
+  <CardHeader className="border-b border-gray-100 bg-white p-6">
+    <CardTitle className="text-xl font-semibold text-gray-900">
+      Basic Information
+    </CardTitle>
+  </CardHeader>
+  <CardContent className="p-6 space-y-4">
+    {/* Company Field */}
+    <div className="space-y-2">
+      <Label htmlFor="company" className="text-sm font-medium text-gray-700">
+        Company
+      </Label>
+      <Select
+        onValueChange={(value) => {
+          handleChange('company', value);
+          setInvalidFields((prev) => {
+            const newSet = new Set(prev);
+            newSet.delete('company');
+            return newSet;
+          });
+        }}
+      >
+        <SelectTrigger
+          className={`w-full ${
+            invalidFields.has('company') ? 'border-red-500' : ''
+          }`}
+        >
+          <SelectValue placeholder="Select a company" />
+        </SelectTrigger>
+        <SelectContent>
+          {topTechCompanies.map((company) => (
+            <SelectItem key={company} value={company}>
+              {company}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      {invalidFields.has('company') && (
+        <ErrorMessage message="Please select a company" />
+      )}
+    </div>
+
+    {/* Interview Date Field */}
+    <div className="space-y-2">
+      <Label htmlFor="interviewDate" className="text-sm font-medium text-gray-700">
+        Interview Date
+      </Label>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="interviewDate"
+            variant="outline"
+            className={`w-full justify-start text-left font-normal ${
+              invalidFields.has('interviewDate') ? 'border-red-500' : ''
+            }`}
+          >
+            {formData.interviewDate
+              ? format(new Date(formData.interviewDate), 'MMMM dd, yyyy')
+              : 'Pick a date'}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={formData.interviewDate ? new Date(formData.interviewDate) : undefined}
+            onSelect={(date) => {
+              if (date) {
+                handleChange('interviewDate', format(date, 'yyyy-MM-dd'));
+                setInvalidFields((prev) => {
+                  const newSet = new Set(prev);
+                  newSet.delete('interviewDate');
+                  return newSet;
+                });
+              }
+            }}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
+      {invalidFields.has('interviewDate') && (
+        <ErrorMessage message="Please select a valid interview date" />
+      )}
+    </div>
+
+    {/* Interview Level Field */}
+    <div className="space-y-2">
+      <Label htmlFor="level" className="text-sm font-medium text-gray-700">
+        Interview Level
+      </Label>
+      <Select
+        value={formData.level}
+        onValueChange={(value: InterviewLevel) => {
+          handleChange('level', value);
+          setInvalidFields((prev) => {
+            const newSet = new Set(prev);
+            newSet.delete('level');
+            return newSet;
+          });
+        }}
+      >
+        <SelectTrigger
+          className={`w-full ${
+            invalidFields.has('level') ? 'border-red-500' : ''
+          }`}
+        >
+          <SelectValue placeholder="Select interview level" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="Intern">Intern</SelectItem>
+          <SelectItem value="New Grad">New Grad</SelectItem>
+          <SelectItem value="Junior Engineer">Junior Engineer</SelectItem>
+          <SelectItem value="Senior Engineer">Senior Engineer</SelectItem>
+          <SelectItem value="Staff Engineer">Staff Engineer</SelectItem>
+          <SelectItem value="Principal Engineer">Principal Engineer</SelectItem>
+          <SelectItem value="Associate">Associate</SelectItem>
+          <SelectItem value="Engineering Manager">Engineering Manager</SelectItem>
+        </SelectContent>
+      </Select>
+      {invalidFields.has('level') && (
+        <ErrorMessage message="Please select an interview level" />
+      )}
+    </div>
+
+    {/* Job Offer Field */}
+    <div className="space-y-2">
+      <Label htmlFor="jobOffer" className="text-sm font-medium text-gray-700">
+        Job Offer
+      </Label>
+      <Select
+        onValueChange={(value) =>
+          handleChange(
+            'jobOffer',
+            value === 'true' ? true : value === 'false' ? false : null
+          )
+        }
+      >
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select an option" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="true">Yes</SelectItem>
+          <SelectItem value="false">No</SelectItem>
+          <SelectItem value="null">Pending/Unsure</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  </CardContent>
+</Card>
+
 
           {/* Overall Experience */}
           <Card className="bg-white shadow-sm border border-gray-100 rounded-xl md:col-span-2">
@@ -517,7 +635,7 @@ const InterviewForm: React.FC = () => {
                         <Button
                           id="roundDate"
                           variant="outline"
-                          className="w-full justify-start text-left font-normal"
+                          className={`w-full justify-start text-left font-normal`}
                         >
                           {currentRound.roundDate
                             ? format(parse(currentRound.roundDate, 'yyyy-MM-dd', new Date()), 'MMMM dd, yyyy')

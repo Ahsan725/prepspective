@@ -41,6 +41,7 @@ export const interviewsTable = sqliteTable('interviews', {
   updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`).notNull().$onUpdate(() => sql`CURRENT_TIMESTAMP`),
   overallExperience: text('overall_experience'),
   jobOffer: integer('job_offer', { mode: 'boolean' }).default(false),
+  level: text('level').default('Not Provided Yet').notNull(),
 });
 
 export const roundsTable = sqliteTable('rounds', {

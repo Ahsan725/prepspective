@@ -14,7 +14,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-        "border-2 border-indigo-700 text-indigo-700 hover:bg-indigo-100 hover:text-indigo-700 relative overflow-hidden rounded-md px-5 py-2.5 duration-300 shadow-lg hover:shadow-lg [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:translate-y-1 active:scale-x-102 active:scale-y-97",
+        "border-2 border-indigo-700 text-indigo-700 hover:bg-indigo-100 hover:text-indigo-700 relative overflow-hidden rounded-md px-5 py-2.5 duration-300 shadow-lg hover:shadow-lg [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)]",
         secondary:
           "bg-gray-600 text-white hover:bg-gray-600/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",

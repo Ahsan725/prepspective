@@ -1,0 +1,1 @@
+ALTER TABLE `interviews` ADD `level` text DEFAULT 'Not Provided Yet' NOT NULL;
