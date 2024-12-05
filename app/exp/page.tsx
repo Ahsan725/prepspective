@@ -247,16 +247,27 @@ const editQuestion = (id: string) => {
 
   const addRound = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (currentRound.roundType && currentRound.roundDate) {
-      const newRound = { ...currentRound, id: Date.now().toString() };
-      setFormData((prev) => ({
-        ...prev,
-        rounds: [...prev.rounds, newRound],
-      }));
-      setCurrentRound({ id: '', roundType: '', roundDate: '', experience: '' });
+  
+    // Check if all required fields are filled
+    if (!currentRound.roundType || !currentRound.roundDate || !currentRound.experience.trim()) {
+      toast({
+        title: 'Error',
+        description: 'Please fill out all the fields, including Round Experience, before adding the round.',
+      });
+      return;
     }
+  
+    // Add the new round if validation passes
+    const newRound = { ...currentRound, id: Date.now().toString() };
+    setFormData((prev) => ({
+      ...prev,
+      rounds: [...prev.rounds, newRound],
+    }));
+  
+    // Reset the current round state
+    setCurrentRound({ id: '', roundType: '', roundDate: '', experience: '' });
   };
-
+  
   const editRound = (id: string) => {
     const roundToEdit = formData.rounds.find(r => r.id === id);
     if (roundToEdit) {
@@ -264,15 +275,38 @@ const editQuestion = (id: string) => {
       setEditingRoundId(id);
     }
   };
-
+  
   const saveRound = () => {
-    setFormData(prev => ({
-      ...prev,
-      rounds: prev.rounds.map(r => r.id === editingRoundId ? currentRound : r)
-    }));
-    setEditingRoundId(null);
-    setCurrentRound({ id: '', roundType: '', roundDate: '', experience: '' });
+    if (editingRoundId) {
+      if (!currentRound.experience.trim()) {
+        // If the experience field is cleared, delete the round
+        setFormData(prev => ({
+          ...prev,
+          rounds: prev.rounds.filter(r => r.id !== editingRoundId),
+        }));
+        toast({
+          title: 'Round Deleted',
+          description: 'The round was deleted as the experience field was cleared.',
+        });
+      } else {
+        // Otherwise, update the round
+        setFormData(prev => ({
+          ...prev,
+          rounds: prev.rounds.map(r =>
+            r.id === editingRoundId ? currentRound : r
+          ),
+        }));
+        toast({
+          title: 'Round Updated',
+          description: 'The round was successfully updated.',
+        });
+      }
+      setEditingRoundId(null);
+      setCurrentRound({ id: '', roundType: '', roundDate: '', experience: '' });
+    }
   };
+  
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -786,7 +820,7 @@ const editQuestion = (id: string) => {
                       <div className="flex justify-between items-start">
                         <div>
                           <div className="font-semibold text-indigo-600">{r.roundType}</div>
-                          <div className="text-sm pt-0 mt-0 text-indigo-600 text-right">{r.roundDate}</div>
+                          <div className="text-sm pt-0 mt-0 text-indigo-600">{r.roundDate}</div>
                           <div className="mt-2 text-gray-700 text-sm leading-loose">{r.experience}</div>
                         </div>
                         <Button onClick={() => editRound(r.id)} type="button" size="sm" variant="ghost">
