@@ -7,6 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { format, parse } from 'date-fns';
+import { addDays } from 'date-fns';
+
 import {
   Select,
   SelectContent,
@@ -111,6 +113,31 @@ const InterviewForm: React.FC = () => {
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+ // Function to handle the selected date and adjust as necessary
+ const handleDateSelection = (selectedDate: Date | undefined) => {
+  if (selectedDate) {
+    // Adjust the date (e.g., select the next day)
+    const adjustedDate = addDays(selectedDate, 1); // Add one day
+
+    // Format the adjusted date
+    const formattedDate = format(adjustedDate, 'yyyy-MM-dd');
+
+    // Update the formData state
+    setFormData((prev) => ({
+      ...prev,
+      interviewDate: formattedDate, // Update the interviewDate field
+    }));
+
+    // Clear any validation errors for interviewDate
+    setInvalidFields((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete('interviewDate');
+      return newSet;
+    });
+  }
+};
+
 
   const addQuestion = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -348,21 +375,16 @@ const InterviewForm: React.FC = () => {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
-            mode="single"
-            selected={formData.interviewDate ? new Date(formData.interviewDate) : undefined}
-            onSelect={(date) => {
-              if (date) {
-                handleChange('interviewDate', format(date, 'yyyy-MM-dd'));
-                setInvalidFields((prev) => {
-                  const newSet = new Set(prev);
-                  newSet.delete('interviewDate');
-                  return newSet;
-                });
-              }
-            }}
-            initialFocus
-          />
+         <Calendar
+        mode="single"
+        selected={
+          formData.interviewDate
+            ? new Date(formData.interviewDate) // Parse stored string into a Date object
+            : undefined
+        }
+        onSelect={handleDateSelection} // Use the new handler
+        initialFocus
+      />
         </PopoverContent>
       </Popover>
       {invalidFields.has('interviewDate') && (
