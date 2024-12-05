@@ -446,7 +446,7 @@ const editQuestion = (id: string) => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 {/* Basic Info */}
-<Card className="bg-white shadow-sm border border-gray-100 rounded-xl">
+<Card className="bg-white shadow-2xl border border-gray-100 rounded-xl">
   <CardHeader className="border-b border-gray-100 bg-white p-6">
     <CardTitle className="text-xl font-semibold text-gray-900">
       Basic Information
@@ -593,7 +593,7 @@ const editQuestion = (id: string) => {
 
 
           {/* Overall Experience */}
-          <Card className="bg-white shadow-sm border border-gray-100 rounded-xl md:col-span-2 flex flex-col">
+          <Card className="bg-white shadow-2xl border border-gray-100 rounded-xl md:col-span-2 flex flex-col">
   <CardHeader className="border-b border-gray-100 bg-white p-6">
     <CardTitle className="text-xl font-semibold text-gray-900">Overall Experience</CardTitle>
   </CardHeader>
@@ -610,7 +610,7 @@ const editQuestion = (id: string) => {
 
 
           {/* Interview Questions */}
-          <Card className="bg-white shadow-sm border border-gray-100 rounded-xl lg:col-span-2">
+          <Card className="bg-white shadow-2xl border border-gray-100 rounded-xl lg:col-span-2">
   <CardHeader className="border-b border-gray-100 bg-white p-6">
     <CardTitle className="text-xl font-semibold text-gray-900">Interview Questions</CardTitle>
   </CardHeader>
@@ -708,7 +708,7 @@ const editQuestion = (id: string) => {
 
 
           {/* Interview Ratings */}
-          <Card className="bg-white shadow-sm border border-gray-100 rounded-xl">
+          <Card className="bg-white shadow-2xl border border-gray-100 rounded-xl">
             <CardHeader className="border-b border-gray-100 bg-white p-6">
               <CardTitle className="text-xl font-semibold text-gray-900">Interview Ratings</CardTitle>
             </CardHeader>
@@ -773,7 +773,7 @@ const editQuestion = (id: string) => {
           </Card>
 
           {/* Interview Rounds */}
-          <Card className="bg-white shadow-sm border border-gray-100 rounded-xl md:col-span-2 lg:col-span-3">
+          <Card className="bg-white shadow-2xl border border-gray-100 rounded-xl md:col-span-2 lg:col-span-3">
             <CardHeader className="border-b border-gray-100 bg-white p-6">
               <CardTitle className="text-xl font-semibold text-gray-900">Interview Rounds</CardTitle>
             </CardHeader>
