@@ -132,7 +132,9 @@ const InterviewForm: React.FC = () => {
 };
 
 
-const ensureHttps = (url: string): string => {
+const allowedDomains = ['leetcode.com', 'geeksforgeeks.org'];
+
+const ensureHttpsAndValidate = (url: string): string | null => {
   let updatedUrl = url.trim();
 
   if (!updatedUrl.startsWith('https://') && !updatedUrl.startsWith('http://')) {
@@ -144,26 +146,76 @@ const ensureHttps = (url: string): string => {
     updatedUrl = updatedUrl.replace(/(https?:\/\/)/, '$1www.');
   }
 
+  // Check if the domain matches allowed domains
+  const domain = domainPart.split('/')[0]; // Extract the domain part
+  if (!allowedDomains.some((allowedDomain) => domain.endsWith(allowedDomain))) {
+    return null; // Invalid domain
+  }
+
   return updatedUrl;
 };
 
+
 const addQuestion = (e: React.MouseEvent) => {
   e.preventDefault();
+
   if (currentQuestion.question) {
-    const newQuestion = {
+    const validatedLink: string | undefined = currentQuestion.leetcodeLink
+      ? ensureHttpsAndValidate(currentQuestion.leetcodeLink) || undefined
+      : undefined;
+
+    if (currentQuestion.leetcodeLink && !validatedLink) {
+      toast({
+        title: 'Invalid Link!',
+        description: 'We only support LeetCode and GeeksforGeeks links.',
+      });
+      return;
+    }
+
+    const newQuestion: Question = {
       ...currentQuestion,
       id: Date.now().toString(),
-      leetcodeLink: currentQuestion.leetcodeLink
-        ? ensureHttps(currentQuestion.leetcodeLink) // Process URL here
-        : undefined,
+      leetcodeLink: validatedLink,
     };
+
     setFormData((prev) => ({
       ...prev,
       questions: [...prev.questions, newQuestion],
     }));
-    setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: '' });
+
+    setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: undefined });
   }
 };
+
+const saveQuestion = () => {
+  const validatedLink: string | undefined = currentQuestion.leetcodeLink
+    ? ensureHttpsAndValidate(currentQuestion.leetcodeLink) || undefined
+    : undefined;
+
+  if (currentQuestion.leetcodeLink && !validatedLink) {
+    toast({
+      title: 'Invalid Link!',
+      description: 'We only support LeetCode and GeeksforGeeks links.',
+    });
+    return;
+  }
+
+  setFormData((prev) => ({
+    ...prev,
+    questions: prev.questions.map((q) =>
+      q.id === editingQuestionId
+        ? {
+            ...currentQuestion,
+            leetcodeLink: validatedLink,
+          }
+        : q
+    ),
+  }));
+
+  setEditingQuestionId(null);
+  setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: undefined });
+};
+
 
 const editQuestion = (id: string) => {
   const questionToEdit = formData.questions.find((q) => q.id === id);
@@ -173,23 +225,6 @@ const editQuestion = (id: string) => {
   }
 };
 
-const saveQuestion = () => {
-  setFormData((prev) => ({
-    ...prev,
-    questions: prev.questions.map((q) =>
-      q.id === editingQuestionId
-        ? {
-            ...currentQuestion,
-            leetcodeLink: currentQuestion.leetcodeLink
-              ? ensureHttps(currentQuestion.leetcodeLink) // Process URL here
-              : undefined,
-          }
-        : q
-    ),
-  }));
-  setEditingQuestionId(null);
-  setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: '' });
-};
 
 
   const addOrUpdateRating = () => {
