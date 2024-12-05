@@ -427,7 +427,8 @@ const editQuestion = (id: string) => {
           </h3>
           <div className="flex justify-center items-center">
   <Button 
-    type="submit" 
+              type="submit" 
+              size="sm"
     className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 w-full sm:w-auto" 
     disabled={loading}
   >
@@ -873,7 +874,8 @@ const editQuestion = (id: string) => {
         </div>
         <div className="flex justify-center items-center">
   <Button 
-    type="submit" 
+            type="submit" 
+            size="sm"
     className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 w-full sm:w-auto" 
     disabled={loading}
   >
