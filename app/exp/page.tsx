@@ -288,20 +288,22 @@ const InterviewForm: React.FC = () => {
           <h3 className="md:w-1/2 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
             Help others prepare by sharing your interview experience. Your insights could be the key to someone else&apos;s success.
           </h3>
-          <Button 
-            type="submit" 
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 w-full sm:w-auto" 
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Submitting...
-              </>
-            ) : (
-              'Submit Experience'
-            )}
-          </Button>
+          <div className="flex justify-center items-center">
+  <Button 
+    type="submit" 
+    className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 w-full sm:w-auto" 
+    disabled={loading}
+  >
+    {loading ? (
+      <>
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        Submitting...
+      </>
+    ) : (
+      'Submit Experience'
+    )}
+  </Button>
+</div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -714,6 +716,23 @@ const InterviewForm: React.FC = () => {
             </CardContent>
           </Card>
         </div>
+        <div className="flex justify-center items-center">
+  <Button 
+    type="submit" 
+    className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 w-full sm:w-auto" 
+    disabled={loading}
+  >
+    {loading ? (
+      <>
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        Submitting...
+      </>
+    ) : (
+      'Submit Experience'
+    )}
+  </Button>
+</div>
+
       </div>
     </form>
   );
