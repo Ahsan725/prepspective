@@ -68,7 +68,8 @@ const TempNavbar = () => {
         <TooltipTrigger asChild>
           <Button
             onClick={handleEscapeButtonClick}
-            variant="outline"
+                    variant="outline"
+                    size="icon"
           >
             <MousePointerClick />
           </Button>
@@ -120,7 +121,8 @@ const TempNavbar = () => {
                 {/* Embed the ContactForm Component */}
                 <Button
             onClick={handleEscapeButtonClick}
-            variant="outline"
+                  variant="outline"
+                  size="icon"
           ><MousePointerClick />
                 </Button>
                 <ContactForm />
