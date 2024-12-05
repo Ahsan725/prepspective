@@ -8,6 +8,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { format, parse } from 'date-fns';
 import { addDays } from 'date-fns';
+import { topTechCompanies } from '@/data/companies';
+
 
 import {
   Select,
@@ -62,15 +64,6 @@ type FormData = {
   rounds: Round[];
 };
 
-const topTechCompanies = [
-  'Google',
-  'Amazon',
-  'Meta (Facebook)',
-  'Apple',
-  'Microsoft',
-  'Netflix',
-  'Tesla',
-];
 
 const InterviewForm: React.FC = () => {
   const { toast } = useToast();
@@ -218,7 +211,7 @@ const InterviewForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const requiredFields: (keyof FormData)[] = ['company', 'interviewDate', 'level'];
+    const requiredFields: (keyof FormData)[] = ['company', 'interviewDate', 'level', 'overallExperience'];
     const newInvalidFields = new Set<keyof FormData>();
 
     requiredFields.forEach((field) => {
@@ -326,30 +319,31 @@ const InterviewForm: React.FC = () => {
         Company
       </Label>
       <Select
-        onValueChange={(value) => {
-          handleChange('company', value);
-          setInvalidFields((prev) => {
-            const newSet = new Set(prev);
-            newSet.delete('company');
-            return newSet;
-          });
-        }}
-      >
-        <SelectTrigger
-          className={`w-full ${
-            invalidFields.has('company') ? 'border-red-500' : ''
-          }`}
-        >
-          <SelectValue placeholder="Select a company" />
-        </SelectTrigger>
-        <SelectContent>
-          {topTechCompanies.map((company) => (
-            <SelectItem key={company} value={company}>
-              {company}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+  onValueChange={(value) => {
+    handleChange('company', value);
+    setInvalidFields((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete('company');
+      return newSet;
+    });
+  }}
+>
+  <SelectTrigger
+    className={`w-full ${
+      invalidFields.has('company') ? 'border-red-500' : ''
+    }`}
+  >
+    <SelectValue placeholder="Select a company" />
+  </SelectTrigger>
+  <SelectContent>
+    {topTechCompanies.map((company) => (
+      <SelectItem key={company} value={company}>
+        {company}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
       {invalidFields.has('company') && (
         <ErrorMessage message="Please select a company" />
       )}
@@ -364,7 +358,7 @@ const InterviewForm: React.FC = () => {
         <PopoverTrigger asChild>
           <Button
             id="interviewDate"
-            variant="outline"
+            variant="ghost"
             className={`w-full justify-start text-left font-normal ${
               invalidFields.has('interviewDate') ? 'border-red-500' : ''
             }`}
@@ -656,7 +650,7 @@ const InterviewForm: React.FC = () => {
                       <PopoverTrigger asChild>
                         <Button
                           id="roundDate"
-                          variant="outline"
+                          variant="ghost"
                           className={`w-full justify-start text-left font-normal`}
                         >
                           {currentRound.roundDate
