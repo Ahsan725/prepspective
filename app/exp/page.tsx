@@ -132,34 +132,65 @@ const InterviewForm: React.FC = () => {
 };
 
 
-  const addQuestion = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (currentQuestion.question) {
-      const newQuestion = { ...currentQuestion, id: Date.now().toString() };
-      setFormData((prev) => ({
-        ...prev,
-        questions: [...prev.questions, newQuestion],
-      }));
-      setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: '' });
-    }
-  };
+const ensureHttps = (url: string): string => {
+  let updatedUrl = url.trim();
 
-  const editQuestion = (id: string) => {
-    const questionToEdit = formData.questions.find(q => q.id === id);
-    if (questionToEdit) {
-      setCurrentQuestion(questionToEdit);
-      setEditingQuestionId(id);
-    }
-  };
+  if (!updatedUrl.startsWith('https://') && !updatedUrl.startsWith('http://')) {
+    updatedUrl = `https://${updatedUrl}`;
+  }
 
-  const saveQuestion = () => {
-    setFormData(prev => ({
+  const domainPart = updatedUrl.replace(/https?:\/\//, '');
+  if (!domainPart.startsWith('www.')) {
+    updatedUrl = updatedUrl.replace(/(https?:\/\/)/, '$1www.');
+  }
+
+  return updatedUrl;
+};
+
+const addQuestion = (e: React.MouseEvent) => {
+  e.preventDefault();
+  if (currentQuestion.question) {
+    const newQuestion = {
+      ...currentQuestion,
+      id: Date.now().toString(),
+      leetcodeLink: currentQuestion.leetcodeLink
+        ? ensureHttps(currentQuestion.leetcodeLink) // Process URL here
+        : undefined,
+    };
+    setFormData((prev) => ({
       ...prev,
-      questions: prev.questions.map(q => q.id === editingQuestionId ? currentQuestion : q)
+      questions: [...prev.questions, newQuestion],
     }));
-    setEditingQuestionId(null);
     setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: '' });
-  };
+  }
+};
+
+const editQuestion = (id: string) => {
+  const questionToEdit = formData.questions.find((q) => q.id === id);
+  if (questionToEdit) {
+    setCurrentQuestion(questionToEdit);
+    setEditingQuestionId(id);
+  }
+};
+
+const saveQuestion = () => {
+  setFormData((prev) => ({
+    ...prev,
+    questions: prev.questions.map((q) =>
+      q.id === editingQuestionId
+        ? {
+            ...currentQuestion,
+            leetcodeLink: currentQuestion.leetcodeLink
+              ? ensureHttps(currentQuestion.leetcodeLink) // Process URL here
+              : undefined,
+          }
+        : q
+    ),
+  }));
+  setEditingQuestionId(null);
+  setCurrentQuestion({ id: '', type: 'behavioral', question: '', leetcodeLink: '' });
+};
+
 
   const addOrUpdateRating = () => {
     if (currentRating.category && currentRating.score >= 1 && currentRating.score <= 5) {
@@ -473,84 +504,101 @@ const InterviewForm: React.FC = () => {
 
           {/* Interview Questions */}
           <Card className="bg-white shadow-sm border border-gray-100 rounded-xl lg:col-span-2">
-            <CardHeader className="border-b border-gray-100 bg-white p-6">
-              <CardTitle className="text-xl font-semibold text-gray-900">Interview Questions</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6 space-y-6">
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <Label htmlFor="questionType" className="text-sm font-medium text-gray-700">Type</Label>
-                  <Select
-                    value={currentQuestion.type}
-                    onValueChange={(value) => setCurrentQuestion(prev => ({ ...prev, type: value as 'behavioral' | 'technical' }))}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="behavioral">Behavioral</SelectItem>
-                      <SelectItem value="technical">Technical</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex-[2]">
-                  <Label htmlFor="question" className="text-sm font-medium text-gray-700">Question</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="question"
-                      placeholder="Enter question"
-                      value={currentQuestion.question}
-                      onChange={(e) =>
-                        setCurrentQuestion((prev) => ({ ...prev, question: e.target.value }))
-                      }
-                      className="flex-1 bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                    <Button onClick={editingQuestionId ? saveQuestion : addQuestion} type="button" size="icon" className="h-10 w-10 bg-indigo-600 hover:bg-indigo-700">
-                      {editingQuestionId ? <Save className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              {currentQuestion.type === 'technical' && (
-                <div>
-                  <Label htmlFor="leetcodeLink" className="text-sm font-medium text-gray-700">LeetCode Link (optional)</Label>
-                  <Input
-                    id="leetcodeLink"
-                    placeholder="LeetCode link"
-                    value={currentQuestion.leetcodeLink}
-                    onChange={(e) =>
-                      setCurrentQuestion((prev) => ({
-                        ...prev,
-                        leetcodeLink: e.target.value,
-                      }))
-                    }
-                    className="bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  />
-                </div>
+  <CardHeader className="border-b border-gray-100 bg-white p-6">
+    <CardTitle className="text-xl font-semibold text-gray-900">Interview Questions</CardTitle>
+  </CardHeader>
+  <CardContent className="p-6 space-y-6">
+    <div className="flex gap-4">
+      <div className="flex-1">
+        <Label htmlFor="questionType" className="text-sm font-medium text-gray-700">Type</Label>
+        <Select
+          value={currentQuestion.type}
+          onValueChange={(value) =>
+            setCurrentQuestion((prev) => ({ ...prev, type: value as 'behavioral' | 'technical' }))
+          }
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="behavioral">Behavioral</SelectItem>
+            <SelectItem value="technical">Technical</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="flex-[2]">
+        <Label htmlFor="question" className="text-sm font-medium text-gray-700">Question</Label>
+        <div className="flex gap-2">
+          <Textarea
+            id="question"
+            placeholder="Enter question"
+            value={currentQuestion.question}
+            onChange={(e) =>
+              setCurrentQuestion((prev) => ({ ...prev, question: e.target.value }))
+            }
+            className="flex-1 min-h-[150px] bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+          />
+          <Button
+            onClick={editingQuestionId ? saveQuestion : addQuestion}
+            type="button"
+            size="icon"
+            className="h-10 w-10 bg-indigo-600 hover:bg-indigo-700"
+          >
+            {editingQuestionId ? <Save className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          </Button>
+        </div>
+      </div>
+    </div>
+    {currentQuestion.type === 'technical' && (
+      <div>
+        <Label htmlFor="leetcodeLink" className="text-sm font-medium text-gray-700">LeetCode Link (optional)</Label>
+        <Input
+          id="leetcodeLink"
+          placeholder="LeetCode link"
+          value={currentQuestion.leetcodeLink}
+          onChange={(e) =>
+            setCurrentQuestion((prev) => ({
+              ...prev,
+              leetcodeLink: e.target.value,
+            }))
+          }
+          className="bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        />
+      </div>
+    )}
+    <div className="space-y-2">
+      <h4 className="text-sm font-medium text-gray-700">Added Questions:</h4>
+      <ul className="space-y-2">
+        {formData.questions.map((q, index) => (
+          <li key={q.id} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
+            <div>
+              <span className="font-semibold text-indigo-600">
+                {q.type.charAt(0).toUpperCase() + q.type.slice(1)}
+              </span>
+              {': '}
+              <span className="text-gray-700 text-sm">{q.question}</span>{' '}
+              {q.leetcodeLink && (
+                <a
+                  href={q.leetcodeLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-indigo-600 hover:text-indigo-700 hover:underline"
+                >
+                  LeetCode Link
+                </a>
               )}
-              <div className="space-y-2">
-                <h4 className="text-sm font-medium text-gray-700">Added Questions:</h4>
-                <ul className="space-y-2">
-                  {formData.questions.map((q, index) => (
-                    <li key={q.id} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
-                      <div>
-                        <span className="font-medium text-gray-900">{q.type}:</span>{' '}
-                        <span className="text-gray-700">{q.question}</span>{' '}
-                        {q.leetcodeLink && (
-                          <a href={q.leetcodeLink} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-700 hover:underline">
-                            LeetCode Link
-                          </a>
-                        )}
-                      </div>
-                      <Button onClick={() => editQuestion(q.id)} type="button" size="sm" variant="ghost">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+            <Button onClick={() => editQuestion(q.id)} type="button" size="sm" variant="ghost">
+              <Edit className="h-4 w-4" />
+            </Button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </CardContent>
+</Card>
+
+
 
           {/* Interview Ratings */}
           <Card className="bg-white shadow-sm border border-gray-100 rounded-xl">
@@ -704,7 +752,7 @@ const InterviewForm: React.FC = () => {
                         <div>
                           <div className="font-medium text-gray-900">{r.roundType}</div>
                           <div className="text-sm text-gray-600">on {r.roundDate}</div>
-                          <div className="mt-2 text-gray-700">{r.experience}</div>
+                          <div className="mt-2 text-gray-700 text-sm">{r.experience}</div>
                         </div>
                         <Button onClick={() => editRound(r.id)} type="button" size="sm" variant="ghost">
                           <Edit className="h-4 w-4" />
