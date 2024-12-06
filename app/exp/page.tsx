@@ -119,7 +119,7 @@ const InterviewForm: React.FC = () => {
     // Update the formData state
     setFormData((prev) => ({
       ...prev,
-      interviewDate: formattedDate, // Update the interviewDate field
+      interviewDate: formattedDate, // Update the interviewDate fields
     }));
 
     // Clear any validation errors for interviewDate
