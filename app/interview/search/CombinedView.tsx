@@ -108,47 +108,51 @@ const CombinedView: React.FC = () => {
         );
     
         return (
-          <div className="p-4 rounded-lg">
-            <h3 className={headingClasses}>Interview Questions</h3>
-            <hr className="border-t border-gray-300 my-4" />
-            <div className="mt-4">
-              {technicalQuestions.length > 0 && (
-                <>
-                  <h4 className={subheadingClasses}>Technical Questions</h4>
-                  <ul className="list-disc pl-6 mt-2 mb-4">
-                    {technicalQuestions.map((q) => (
-                      <li key={q.id} className={paragraphClasses}>
-                        {q.question}
-                        {q.leetcodeLink && (
-                          <a
-                            href={q.leetcodeLink || undefined}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="ml-2 text-indigo-500 underline"
-                          >
-                            Open Link
-                          </a>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                  <hr className="border-t border-gray-300 my-4" />
-                </>
+<div className="p-4 rounded-lg">
+  <h3 className={headingClasses}>Interview Questions</h3>
+  <hr className="border-t border-gray-300 my-4" />
+  <div className="mt-4">
+    {technicalQuestions.length > 0 && (
+      <>
+        <h4 className={subheadingClasses}>Technical Questions</h4>
+        <ul className="list-disc pl-6 mt-2 mb-4">
+          {technicalQuestions.map((q) => (
+            <li key={q.id} className={paragraphClasses}>
+              {q.question}
+              {q.leetcodeLink && (
+                <a
+                  href={q.leetcodeLink || undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-2 text-indigo-500 underline"
+                >
+                  Open Link
+                </a>
               )}
-              {behavioralQuestions.length > 0 && (
-                <>
-                  <h4 className={subheadingClasses}>Behavioral Questions</h4>
-                  <ul className="list-disc pl-6 mt-2">
-                    {behavioralQuestions.map((q) => (
-                      <li key={q.id} className={paragraphClasses}>
-                        {q.question}
-                      </li>
-                    ))}
-                  </ul>
-                </>
+            </li>
+          ))}
+        </ul>
+        <hr className="border-t border-gray-300 my-4" />
+      </>
+    )}
+    {behavioralQuestions.length > 0 && (
+      <>
+        <h4 className={subheadingClasses}>Behavioral Questions</h4>
+        <ul className="list-disc pl-6 mt-2">
+          {behavioralQuestions.map((q, index) => (
+            <div key={q.id}>
+              <li className={paragraphClasses}>{q.question}</li>
+              {index < behavioralQuestions.length - 1 && (
+                <hr className="border-t border-gray-300 my-2" />
               )}
             </div>
-          </div>
+          ))}
+        </ul>
+      </>
+    )}
+  </div>
+</div>
+
         );
     
       case 'ratings':
