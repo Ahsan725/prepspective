@@ -249,7 +249,7 @@ const CombinedView: React.FC = () => {
         {/* Badge Filters */}
         <div className="flex flex-wrap gap-2 mb-4 mt-4">
   <div className="w-full">
-    {[...levelOptions, 'LeetCode', 'System Design', 'Pre Screen', 'OA', 'Behavioral', 'Technical'].map((badge) => (
+    {[...levelOptions, 'LeetCode', 'System Design', 'Pre Screen', 'OA', 'Behavioral', 'Technical', 'HR'].map((badge) => (
       <button
         key={badge}
         className={`px-2 py-1 text-[9px] font-semibold rounded-full mr-1 mb-1 ${
