@@ -228,7 +228,7 @@ const CombinedView: React.FC = () => {
   return (
     <div className="flex flex-col sm:flex-row">
       {/* Search Section */}
-      <div className="w-full sm:w-2/5 p-2 relative">
+      <div className="w-full sm:w-3/5 p-2 relative">
         <div className="flex items-center justify-center mb-2">
           <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-sm text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
             SEARCH INTERVIEWS
@@ -244,41 +244,25 @@ const CombinedView: React.FC = () => {
 
         {/* Badge Filters */}
         <div className="flex flex-wrap gap-2 mb-4 mt-4">
-          <div className="w-full">
-            <h3 className="text-sm font-semibold mb-2">Role Levels</h3>
-            {levelOptions.map((level) => (
-              <button
-                key={level}
-                className={`px-3 py-1 text-xs font-semibold rounded-full mr-2 mb-2 ${
-                  selectedBadges.includes(level)
-                    ? 'bg-indigo-500 text-white'
-                    : 'bg-gray-100 text-gray-700'
-                }`}
-                onClick={() => toggleBadge(level)}
-              >
-                {level}
-              </button>
-            ))}
-          </div>
-          <div className="w-full">
-            <h3 className="text-sm font-semibold mb-2">Interview Types</h3>
-            {['LeetCode', 'System Design', 'Pre Screen', 'OA', 'Behavioral', 'Technical'].map((badge) => (
-              <button
-                key={badge}
-                className={`px-3 py-1 text-xs font-semibold rounded-full mr-2 mb-2 ${
-                  selectedBadges.includes(badge)
-                    ? 'bg-indigo-500 text-white'
-                    : 'bg-gray-100 text-gray-700'
-                }`}
-                onClick={() => toggleBadge(badge)}
-              >
-                {badge}
-              </button>
-            ))}
-          </div>
-        </div>
+  <div className="w-full">
+    {[...levelOptions, 'LeetCode', 'System Design', 'Pre Screen', 'OA', 'Behavioral', 'Technical'].map((badge) => (
+      <button
+        key={badge}
+        className={`px-3 py-1 text-xs font-semibold rounded-full mr-2 mb-2 ${
+          selectedBadges.includes(badge)
+            ? 'bg-indigo-500 text-white'
+            : 'bg-gray-100 text-gray-700'
+        }`}
+        onClick={() => toggleBadge(badge)}
+      >
+        {badge}
+      </button>
+    ))}
+  </div>
+</div>
 
-        <ul className="mt-0 lg:max-h-[28rem] max-h-[24rem] overflow-y-auto relative">
+
+        <ul className="mt-0 lg:max-h-[25rem] max-h-[24rem] overflow-y-auto relative">
           {loading ? (
             <div className="flex justify-center items-center h-[8rem] mt-4">
               <Loader />
@@ -381,7 +365,7 @@ const CombinedView: React.FC = () => {
       </div>
 
       {/* Detailed View Section */}
-      <div className="hidden sm:block sm:w-3/5 lg:w-full p-4 rounded-lg mx-2 lg:max-h-[39rem] overflow-y-auto relative">
+      <div className="hidden sm:block sm:w-2/5 lg:w-full p-4 rounded-lg mx-2 lg:max-h-[39rem] overflow-y-auto relative">
         {selectedInterviewId && !interview ? (
           <div className="flex justify-center items-center min-h-[10rem]">
             <Loader />
