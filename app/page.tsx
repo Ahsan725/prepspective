@@ -1,20 +1,40 @@
+'use client'
+import React, { useState, useEffect } from "react";
 import CustomHero from '@/components/ui/customhero';
 import FAQSection from '@/components/ui/customfaq';
 import { FeaturesSection } from "@/components/ui/customfeature2";
 import Familiar from "@/components/ui/familiar";
-import Bento from "@/components/ui/bento"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-
+import Bento from "@/components/ui/bento";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import Loader from "@/components/ui/loader"; // Assume you have the Loader component
 
 export default function HomePage() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust the time as needed
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <main>
       <CustomHero />
-      <Bento/>
-      {/* <CustomFeature/> */}
+      <Bento />
       <Familiar />
-      <FeaturesSection/>
-      < FAQSection />
+      <FeaturesSection />
+      <FAQSection />
       <SpeedInsights />
     </main>
   );
