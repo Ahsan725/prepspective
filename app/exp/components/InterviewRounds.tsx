@@ -168,7 +168,7 @@ export function InterviewRounds({ formData, handleChange }: InterviewRoundsProps
           <h4 className="text-sm font-medium text-gray-700">Interview Rounds:</h4>
           <ul className="space-y-2">
             {formData.rounds.map((r) => (
-              <li key={r.id} className="bg-gray-50 p-3 rounded-lg">
+              <li key={r.id} className="bg-white p-3 rounded-lg">
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="font-semibold text-indigo-600">{r.roundType}</div>

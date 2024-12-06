@@ -188,7 +188,7 @@ export function InterviewQuestions({ formData, handleChange }: InterviewQuestion
           <h4 className="text-sm font-medium text-gray-700">Added Questions:</h4>
           <ul className="space-y-2">
             {formData.questions.map((q) => (
-              <li key={q.id} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
+              <li key={q.id} className="bg-white p-3 rounded-lg flex justify-between items-start">
                 <div>
                   <span className="font-semibold text-indigo-600">
                     {q.type.charAt(0).toUpperCase() + q.type.slice(1)}

@@ -110,7 +110,7 @@ export default function InterviewForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="min-h-screen bg-white p-4 sm:p-6">
+    <form onSubmit={handleSubmit} className="min-h-screen bg-white px-4 sm:px-6 lg:px-24 xl:px-32">
       <div className="w-full space-y-6">
         <div className="space-y-4 mb-8">
           <div className="flex items-center justify-center mb-4">
@@ -156,7 +156,7 @@ function SubmitButton({ loading }: { loading: boolean }) {
       <Button 
         type="submit" 
         size="sm"
-        className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 w-full sm:w-auto" 
+        className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 w-full sm:w-auto mb-8" 
         disabled={loading}
       >
         {loading ? (
