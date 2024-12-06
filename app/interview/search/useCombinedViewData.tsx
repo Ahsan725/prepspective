@@ -27,6 +27,7 @@ type Interview = {
   id: number;
   company: string;
   interviewDate: string;
+  level: string;
   createdAt: string;
   updatedAt: string;
   overallExperience: string;
@@ -35,6 +36,17 @@ type Interview = {
   ratings: Rating[];
   rounds: Round[];
 };
+
+const levelOptions = [
+  "Intern",
+  "New Grad",
+  "Junior Engineer",
+  "Senior Engineer",
+  "Staff Engineer",
+  "Principal Engineer",
+  "Associate",
+  "Engineering Manager"
+];
 
 export const useCombinedViewData = () => {
   const [results, setResults] = useState<Interview[]>([]);
@@ -112,6 +124,10 @@ export const useCombinedViewData = () => {
               (q) => q.type.toLowerCase() === 'technical'
             );
           }
+          // New logic for filtering by level
+          if (levelOptions.includes(badge)) {
+            return r.level === badge;
+          }
           return false;
         });
       });
@@ -153,6 +169,8 @@ export const useCombinedViewData = () => {
     setActiveTab,
     handleViewDetails,
     selectedBadges,
-    setSelectedBadges, // Add setter for badges
+    setSelectedBadges,
+    levelOptions, // Add this to make it available in the component
   };
 };
+
