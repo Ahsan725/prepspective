@@ -51,7 +51,7 @@ export function BasicInfo({
           >
             <SelectTrigger
               className={`w-full ${
-                invalidFields.has('company') ? 'border-red-500' : ''
+                invalidFields.has('company') ? 'border-red-500 border-2' : ''
               }`}
             >
               <SelectValue placeholder="Select a company" />
