@@ -248,9 +248,9 @@ const CombinedView: React.FC = () => {
     {[...levelOptions, 'LeetCode', 'System Design', 'Pre Screen', 'OA', 'Behavioral', 'Technical'].map((badge) => (
       <button
         key={badge}
-        className={`px-3 py-1 text-xs font-semibold rounded-full mr-2 mb-2 ${
+        className={`px-2 py-1 text-xs font-semibold rounded-full mr-1 mb-1 ${
           selectedBadges.includes(badge)
-            ? 'bg-indigo-500 text-white'
+            ? 'bg-gradient-to-r from-indigo-800 to-indigo-500 text-white'
             : 'bg-gray-100 text-gray-700'
         }`}
         onClick={() => toggleBadge(badge)}
