@@ -40,8 +40,8 @@ export function InterviewRatings({ formData, handleChange }: InterviewRatingsPro
   
 
   return (
-    <Card className="bg-white shadow-xl border border-gray-100 rounded-xl">
-      <CardHeader className="border-b border-gray-100 bg-white p-6">
+    <Card className="bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 shadow-xl border border-gray-100 rounded-xl">
+      <CardHeader className="border-b border-gray-100 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 p-6">
         <CardTitle className="text-xl font-semibold text-gray-900">Interview Ratings</CardTitle>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
@@ -84,7 +84,7 @@ export function InterviewRatings({ formData, handleChange }: InterviewRatingsPro
                     }));
                   }
                 }}
-                className="bg-white border-gray-200 rounded-lg"
+                className="bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 border-gray-200 rounded-lg"
               />
             </div>
             <div className="flex items-end">

@@ -110,7 +110,7 @@ export default function InterviewForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="min-h-screen bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 p-4 sm:p-6">
+    <form onSubmit={handleSubmit} className="min-h-screen bg-white p-4 sm:p-6">
       <div className="w-full space-y-6">
         <div className="space-y-4 mb-8">
           <div className="flex items-center justify-center mb-4">

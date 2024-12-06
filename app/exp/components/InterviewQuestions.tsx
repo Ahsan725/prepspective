@@ -116,8 +116,8 @@ export function InterviewQuestions({ formData, handleChange }: InterviewQuestion
   };
 
   return (
-    <Card className="bg-white shadow-xl border border-gray-100 rounded-xl lg:col-span-2">
-      <CardHeader className="border-b border-gray-100 bg-white p-6">
+    <Card className="bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 shadow-xl border border-gray-100 rounded-xl lg:col-span-2">
+      <CardHeader className="border-b border-gray-100 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 p-6">
         <CardTitle className="text-xl font-semibold text-gray-900">Interview Questions</CardTitle>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
@@ -150,7 +150,7 @@ export function InterviewQuestions({ formData, handleChange }: InterviewQuestion
                 onChange={(e) =>
                   setCurrentQuestion((prev) => ({ ...prev, question: e.target.value }))
                 }
-                className="flex-1 min-h-[150px] bg-white border-gray-200 rounded-lg resize-none"
+                className="flex-1 min-h-[150px] bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 border-gray-200 rounded-lg resize-none"
               />
               <Button
                 onClick={editingQuestionId ? saveQuestion : addQuestion}
