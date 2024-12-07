@@ -1,13 +1,223 @@
 [
     {
-      "name": "Google",
-      "logo": "/a.png",
-      "intro": "Google is a global tech leader known for its innovative search engine, cloud computing, and unparalleled work culture."
+      "name": "Adobe",
+      "logo": "/adobe.png",
+      "intro": "Adobe is a leader in digital media and creative software solutions."
+    },
+    {
+      "name": "Airbnb",
+      "logo": "/airbnb.png",
+      "intro": "Airbnb is an online marketplace for short-term homestays and experiences."
     },
     {
       "name": "Amazon",
-      "logo": "/b.png",
+      "logo": "/amazon.png",
       "intro": "Amazon is a multinational e-commerce and cloud computing giant."
+    },
+    {
+      "name": "American Express",
+      "logo": "/amex.png",
+      "intro": "American Express is a global financial services company known for its credit cards and travel services."
+    },
+    {
+      "name": "Apple",
+      "logo": "/apple.png",
+      "intro": "Apple designs and manufactures consumer electronics and software, including the iPhone and Mac."
+    },
+    {
+      "name": "Asana",
+      "logo": "/asana.png",
+      "intro": "Asana provides work management tools to help teams organize, track, and manage their work."
+    },
+    {
+      "name": "Atlassian",
+      "logo": "/atlassian.png",
+      "intro": "Atlassian develops software products for project management and team collaboration, including Jira and Confluence."
+    },
+    {
+      "name": "Bank of America",
+      "logo": "/bankofamerica.png",
+      "intro": "Bank of America is a global leader in banking and financial services."
+    },
+    {
+      "name": "Capital One",
+      "logo": "/capitalone.png",
+      "intro": "Capital One is a leading financial institution specializing in credit cards, banking, and loans."
+    },
+    {
+      "name": "Chase",
+      "logo": "/chase.png",
+      "intro": "Chase is a financial services firm offering banking, credit cards, and loans."
+    },
+    {
+      "name": "Cisco",
+      "logo": "/cisco.png",
+      "intro": "Cisco is a global leader in networking, security, and collaboration solutions."
+    },
+    {
+      "name": "Cloudflare",
+      "logo": "/cloudflare.png",
+      "intro": "Cloudflare provides internet security, performance, and infrastructure solutions."
+    },
+    {
+      "name": "Databricks",
+      "logo": "/databricks.png",
+      "intro": "Databricks offers a unified analytics platform for data engineering, data science, and machine learning."
+    },
+    {
+      "name": "Datadog",
+      "logo": "/datadog.png",
+      "intro": "Datadog is a monitoring and analytics platform for cloud-scale applications."
+    },
+    {
+      "name": "Dell",
+      "logo": "/dell.png",
+      "intro": "Dell is a multinational technology company that designs, develops, and sells computers and related products."
+    },
+    {
+      "name": "Discord",
+      "logo": "/discord.png",
+      "intro": "Discord is a communication platform popular among gamers and communities."
+    },
+    {
+      "name": "Dropbox",
+      "logo": "/dropbox.png",
+      "intro": "Dropbox provides file storage, synchronization, and collaboration services."
+    },
+    {
+      "name": "Figma",
+      "logo": "/figma.png",
+      "intro": "Figma is a cloud-based design and prototyping tool for digital products."
+    },
+    {
+      "name": "Google",
+      "logo": "/google.png",
+      "intro": "Google is a global tech leader known for its innovative search engine, cloud computing, and unparalleled work culture."
+    },
+    {
+      "name": "Gusto",
+      "logo": "/gusto.png",
+      "intro": "Gusto is a cloud-based payroll, benefits, and HR management platform for businesses."
+    },
+    {
+      "name": "IBM",
+      "logo": "/ibm.png",
+      "intro": "IBM is a global technology company known for its innovations in AI, cloud computing, and hardware."
+    },
+    {
+      "name": "Intel",
+      "logo": "/intel.png",
+      "intro": "Intel is a leader in semiconductor manufacturing and computing innovations."
+    },
+    {
+      "name": "Intuit",
+      "logo": "/intuit.png",
+      "intro": "Intuit is a software company known for its financial management tools like TurboTax and QuickBooks."
+    },
+    {
+      "name": "LinkedIn",
+      "logo": "/linkedin.png",
+      "intro": "LinkedIn is a professional networking platform that connects job seekers and employers."
+    },
+    {
+      "name": "Lyft",
+      "logo": "/lyft.png",
+      "intro": "Lyft is a transportation network company offering ride-sharing services."
+    },
+    {
+      "name": "MasterCard",
+      "logo": "/mastercard.png",
+      "intro": "MasterCard is a global financial services company specializing in payment solutions."
+    },
+    {
+      "name": "Meta",
+      "logo": "/meta.png",
+      "intro": "Meta is the parent company of Facebook, Instagram, and WhatsApp, focused on building the metaverse."
+    },
+    {
+      "name": "Microsoft",
+      "logo": "/microsoft.png",
+      "intro": "Microsoft is a multinational technology corporation known for Windows, Office, and Azure."
+    },
+    {
+      "name": "Netflix",
+      "logo": "/netflix.png",
+      "intro": "Netflix is a global leader in video streaming and entertainment production."
+    },
+    {
+      "name": "Oracle",
+      "logo": "/oracle.png",
+      "intro": "Oracle provides cloud services and database management software."
+    },
+    {
+      "name": "PayPal",
+      "logo": "/paypal.png",
+      "intro": "PayPal is an online payment platform that simplifies digital and e-commerce transactions."
+    },
+    {
+      "name": "Pinterest",
+      "logo": "/pinterest.png",
+      "intro": "Pinterest is a visual discovery platform for finding and sharing creative ideas."
+    },
+    {
+      "name": "Salesforce",
+      "logo": "/salesforce.png",
+      "intro": "Salesforce provides cloud-based software solutions for customer relationship management."
+    },
+    {
+      "name": "Shopify",
+      "logo": "/shopify.png",
+      "intro": "Shopify is a leading e-commerce platform for businesses to set up online stores."
+    },
+    {
+      "name": "Snapchat",
+      "logo": "/snapchat.png",
+      "intro": "Snapchat is a multimedia messaging app popular for its filters and short-lived content."
+    },
+    {
+      "name": "Spotify",
+      "logo": "/spotify.png",
+      "intro": "Spotify is a music streaming platform with a vast library of songs and podcasts."
+    },
+    {
+      "name": "Square",
+      "logo": "/square.png",
+      "intro": "Square offers financial and point-of-sale services for businesses."
+    },
+    {
+      "name": "Stripe",
+      "logo": "/stripe.png",
+      "intro": "Stripe is a technology company building economic infrastructure for the internet."
+    },
+    {
+      "name": "TikTok",
+      "logo": "/tiktok.png",
+      "intro": "TikTok is a social media platform for creating and sharing short videos."
+    },
+    {
+      "name": "Twitter",
+      "logo": "/twitter.png",
+      "intro": "Twitter is a platform for real-time microblogging and social networking."
+    },
+    {
+      "name": "Uber",
+      "logo": "/uber.png",
+      "intro": "Uber provides ride-sharing, food delivery, and other transportation services."
+    },
+    {
+      "name": "Visa",
+      "logo": "/visa.png",
+      "intro": "Visa is a global financial services company offering credit and debit card payment solutions."
+    },
+    {
+      "name": "Wells Fargo",
+      "logo": "/wellsfargo.png",
+      "intro": "Wells Fargo is a multinational financial services company offering banking and loans."
+    },
+    {
+      "name": "Workday",
+      "logo": "/workday.png",
+      "intro": "Workday provides enterprise cloud applications for financial and human capital management."
     }
   ]
   

@@ -90,12 +90,5 @@ export const topTechCompanies = [
     'New Relic',
     'Dynatrace',
     'Datadog',
-    'SolarWinds',
-    'PagerDuty',
-    'Sumo Logic',
-    'LogRhythm',
-    'Rapid7',
-    'Tenable',
-    'Qualys',
   ];
   

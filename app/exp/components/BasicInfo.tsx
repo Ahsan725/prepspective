@@ -8,16 +8,16 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calendar } from '@/components/ui/calendar';
 import { ErrorMessage } from '@/components/error-message';
-import { topTechCompanies } from '@/data/companies';
 import { FormData, InterviewLevel } from '../types';
+import logos from '@/data/logos.json'; // Import the logos JSON
 
 type BasicInfoProps = {
-    formData: FormData;
-    invalidFields: Set<keyof FormData>;
-    handleChange: <T extends keyof FormData>(field: T, value: FormData[T]) => void;
-    handleDateSelection: (date: Date | undefined) => void;
-    setInvalidFields: (setter: (prev: Set<keyof FormData>) => Set<keyof FormData>) => void;
-  };  
+  formData: FormData;
+  invalidFields: Set<keyof FormData>;
+  handleChange: <T extends keyof FormData>(field: T, value: FormData[T]) => void;
+  handleDateSelection: (date: Date | undefined) => void;
+  setInvalidFields: (setter: (prev: Set<keyof FormData>) => Set<keyof FormData>) => void;
+};
 
 export function BasicInfo({
   formData,
@@ -29,9 +29,7 @@ export function BasicInfo({
   return (
     <Card className="bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 shadow-xl border border-gray-100 rounded-xl">
       <CardHeader className="border-b border-gray-100 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 p-6">
-        <CardTitle className="text-xl font-semibold text-gray-900">
-          Basic Information
-        </CardTitle>
+        <CardTitle className="text-xl font-semibold text-gray-900">Basic Information</CardTitle>
       </CardHeader>
       <CardContent className="p-6 space-y-4">
         {/* Company Field */}
@@ -57,9 +55,9 @@ export function BasicInfo({
               <SelectValue placeholder="Select a company" />
             </SelectTrigger>
             <SelectContent>
-              {topTechCompanies.map((company) => (
-                <SelectItem key={company} value={company}>
-                  {company}
+              {logos.map((company) => (
+                <SelectItem key={company.name} value={company.name}>
+                  {company.name}
                 </SelectItem>
               ))}
             </SelectContent>
