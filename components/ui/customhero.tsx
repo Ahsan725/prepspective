@@ -85,6 +85,22 @@ const clients = [
   { name: 'Spotify', src: '/spotify.png' },
   { name: 'TikTok', src: '/tiktok.png' },
   { name: 'Uber', src: '/uber.png' },
+  { name: 'Google', src: '/google.png' },
+  { name: 'Amazon', src: '/amazon.png' },
+  { name: 'American Express', src: '/amex.png' },
+  { name: 'Apple', src: '/apple.png' },
+  { name: 'Datadog', src: '/datadog.png' },
+  { name: 'Discord', src: '/discord.png' },
+  { name: 'Figma', src: '/figma.png' },
+  { name: 'LinkedIn', src: '/linkedin.png' },
+  { name: 'Lyft', src: '/lyft.png' },
+  { name: 'Meta', src: '/meta.png' },
+  { name: 'Microsoft', src: '/microsoft.png' },
+  { name: 'Netflix', src: '/netflix.png' },
+  { name: 'Salesforce', src: '/salesforce.png' },
+  { name: 'Spotify', src: '/spotify.png' },
+  { name: 'TikTok', src: '/tiktok.png' },
+  { name: 'Uber', src: '/uber.png' },
 ];
 
   return (
@@ -98,7 +114,7 @@ const clients = [
         {/* Hero Content */}
         <div className="relative container px-4 space-y-8 text-center">
           {/* Stats Card */}
-          <div className="bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium text-indigo-600 inline-flex items-center gap-2 mx-auto">
+          <div className="bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium text-indigo-600 inline-flex items-center gap-2 mx-auto border-2 border-indigo-500">
             <p className="text-xs lg:text-sm font-bold text-indigo-600 uppercase tracking-wide">
               THE BEST INTERVIEW PREP PLATFORM IN THE WORLD!
             </p>
@@ -106,11 +122,12 @@ const clients = [
 
           {/* Main Content */}
           <div className="space-y-4 max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl bg-gradient-to-b from-indigo-800 via-indigo-400 to-purple-700 bg-clip-text text-transparent">
-              Learn from Others & Get Ready to Ace any Interview.
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-indigo-800 via-indigo-400 to-purple-700 bg-clip-text text-transparent">
+            Your Competitive Advantage in Tech Interviews.
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover the ultimate platform to share your journey, gain invaluable insights from others to confidently conquer every interview.
+            <p className="text-lg lg:text-2xl text-gray-600 max-w-2xl mx-auto">
+            The only interview prep platform you&rsquo;ll ever need. We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
+
             </p>
           </div>
 
@@ -143,7 +160,7 @@ const clients = [
 
           {/* Client Logos */}
           <div className="mt-16 w-full max-w-3xl mx-auto">
-  <p className="text-sm text-gray-500 mb-4 text-center">Interviews from Top Companies</p>
+  <p className="text-sm text-gray-500 mb-4 text-center">Interviews Sourced from Top Companies</p>
   <div className={styles.marqueeContainer}>
     <div className={styles.marquee} ref={marqueeRef}>
       <div className={styles.marqueeContent}>
@@ -152,7 +169,7 @@ const clients = [
             key={`${client.name}-${index}`}
             src={client.src}
             alt={client.name}
-            width={80}
+            width={50}
             height={40}
             className="inline-block object-contain h-8 mx-2"
           />
