@@ -102,7 +102,7 @@ export default function ModernHero() {
         <div className="relative container px-4 space-y-8 text-center">
           {/* Stats Card */}
           <div className="bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium text-indigo-600 inline-flex items-center gap-2 mx-auto">
-            <p className="text-sm font-bold text-indigo-600 uppercase tracking-wide">
+            <p className="text-xs lg:text-sm font-bold text-indigo-600 uppercase tracking-wide">
               THE BEST INTERVIEW PREP PLATFORM IN THE WORLD!
             </p>
           </div>
