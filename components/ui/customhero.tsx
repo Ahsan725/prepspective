@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast'
 import NumberTicker from './number-ticker'
 import Link from 'next/link'
 import Image from 'next/image';
+import FluidCursor from "@/components/ui/fluidCursor";
 
 export default function ModernHero() {
   const [email, setEmail] = useState('')
@@ -91,6 +92,7 @@ export default function ModernHero() {
 
       {/* Main Hero Section */}
       <section className="relative overflow-hidden bg-white h-screen flex items-start justify-center pt-16">
+      <FluidCursor />
   {/* Background Grid Pattern */}
   <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
 
