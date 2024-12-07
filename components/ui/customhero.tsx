@@ -122,7 +122,7 @@ const clients = [
 
           {/* Main Content */}
           <div className="space-y-4 max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-indigo-800 via-indigo-400 to-purple-700 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-indigo-800 via-indigo-600 to-purple-700 bg-clip-text text-transparent">
             Your Competitive Advantage in Tech Interviews.
             </h1>
             <p className="text-lg lg:text-2xl text-gray-500 max-w-2xl mx-auto">
