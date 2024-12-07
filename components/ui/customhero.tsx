@@ -77,6 +77,17 @@ export default function ModernHero() {
     { name: 'Extra1', src: '/g.png' },
     { name: 'Extra2', src: '/h.png' },
     { name: 'Extra3', src: '/i.png' },
+    { name: 'Extra4', src: '/j.png' },
+    { name: 'Extra5', src: '/k.png' },
+    { name: 'Extra6', src: '/l.png' },
+    { name: 'Extra7', src: '/m.png' },
+    { name: 'Extra8', src: '/n.png' },
+    { name: 'Extra9', src: '/o.png' },
+    { name: 'Extra10', src: '/p.png' },
+    { name: 'Extra11', src: '/q.png' },
+    { name: 'Extra12', src: '/r.png' },
+    { name: 'Extra13', src: '/s.png' },
+
   ]
 
   return (
