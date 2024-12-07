@@ -371,7 +371,9 @@ const CombinedView: React.FC = () => {
       </div>
 
       {/* Detailed View Section */}
-      <div className="hidden sm:block sm:w-2/5 lg:w-full p-4 rounded-lg mx-2 lg:max-h-[39rem] overflow-y-auto relative">
+      <div
+  className="hidden sm:block sm:w-2/5 lg:w-full p-4 rounded-lg mx-2 lg:max-h-[39rem] overflow-y-scroll relative"
+>
   {selectedInterviewId && !interview ? (
     <div className="flex justify-center items-center min-h-[10rem]">
       <Loader />
@@ -406,63 +408,58 @@ const CombinedView: React.FC = () => {
 
       {/* Logo and Intro Display */}
       <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg mt-4">
-  {interview?.company && (
-    <div className="grid grid-cols-5 gap-4 items-center">
-      {/* Left Column: Logo and Company Name (1/5) */}
-      <div className="col-span-1 flex flex-col items-center justify-center text-center">
-        {(() => {
-          const logoData = logos.find((logo) => logo.name === interview.company);
-          return (
-            logoData && (
-              <>
-                <div className="flex items-center justify-center h-16 w-full">
-                  {/* Display Logo */}
-                  {logoData.logo && (
-                    <Image
-                      src={logoData.logo}
-                      alt={`${interview.company} logo`}
-                      height={60} // Adjust height for smaller logos
-                      width={90} // Keep width proportional
-                      className="object-contain"
-                    />
-                  )}
-                </div>
-                {/* Display Company Name */}
-                <h2 className="text-2xl font-bold mt-4">{interview.company}</h2>
-              </>
-            )
-          );
-        })()}
+        {interview?.company && (
+          <div className="grid grid-cols-5 gap-4 items-center">
+            {/* Left Column: Logo and Company Name (1/5) */}
+            <div className="col-span-1 flex flex-col items-center justify-center text-center">
+              {(() => {
+                const logoData = logos.find((logo) => logo.name === interview.company);
+                return (
+                  logoData && (
+                    <>
+                      <div className="flex items-center justify-center h-16 w-full">
+                        {/* Display Logo */}
+                        {logoData.logo && (
+                          <Image
+                            src={logoData.logo}
+                            alt={`${interview.company} logo`}
+                            height={60} // Adjust height for smaller logos
+                            width={90} // Keep width proportional
+                            className="object-contain"
+                          />
+                        )}
+                      </div>
+                      {/* Display Company Name */}
+                      <h2 className="text-2xl font-bold mt-4">{interview.company}</h2>
+                    </>
+                  )
+                );
+              })()}
+            </div>
+
+            {/* Right Column: Company Intro (4/5) */}
+            <div className="col-span-4">
+              {(() => {
+                const logoData = logos.find((logo) => logo.name === interview.company);
+                return (
+                  logoData?.intro && (
+                    <p className="text-base leading-6 text-gray-700">{logoData.intro}</p>
+                  )
+                );
+              })()}
+            </div>
+          </div>
+        )}
+
+        {renderContent()}
       </div>
-
-      {/* Right Column: Company Intro (4/5) */}
-      <div className="col-span-4">
-        {(() => {
-          const logoData = logos.find((logo) => logo.name === interview.company);
-          return (
-            logoData?.intro && (
-              <p className="text-base leading-6 text-gray-700">
-                {logoData.intro}
-              </p>
-            )
-          );
-        })()}
-      </div>
-    </div>
-  )}
-
-  {renderContent()}
-</div>
-
-
-
     </>
   ) : (
     <div className="text-sm text-gray-500 text-center">
       Select an interview to view details
     </div>
   )}
-</div>;
+</div>
     </div>
   );
 };
