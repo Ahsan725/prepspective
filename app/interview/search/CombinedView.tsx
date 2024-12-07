@@ -407,40 +407,43 @@ const CombinedView: React.FC = () => {
       {/* Logo and Intro Display */}
       <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg mt-4">
   {interview?.company && (
-    <div className="grid grid-cols-12 gap-4 items-center">
-      {/* Left Column: Logo and Company Name (1/12) */}
-      <div className="col-span-1 flex flex-col items-center sm:items-start">
+    <div className="grid grid-cols-5 gap-4 items-center">
+      {/* Left Column: Logo and Company Name (1/5) */}
+      <div className="col-span-1 flex flex-col items-center justify-center text-center">
         {(() => {
           const logoData = logos.find((logo) => logo.name === interview.company);
           return (
             logoData && (
               <>
-                <h2 className="mb-2 text-2xl font-bold text-left sm:text-left">{interview.company}</h2>
-                {/* Display Logo */}
-                {logoData.logo && (
-                  <Image
-                    src={logoData.logo}
-                    alt={`${interview.company} logo`}
-                    width={40}
-                    height={40}
-                    className="object-contain rounded-lg"
-                  />
-                )}
-
+                <div className="flex items-center justify-center h-16 w-full">
+                  {/* Display Logo */}
+                  {logoData.logo && (
+                    <Image
+                      src={logoData.logo}
+                      alt={`${interview.company} logo`}
+                      height={60} // Adjust height for smaller logos
+                      width={90} // Keep width proportional
+                      className="object-contain"
+                    />
+                  )}
+                </div>
                 {/* Display Company Name */}
+                <h2 className="text-2xl font-bold mt-4">{interview.company}</h2>
               </>
             )
           );
         })()}
       </div>
 
-      {/* Right Column: Company Intro (11/12) */}
-      <div className="col-span-11">
+      {/* Right Column: Company Intro (4/5) */}
+      <div className="col-span-4">
         {(() => {
           const logoData = logos.find((logo) => logo.name === interview.company);
           return (
             logoData?.intro && (
-              <p className="text-sm text-gray-600">{logoData.intro}</p>
+              <p className="text-base leading-6 text-gray-700">
+                {logoData.intro}
+              </p>
             )
           );
         })()}
@@ -450,6 +453,8 @@ const CombinedView: React.FC = () => {
 
   {renderContent()}
 </div>
+
+
 
     </>
   ) : (
