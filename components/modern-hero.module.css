@@ -12,7 +12,7 @@
   
   .marqueeContent {
     display: inline-block;
-    animation: marquee 100s linear infinite;
+    animation: marquee 80s linear infinite;
   }
   
   .marqueeContainer::before,
