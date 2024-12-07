@@ -125,7 +125,7 @@ const clients = [
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-indigo-800 via-indigo-400 to-purple-700 bg-clip-text text-transparent">
             Your Competitive Advantage in Tech Interviews.
             </h1>
-            <p className="text-lg lg:text-2xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg lg:text-2xl text-gray-500 max-w-2xl mx-auto">
             The only interview prep platform you&rsquo;ll ever need. We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
 
             </p>
@@ -171,7 +171,7 @@ const clients = [
             alt={client.name}
             width={50}
             height={40}
-            className="inline-block object-contain h-8 mx-2"
+            className="inline-block object-contain h-8 mx-4"
           />
         ))}
       </div>
