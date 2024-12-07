@@ -6,6 +6,8 @@ import Loader from '@/components/ui/loader';
 import { Building, MessageCircle, Star, List, CheckCircle } from 'lucide-react';
 import { useCombinedViewData } from './useCombinedViewData';
 import { useRouter } from 'next/navigation';
+import logos from '@/data/logos.json'; // Import the JSON file
+import Image from 'next/image'; // Import the Image component
 
 const CombinedView: React.FC = () => {
   const {
@@ -67,10 +69,10 @@ const CombinedView: React.FC = () => {
             <h3 className={headingClasses}>Company Information</h3>
             <hr className="border-t border-gray-300 my-4" />
             <div className="mt-4 space-y-2">
-              <p>
+              {/* <p>
                 <span className={sublabelClasses}></span>{' '}
                 <span className={`${paragraphClasses} text-xl font-semibold`}>{interview.company}</span>
-              </p>
+              </p> */}
               <p>
                 <span className={sublabelClasses}>Interview Date:</span>{' '}
                 <span className={paragraphClasses}>{interview.interviewDate}</span>
@@ -370,45 +372,92 @@ const CombinedView: React.FC = () => {
 
       {/* Detailed View Section */}
       <div className="hidden sm:block sm:w-2/5 lg:w-full p-4 rounded-lg mx-2 lg:max-h-[39rem] overflow-y-auto relative">
-        {selectedInterviewId && !interview ? (
-          <div className="flex justify-center items-center min-h-[10rem]">
-            <Loader />
-          </div>
-        ) : interview ? (
-          <>
-            <div className="border-b pb-2">
-              <ul className="flex text-sm">
-                {[
-                  { key: 'company', label: 'Company', icon: <Building /> },
-                  { key: 'questions', label: 'Questions', icon: <MessageCircle /> },
-                  { key: 'ratings', label: 'Ratings', icon: <Star /> },
-                  { key: 'rounds', label: 'Rounds', icon: <List /> },
-                  { key: 'leetcode', label: 'LeetCode', icon: <CheckCircle /> },
-                ].map(({ key, label, icon }) => (
-                  <li key={key} className="mr-2">
-                    <button
-                      onClick={() => setActiveTab(key)}
-                      className={`flex items-center gap-1 px-3 py-2 rounded-md ${
-                        activeTab === key
-                          ? 'text-white bg-indigo-700 font-semibold border-indigo-600 rounded-t-lg px-4 py-2 dark:text-indigo-500 dark:border-indigo-500'
-                          : 'border-transparent px-4 py-2 font-semibold hover:text-indigo-700 hover:border-indigo-700 dark:hover:text-gray-300'
-                      }`}
-                    >
-                      {icon}
-                      <span className="hidden sm:inline">{label}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg mt-4">{renderContent()}</div>
-          </>
-        ) : (
-          <div className="text-sm text-gray-500 text-center">
-            Select an interview to view details
-          </div>
-        )}
+  {selectedInterviewId && !interview ? (
+    <div className="flex justify-center items-center min-h-[10rem]">
+      <Loader />
+    </div>
+  ) : interview ? (
+    <>
+      <div className="border-b pb-2">
+        <ul className="flex text-sm">
+          {[
+            { key: 'company', label: 'Company', icon: <Building /> },
+            { key: 'questions', label: 'Questions', icon: <MessageCircle /> },
+            { key: 'ratings', label: 'Ratings', icon: <Star /> },
+            { key: 'rounds', label: 'Rounds', icon: <List /> },
+            { key: 'leetcode', label: 'LeetCode', icon: <CheckCircle /> },
+          ].map(({ key, label, icon }) => (
+            <li key={key} className="mr-2">
+              <button
+                onClick={() => setActiveTab(key)}
+                className={`flex items-center gap-1 px-3 py-2 rounded-md ${
+                  activeTab === key
+                    ? 'text-white bg-indigo-700 font-semibold border-indigo-600 rounded-t-lg px-4 py-2 dark:text-indigo-500 dark:border-indigo-500'
+                    : 'border-transparent px-4 py-2 font-semibold hover:text-indigo-700 hover:border-indigo-700 dark:hover:text-gray-300'
+                }`}
+              >
+                {icon}
+                <span className="hidden sm:inline">{label}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
+
+      {/* Logo and Intro Display */}
+      <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg mt-4">
+  {interview?.company && (
+    <div className="grid grid-cols-12 gap-4 items-center">
+      {/* Left Column: Logo and Company Name (1/12) */}
+      <div className="col-span-1 flex flex-col items-center sm:items-start">
+        {(() => {
+          const logoData = logos.find((logo) => logo.name === interview.company);
+          return (
+            logoData && (
+              <>
+                <h2 className="mb-2 text-2xl font-bold text-left sm:text-left">{interview.company}</h2>
+                {/* Display Logo */}
+                {logoData.logo && (
+                  <Image
+                    src={logoData.logo}
+                    alt={`${interview.company} logo`}
+                    width={40}
+                    height={40}
+                    className="object-contain rounded-lg"
+                  />
+                )}
+
+                {/* Display Company Name */}
+              </>
+            )
+          );
+        })()}
+      </div>
+
+      {/* Right Column: Company Intro (11/12) */}
+      <div className="col-span-11">
+        {(() => {
+          const logoData = logos.find((logo) => logo.name === interview.company);
+          return (
+            logoData?.intro && (
+              <p className="text-sm text-gray-600">{logoData.intro}</p>
+            )
+          );
+        })()}
+      </div>
+    </div>
+  )}
+
+  {renderContent()}
+</div>
+
+    </>
+  ) : (
+    <div className="text-sm text-gray-500 text-center">
+      Select an interview to view details
+    </div>
+  )}
+</div>;
     </div>
   );
 };

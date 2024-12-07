@@ -1,0 +1,13 @@
+[
+    {
+      "name": "Google",
+      "logo": "/stripe.png",
+      "intro": "Google is a global tech leader known for its innovative search engine, cloud computing, and unparalleled work culture."
+    },
+    {
+      "name": "Amazon",
+      "logo": "/b.png",
+      "intro": "Amazon is a multinational e-commerce and cloud computing giant."
+    }
+  ]
+  
