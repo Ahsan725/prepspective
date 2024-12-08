@@ -417,18 +417,19 @@ const CombinedView: React.FC = () => {
                 return (
                   logoData && (
                     <>
-                      <div className="flex items-center justify-center h-16 w-full">
-                        {/* Display Logo */}
-                        {logoData.logo && (
-                          <Image
-                            src={logoData.logo}
-                            alt={`${interview.company} logo`}
-                            height={60} // Adjust height for smaller logos
-                            width={90} // Keep width proportional
-                            className="object-contain"
-                          />
-                        )}
-                      </div>
+<div className="flex items-center justify-center h-12 w-full">
+  {/* Display Logo */}
+  {logoData.logo && (
+    <Image
+      src={logoData.logo}
+      alt={`${interview.company} logo`}
+      height={40} // Smaller height
+      width={60} // Proportional width
+      className="object-contain max-h-10" // Tailwind class to limit height
+    />
+  )}
+</div>
+
                       {/* Display Company Name */}
                       <h2 className="text-2xl font-bold mt-4">{interview.company}</h2>
                     </>
