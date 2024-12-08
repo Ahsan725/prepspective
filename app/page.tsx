@@ -6,7 +6,8 @@ import { FeaturesSection } from "@/components/ui/customfeature2";
 import Familiar from "@/components/ui/familiar";
 import Bento from "@/components/ui/bento";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import Loader from "@/components/ui/loader"; // Assume you have the Loader component
+import Loader from "@/components/ui/loader";
+import SvgImage from '@/components/ui/heroimg';
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,7 @@ export default function HomePage() {
     <main>
       <CustomHero />
       <Bento />
+      {/* <SvgImage src="/mockup.svg" alt="Example SVG Image" /> */}
       <Familiar />
       <FeaturesSection />
       <FAQSection />
