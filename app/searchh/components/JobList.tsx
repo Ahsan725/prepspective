@@ -21,7 +21,7 @@ const JobList: React.FC<JobListProps> = ({
   handleMobileRedirect,
 }) => {
   return (
-    <div className="w-full lg:w-3/12 bg-white rounded-lg p-1 overflow-y-auto">
+    <div className="w-full lg:w-4/12 bg-white rounded-lg p-1 overflow-y-auto">
       {/* <h2 className="text-xl font-semibold mb-4">Related Interviews</h2> */}
       <ul className="space-y-4">
         {loading ? (

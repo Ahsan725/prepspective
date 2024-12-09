@@ -42,7 +42,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
   const responsivenessRating = interview.ratings.find((rating) => rating.category === 'Responsiveness');
 
   return (
-    <div className="w-full lg:w-9/12 bg-white border rounded-lg shadow-md p-6 overflow-y-auto max-h-full">
+    <div className="w-full lg:w-8/12 bg-white border rounded-lg shadow-md p-6 overflow-y-auto max-h-full">
       {/* Header Section */}
       <div className="flex items-center mb-4">
         <Image
