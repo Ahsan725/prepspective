@@ -107,7 +107,7 @@ export function InterviewRounds({ formData, handleChange }: InterviewRoundsProps
                 <SelectItem value="Technical">Technical</SelectItem>
                 <SelectItem value="Onsite">Onsite</SelectItem>
                 <SelectItem value="HR">HR</SelectItem>
-                <SelectItem value="Team Matching">Team Matching</SelectItem>
+                <SelectItem value="Team Match">Team Match</SelectItem>
               </SelectContent>
             </Select>
           </div>
