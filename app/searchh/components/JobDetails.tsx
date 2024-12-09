@@ -2,15 +2,28 @@ import React from 'react';
 import Image from 'next/image';
 import logos from '@/data/logos.json'; // Import your JSON file here
 import { Interview } from '@/app/searchh/useCombinedViewData'; // Import Interview type
+import Link from 'next/link';
 
 interface JobDetailsProps {
   selectedInterviewId: number | null;
   interview: Interview | null; // Use Interview type
 }
 
+const formatDate = (dateString: string) => {
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};
+
+const getBadgeClass = (score: number) => {
+  if (score <= 2) return 'bg-red-100 text-red-800';
+  if (score === 3) return 'bg-orange-100 text-orange-800';
+  if (score >= 4) return 'bg-green-100 text-green-800';
+  return 'bg-gray-100 text-gray-800';
+};
+
 const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview }) => {
   if (!selectedInterviewId) {
-    return <p className="text-center text-gray-500">Select a job to view details</p>;
+    return <p className="text-center text-gray-500">Select an interview to view details</p>;
   }
 
   if (!interview) {
@@ -20,8 +33,14 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
   // Fetch logo and intro from the JSON file
   const logoData = logos.find((logo) => logo.name === interview.company);
 
+  // Extract ratings for specific categories
+  const friendlinessRating = interview.ratings.find((rating) => rating.category === 'Friendliness');
+  const difficultyRating = interview.ratings.find((rating) => rating.category === 'Difficulty');
+  const responsivenessRating = interview.ratings.find((rating) => rating.category === 'Responsiveness');
+
   return (
     <div className="w-full lg:w-4/6 bg-white border rounded-lg shadow-md p-6 overflow-y-auto max-h-full">
+      {/* Header Section */}
       <div className="flex items-center mb-4">
         <Image
           src={logoData?.logo || '/placeholder.png'} // Use logo from JSON or fallback to placeholder
@@ -35,22 +54,108 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
           <p className="text-sm text-gray-500">{logoData?.intro || 'No introduction available.'}</p>
         </div>
       </div>
-      <h3 className="text-lg font-semibold mb-2">Job Overview</h3>
+
+      {/* Interview Date and Badges */}
+      <div className="mb-4 flex items-center justify-between">
+        <p className="text-sm text-gray-700">
+          <strong>Interview Date:</strong> {formatDate(interview.interviewDate)}
+        </p>
+        <div className="flex gap-2">
+          {friendlinessRating && (
+            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(friendlinessRating.score)}`}>
+              Friendliness: {['Rude', 'Not Friendly', 'Formal', 'Friendly', 'Super Friendly'][friendlinessRating.score - 1]}
+            </span>
+          )}
+          {difficultyRating && (
+            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(difficultyRating.score)}`}>
+              Difficulty: {['Super Hard', 'Hard', 'Medium', 'Average', 'Easy'][difficultyRating.score - 1]}
+            </span>
+          )}
+          {responsivenessRating && (
+            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(responsivenessRating.score)}`}>
+              Responsiveness: {['Unresponsive', 'Very Slow', 'Slow', 'Prompt', 'Very Prompt'][responsivenessRating.score - 1]}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Divider */}
+      <hr className="my-4" />
+
+      {/* Interview Overview */}
+      <h3 className="text-lg font-semibold mb-2">Interview Overview</h3>
       <p className="text-gray-700 text-sm mb-4">
         {interview.overallExperience || 'No overview available.'}
       </p>
-      <h3 className="text-lg font-semibold mb-2">What You Will Do</h3>
+
+      {/* Divider */}
+      <hr className="my-4" />
+
+      {/* LeetCode Questions Section */}
+      {interview.questions.some((q) => q.leetcodeLink) && (
+        <>
+          <h3 className="text-lg font-semibold mb-2">LeetCode Questions</h3>
+          <ul className="list-disc ml-5 text-sm text-gray-700 space-y-2">
+            {interview.questions
+              .filter((q) => q.leetcodeLink)
+              .map((question, index) => (
+                <li key={index}>
+                  {question.question}{' '}
+
+                  {question.leetcodeLink && (
+  <Link
+    href={question.leetcodeLink}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-blue-500 underline ml-2"
+  >
+    Open on LeetCode
+  </Link>
+)}
+                </li>
+              ))}
+          </ul>
+          {/* Divider */}
+          <hr className="my-4" />
+        </>
+      )}
+
+      {/* Interview Rounds */}
+      <h3 className="text-lg font-semibold mb-2">Interview Rounds</h3>
+      {interview.rounds && interview.rounds.length > 0 ? (
+        <div className="space-y-4">
+          {interview.rounds.map((round, index) => (
+            <div key={index} className="border p-3 rounded-md">
+              <h4 className="text-md font-semibold">{round.roundType}</h4>
+              <p className="text-sm text-gray-500">
+                <strong>Date:</strong> {formatDate(round.roundDate)}
+              </p>
+              <p className="text-sm text-gray-500">{round.experience}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-700 text-sm">No interview rounds listed.</p>
+      )}
+
+      {/* Divider */}
+      <hr className="my-4" />
+
+      {/* All Questions */}
+      <h3 className="text-lg font-semibold mb-2">All Questions</h3>
       <ul className="list-disc ml-5 text-sm text-gray-700 space-y-2">
-        {Array.isArray(interview.questions) && interview.questions.length > 0 ? (
-          interview.questions.map((task, index) => <li key={index}>{task.question}</li>)
+        {interview.questions && interview.questions.length > 0 ? (
+          interview.questions.map((question, index) => (
+            <li key={index}>
+              {question.type === 'technical' && <span>[Technical] </span>}
+              {question.type === 'behavioral' && <span>[Behavioral] </span>}
+              {question.question}
+            </li>
+          ))
         ) : (
-          <li>No responsibilities listed.</li>
+          <li>No questions listed.</li>
         )}
       </ul>
-      <h3 className="text-lg font-semibold mt-4 mb-2">About {interview.company}</h3>
-      <p className="text-sm text-gray-700">
-        {logoData?.intro || 'No additional information available.'}
-      </p>
     </div>
   );
 };
