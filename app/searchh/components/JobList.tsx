@@ -65,7 +65,7 @@ const JobList: React.FC<JobListProps> = ({
                 </p>
 
                 {/* Display All Badges */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1">
                   {result.level && (
                     <Badge className="bg-indigo-500 text-white text-[9px]">
                       {result.level}
@@ -106,7 +106,23 @@ const JobList: React.FC<JobListProps> = ({
                     round.roundType.toLowerCase().includes('oa')
                   ) && (
                     <Badge className="bg-pink-100 text-pink-800 text-[9px]">OA</Badge>
+                    )}
+                                    {result.rounds.some((round) =>
+                    round.roundType.toLowerCase().includes('hr')
+                  ) && (
+                    <Badge className="bg-blue-300 text-blue-900 text-[9px]">HR</Badge>
+                    )}
+                                    {result.rounds.some((round) =>
+                    round.roundType.toLowerCase().includes('onsite')
+                  ) && (
+                    <Badge className="bg-pink-300 text-pink-800 text-[9px]">Onsite</Badge>
+                    )}
+                                                      {result.rounds.some((round) =>
+                    round.roundType.toLowerCase().includes('team matching')
+                  ) && (
+                    <Badge className="bg-teal-300 text-teal-800 text-[9px]">Team Match</Badge>
                   )}
+                  
                 </div>
               </li>
             );
