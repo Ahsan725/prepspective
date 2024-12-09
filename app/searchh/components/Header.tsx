@@ -1,5 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Badge } from '@/components/ui/badge'; // Update this import based on your project structure.
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface HeaderProps {
   query: string;
@@ -27,50 +29,54 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <div className="header p-4 bg-gray-100 shadow flex items-center gap-4">
+    <div className="header p-1 bg-white flex items-center gap-4">
       {/* Search Input */}
-      <input
+      <Input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search..."
-        className="search-input border rounded p-2 w-2/6"
+        className="search-input ml-2 w-2/6"
       />
 
       {/* Role Level Selector */}
-      <select
-        value={selectedRole}
-        onChange={(e) => onRoleChange(e.target.value)}
-        className="role-selector border rounded p-2 w-1/6"
+      <Select
+        value={selectedRole || 'all-levels'} // Default to "all-levels" when no role is selected
+        onValueChange={(value) => onRoleChange(value === 'all-levels' ? '' : value)}
       >
-        <option value="">All Levels</option>
-        <option value="intern">Intern</option>
-        <option value="new grad">New Grad</option>
-        <option value="Junior Engineer">Junior Engineer</option>
-        <option value="Senior Engineer">Senior Engineer</option>
-        <option value="Staff Engineer">Staff Engineer</option>
-        <option value="Associate">Associate</option>
-        <option value="Engineering Manager">Engineering Manager</option>
-      </select>
+        <SelectTrigger className="w-1/8">
+          <SelectValue placeholder="All Levels" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all-levels">All Levels</SelectItem>
+          <SelectItem value="intern">Intern</SelectItem>
+          <SelectItem value="new grad">New Grad</SelectItem>
+          <SelectItem value="Junior Engineer">Junior Engineer</SelectItem>
+          <SelectItem value="Senior Engineer">Senior Engineer</SelectItem>
+          <SelectItem value="Staff Engineer">Staff Engineer</SelectItem>
+          <SelectItem value="Associate">Associate</SelectItem>
+          <SelectItem value="Engineering Manager">Engineering Manager</SelectItem>
+        </SelectContent>
+      </Select>
 
       {/* Badge Filters */}
       <div className="badges flex flex-wrap gap-2 w-3/6">
         {[
-          'leetcode',
-          'system design',
-          'oa',
+          'LeetCode',
+          'System Design',
+          'OA',
           'HR',
-          'behavioral',
-          'pre screen',
-          'technical',
-          'offer',
-          'no offer',
+          'Behavioral',
+          'Pre Screen',
+          'Technical',
+          'Offer',
+          'No Offer',
         ].map((badge) => (
           <Badge
             key={badge}
             variant={selectedFilters.includes(badge) ? 'default' : 'outline'}
             onClick={() => handleBadgeClick(badge)}
-            className="cursor-pointer"
+            className="cursor-pointer px-2.5 py-0.5 text-xs font-semibold"
           >
             {badge}
           </Badge>
