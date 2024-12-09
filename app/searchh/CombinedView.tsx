@@ -19,7 +19,8 @@ const CombinedView: React.FC = () => {
   } = useCombinedViewData();
 
   const router = useRouter();
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]); // Manage filters state
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]); // Badge filters
+  const [selectedRole, setSelectedRole] = useState<string>(''); // Role level filter
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
 
@@ -31,53 +32,76 @@ const CombinedView: React.FC = () => {
     }
   };
 
+  const handleRoleChange = (role: string) => {
+    setSelectedRole(role); // Update the selected role
+    setSelectedFilters([]); // Reset badge filters
+  };
+
   const filteredResults = useMemo(() => {
     if (!results) return [];
-  
+
     return results.filter((result) => {
       const normalizedQuery = query.toLowerCase();
-  
-      // Check if the query matches the company name or any question
+
+      // Match query (search)
       const queryMatch =
         result.company.toLowerCase().includes(normalizedQuery) ||
         result.questions.some((question) =>
           question.question.toLowerCase().includes(normalizedQuery)
         );
+
+      // Match role level (dropdown)
+      const roleMatch =
+        !selectedRole || result.level.toLowerCase() === selectedRole.toLowerCase();
+
+      // Match badge filters (e.g., LeetCode)
+      const filtersMatch =
+        selectedFilters.length === 0 ||
+        selectedFilters.every((filter) => {
+          const normalizedFilter = filter.toLowerCase();
+
+          // Match job offer status
+          if (
+            (result.jobOffer ? 'offer' : 'no offer').toLowerCase() ===
+            normalizedFilter
+          )
+            return true;
+
+// Match LeetCode badge filter
+if (
+    filter === 'leetcode' &&
+    result.questions.some((question) => question.leetcodeLink)
+  ) {
+    return true;
+  }
   
-      // Check if any selected filter matches
-      const filtersMatch = selectedFilters.some((filter) => {
-        const normalizedFilter = filter.toLowerCase();
-  
-        // Match interview level
-        if (result.level.toLowerCase() === normalizedFilter) return true;
-  
-        // Match job offer
-        if ((result.jobOffer ? "offer" : "no offer") === normalizedFilter) return true;
-  
-        // Match question types
-        if (result.questions.some((question) => question.type.toLowerCase() === normalizedFilter))
-          return true;
-  
-        // Match round types
-        if (result.rounds.some((round) => round.roundType.toLowerCase() === normalizedFilter))
-          return true;
-  
-        return false;
-      });
-  
-      // Combine query and filter matches
-      return queryMatch && (selectedFilters.length === 0 || filtersMatch);
+
+          // Match round types (e.g., system design)
+          if (
+            result.rounds.some(
+              (round) => round.roundType.toLowerCase() === normalizedFilter
+            )
+          )
+            return true;
+
+          return false;
+        });
+
+      // Combine search, role, and badge filters
+      return queryMatch && roleMatch && filtersMatch;
     });
-  }, [results, query, selectedFilters]);
-  
+  }, [results, query, selectedFilters, selectedRole]);
+
   return (
     <div className="flex flex-col h-screen">
       {/* Header Section */}
       <Header
         query={query}
         setQuery={setQuery}
-        selectedFilters={selectedFilters} // Pass selectedFilters
-        setSelectedFilters={setSelectedFilters} // Pass setSelectedFilters
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+        selectedRole={selectedRole} // Pass the selected role
+        onRoleChange={handleRoleChange} // Pass role change handler
       />
 
       {/* Main Content Section */}

@@ -1,116 +1,72 @@
-'use client';
-
-import React from 'react';
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from '@/components/ui/select'; // Adjust import path for ShadCN components
+import React, { Dispatch, SetStateAction } from 'react';
 
 interface HeaderProps {
   query: string;
-  setQuery: (query: string) => void;
+  setQuery: Dispatch<SetStateAction<string>>;
   selectedFilters: string[];
-  setSelectedFilters: (filters: string[]) => void;
+  setSelectedFilters: Dispatch<SetStateAction<string[]>>;
+  selectedRole: string;
+  onRoleChange: (role: string) => void;
 }
-
-const levels = [
-  "Intern",
-  "New Grad",
-  "Junior Engineer",
-  "Senior Engineer",
-  "Staff Engineer",
-  "Principal Engineer",
-  "Associate",
-  "Engineering Manager",
-];
-
-const otherFilters = [
-  "LeetCode",
-  "HR",
-  "System Design",
-  "Pre Screen",
-  "OA",
-  "Team Matching",
-  "Behavioral",
-  "Technical",
-  "Offer",
-  "No Offer",
-];
 
 const Header: React.FC<HeaderProps> = ({
   query,
   setQuery,
   selectedFilters,
   setSelectedFilters,
+  selectedRole,
+  onRoleChange,
 }) => {
-  // Handle dropdown (levels) selection
-  const handleDropdownChange = (level: string) => {
-    // Remove any existing level filters and add the new one
-    const updatedFilters = [
-      ...selectedFilters.filter((filter) => !levels.includes(filter)),
-      level,
-    ];
-    setSelectedFilters(updatedFilters);
-  };
-
-  // Handle badge filter toggling
-  const toggleFilter = (filter: string) => {
-    if (selectedFilters.includes(filter)) {
-      setSelectedFilters(selectedFilters.filter((f) => f !== filter));
-    } else {
-      setSelectedFilters([...selectedFilters, filter]);
-    }
+  const handleBadgeClick = (badge: string) => {
+    setSelectedFilters((prevFilters) =>
+      prevFilters.includes(badge)
+        ? prevFilters.filter((filter) => filter !== badge)
+        : [...prevFilters, badge]
+    );
   };
 
   return (
-    <div className="p-6 bg-blue-500 text-white rounded-b-lg shadow-md">
-      <h1 className="text-3xl font-bold mb-2 text-center">Find Your Dream Job</h1>
-      <p className="text-lg mb-4 text-center">
-        Looking for jobs? Browse our latest job openings to view.
-      </p>
+    <div className="header p-4 bg-gray-100 shadow">
+      {/* Search Input */}
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+        className="search-input border rounded w-full p-2 mb-4"
+      />
 
-      {/* Search Bar */}
-      <div className="flex justify-center mb-6">
-        <input
-          type="text"
-          placeholder="Search jobs..."
-          className="p-2 w-full lg:w-1/3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      </div>
+      {/* Role Level Selector */}
+      <select
+        value={selectedRole}
+        onChange={(e) => onRoleChange(e.target.value)}
+        className="role-selector border rounded w-full p-2 mb-4"
+      >
+        <option value="">All Levels</option>
+        <option value="intern">Intern</option>
+              <option value="new grad">New Grad</option>
+              <option value="Junior Engineer">Junior Engineer</option>
+              <option value="Senior Engineer">Senior Engineer</option>
+              <option value="Staff Engineer">Staff Engineer</option>
+              <option value="Associate">Associate</option>
+              <option value="Engineering Manager">Engineering Manager</option>
 
-      {/* Filters */}
-      <div className="flex flex-wrap justify-center gap-2">
-        {/* Role Levels Dropdown */}
-        <Select onValueChange={handleDropdownChange}>
-          <SelectTrigger className="w-64 bg-blue-600 text-white rounded-md">
-            <SelectValue placeholder="Select Role Level" />
-          </SelectTrigger>
-          <SelectContent>
-            {levels.map((level) => (
-              <SelectItem key={level} value={level}>
-                {level}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {/* Add other levels as needed */}
+      </select>
 
-        {/* Other Filters as Badges */}
-        {otherFilters.map((filter) => (
+      {/* Badge Filters */}
+      <div className="badges flex flex-wrap gap-2">
+        {['leetcode', 'system design', 'oa', 'HR','behavioral','pre screen','technical', 'offer', 'no offer'].map((badge) => (
           <button
-            key={filter}
-            onClick={() => toggleFilter(filter)}
-            className={`px-3 py-1 rounded-full text-sm font-medium border ${
-              selectedFilters.includes(filter)
-                ? "bg-white text-blue-500 border-white"
-                : "bg-blue-600 text-white border-blue-500"
+            key={badge}
+            onClick={() => handleBadgeClick(badge)}
+            className={`badge px-4 py-2 border rounded ${
+              selectedFilters.includes(badge)
+                ? 'bg-blue-500 text-white border-blue-700'
+                : 'bg-gray-200 text-gray-700 border-gray-300'
             }`}
           >
-            {filter}
+            {badge}
           </button>
         ))}
       </div>
