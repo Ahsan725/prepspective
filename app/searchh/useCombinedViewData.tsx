@@ -23,7 +23,7 @@ type Round = {
   experience: string;
 };
 
-type Interview = {
+export type Interview = {
   id: number;
   company: string;
   interviewDate: string;
