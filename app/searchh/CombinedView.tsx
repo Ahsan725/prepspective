@@ -32,38 +32,43 @@ const CombinedView: React.FC = () => {
   };
 
   const filteredResults = useMemo(() => {
-    if (selectedFilters.length === 0) return results; // No filters applied
+    if (!results) return [];
   
     return results.filter((result) => {
-      // Check if any selected filter matches the result's properties
-      const filtersMatch = selectedFilters.some((filter) => {
-        const normalizedFilter = filter.toLowerCase(); // Normalize the filter to lowercase
+      const normalizedQuery = query.toLowerCase();
   
-        // Check interview level
+      // Check if the query matches the company name or any question
+      const queryMatch =
+        result.company.toLowerCase().includes(normalizedQuery) ||
+        result.questions.some((question) =>
+          question.question.toLowerCase().includes(normalizedQuery)
+        );
+  
+      // Check if any selected filter matches
+      const filtersMatch = selectedFilters.some((filter) => {
+        const normalizedFilter = filter.toLowerCase();
+  
+        // Match interview level
         if (result.level.toLowerCase() === normalizedFilter) return true;
   
-        // Check job offer
-        if ((result.jobOffer ? 'offer' : 'no offer') === normalizedFilter) return true;
+        // Match job offer
+        if ((result.jobOffer ? "offer" : "no offer") === normalizedFilter) return true;
   
-        // Check question types
-        if (
-          result.questions.some((question) => question.type.toLowerCase() === normalizedFilter)
-        )
+        // Match question types
+        if (result.questions.some((question) => question.type.toLowerCase() === normalizedFilter))
           return true;
   
-        // Check for LeetCode filter
-        if (
-          normalizedFilter === 'leetcode' &&
-          result.questions.some((question) => question.leetcodeLink)
-        )
+        // Match round types
+        if (result.rounds.some((round) => round.roundType.toLowerCase() === normalizedFilter))
           return true;
   
         return false;
       });
   
-      return filtersMatch;
+      // Combine query and filter matches
+      return queryMatch && (selectedFilters.length === 0 || filtersMatch);
     });
-  }, [results, selectedFilters]);
+  }, [results, query, selectedFilters]);
   
   return (
     <div className="flex flex-col h-screen">

@@ -1,4 +1,13 @@
+'use client';
+
 import React from 'react';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select'; // Adjust import path for ShadCN components
 
 interface HeaderProps {
   query: string;
@@ -18,9 +27,36 @@ const levels = [
   "Engineering Manager",
 ];
 
-const otherFilters = ["LeetCode", "Rounds", "Behavioral", "Technical", "Offer", "No Offer"];
+const otherFilters = [
+  "LeetCode",
+  "HR",
+  "System Design",
+  "Pre Screen",
+  "OA",
+  "Team Matching",
+  "Behavioral",
+  "Technical",
+  "Offer",
+  "No Offer",
+];
 
-const Header: React.FC<HeaderProps> = ({ query, setQuery, selectedFilters, setSelectedFilters }) => {
+const Header: React.FC<HeaderProps> = ({
+  query,
+  setQuery,
+  selectedFilters,
+  setSelectedFilters,
+}) => {
+  // Handle dropdown (levels) selection
+  const handleDropdownChange = (level: string) => {
+    // Remove any existing level filters and add the new one
+    const updatedFilters = [
+      ...selectedFilters.filter((filter) => !levels.includes(filter)),
+      level,
+    ];
+    setSelectedFilters(updatedFilters);
+  };
+
+  // Handle badge filter toggling
   const toggleFilter = (filter: string) => {
     if (selectedFilters.includes(filter)) {
       setSelectedFilters(selectedFilters.filter((f) => f !== filter));
@@ -49,22 +85,21 @@ const Header: React.FC<HeaderProps> = ({ query, setQuery, selectedFilters, setSe
 
       {/* Filters */}
       <div className="flex flex-wrap justify-center gap-2">
-        {/* Levels Filters */}
-        {levels.map((level) => (
-          <button
-            key={level}
-            onClick={() => toggleFilter(level)}
-            className={`px-3 py-1 rounded-full text-sm font-medium border ${
-              selectedFilters.includes(level)
-                ? "bg-white text-blue-500 border-white"
-                : "bg-blue-600 text-white border-blue-500"
-            }`}
-          >
-            {level}
-          </button>
-        ))}
+        {/* Role Levels Dropdown */}
+        <Select onValueChange={handleDropdownChange}>
+          <SelectTrigger className="w-64 bg-blue-600 text-white rounded-md">
+            <SelectValue placeholder="Select Role Level" />
+          </SelectTrigger>
+          <SelectContent>
+            {levels.map((level) => (
+              <SelectItem key={level} value={level}>
+                {level}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-        {/* Other Filters */}
+        {/* Other Filters as Badges */}
         {otherFilters.map((filter) => (
           <button
             key={filter}
