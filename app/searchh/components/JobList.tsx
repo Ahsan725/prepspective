@@ -36,7 +36,7 @@ const JobList: React.FC<JobListProps> = ({
             return (
               <li
                 key={result.id}
-                className={`p-4 bg-white border rounded-lg shadow-md hover:shadow-lg cursor-pointer ${
+                className={`p-4 bg-white border rounded-lg shadow-md hover:shadow-xl cursor-pointer ${
                   selectedInterviewId === result.id ? 'ring-2 ring-indigo-500' : ''
                 }`}
                 onClick={() => handleMobileRedirect(result.id)}
