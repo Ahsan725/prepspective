@@ -29,14 +29,14 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <div className="header p-1 bg-white flex items-center gap-4">
+    <div className="header p-1 bg-white flex flex-wrap md:flex-nowrap items-center gap-4">
       {/* Search Input */}
       <Input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search..."
-        className="search-input ml-2 w-2/6"
+        className="search-input w-full md:w-2/6 lg:ml-4"
       />
 
       {/* Role Level Selector */}
@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({
         value={selectedRole || 'all-levels'} // Default to "all-levels" when no role is selected
         onValueChange={(value) => onRoleChange(value === 'all-levels' ? '' : value)}
       >
-        <SelectTrigger className="w-1/8">
+        <SelectTrigger className="w-full md:w-1/5">
           <SelectValue placeholder="All Levels" />
         </SelectTrigger>
         <SelectContent>
@@ -60,33 +60,34 @@ const Header: React.FC<HeaderProps> = ({
       </Select>
 
       {/* Badge Filters */}
-      <div className="badges flex flex-wrap gap-1 w-3/6">
-  {[
-    'LeetCode',
-    'System Design',
-    'OA',
-    'HR',
-    'Behavioral',
-    'Pre Screen',
-    'Technical',
-    'Offer',
-    'No Offer',
-  ].map((badge) => (
-    <Badge
-      key={badge}
-      variant="outline" // Always use outline as the base variant
-      onClick={() => handleBadgeClick(badge)}
-      className={`cursor-pointer px-2.5 py-0.5 text-xs font-semibold ${
-        selectedFilters.includes(badge)
-          ? 'bg-gradient-to-r from-indigo-800 to-indigo-500 text-white'
-          : 'bg-gray-200 text-gray-700'
-      }`}
-    >
-      {badge}
-    </Badge>
-  ))}
-</div>
-
+      <div className="badges flex flex-wrap gap-2 w-full mt-4 md:mt-0">
+        {[
+          'LeetCode',
+          'System Design',
+          'OA',
+          'HR',
+          'Behavioral',
+          'Pre Screen',
+          'Technical',
+          'Offer',
+          'No Offer',
+          'Onsite',
+          'Team Match',
+        ].map((badge) => (
+          <Badge
+            key={badge}
+            variant="outline" // Always use outline as the base variant
+            onClick={() => handleBadgeClick(badge)}
+            className={`cursor-pointer px-2.5 py-0.5 text-xs font-semibold ${
+              selectedFilters.includes(badge)
+                ? 'bg-gradient-to-r from-indigo-800 to-indigo-500 text-white'
+                : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            {badge}
+          </Badge>
+        ))}
+      </div>
     </div>
   );
 };

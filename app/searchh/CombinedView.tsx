@@ -116,7 +116,12 @@ if (
         />
 
         {/* Job Details (Right Column) */}
-        <JobDetails selectedInterviewId={selectedInterviewId} interview={interview} />
+        {!isMobile && (
+          <JobDetails
+            selectedInterviewId={selectedInterviewId}
+            interview={interview}
+          />
+        )}
       </div>
     </div>
   );

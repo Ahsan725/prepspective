@@ -25,7 +25,7 @@ const JobList: React.FC<JobListProps> = ({
       {/* <h2 className="text-xl font-semibold mb-4">Related Interviews</h2> */}
       <ul className="space-y-4">
         {loading ? (
-          <div className="flex justify-center items-start h-screen">
+          <div className="flex justify-center items-start h-screen mt-8">
           <Loader />
         </div>
         
