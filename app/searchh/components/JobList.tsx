@@ -21,8 +21,8 @@ const JobList: React.FC<JobListProps> = ({
   handleMobileRedirect,
 }) => {
   return (
-    <div className="w-full lg:w-2/6 bg-white rounded-lg shadow-md p-4 overflow-y-auto">
-      <h2 className="text-xl font-semibold mb-4">Related Interviews</h2>
+    <div className="w-full lg:w-3/12 bg-white rounded-lg p-1 overflow-y-auto">
+      {/* <h2 className="text-xl font-semibold mb-4">Related Interviews</h2> */}
       <ul className="space-y-4">
         {loading ? (
           <div className="flex justify-center items-start h-screen">
@@ -67,45 +67,45 @@ const JobList: React.FC<JobListProps> = ({
                 {/* Display All Badges */}
                 <div className="flex flex-wrap gap-2">
                   {result.level && (
-                    <Badge className="bg-indigo-500 text-white text-[10px]">
+                    <Badge className="bg-indigo-500 text-white text-[9px]">
                       {result.level}
                     </Badge>
                   )}
                   {result.jobOffer === true && (
-                    <Badge className="bg-green-100 text-green-800 text-[10px]">Offer</Badge>
+                    <Badge className="bg-green-100 text-green-800 text-[9px]">Offer</Badge>
                   )}
                   {result.jobOffer === false && (
-                    <Badge className="bg-red-100 text-red-800 text-[10px]">No Offer</Badge>
+                    <Badge className="bg-red-100 text-red-800 text-[9px]">No Offer</Badge>
                   )}
                   {result.questions.some((q) => q.type.toLowerCase() === 'behavioral') && (
-                    <Badge className="bg-yellow-100 text-yellow-800 text-[10px]">
+                    <Badge className="bg-yellow-100 text-yellow-800 text-[9px]">
                       Behavioral
                     </Badge>
                   )}
                   {result.questions.some((q) => q.type.toLowerCase() === 'technical') && (
-                    <Badge className="bg-purple-100 text-purple-800 text-[10px]">
+                    <Badge className="bg-purple-100 text-purple-800 text-[9px]">
                       Technical
                     </Badge>
                   )}
                   {result.rounds.some((round) =>
                     round.roundType.toLowerCase().includes('system design')
                   ) && (
-                    <Badge className="bg-indigo-100 text-indigo-800 text-[10px]">
+                    <Badge className="bg-indigo-100 text-indigo-800 text-[9px]">
                       System Design
                     </Badge>
                   )}
                   {result.questions.some((q) => q.leetcodeLink) && (
-                    <Badge className="bg-teal-100 text-teal-800 text-[10px]">LeetCode</Badge>
+                    <Badge className="bg-teal-100 text-teal-800 text-[9px]">LeetCode</Badge>
                   )}
                   {result.rounds.some((round) =>
                     round.roundType.toLowerCase().includes('pre screen')
                   ) && (
-                    <Badge className="bg-cyan-100 text-cyan-800 text-[10px]">Pre Screen</Badge>
+                    <Badge className="bg-cyan-100 text-cyan-800 text-[9px]">Pre Screen</Badge>
                   )}
                   {result.rounds.some((round) =>
                     round.roundType.toLowerCase().includes('oa')
                   ) && (
-                    <Badge className="bg-pink-100 text-pink-800 text-[10px]">OA</Badge>
+                    <Badge className="bg-pink-100 text-pink-800 text-[9px]">OA</Badge>
                   )}
                 </div>
               </li>

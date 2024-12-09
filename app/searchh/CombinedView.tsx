@@ -69,7 +69,7 @@ const CombinedView: React.FC = () => {
 
 // Match LeetCode badge filter
 if (
-    filter === 'leetcode' &&
+  filter.toLowerCase() === 'leetcode' &&
     result.questions.some((question) => question.leetcodeLink)
   ) {
     return true;
