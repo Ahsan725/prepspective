@@ -127,10 +127,10 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
           {interview.rounds.map((round, index) => (
             <div key={index} className="border p-3 rounded-md">
               <h4 className="text-md font-semibold">{round.roundType}</h4>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 mb-2">
                 <strong>Date:</strong> {formatDate(round.roundDate)}
               </p>
-              <p className="text-sm text-gray-500">{round.experience}</p>
+              <p className="text-sm text-gray-700">{round.experience}</p>
             </div>
           ))}
         </div>
@@ -141,21 +141,34 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
       {/* Divider */}
       <hr className="my-4" />
 
-      {/* All Questions */}
-      <h3 className="text-lg font-semibold mb-2">All Questions</h3>
-      <ul className="list-disc ml-5 text-sm text-gray-700 space-y-2">
-        {interview.questions && interview.questions.length > 0 ? (
-          interview.questions.map((question, index) => (
-            <li key={index}>
-              {question.type === 'technical' && <span>[Technical] </span>}
-              {question.type === 'behavioral' && <span>[Behavioral] </span>}
-              {question.question}
-            </li>
-          ))
-        ) : (
-          <li>No questions listed.</li>
+ {/* All Questions */}
+ <h3 className="text-lg font-semibold mb-2">All Questions</h3>
+<ul className="list-none ml-0 text-sm text-gray-700 space-y-4">
+  {interview.questions && interview.questions.length > 0 ? (
+    interview.questions.map((question, index) => (
+      <li key={index} className="flex flex-col gap-1">
+        {/* Badge */}
+        {question.type === 'technical' && (
+          <span className="self-start px-2 py-1 bg-blue-200 text-xs font-semibold rounded">
+            Technical
+          </span>
         )}
-      </ul>
+        {question.type === 'behavioral' && (
+          <span className="self-start px-2 py-1 bg-purple-200 text-xs font-semibold rounded">
+            Behavioral
+          </span>
+        )}
+
+        {/* Question */}
+        <span className="text-gray-800">{question.question}</span>
+      </li>
+    ))
+  ) : (
+    <li>No questions listed.</li>
+  )}
+</ul>
+
+
     </div>
   );
 };
