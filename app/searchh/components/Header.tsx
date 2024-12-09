@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
+import { Badge } from '@/components/ui/badge'; // Update this import based on your project structure.
 
 interface HeaderProps {
   query: string;
@@ -26,48 +27,53 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <div className="header p-4 bg-gray-100 shadow">
+    <div className="header p-4 bg-gray-100 shadow flex items-center gap-4">
       {/* Search Input */}
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search..."
-        className="search-input border rounded w-full p-2 mb-4"
+        className="search-input border rounded p-2 w-2/6"
       />
 
       {/* Role Level Selector */}
       <select
         value={selectedRole}
         onChange={(e) => onRoleChange(e.target.value)}
-        className="role-selector border rounded w-full p-2 mb-4"
+        className="role-selector border rounded p-2 w-1/6"
       >
         <option value="">All Levels</option>
         <option value="intern">Intern</option>
-              <option value="new grad">New Grad</option>
-              <option value="Junior Engineer">Junior Engineer</option>
-              <option value="Senior Engineer">Senior Engineer</option>
-              <option value="Staff Engineer">Staff Engineer</option>
-              <option value="Associate">Associate</option>
-              <option value="Engineering Manager">Engineering Manager</option>
-
-        {/* Add other levels as needed */}
+        <option value="new grad">New Grad</option>
+        <option value="Junior Engineer">Junior Engineer</option>
+        <option value="Senior Engineer">Senior Engineer</option>
+        <option value="Staff Engineer">Staff Engineer</option>
+        <option value="Associate">Associate</option>
+        <option value="Engineering Manager">Engineering Manager</option>
       </select>
 
       {/* Badge Filters */}
-      <div className="badges flex flex-wrap gap-2">
-        {['leetcode', 'system design', 'oa', 'HR','behavioral','pre screen','technical', 'offer', 'no offer'].map((badge) => (
-          <button
+      <div className="badges flex flex-wrap gap-2 w-3/6">
+        {[
+          'leetcode',
+          'system design',
+          'oa',
+          'HR',
+          'behavioral',
+          'pre screen',
+          'technical',
+          'offer',
+          'no offer',
+        ].map((badge) => (
+          <Badge
             key={badge}
+            variant={selectedFilters.includes(badge) ? 'default' : 'outline'}
             onClick={() => handleBadgeClick(badge)}
-            className={`badge px-4 py-2 border rounded ${
-              selectedFilters.includes(badge)
-                ? 'bg-blue-500 text-white border-blue-700'
-                : 'bg-gray-200 text-gray-700 border-gray-300'
-            }`}
+            className="cursor-pointer"
           >
             {badge}
-          </button>
+          </Badge>
         ))}
       </div>
     </div>
