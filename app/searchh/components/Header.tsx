@@ -60,28 +60,33 @@ const Header: React.FC<HeaderProps> = ({
       </Select>
 
       {/* Badge Filters */}
-      <div className="badges flex flex-wrap gap-2 w-3/6">
-        {[
-          'LeetCode',
-          'System Design',
-          'OA',
-          'HR',
-          'Behavioral',
-          'Pre Screen',
-          'Technical',
-          'Offer',
-          'No Offer',
-        ].map((badge) => (
-          <Badge
-            key={badge}
-            variant={selectedFilters.includes(badge) ? 'default' : 'outline'}
-            onClick={() => handleBadgeClick(badge)}
-            className="cursor-pointer px-2.5 py-0.5 text-xs font-semibold"
-          >
-            {badge}
-          </Badge>
-        ))}
-      </div>
+      <div className="badges flex flex-wrap gap-1 w-3/6">
+  {[
+    'LeetCode',
+    'System Design',
+    'OA',
+    'HR',
+    'Behavioral',
+    'Pre Screen',
+    'Technical',
+    'Offer',
+    'No Offer',
+  ].map((badge) => (
+    <Badge
+      key={badge}
+      variant="outline" // Always use outline as the base variant
+      onClick={() => handleBadgeClick(badge)}
+      className={`cursor-pointer px-2.5 py-0.5 text-xs font-semibold ${
+        selectedFilters.includes(badge)
+          ? 'bg-gradient-to-r from-indigo-800 to-indigo-500 text-white'
+          : 'bg-gray-200 text-gray-700'
+      }`}
+    >
+      {badge}
+    </Badge>
+  ))}
+</div>
+
     </div>
   );
 };
