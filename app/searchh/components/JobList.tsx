@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import logos from '@/data/logos.json'; // Import JSON file
 import { Interview } from '@/app/searchh/useCombinedViewData'; // Import Interview type
+import Loader from '@/components/ui/loader';
 
 interface JobListProps {
   results: Interview[];
@@ -24,7 +25,10 @@ const JobList: React.FC<JobListProps> = ({
       <h2 className="text-xl font-semibold mb-4">Related Interviews</h2>
       <ul className="space-y-4">
         {loading ? (
-          <div>Loading...</div>
+          <div className="flex justify-center items-start h-screen">
+          <Loader />
+        </div>
+        
         ) : filteredResults && filteredResults.length > 0 ? (
           filteredResults.map((result) => {
             const logoData = logos.find((logo) => logo.name === result.company);
@@ -33,7 +37,7 @@ const JobList: React.FC<JobListProps> = ({
               <li
                 key={result.id}
                 className={`p-4 bg-white border rounded-lg shadow-md hover:shadow-lg cursor-pointer ${
-                  selectedInterviewId === result.id ? 'ring-2 ring-blue-500' : ''
+                  selectedInterviewId === result.id ? 'ring-2 ring-indigo-500' : ''
                 }`}
                 onClick={() => handleMobileRedirect(result.id)}
               >

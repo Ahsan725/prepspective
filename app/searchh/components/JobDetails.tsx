@@ -3,6 +3,7 @@ import Image from 'next/image';
 import logos from '@/data/logos.json'; // Import your JSON file here
 import { Interview } from '@/app/searchh/useCombinedViewData'; // Import Interview type
 import Link from 'next/link';
+import Loader from '@/components/ui/loader';
 
 interface JobDetailsProps {
   selectedInterviewId: number | null;
@@ -27,7 +28,9 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
   }
 
   if (!interview) {
-    return <p className="text-center text-gray-500">Loading...</p>;
+    return <div className="items-start h-screen ml-80 mr-[-60]">
+    <Loader />
+  </div>;
   }
 
   // Fetch logo and intro from the JSON file
