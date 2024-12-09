@@ -43,7 +43,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
       {/* Header Section */}
       <div className="flex items-center mb-4">
         <Image
-          src={logoData?.logo || '/placeholder.png'} // Use logo from JSON or fallback to placeholder
+          src={logoData?.logo || '/placeholder.png'}
           alt={interview.company || 'Company Logo'}
           width={60}
           height={60}
@@ -62,24 +62,29 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
         </p>
         <div className="flex gap-2">
           {friendlinessRating && (
-            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(friendlinessRating.score)}`}>
+            <span
+              className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(friendlinessRating.score)}`}
+            >
               Friendliness: {['Rude', 'Not Friendly', 'Formal', 'Friendly', 'Super Friendly'][friendlinessRating.score - 1]}
             </span>
           )}
           {difficultyRating && (
-            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(difficultyRating.score)}`}>
+            <span
+              className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(difficultyRating.score)}`}
+            >
               Difficulty: {['Super Hard', 'Hard', 'Medium', 'Average', 'Easy'][difficultyRating.score - 1]}
             </span>
           )}
           {responsivenessRating && (
-            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(responsivenessRating.score)}`}>
+            <span
+              className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(responsivenessRating.score)}`}
+            >
               Responsiveness: {['Unresponsive', 'Very Slow', 'Slow', 'Prompt', 'Very Prompt'][responsivenessRating.score - 1]}
             </span>
           )}
         </div>
       </div>
 
-      {/* Divider */}
       <hr className="my-4" />
 
       {/* Interview Overview */}
@@ -88,7 +93,6 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
         {interview.overallExperience || 'No overview available.'}
       </p>
 
-      {/* Divider */}
       <hr className="my-4" />
 
       {/* LeetCode Questions Section */}
@@ -100,22 +104,20 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
               .filter((q) => q.leetcodeLink)
               .map((question, index) => (
                 <li key={index}>
-                  {question.question}{' '}
-
+                  {question.question}
                   {question.leetcodeLink && (
-  <Link
-    href={question.leetcodeLink}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-blue-500 underline ml-2"
-  >
-    Open on LeetCode
-  </Link>
-)}
+                    <Link
+                      href={question.leetcodeLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 underline ml-2"
+                    >
+                      Open on LeetCode
+                    </Link>
+                  )}
                 </li>
               ))}
           </ul>
-          {/* Divider */}
           <hr className="my-4" />
         </>
       )}
@@ -138,37 +140,31 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
         <p className="text-gray-700 text-sm">No interview rounds listed.</p>
       )}
 
-      {/* Divider */}
       <hr className="my-4" />
 
- {/* All Questions */}
- <h3 className="text-lg font-semibold mb-2">All Questions</h3>
-<ul className="list-none ml-0 text-sm text-gray-700 space-y-4">
-  {interview.questions && interview.questions.length > 0 ? (
-    interview.questions.map((question, index) => (
-      <li key={index} className="flex flex-col gap-1">
-        {/* Badge */}
-        {question.type === 'technical' && (
-          <span className="self-start px-2 py-1 bg-blue-200 text-xs font-semibold rounded">
-            Technical
-          </span>
+      {/* All Questions */}
+      <h3 className="text-lg font-semibold mb-2">All Questions</h3>
+      <ul className="list-none ml-0 text-sm text-gray-700 space-y-4">
+        {interview.questions && interview.questions.length > 0 ? (
+          interview.questions.map((question, index) => (
+            <li key={index} className="flex flex-col gap-1">
+              {question.type === 'technical' && (
+                <span className="self-start px-2 py-1 bg-blue-200 text-xs font-semibold rounded">
+                  Technical
+                </span>
+              )}
+              {question.type === 'behavioral' && (
+                <span className="self-start px-2 py-1 bg-purple-200 text-xs font-semibold rounded">
+                  Behavioral
+                </span>
+              )}
+              <span className="text-gray-800">{question.question}</span>
+            </li>
+          ))
+        ) : (
+          <li>No questions listed.</li>
         )}
-        {question.type === 'behavioral' && (
-          <span className="self-start px-2 py-1 bg-purple-200 text-xs font-semibold rounded">
-            Behavioral
-          </span>
-        )}
-
-        {/* Question */}
-        <span className="text-gray-800">{question.question}</span>
-      </li>
-    ))
-  ) : (
-    <li>No questions listed.</li>
-  )}
-</ul>
-
-
+      </ul>
     </div>
   );
 };

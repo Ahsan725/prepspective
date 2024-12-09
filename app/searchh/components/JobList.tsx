@@ -20,8 +20,8 @@ const JobList: React.FC<JobListProps> = ({
   handleMobileRedirect,
 }) => {
   return (
-    <div className="w-full lg:w-2/6 bg-white rounded-lg shadow-md p-4 overflow-y-auto max-h-full">
-      <h2 className="text-xl font-semibold mb-4">Related Jobs</h2>
+    <div className="w-full lg:w-2/6 bg-white rounded-lg shadow-md p-4 overflow-y-auto">
+      <h2 className="text-xl font-semibold mb-4">Related Interviews</h2>
       <ul className="space-y-4">
         {loading ? (
           <div>Loading...</div>
@@ -52,7 +52,11 @@ const JobList: React.FC<JobListProps> = ({
                 {/* Date */}
                 <p className="text-sm text-gray-500 mb-2">
                   {result.interviewDate
-                    ? new Date(result.interviewDate).toLocaleDateString()
+                    ? new Date(result.interviewDate).toLocaleDateString(undefined, {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })
                     : 'Unknown Date'}
                 </p>
 
