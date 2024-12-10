@@ -76,11 +76,12 @@ export default function InterviewForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
+    
       if (res.ok) {
         toast({
           title: 'Success!',
-          description: 'Interview entry submitted successfully!',
+          description: 'Your interview experience has been submitted successfully!',
+          variant: 'default',
         });
         setFormData({
           company: '',
@@ -92,18 +93,48 @@ export default function InterviewForm() {
           ratings: [],
           rounds: [],
         });
+      } else if (res.status >= 400 && res.status < 500) {
+        toast({
+          title: 'Submission Failed',
+          description: 'There was an issue with the data you provided. Please review and try again.',
+          variant: 'destructive',
+        });
       } else {
         toast({
-          title: 'Failed to Save',
-          description: 'Failed to save data. Please try again.',
+          title: 'Server Error',
+          description: 'The server encountered an error. Please try again later.',
+          variant: 'destructive',
         });
       }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      toast({
-        title: 'Unexpected Error',
-        description: 'An unexpected error occurred. Please try again later.',
-      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        if (error.message === 'Failed to fetch') {
+          toast({
+            title: 'Network Error',
+            description: 'Unable to connect to the server. Please check your internet connection and try again.',
+            variant: 'destructive',
+          });
+        } else {
+          toast({
+            title: 'Unexpected Error',
+            description: error.message || 'An unexpected error occurred. Please refresh the page and try again.',
+            variant: 'destructive',
+          });
+        }
+      } else if (typeof error === 'string') {
+        toast({
+          title: 'Error',
+          description: error,
+          variant: 'destructive',
+        });
+      } else {
+        console.error('Unknown error:', error);
+        toast({
+          title: 'Unexpected Error',
+          description: 'An unexpected error occurred. Please refresh the page and try again.',
+          variant: 'destructive',
+        });
+      }
     } finally {
       setLoading(false);
     }
