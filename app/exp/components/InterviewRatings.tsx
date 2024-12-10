@@ -52,9 +52,9 @@ export function InterviewRatings({ formData, handleChange }: InterviewRatingsPro
             </Label>
             <div className='text-[10px] my-4'>
             <ul>
-  <li>Friendliness: 1-5, increasing friendliness</li>
-  <li>Difficulty: 1-5, increasing difficulty.</li>
-  <li>Responsiveness: 1-5, increasing promptness.</li>
+  <li>Friendliness: 1-5, 1 = Super Rude, 5 = Super Friendly</li>
+  <li>Difficulty: 1-5, 1 = Super Hard, 5 = Super Easy</li>
+  <li>Responsiveness: 1-5, 1 = Unresponsive, 5 = Prompt</li>
 </ul>
 </div>
             <Select

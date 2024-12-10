@@ -75,7 +75,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
             <span
               className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(difficultyRating.score)}`}
             >
-              Difficulty: {['Super Hard', 'Hard', 'Medium', 'Average', 'Easy'][difficultyRating.score - 1]}
+              Difficulty: {['Super Hard', 'Hard', 'Medium', 'Easy', 'Super Easy'][difficultyRating.score - 1]}
             </span>
           )}
           {responsivenessRating && (
