@@ -50,6 +50,13 @@ export function InterviewRatings({ formData, handleChange }: InterviewRatingsPro
             <Label htmlFor="ratingCategory" className="text-sm font-medium text-gray-700">
               Category
             </Label>
+            <div className='text-[10px] my-4'>
+            <ul>
+  <li>Friendliness: 1-5, increasing friendliness</li>
+  <li>Difficulty: 1-5, increasing difficulty.</li>
+  <li>Responsiveness: 1-5, increasing promptness.</li>
+</ul>
+</div>
             <Select
               value={currentRating.category}
               onValueChange={(value) => setCurrentRating((prev) => ({ ...prev, category: value }))}
