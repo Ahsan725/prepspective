@@ -154,7 +154,7 @@ const clients = [
               </Button>
             </form>
             <p className="text-md text-indigo-700">
-              Join <NumberTicker value={count + 217} className="font-extrabold text-indigo-700" /> others on the waitlist
+              Join <NumberTicker value={count + 287} className="font-extrabold text-indigo-700" /> others on the waitlist
             </p>
           </div>
 
