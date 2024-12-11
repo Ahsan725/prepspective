@@ -1,0 +1,52 @@
+.cardContainer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .cardTrack {
+    display: flex;
+    width: fit-content;
+    animation: scroll 40s linear infinite;
+  }
+  
+  .cardTrack:hover {
+    animation-play-state: paused;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  .cardWrapper {
+    flex: 0 0 auto;
+    width: 300px;
+    padding: 0 1rem;
+  }
+  
+  .cardContainer::before,
+  .cardContainer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 2;
+  }
+  
+  .cardContainer::before {
+    left: 0;
+    background: linear-gradient(to right, white, transparent);
+  }
+  
+  .cardContainer::after {
+    right: 0;
+    background: linear-gradient(to left, white, transparent);
+  }
+  
+  

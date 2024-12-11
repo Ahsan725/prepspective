@@ -1,13 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { ArrowUpRight, X, ArrowRight } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { ArrowRight } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 import NumberTicker from './number-ticker'
-import Link from 'next/link'
 import Image from 'next/image'
 import FluidCursor from "@/components/ui/fluidCursor"
 import styles from '@/components/modern-hero.module.css'
@@ -15,9 +14,7 @@ import styles from '@/components/modern-hero.module.css'
 export default function ModernHero() {
   const [email, setEmail] = useState('')
   const [count, setCount] = useState(0)
-  const [showBanner, setShowBanner] = useState(true)
   const { toast } = useToast()
-  const marqueeRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fetchCount = async () => {
@@ -67,41 +64,24 @@ export default function ModernHero() {
     }
   }
 
-const clients = [
-
-  { name: 'Google', src: '/google.png' },
-  { name: 'Amazon', src: '/amazon.png' },
-  { name: 'American Express', src: '/amex.png' },
-  { name: 'Apple', src: '/apple.png' },
-  { name: 'Datadog', src: '/datadog.png' },
-  { name: 'Discord', src: '/discord.png' },
-  { name: 'Figma', src: '/figma.png' },
-  { name: 'LinkedIn', src: '/linkedin.png' },
-  { name: 'Lyft', src: '/lyft.png' },
-  { name: 'Meta', src: '/meta.png' },
-  { name: 'Microsoft', src: '/microsoft.png' },
-  { name: 'Netflix', src: '/netflix.png' },
-  { name: 'Salesforce', src: '/salesforce.png' },
-  { name: 'Spotify', src: '/spotify.png' },
-  { name: 'TikTok', src: '/tiktok.png' },
-  { name: 'Uber', src: '/uber.png' },
-  { name: 'Google', src: '/google.png' },
-  { name: 'Amazon', src: '/amazon.png' },
-  { name: 'American Express', src: '/amex.png' },
-  { name: 'Apple', src: '/apple.png' },
-  { name: 'Datadog', src: '/datadog.png' },
-  { name: 'Discord', src: '/discord.png' },
-  { name: 'Figma', src: '/figma.png' },
-  { name: 'LinkedIn', src: '/linkedin.png' },
-  { name: 'Lyft', src: '/lyft.png' },
-  { name: 'Meta', src: '/meta.png' },
-  { name: 'Microsoft', src: '/microsoft.png' },
-  { name: 'Netflix', src: '/netflix.png' },
-  { name: 'Salesforce', src: '/salesforce.png' },
-  { name: 'Spotify', src: '/spotify.png' },
-  { name: 'TikTok', src: '/tiktok.png' },
-  { name: 'Uber', src: '/uber.png' },
-];
+  const clients = [
+    { name: 'Google', src: '/google.png' },
+    { name: 'Amazon', src: '/amazon.png' },
+    { name: 'American Express', src: '/amex.png' },
+    { name: 'Apple', src: '/apple.png' },
+    { name: 'Datadog', src: '/datadog.png' },
+    { name: 'Discord', src: '/discord.png' },
+    { name: 'Figma', src: '/figma.png' },
+    { name: 'LinkedIn', src: '/linkedin.png' },
+    { name: 'Lyft', src: '/lyft.png' },
+    { name: 'Meta', src: '/meta.png' },
+    { name: 'Microsoft', src: '/microsoft.png' },
+    { name: 'Netflix', src: '/netflix.png' },
+    { name: 'Salesforce', src: '/salesforce.png' },
+    { name: 'Spotify', src: '/spotify.png' },
+    { name: 'TikTok', src: '/tiktok.png' },
+    { name: 'Uber', src: '/uber.png' },
+  ]
 
   return (
     <>
@@ -123,11 +103,10 @@ const clients = [
           {/* Main Content */}
           <div className="space-y-4 max-w-4xl mx-auto">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-indigo-800 via-indigo-600 to-purple-700 bg-clip-text text-transparent">
-            Your Competitive Advantage in Tech Interviews.
+              Your Competitive Advantage in Tech Interviews.
             </h1>
             <p className="text-lg lg:text-2xl text-gray-500 max-w-2xl mx-auto">
-            The only interview prep platform you&rsquo;ll ever need. We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
-
+              The only interview prep platform you&rsquo;ll ever need. We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
             </p>
           </div>
 
@@ -160,25 +139,46 @@ const clients = [
 
           {/* Client Logos */}
           <div className="mt-16 w-full max-w-3xl mx-auto">
-  <p className="text-sm text-gray-500 mb-4 text-center">Interviews Sourced from Top Companies</p>
-  <div className={styles.marqueeContainer}>
-    <div className={styles.marquee} ref={marqueeRef}>
-      <div className={styles.marqueeContent}>
-        {[...clients, ...clients, ...clients, ...clients, ...clients, ...clients].map((client, index) => (
-          <Image
-            key={`${client.name}-${index}`}
-            src={client.src}
-            alt={client.name}
-            width={50}
-            height={40}
-            className="inline-block object-contain h-8 mx-4"
-          />
-        ))}
-      </div>
-    </div>
-  </div>
-</div>
-
+            <p className="text-sm text-gray-500 mb-4 text-center">Interviews Sourced from Top Companies</p>
+            <div className={styles.marqueeContainer}>
+              <div className={styles.marquee}>
+                <div className={styles.marqueeContent}>
+                  {clients.map((client, index) => (
+                    <Image
+                      key={`${client.name}-${index}`}
+                      src={client.src}
+                      alt={client.name}
+                      width={80}
+                      height={32}
+                      style={{ 
+                        width: 'auto', 
+                        height: '32px', 
+                        objectFit: 'contain',
+                        flexShrink: 0
+                      }}
+                    />
+                  ))}
+                </div>
+                <div className={styles.marqueeContent}>
+                  {clients.map((client, index) => (
+                    <Image
+                      key={`${client.name}-${index}-duplicate`}
+                      src={client.src}
+                      alt={client.name}
+                      width={80}
+                      height={32}
+                      style={{ 
+                        width: 'auto', 
+                        height: '32px', 
+                        objectFit: 'contain',
+                        flexShrink: 0
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </>
