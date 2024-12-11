@@ -8,6 +8,7 @@ import Bento from "@/components/ui/bento";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Loader from "@/components/ui/loader";
 import SvgImage from '@/components/ui/heroimg';
+import Test from "@/components/ui/test";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,7 @@ export default function HomePage() {
   return (
     <main>
       <CustomHero />
+      {/* <Test /> */}
       <Bento />
       {/* <SvgImage src="/mockup.svg" alt="Example SVG Image" /> */}
       <Familiar />
