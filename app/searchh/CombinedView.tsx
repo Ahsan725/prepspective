@@ -105,7 +105,7 @@ if (
       />
 
       {/* Main Content Section */}
-      <div className="flex flex-col lg:flex-row gap-4 p-6 h-full">
+      <div className="flex flex-col lg:flex-row p-6 h-full">
         {/* Job List (Left Column) */}
         <JobList
           results={results}

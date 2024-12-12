@@ -24,7 +24,7 @@ const getBadgeClass = (score: number) => {
 
 const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview }) => {
   if (!selectedInterviewId) {
-    return <p className="text-center text-gray-500">Select an interview to view details</p>;
+    return <p className="text-center text-gray-500 ml-20">Select an interview to view details</p>;
   }
 
   if (!interview) {
