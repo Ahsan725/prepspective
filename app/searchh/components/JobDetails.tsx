@@ -1,13 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
-import logos from '@/data/logos.json'; // Import your JSON file here
-import { Interview } from '@/app/searchh/useCombinedViewData'; // Import Interview type
 import Link from 'next/link';
+import { Interview } from '@/app/searchh/useCombinedViewData';
 import Loader from '@/components/ui/loader';
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { CalendarIcon, BookOpenIcon, BriefcaseIcon, CodeIcon, FileQuestion } from 'lucide-react'
 
 interface JobDetailsProps {
   selectedInterviewId: number | null;
-  interview: Interview | null; // Use Interview type
+  interview: Interview | null;
 }
 
 const formatDate = (dateString: string) => {
@@ -15,161 +18,162 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const getBadgeClass = (score: number) => {
-  if (score <= 2) return 'bg-red-100 text-red-800 border-2 border-red-600';
-  if (score === 3) return 'bg-orange-100 text-orange-800 border-2 border-orange-600';
-  if (score >= 4) return 'bg-green-100 text-green-800 border-2 border-green-600';
-  return 'bg-gray-100 text-gray-800';
+const getBadgeVariant = (score: number) => {
+  if (score <= 2) return 'destructive';
+  if (score === 3) return 'warning';
+  if (score >= 4) return 'success';
+  return 'secondary';
+};
+
+const getRatingLabel = (category: string, score: number) => {
+  const labels = {
+    'Friendliness': ['Rude', 'Not Friendly', 'Formal', 'Friendly', 'Super Friendly'],
+    'Difficulty': ['Super Hard', 'Hard', 'Medium', 'Easy', 'Super Easy'],
+    'Responsiveness': ['Unresponsive', 'Very Slow', 'Slow', 'Prompt', 'Very Prompt']
+  };
+  return labels[category as keyof typeof labels][score - 1];
 };
 
 const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview }) => {
   if (!selectedInterviewId) {
-    return <p className="text-center text-gray-500 ml-20">Select an interview to view details</p>;
+    return (
+      <Card className="w-full lg:w-8/12 mt-1">
+        <CardContent className="flex items-center justify-center h-64">
+          <p className="text-center text-gray-500">Select an interview to view details</p>
+        </CardContent>
+      </Card>
+    );
   }
 
   if (!interview) {
-    return <div className="items-start h-screen ml-80 mr-[-60]">
-    <Loader />
-  </div>;
+    return (
+      <Card className="w-full lg:w-8/12 mt-1">
+        <CardContent className="flex items-center justify-center h-64">
+          <Loader />
+        </CardContent>
+      </Card>
+    );
   }
 
-  // Fetch logo and intro from the JSON file
-  const logoData = logos.find((logo) => logo.name === interview.company);
-
-  // Extract ratings for specific categories
-  const friendlinessRating = interview.ratings.find((rating) => rating.category === 'Friendliness');
-  const difficultyRating = interview.ratings.find((rating) => rating.category === 'Difficulty');
-  const responsivenessRating = interview.ratings.find((rating) => rating.category === 'Responsiveness');
-
   return (
-    <div className="w-full lg:w-8/12 bg-white border rounded-lg shadow-md mt-1 p-6 overflow-y-auto max-h-full">
-      {/* Header Section */}
-      <div className="flex items-center mb-4">
-        <Image
-          src={logoData?.logo || '/placeholder.png'}
-          alt={interview.company || 'Company Logo'}
-          width={60}
-          height={60}
-          className="mr-4 object-contain"
-        />
-        <div>
-          <h2 className="text-2xl font-bold">{interview.company || 'Unknown Company'}</h2>
-          <p className="text-sm text-gray-500">{logoData?.intro || 'No introduction available.'}</p>
+    <Card className="w-full lg:w-8/12 mt-1 overflow-hidden mb-1">
+      <CardHeader className="pb-2">
+        <div className="flex items-center space-x-4">
+          <div className="relative w-16 h-16 rounded-full overflow-hidden bg-gray-50">
+            <Image
+              src={`/${interview.company.toLowerCase().replace(/\s+/g, '-')}.png`}
+              alt={`${interview.company} logo`}
+              layout="fill"
+              objectFit="contain"
+              className="p-2"
+            />
+          </div>
+          <div>
+            <CardTitle className="text-2xl font-bold">{interview.company}</CardTitle>
+            <p className="text-sm text-muted-foreground">Software Engineer Intern</p>
+
+          </div>
         </div>
-      </div>
-
-      {/* Interview Date and Badges */}
-      <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm text-gray-700">
-          <strong>Interview Date:</strong> {formatDate(interview.interviewDate)}
-        </p>
-        <div className="flex gap-2">
-          {friendlinessRating && (
-            <span
-              className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(friendlinessRating.score)}`}
-            >
-              Friendliness: {['Rude', 'Not Friendly', 'Formal', 'Friendly', 'Super Friendly'][friendlinessRating.score - 1]}
-            </span>
-          )}
-          {difficultyRating && (
-            <span
-              className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(difficultyRating.score)}`}
-            >
-              Difficulty: {['Super Hard', 'Hard', 'Medium', 'Easy', 'Super Easy'][difficultyRating.score - 1]}
-            </span>
-          )}
-          {responsivenessRating && (
-            <span
-              className={`px-2 py-1 rounded-full text-xs font-semibold ${getBadgeClass(responsivenessRating.score)}`}
-            >
-              Responsiveness: {['Unresponsive', 'Very Slow', 'Slow', 'Prompt', 'Very Prompt'][responsivenessRating.score - 1]}
-            </span>
-          )}
-        </div>
-      </div>
-
-      <hr className="my-4" />
-
-      {/* Interview Overview */}
-      <h3 className="text-lg font-semibold mb-2">Interview Overview</h3>
-      <p className="text-gray-700 text-sm mb-4">
-        {interview.overallExperience || 'No overview available.'}
-      </p>
-
-      <hr className="my-4" />
-
-      {/* LeetCode Questions Section */}
-      {interview.questions.some((q) => q.leetcodeLink) && (
-        <>
-          <h3 className="text-lg font-semibold mb-2">LeetCode Questions</h3>
-          <ul className="list-disc ml-5 text-sm text-gray-700 space-y-2">
-            {interview.questions
-              .filter((q) => q.leetcodeLink)
-              .map((question, index) => (
-                <li key={index}>
-                  {question.question}
-                  {question.leetcodeLink && (
-                    <Link
-                      href={question.leetcodeLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 underline ml-2"
-                    >
-                      Open on LeetCode
-                    </Link>
-                  )}
-                </li>
-              ))}
-          </ul>
-          <hr className="my-4" />
-        </>
-      )}
-
-      {/* Interview Rounds */}
-      <h3 className="text-lg font-semibold mb-2">Interview Rounds</h3>
-      {interview.rounds && interview.rounds.length > 0 ? (
-        <div className="space-y-4">
-          {interview.rounds.map((round, index) => (
-            <div key={index} className="border p-3 rounded-md">
-              <h4 className="text-md font-semibold">{round.roundType}</h4>
-              <p className="text-sm text-gray-500 mb-2">
-                <strong>Date:</strong> {formatDate(round.roundDate)}
-              </p>
-              <p className="text-sm text-gray-700">{round.experience}</p>
+        <Separator/>
+      </CardHeader>
+      <CardContent className="pt-2 pb-6 h-[calc(100vh-200px)] overflow-y-auto">
+        <div className="space-y-6">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="outline" className="flex items-center">
+              <CalendarIcon className="mr-1 h-3 w-3" />
+              {formatDate(interview.interviewDate)}
+            </Badge>
+            {interview.ratings.map((rating) => (
+              <Badge key={rating.category} variant={getBadgeVariant(rating.score)}>
+                {rating.category}: {getRatingLabel(rating.category, rating.score)}
+              </Badge>
+            ))}
+          </div>
+          <Separator/>
+          <div>
+            <h3 className="text-lg font-semibold mb-2 flex items-center">
+              <BookOpenIcon className="mr-2 h-5 w-5" />
+              Interview Overview
+            </h3>
+            <p className="text-sm text-muted-foreground">{interview.overallExperience}</p>
+          </div>
+          <Separator/>
+          {interview.questions.some((q) => q.leetcodeLink) && (
+            <div>
+              <h3 className="text-lg font-semibold mb-2 flex items-center">
+                <CodeIcon className="mr-2 h-5 w-5" />
+                LeetCode Questions
+              </h3>
+              <ul className="space-y-2">
+                {interview.questions
+                  .filter((q) => q.leetcodeLink)
+                  .map((question, index) => (
+                    <li key={index} className="flex items-start">
+                      <span className="text-sm mr-2">•</span>
+                      <span className="text-sm">{question.question}</span>
+                      {question.leetcodeLink && (
+                        <Link
+                          href={question.leetcodeLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="ml-1 inline-flex items-center px-4 py-1 text-xs font-medium rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+                        >
+                          Solve
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+              </ul>
             </div>
-          ))}
+          )}
+        <Separator/>
+          <div>
+            <h3 className="text-lg font-semibold mb-2 flex items-center">
+              <BriefcaseIcon className="mr-2 h-5 w-5" />
+              Interview Rounds
+            </h3>
+            {interview.rounds && interview.rounds.length > 0 ? (
+              <div className="space-y-4">
+                {interview.rounds.map((round, index) => (
+                  <Card key={index}>
+                    <CardContent className="pt-4">
+                      <h4 className="text-md font-semibold">{round.roundType}</h4>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {formatDate(round.roundDate)}
+                      </p>
+                      <p className="text-sm">{round.experience}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">No interview rounds listed.</p>
+            )}
+          </div>
+          <Separator/>
+          <div>
+            <h3 className="text-lg font-semibold mb-2 flex items-center"><FileQuestion className="mr-2 h-5 w-5"/>All Questions</h3>
+            <ul className="space-y-4">
+              {interview.questions && interview.questions.length > 0 ? (
+                interview.questions.map((question, index) => (
+                  <li key={index} className="flex flex-col gap-1">
+                    <Badge variant={question.type === 'technical' ? 'default' : 'secondary'} className="self-start">
+                      {question.type === 'technical' ? 'Technical' : 'Behavioral'}
+                    </Badge>
+                    <span className="text-sm">{question.question}</span>
+                  </li>
+                ))
+              ) : (
+                <li className="text-sm text-muted-foreground">No questions listed.</li>
+              )}
+            </ul>
+          </div>
+          <br></br><br></br><br></br>
         </div>
-      ) : (
-        <p className="text-gray-700 text-sm">No interview rounds listed.</p>
-      )}
-
-      <hr className="my-4" />
-
-      {/* All Questions */}
-      <h3 className="text-lg font-semibold mb-2">All Questions</h3>
-      <ul className="list-none ml-0 text-sm text-gray-700 space-y-4">
-        {interview.questions && interview.questions.length > 0 ? (
-          interview.questions.map((question, index) => (
-            <li key={index} className="flex flex-col gap-1">
-              {question.type === 'technical' && (
-                <span className="self-start px-2 py-1 bg-blue-200 text-xs font-semibold rounded">
-                  Technical
-                </span>
-              )}
-              {question.type === 'behavioral' && (
-                <span className="self-start px-2 py-1 bg-purple-200 text-xs font-semibold rounded">
-                  Behavioral
-                </span>
-              )}
-              <span className="text-gray-800">{question.question}</span>
-            </li>
-          ))
-        ) : (
-          <li>No questions listed.</li>
-        )}
-      </ul>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
 export default JobDetails;
+

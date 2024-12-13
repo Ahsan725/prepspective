@@ -93,7 +93,7 @@ if (
   }, [results, query, selectedFilters, selectedRole]);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-[calc(100vh-88px)] overflow-hidden mb-4">
       {/* Header Section */}
       <Header
         query={query}
@@ -105,7 +105,7 @@ if (
       />
 
       {/* Main Content Section */}
-      <div className="flex flex-col lg:flex-row p-6 h-full">
+      <div className="flex flex-1 overflow-hidden">
         {/* Job List (Left Column) */}
         <JobList
           results={results}
