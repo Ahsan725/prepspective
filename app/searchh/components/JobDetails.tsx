@@ -59,7 +59,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
     <Card className="w-full lg:w-8/12 mt-1 overflow-hidden mb-1">
       <CardHeader className="pb-2">
         <div className="flex items-center space-x-4">
-          <div className="relative w-16 h-16 rounded-full overflow-hidden bg-gray-50">
+          <div className="relative w-16 h-16 rounded-full overflow-hidden">
             <Image
               src={`/${interview.company.toLowerCase().replace(/\s+/g, '-')}.png`}
               alt={`${interview.company} logo`}
@@ -92,7 +92,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
           <Separator/>
           <div>
             <h3 className="text-lg font-semibold mb-2 flex items-center">
-              <BookOpenIcon className="mr-2 h-5 w-5" />
+              {/* <BookOpenIcon className="mr-2 h-5 w-5" /> */}
               Interview Overview
             </h3>
             <p className="text-sm text-muted-foreground">{interview.overallExperience}</p>
@@ -101,7 +101,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
           {interview.questions.some((q) => q.leetcodeLink) && (
             <div>
               <h3 className="text-lg font-semibold mb-2 flex items-center">
-                <CodeIcon className="mr-2 h-5 w-5" />
+                {/* <CodeIcon className="mr-2 h-5 w-5" /> */}
                 LeetCode Questions
               </h3>
               <ul className="space-y-2">
@@ -129,7 +129,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
         <Separator/>
           <div>
             <h3 className="text-lg font-semibold mb-2 flex items-center">
-              <BriefcaseIcon className="mr-2 h-5 w-5" />
+              {/* <BriefcaseIcon className="mr-2 h-5 w-5" /> */}
               Interview Rounds
             </h3>
             {interview.rounds && interview.rounds.length > 0 ? (
@@ -152,7 +152,9 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
           </div>
           <Separator/>
           <div>
-            <h3 className="text-lg font-semibold mb-2 flex items-center"><FileQuestion className="mr-2 h-5 w-5"/>All Questions</h3>
+            <h3 className="text-lg font-semibold mb-2 flex items-center">
+              {/* <FileQuestion className="mr-2 h-5 w-5" /> */}
+              All Questions</h3>
             <ul className="space-y-4">
               {interview.questions && interview.questions.length > 0 ? (
                 interview.questions.map((question, index) => (
