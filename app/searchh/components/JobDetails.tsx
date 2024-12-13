@@ -16,9 +16,9 @@ const formatDate = (dateString: string) => {
 };
 
 const getBadgeClass = (score: number) => {
-  if (score <= 2) return 'bg-red-100 text-red-800';
-  if (score === 3) return 'bg-orange-100 text-orange-800';
-  if (score >= 4) return 'bg-green-100 text-green-800';
+  if (score <= 2) return 'bg-red-100 text-red-800 border-2 border-red-600';
+  if (score === 3) return 'bg-orange-100 text-orange-800 border-2 border-orange-600';
+  if (score >= 4) return 'bg-green-100 text-green-800 border-2 border-green-600';
   return 'bg-gray-100 text-gray-800';
 };
 
