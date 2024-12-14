@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import logos from '@/data/logos.json'; // Import JSON file
-import { Interview } from '@/app/searchh/useCombinedViewData'; // Import Interview type
+import { Interview } from '@/app/search/useCombinedViewData'; // Import Interview type
 import Loader from '@/components/ui/loader';
 
 interface JobListProps {

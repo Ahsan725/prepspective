@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Interview } from '@/app/searchh/useCombinedViewData';
+import { Interview } from '@/app/search/useCombinedViewData';
 import Loader from '@/components/ui/loader';
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -116,9 +116,9 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
                           href={question.leetcodeLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="ml-1 inline-flex items-center px-4 py-1 text-xs font-medium rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+                          className="ml-1 inline-flex items-center px-2 py-1 text-[10px] font-medium rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
                         >
-                          Solve
+                          Open
                         </Link>
                       )}
                     </li>
@@ -159,7 +159,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
               {interview.questions && interview.questions.length > 0 ? (
                 interview.questions.map((question, index) => (
                   <li key={index} className="flex flex-col gap-1">
-                    <Badge variant={question.type === 'technical' ? 'default' : 'secondary'} className="self-start">
+                    <Badge variant={question.type === 'technical' ? 'secondary' : 'secondary'} className="self-start">
                       {question.type === 'technical' ? 'Technical' : 'Behavioral'}
                     </Badge>
                     <span className="text-sm">{question.question}</span>
