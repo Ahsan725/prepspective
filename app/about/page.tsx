@@ -3,10 +3,12 @@ export default function AboutPage() {
       <section className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-4">About Us</h1>
         <p className="text-lg text-gray-700 mb-4">
-          Welcome to our platform! We aim to provide users with a seamless and enriching experience. 
-          Our mission is to empower individuals to achieve their goals through innovative solutions 
-          and a strong sense of community.
-        </p>
+  &quot;Rome wasn&apos;t built in a day, but that&apos;s because I was not on that job!&quot;
+  Our founder&apos;s words ring true today even after 2 days. Welcome to our platform! We aim to provide users with a seamless and enriching experience.
+  Our mission is to empower individuals to achieve their goals through innovative solutions
+  and a strong sense of community.
+</p>
+
         <p className="text-lg text-gray-700 mb-4">
           At our core, we value collaboration, creativity, and commitment to excellence. Our team 
           is dedicated to continuously improving and evolving to meet the needs of our users.

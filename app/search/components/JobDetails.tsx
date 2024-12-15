@@ -95,7 +95,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
               {/* <BookOpenIcon className="mr-2 h-5 w-5" /> */}
               Interview Overview
             </h3>
-            <p className="text-sm text-muted-foreground">{interview.overallExperience}</p>
+            <p className="text-sm">{interview.overallExperience}</p>
           </div>
           <Separator/>
           {interview.questions.some((q) => q.leetcodeLink) && (
@@ -159,7 +159,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
               {interview.questions && interview.questions.length > 0 ? (
                 interview.questions.map((question, index) => (
                   <li key={index} className="flex flex-col gap-1">
-                    <Badge variant={question.type === 'technical' ? 'secondary' : 'secondary'} className="self-start">
+                    <Badge variant={question.type === 'technical' ? 'accent' : 'accent2'} className="self-start">
                       {question.type === 'technical' ? 'Technical' : 'Behavioral'}
                     </Badge>
                     <span className="text-sm">{question.question}</span>
