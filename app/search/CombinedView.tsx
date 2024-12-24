@@ -87,7 +87,7 @@ if (
           return false;
         });
 
-      // Combine search, role, and badge filters
+      // Combine search, role, and badge filters for search
       return queryMatch && roleMatch && filtersMatch;
     });
   }, [results, query, selectedFilters, selectedRole]);
