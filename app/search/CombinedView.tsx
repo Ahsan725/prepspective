@@ -54,13 +54,13 @@ const CombinedView: React.FC = () => {
       const roleMatch =
         !selectedRole || result.level.toLowerCase() === selectedRole.toLowerCase();
 
-      // Match badge filters (e.g., LeetCode)
+      // Match badge filters (e.g LeetCode)
       const filtersMatch =
         selectedFilters.length === 0 ||
         selectedFilters.every((filter) => {
           const normalizedFilter = filter.toLowerCase();
 
-          // Match job offer status
+          // Match job offer status 
           if (
             (result.jobOffer ? 'offer' : 'no offer').toLowerCase() ===
             normalizedFilter
