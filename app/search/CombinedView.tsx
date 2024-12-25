@@ -60,7 +60,7 @@ const CombinedView: React.FC = () => {
         selectedFilters.every((filter) => {
           const normalizedFilter = filter.toLowerCase();
 
-          // Match job offer status
+          // Match job offer status 
           if (
             (result.jobOffer ? 'offer' : 'no offer').toLowerCase() ===
             normalizedFilter
