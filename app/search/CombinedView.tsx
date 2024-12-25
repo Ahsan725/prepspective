@@ -54,7 +54,7 @@ const CombinedView: React.FC = () => {
       const roleMatch =
         !selectedRole || result.level.toLowerCase() === selectedRole.toLowerCase();
 
-      // Match badge filters (e.g., LeetCode)
+      // Match badge filters (e.g LeetCode)
       const filtersMatch =
         selectedFilters.length === 0 ||
         selectedFilters.every((filter) => {
