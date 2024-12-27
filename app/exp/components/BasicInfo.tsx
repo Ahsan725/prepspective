@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Calendar } from '@/components/ui/calendar';
 import { ErrorMessage } from '@/components/error-message';
 import { FormData, InterviewLevel } from '../types';
-import logos from '@/data/logos.json'; // Import the logos JSON
+import logos from '@/data/logos.json';
 
 type BasicInfoProps = {
   formData: FormData;
