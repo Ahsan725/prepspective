@@ -38,7 +38,7 @@ export default function HomePage() {
       <Familiar />
       <FeaturesSection />
       <FAQSection />
-      <Test />
+      {/* <Test /> */}
       <SpeedInsights />
     </main>
   );

@@ -111,7 +111,7 @@ export function ModernSidebar() {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button
+        {/* <Button
           variant="outline"
           size="icon"
           className="z-50 h-10 w-10 rounded-full bg-white p-0 shadow-md"
@@ -131,7 +131,7 @@ export function ModernSidebar() {
               )}
             </motion.div>
           </AnimatePresence>
-        </Button>
+        </Button> */}
       </SheetTrigger>
       <SheetContent 
         side="left" 
