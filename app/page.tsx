@@ -33,12 +33,12 @@ export default function HomePage() {
   return (
     <main>
       <CustomHero />
-      {/* <Test /> */}
       <Bento />
       {/* <SvgImage src="/mockup.svg" alt="Example SVG Image" /> */}
       <Familiar />
       <FeaturesSection />
       <FAQSection />
+      <Test />
       <SpeedInsights />
     </main>
   );

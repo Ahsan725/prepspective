@@ -86,95 +86,97 @@ export default function ModernHero() {
   return (
     <>
       {/* Main Hero Section */}
-      <section className="relative overflow-hidden bg-white h-screen flex items-start justify-center pt-16">
+      <section className="relative overflow-hidden bg-white py-16 sm:py-24">
         <FluidCursor />
         {/* Background Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
 
         {/* Hero Content */}
-        <div className="relative container px-4 space-y-8 text-center">
-          {/* Stats Card */}
-          <div className="bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium text-indigo-600 inline-flex items-center gap-2 mx-auto border-2 border-indigo-500">
-            <p className="text-xs lg:text-sm font-bold text-indigo-600 uppercase tracking-wide">
-              THE BEST INTERVIEW PREP PLATFORM IN THE WORLD!
-            </p>
-          </div>
+        <div className="relative container px-4 mx-auto">
+          <div className="max-w-4xl mx-auto space-y-8 text-center">
+            {/* Stats Card */}
+            <div className="bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium text-indigo-600 inline-flex items-center gap-2 mx-auto border-2 border-indigo-500">
+              <p className="text-xs lg:text-sm font-bold text-indigo-600 uppercase tracking-wide">
+                THE BEST INTERVIEW PREP PLATFORM IN THE WORLD!
+              </p>
+            </div>
 
-          {/* Main Content */}
-          <div className="space-y-4 max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-indigo-800 via-indigo-600 to-purple-700 bg-clip-text text-transparent">
-              Your Competitive Advantage in Tech Interviews.
-            </h1>
-            <p className="text-lg lg:text-2xl text-gray-500 max-w-2xl mx-auto">
-              The only interview prep platform you&rsquo;ll ever need. We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
-            </p>
-          </div>
+            {/* Main Content */}
+            <div className="space-y-4">
+              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-indigo-800 via-indigo-600 to-purple-700 bg-clip-text text-transparent">
+                Your Competitive Advantage in Tech Interviews.
+              </h1>
+              <p className="text-lg lg:text-2xl text-gray-500 max-w-2xl mx-auto">
+                The only interview prep platform you&rsquo;ll ever need. We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
+              </p>
+            </div>
 
-          {/* Waitlist Form */}
-          <div className="w-full max-w-md space-y-4 mx-auto">
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
-              <div className="flex-1">
-                <Label htmlFor="email" className="sr-only">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  placeholder="Enter your email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="h-12 px-4 text-base border-2 border-indigo-200 focus:border-indigo-500 focus:ring-indigo-500"
-                />
-              </div>
-              <Button type="submit" size="lg" className="h-12 bg-indigo-600 hover:bg-indigo-700 text-white">
-                Join Waitlist
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </form>
-            <p className="text-md text-indigo-700">
-              Join <NumberTicker value={count + 287} className="font-extrabold text-indigo-700" /> others on the waitlist
-            </p>
-          </div>
-
-          {/* Client Logos */}
-          <div className="mt-16 w-full max-w-3xl mx-auto">
-            <p className="text-sm text-gray-500 mb-4 text-center">Interviews Sourced from Top Companies</p>
-            <div className={styles.marqueeContainer}>
-              <div className={styles.marquee}>
-                <div className={styles.marqueeContent}>
-                  {clients.map((client, index) => (
-                    <Image
-                      key={`${client.name}-${index}`}
-                      src={client.src}
-                      alt={client.name}
-                      width={80}
-                      height={32}
-                      style={{ 
-                        width: 'auto', 
-                        height: '32px', 
-                        objectFit: 'contain',
-                        flexShrink: 0
-                      }}
-                    />
-                  ))}
+            {/* Waitlist Form */}
+            <div className="w-full max-w-md space-y-4 mx-auto">
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+                <div className="flex-1">
+                  <Label htmlFor="email" className="sr-only">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    placeholder="Enter your email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="h-12 px-4 text-base border-2 border-indigo-200 focus:border-indigo-500 focus:ring-indigo-500"
+                  />
                 </div>
-                <div className={styles.marqueeContent}>
-                  {clients.map((client, index) => (
-                    <Image
-                      key={`${client.name}-${index}-duplicate`}
-                      src={client.src}
-                      alt={client.name}
-                      width={80}
-                      height={32}
-                      style={{ 
-                        width: 'auto', 
-                        height: '32px', 
-                        objectFit: 'contain',
-                        flexShrink: 0
-                      }}
-                    />
-                  ))}
+                <Button type="submit" size="lg" className="h-12 bg-indigo-600 hover:bg-indigo-700 text-white">
+                  Join Waitlist
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </form>
+              <p className="text-md text-indigo-700">
+                Join <NumberTicker value={count + 287} className="font-extrabold text-indigo-700" /> others on the waitlist
+              </p>
+            </div>
+
+            {/* Client Logos */}
+            <div className="mt-12 w-full max-w-3xl mx-auto">
+              <p className="text-sm text-gray-500 mb-4 text-center">Interviews Sourced from Top Companies</p>
+              <div className={styles.marqueeContainer}>
+                <div className={styles.marquee}>
+                  <div className={styles.marqueeContent}>
+                    {clients.map((client, index) => (
+                      <Image
+                        key={`${client.name}-${index}`}
+                        src={client.src}
+                        alt={client.name}
+                        width={80}
+                        height={32}
+                        style={{ 
+                          width: 'auto', 
+                          height: '32px', 
+                          objectFit: 'contain',
+                          flexShrink: 0
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <div className={styles.marqueeContent}>
+                    {clients.map((client, index) => (
+                      <Image
+                        key={`${client.name}-${index}-duplicate`}
+                        src={client.src}
+                        alt={client.name}
+                        width={80}
+                        height={32}
+                        style={{ 
+                          width: 'auto', 
+                          height: '32px', 
+                          objectFit: 'contain',
+                          flexShrink: 0
+                        }}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
