@@ -135,7 +135,7 @@ export function ModernSidebar() {
       </SheetTrigger>
       <SheetContent 
         side="left" 
-        className="sidebar-content w-[300px] p-0 border-r-0 flex flex-col bg-gradient-to-r from-black to-indigo-700"
+        className="sidebar-content w-[300px] p-0 border-r-0 flex flex-col bg-gradient-to-r from-black/95 to-indigo-700/95"
       >
         <SheetHeader className="p-6 relative">
           <SheetTitle className="text-2xl font-bold text-indigo-100">              <span className="text-2xl font-extrabold text-white">
