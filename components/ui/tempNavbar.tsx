@@ -20,6 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 import ContactForm from "@/components/ui/contactForm"; // Import the ContactForm component
 import { ConfettiSideCannons } from "@/components/ui/confettiSideCannons";
+import { ModernSidebar } from '@/components/ui/modern-sidebar'
 
 const TempNavbar = () => {
 
@@ -78,7 +79,8 @@ const TempNavbar = () => {
           <p>Press ESC or click to disable the cursor.</p>
         </TooltipContent>
       </Tooltip>
-    </TooltipProvider>
+            </TooltipProvider>
+                  <ModernSidebar />
             <ContactForm />
             <ConfettiSideCannons />
           </div>
