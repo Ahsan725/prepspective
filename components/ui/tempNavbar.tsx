@@ -1,5 +1,6 @@
 'use client';
-import { Menu } from "lucide-react";
+
+import { Menu } from 'lucide-react';
 import Link from "next/link";
 import { ArrowBigRight, MousePointerClick } from 'lucide-react';
 import {
@@ -18,20 +19,19 @@ import {
 } from "@/components/ui/tooltip"
 
 import { cn } from "@/lib/utils";
-import ContactForm from "@/components/ui/contactForm"; // Import the ContactForm component
+import ContactForm from "@/components/ui/contactForm";
 import { ConfettiSideCannons } from "@/components/ui/confettiSideCannons";
 import { ModernSidebar } from '@/components/ui/modern-sidebar'
 
 const TempNavbar = () => {
+  const handleEscapeButtonClick = () => {
+    const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+    window.dispatchEvent(escapeEvent);
+  };
 
-    // Mimic the behavior of pressing the "Escape" key 
-    const handleEscapeButtonClick = () => {
-      const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' });
-      window.dispatchEvent(escapeEvent);
-    };
   return (
-    <section className="py-4 px-4">
-      <div className="container">
+    <section className="w-full py-4 px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-7xl">
         {/* Desktop Navbar */}
         <nav className="hidden lg:flex justify-between items-center">
           <div className="flex items-center gap-6">
@@ -40,47 +40,25 @@ const TempNavbar = () => {
                 {"{P}rep"}<span className="font-bold text-indigo-700 text-2xl">Spective</span> 
               </span>
             </div>
-            <div className="flex items-center gap-4">
-              <Link
-                href="/"
-                className={cn(
-                  "text-indigo-700 font-medium hover:underline",
-                  "transition-colors duration-300"
-                )}
-              >
-                
-              </Link>
-              <Link
-                href="/about"
-                className={cn(
-                  "text-indigo-700 font-medium hover:underline",
-                  "transition-colors duration-300"
-                )}
-              >
-                
-              </Link>
-              {/* Placeholder for other links */}
-            </div>
           </div>
           <div className="flex gap-2">
-            {/* Embed the ContactForm Component */}
             <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            onClick={handleEscapeButtonClick}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleEscapeButtonClick}
                     variant="outline"
                     size="icon"
-          >
-            <MousePointerClick />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Press ESC or click to disable the cursor.</p>
-        </TooltipContent>
-      </Tooltip>
+                  >
+                    <MousePointerClick />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Press ESC or click to disable the cursor.</p>
+                </TooltipContent>
+              </Tooltip>
             </TooltipProvider>
-                  <ModernSidebar />
+            <ModernSidebar />
             <ContactForm />
             <ConfettiSideCannons />
           </div>
@@ -89,9 +67,9 @@ const TempNavbar = () => {
         {/* Mobile Navbar */}
         <div className="lg:hidden flex justify-between items-center">
           <div className="flex items-center gap-2">
-          <span className="text-2xl font-extrabold text-indigo-700">
-                {"{P}rep"}<span className="font-bold text-indigo-700 text-2xl">Spective</span> 
-              </span>
+            <span className="text-2xl font-extrabold text-indigo-700">
+              {"{P}rep"}<span className="font-bold text-indigo-700 text-2xl">Spective</span> 
+            </span>
           </div>
           <Sheet>
             <SheetTrigger asChild>
@@ -105,27 +83,13 @@ const TempNavbar = () => {
                   {"{P}rep"}Spective
                 </SheetTitle>
               </SheetHeader>
-              <div className="my-4 flex flex-col gap-4">
-                <Link
-                  href="/"
-                  className="text-indigo-700 font-medium hover:underline"
-                >
-                  
-                </Link>
-                <Link
-                  href="/about"
-                  className="text-indigo-700 font-medium hover:underline"
-                >
-                  
-                </Link>
-              </div>
               <div className="border-t pt-4 flex flex-col gap-3">
-                {/* Embed the ContactForm Component */}
                 <Button
-            onClick={handleEscapeButtonClick}
+                  onClick={handleEscapeButtonClick}
                   variant="outline"
                   size="icon"
-          ><MousePointerClick />
+                >
+                  <MousePointerClick />
                 </Button>
                 <ContactForm />
                 <ConfettiSideCannons />
@@ -139,3 +103,4 @@ const TempNavbar = () => {
 };
 
 export default TempNavbar;
+
