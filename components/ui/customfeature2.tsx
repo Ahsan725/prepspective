@@ -1,5 +1,6 @@
 import { Icon } from "@/components/ui/icon";
-import { icons } from "lucide-react";
+import { icons } from 'lucide-react';
+import CardHoverEffect from "@/components/ui/card-hover-effect";
 
 interface FeaturesProps {
   icon: string;
@@ -11,7 +12,7 @@ const featureList: FeaturesProps[] = [
   {
     icon: "Users",
     title: "Community-Driven Insights",
-    description: "Tap into a wealth of real, anonymous interview experiences shared by individuals who’ve been in your shoes, giving you unmatched preparation advantages.",
+    description: "Tap into a wealth of real, anonymous interview experiences shared by individuals who've been in your shoes, giving you unmatched preparation advantages.",
   },
   {
     icon: "TrendingUp",
@@ -58,29 +59,11 @@ export const FeaturesSection = () => {
         Our platform revolutionizes interview preparation with tailored insights, expert breakdowns, and a supportive community designed to help you succeed.
       </h3>
 
-      {/* Feature List */}
+      {/* Feature List using CardHoverEffect */}
       <div className="max-w-5xl mx-auto mt-12">
-        <div className="grid grid-cols-1 gap-x-4 gap-y-8 lg:grid-cols-3 lg:gap-y-10">
-          {featureList.map(({ icon, title, description }) => (
-            <div key={title} className="relative pl-16">
-              <div className="absolute left-0 top-0 flex w-10 h-10 items-center justify-center rounded-lg bg-indigo-600">
-                <Icon
-                  name={icon as keyof typeof icons}
-                  size={20}
-                  className="text-white"
-                  aria-hidden="true"
-                />
-              </div>
-              <div className="font-semibold text-lg text-indigo-800">
-                {title}
-              </div>
-              <div className="text-foreground/60 mt-2 text-sm">
-                {description}
-              </div>
-            </div>
-          ))}
-        </div>
+        <CardHoverEffect items={featureList} />
       </div>
     </section>
   );
 };
+
