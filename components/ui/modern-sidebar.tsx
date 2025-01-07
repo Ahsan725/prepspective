@@ -19,11 +19,11 @@ import { CommandIcon as CmdIcon } from 'lucide-react'
 const sidebarItems = [
   { 
     icon: Home, 
-    label: "Dashboard", 
+    label: "Features", 
     href: "/",
     subItems: [
       { icon: BarChart, label: "Search", href: "/search" },
-      { icon: FileText, label: "Experience", href: "/exp" },
+      { icon: FileText, label: "Add Entry", href: "/exp" },
     ]
   },
   { 
@@ -36,7 +36,7 @@ const sidebarItems = [
     label: "Projects", 
     href: "/projects",
     subItems: [
-      { icon: Code, label: "Development", href: "/" },
+      { icon: Code, label: "Home", href: "/" },
       { icon: Compass, label: "Planning", href: "/planning" },
     ]
   },
