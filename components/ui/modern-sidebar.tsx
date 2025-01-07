@@ -7,6 +7,7 @@ import {
   Home,
   Users,
   LogOut,
+  LogIn,
   FileText,
   X,
   UserCog,
@@ -18,7 +19,6 @@ import {
   Calendar,
   List,
   CheckCircle,
-  Cloud,
   EyeOff,
   Mail,
 } from "lucide-react";
@@ -180,6 +180,19 @@ export function ModernSidebar() {
           </motion.button>
         </SheetHeader>
         <div className="border-t border-white/30 mx-4"></div>
+        <div className="mx-6">
+  {user && (
+    <>
+      <div className="flex items-center space-x-3 w-full">
+        <UserAvatar name={user.fullName || ""} />
+        <span className="text-md font-semibold text-white">{user.fullName}</span>
+      </div>
+      <div className="border-t border-white/30 -mx-2 mt-4"></div>
+    </>
+  )}
+</div>
+
+        
 
         <nav className="flex flex-col gap-1 p-6 pt-0 overflow-y-auto flex-grow custom-scrollbar">
           {sidebarItems.map((item, index) => (
@@ -203,10 +216,10 @@ export function ModernSidebar() {
           </div>
           <div className="space-y-4">
             <SignedIn>
-              <div className="flex flex-col items-start space-y-4 relative">
+              <div className="flex flex-col items-start space-y-1 relative">
                 <Button
                   variant="ghost"
-                  className="w-full justify-start gap-2 text-indigo-100 hover:bg-indigo-600 hover:text-white"
+                  className="w-full justify-start gap-2 text-white hover:bg-black hover:text-white"
                   onClick={() => openUserProfile()}
                 >
                   <UserCog className="h-5 w-5" />
@@ -214,18 +227,18 @@ export function ModernSidebar() {
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start gap-2 text-indigo-100 hover:bg-indigo-600 hover:text-white"
+                  className="w-full justify-start gap-2 text-white hover:bg-black hover:text-white"
                   onClick={() => signOut()}
                 >
                   <LogOut className="h-5 w-5" />
                   Sign Out
                 </Button>
-                {user && (
+                {/* {user && (
                   <div className="flex items-center space-x-3 w-full">
                     <UserAvatar name={user.fullName || ""} />
                     <span className="text-lg font-semibold text-white">{user.fullName}</span>
                   </div>
-                )}
+                )} */}
               </div>
             </SignedIn>
 
@@ -233,8 +246,9 @@ export function ModernSidebar() {
               <SignInButton mode="modal">
                 <Button
                   variant="ghost"
-                  className="w-full justify-start gap-2 text-indigo-100 hover:bg-indigo-600 hover:text-white"
+                  className="w-full justify-start gap-2 text-white hover:bg-black hover:text-white"
                 >
+                  <LogIn className="h-5 w-5" />
                   Sign In
                 </Button>
               </SignInButton>

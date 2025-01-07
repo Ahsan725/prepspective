@@ -23,7 +23,6 @@
   @keyframes pulse_414 {
     to {
       transform: scale(0.85);
-      opacity: 0.3;
     }
   }
   
