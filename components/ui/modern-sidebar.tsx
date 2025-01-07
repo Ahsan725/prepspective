@@ -59,14 +59,14 @@ const sidebarItems = [
   {
     icon: List,
     label: "Leetcode Lists",
-    href: "/leetcode",
+    href: "/soon",
     subItems: [
-      { icon: CheckCircle, label: "Leetcode 150", href: "/leetcode/leetcode-150" },
-      { icon: EyeOff, label: "Blind 75", href: "/leetcode/blind-75" },
+      { icon: CheckCircle, label: "Leetcode 150", href: "/soon" },
+      { icon: EyeOff, label: "Blind 75", href: "/soon" },
       { 
         icon: Briefcase,
         label: "Company-Based Lists",
-        href: "/leetcode/company-lists",
+        href: "/soon",
       },
     ],
   },
@@ -78,16 +78,16 @@ const sidebarItems = [
   {
     icon: HelpCircle,
     label: "Guide",
-    href: "/guide",
+    href: "/soon",
   },
   {
     icon: Lightbulb,
     label: "Upcoming Features",
-    href: "/upcoming",
+    href: "/soon",
     subItems: [
-      { icon: Brain, label: "AI Interview Help", href: "/upcoming/ai-interview-help" },
-      { icon: Users, label: "Peer Mock Interviews", href: "/upcoming/peer-mock-interviews" },
-      { icon: Calendar, label: "Events", href: "/upcoming/events" },
+      { icon: Brain, label: "AI Interview Help", href: "/soon" },
+      { icon: Users, label: "Peer Mock Interviews", href: "/soon" },
+      { icon: Calendar, label: "Events", href: "/soon" },
     ],
   },
   {
@@ -344,15 +344,3 @@ function SubItem({ item, onSelect }: { item: { icon: React.ElementType; label: s
     </motion.div>
   );
 }
-
-<style jsx global>{`
-  .custom-scrollbar {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
-  }
-`}</style>

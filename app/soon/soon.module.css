@@ -1,0 +1,29 @@
+.code-loader {
+    color: #fff;
+    font-family: Optima;
+    font-weight: bold;
+    font-size: 100px;
+    opacity: 0.8;
+  }
+  
+  .code-loader span {
+    display: inline-block;
+    animation: pulse_414 1.9s alternate infinite ease-in-out;
+  }
+  
+  .code-loader span:nth-child(odd) {
+    animation-delay: 1.9s;
+  }
+  
+  /* Disable vibration for the "P" */
+  .no-vibrate {
+    animation: none !important;
+  }
+  
+  @keyframes pulse_414 {
+    to {
+      transform: scale(0.85);
+      opacity: 0.3;
+    }
+  }
+  
