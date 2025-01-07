@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight, Home, Settings, Users, HelpCircle, LogOut, BarChart, FileText, Mail, Calendar, Briefcase, ShoppingCart, CreditCard, Bell, Bookmark, Camera, Cloud, Code, Coffee, Compass, Database, Film, Headphones, Heart, Map, Music, Phone, Printer, Truck, Wifi, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Settings, Users, HelpCircle, LogOut, BarChart, FileText, Mail, Calendar, Briefcase, ShoppingCart, CreditCard, Bell, Bookmark, Camera, Cloud, Code, Coffee, Compass, Database, Film, Headphones, Heart, Map, Music, Phone, Printer, Truck, Wifi, X, User, UserCog } from 'lucide-react'
 import { cn } from "@/lib/utils"
+import { SignedIn, SignedOut, SignInButton, UserButton, useClerk, useUser } from "@clerk/nextjs"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -13,7 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
-import { Command as CmdIcon } from 'lucide-react';
+import { CommandIcon as CmdIcon } from 'lucide-react'
 
 const sidebarItems = [
   { 
@@ -68,10 +69,19 @@ const sidebarItems = [
     ]
   },
 ]
-
+function UserAvatar({ name }: { name: string }) {
+  const initials = name.split(' ').map(n => n[0]).join('').toUpperCase()
+  return (
+    <div className="w-10 h-10 rounded-full bg-gradient-to-b from-purple-500 via-indigo-500 to-blue-500 flex items-center justify-center text-white font-semibold">
+      {initials}
+    </div>
+  )
+}
 export function ModernSidebar() {
   const [isOpen, setIsOpen] = React.useState(false)
   const [activeItem, setActiveItem] = React.useState<string | null>(null)
+  const { signOut, openUserProfile } = useClerk()
+  const { user } = useUser()
 
   const handleClose = () => {
     setIsOpen(false)
@@ -80,21 +90,18 @@ export function ModernSidebar() {
 
   React.useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      // Check for "Cmd + K" on macOS or "Ctrl + K" on Windows/Linux
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault(); // Prevent default browser behavior for Cmd/Ctrl + K
-        setIsOpen((prev) => !prev); // Toggle sidebar visibility
+        event.preventDefault()
+        setIsOpen((prev) => !prev)
       }
-    };
+    }
   
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('keydown', handleKeyPress)
     return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, []);
+      window.removeEventListener('keydown', handleKeyPress)
+    }
+  }, [])
   
-  
-
   React.useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (isOpen && !(event.target as Element).closest('.sidebar-content')) {
@@ -111,36 +118,18 @@ export function ModernSidebar() {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        {/* <Button
-          variant="outline"
-          size="icon"
-          className="z-50 h-10 w-10 rounded-full bg-white p-0 shadow-md"
-        >
-          <AnimatePresence initial={false} mode="wait">
-            <motion.div
-              key={isOpen ? "open" : "closed"}
-              initial={{ opacity: 0, rotate: 180 }}
-              animate={{ opacity: 1, rotate: 0 }}
-              exit={{ opacity: 0, rotate: -180 }}
-              transition={{ duration: 0.2 }}
-            >
-              {isOpen ? (
-                <ChevronLeft className="h-4 w-4 text-indigo-600" />
-              ) : (
-                <ChevronRight className="h-4 w-4 text-indigo-600" />
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </Button> */}
+        {/* Trigger button code remains unchanged */}
       </SheetTrigger>
       <SheetContent 
         side="left" 
-        className="sidebar-content w-[300px] p-0 border-r-0 flex flex-col bg-gradient-to-r from-black/95 to-indigo-700/95"
+        className="sidebar-content w-[300px] p-0 border-r-0 flex flex-col bg-gradient-to-r from-black/95 to-indigo-700/95 "
       >
         <SheetHeader className="p-6 relative">
-          <SheetTitle className="text-2xl font-bold text-indigo-100">              <span className="text-2xl font-extrabold text-white">
-                {"{P}rep"}<span className="font-bold text-white text-2xl">Spective</span> 
-              </span></SheetTitle>
+          <SheetTitle className="text-2xl font-bold text-indigo-100">
+            <span className="text-2xl font-extrabold text-white">
+              {"{P}rep"}<span className="font-bold text-white text-2xl">Spective</span> 
+            </span>
+          </SheetTitle>
           <motion.button
             className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 disabled:pointer-events-none"
             onClick={handleClose}
@@ -151,66 +140,71 @@ export function ModernSidebar() {
             <span className="sr-only">Close</span>
           </motion.button>
         </SheetHeader>
-        {/* <Separator className="bg-indigo-400" /> */}
-        <div className=" border-t border-white/30 mx-4"></div>
+        <div className="border-t border-white/30 mx-4"></div>
 
         <nav className="flex flex-col gap-1 p-6 pt-0 overflow-y-auto flex-grow custom-scrollbar">
-  {sidebarItems.map((item, index) => (
-    <SidebarItem 
-      key={index} 
-      item={item} 
-      isActive={activeItem === item.label}
-      setActiveItem={setActiveItem}
-      onSelect={handleClose}
-    />
-  ))}
-</nav>
+          {sidebarItems.map((item, index) => (
+            <SidebarItem 
+              key={index} 
+              item={item} 
+              isActive={activeItem === item.label}
+              setActiveItem={setActiveItem}
+              onSelect={handleClose}
+            />
+          ))}
+        </nav>
 
-        {/* <Separator className="bg-indigo-400" /> */}
-        <div className="p-6 mt-auto space-y-4">
-        <div className="flex items-center justify-center text-indigo-400 max-w-sm mx-auto">
-      <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1">
-          <CmdIcon className="w-3 h-3" />
-        </div>
-        <span className="text-sm font-medium">+</span>
-        <div className="flex items-center">
-          <span className="text-xs font-medium">K</span>
-        </div>
-      </div>
-    </div>
-    <div className="space-y-2">
-  <motion.div
-    whileHover={{ scale: 1.00 }}
-    whileTap={{ scale: 0.95 }}
-  >
-    <Button
-      variant="ghost"
-      className="w-full justify-start gap-2 text-indigo-100 hover:bg-indigo-600 hover:text-white"
-      onClick={() => {
-        setActiveItem("Settings")
-        handleClose()
-      }}
-    >
-      <Settings className="h-5 w-5" />
-      <span>Settings</span>
-    </Button>
-  </motion.div>
-  <motion.div
-    whileHover={{ scale: 1.00 }}
-    whileTap={{ scale: 0.95 }}
-  >
-    <Button
-      variant="ghost"
-      className="w-full justify-start gap-2 text-indigo-100 hover:bg-indigo-600 hover:text-white"
-      onClick={handleClose}
-    >
-      <LogOut className="h-5 w-5" />
-      <span>Log out</span>
-    </Button>
-  </motion.div>
-</div>
+        <div className="p-6 mt-auto space-y-4 relative z-50">
+          <div className="flex items-center justify-center text-indigo-400 max-w-sm mx-auto">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <CmdIcon className="w-3 h-3" />
+              </div>
+              <span className="text-sm font-medium">+</span>
+              <div className="flex items-center">
+                <span className="text-xs font-medium">K</span>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <SignedIn>
+              <div className="flex flex-col items-start space-y-4 relative">
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-2 text-indigo-100 hover:bg-indigo-600 hover:text-white"
+                  onClick={() => openUserProfile()}
+                >
+                  <UserCog className="h-5 w-5" />
+                  Manage Account
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-2 text-indigo-100 hover:bg-indigo-600 hover:text-white"
+                  onClick={() => signOut()}
+                >
+                  <LogOut className="h-5 w-5" />
+                  Sign Out
+                </Button>
+                {user && (
+                  <div className="flex items-center space-x-3 w-full">
+                    <UserAvatar name={user.fullName || ''} />
+                    <span className="text-lg font-semibold text-white">{user.fullName}</span>
+                  </div>
+                )}
+              </div>
+            </SignedIn>
 
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-2 text-indigo-100 hover:bg-indigo-600 hover:text-white"
+                >
+                  Sign In
+                </Button>
+              </SignInButton>
+            </SignedOut>
+          </div>
         </div>
       </SheetContent>
     </Sheet>
@@ -314,7 +308,6 @@ function SubItem({ item, onSelect }: { item: { icon: React.ElementType; label: s
         <a href={item.href}>
           <Icon className="h-4 w-4" />
           <span className="text-xs">{item.label}</span>
-
         </a>
       </Button>
     </motion.div>
