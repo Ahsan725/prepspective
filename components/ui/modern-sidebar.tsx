@@ -1,133 +1,172 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight, Home, Settings, Users, HelpCircle, LogOut, BarChart, FileText, Mail, Calendar, Briefcase, ShoppingCart, CreditCard, Bell, Bookmark, Camera, Cloud, Code, Coffee, Compass, Database, Film, Headphones, Heart, Map, Music, Phone, Printer, Truck, Wifi, X, User, UserCog } from 'lucide-react'
-import { cn } from "@/lib/utils"
-import { SignedIn, SignedOut, SignInButton, UserButton, useClerk, useUser } from "@clerk/nextjs"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ChevronRight,
+  Home,
+  Users,
+  LogOut,
+  FileText,
+  X,
+  UserCog,
+  NotebookPen,
+  HelpCircle,
+  Briefcase,
+  Lightbulb,
+  Brain,
+  Calendar,
+  List,
+  CheckCircle,
+  Cloud,
+  EyeOff,
+  Mail,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  useClerk,
+  useUser,
+} from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { Separator } from "@/components/ui/separator"
-import { CommandIcon as CmdIcon } from 'lucide-react'
+} from "@/components/ui/sheet";
+import { CommandIcon as CmdIcon } from "lucide-react";
 
 const sidebarItems = [
-  { 
-    icon: Home, 
-    label: "Features", 
-    href: "/",
-    subItems: [
-      { icon: BarChart, label: "Search", href: "/search" },
-      { icon: FileText, label: "Add Entry", href: "/exp" },
-    ]
-  },
-  { 
-    icon: Users, 
-    label: "Team", 
+  {
+    icon: Home,
+    label: "Home",
     href: "/",
   },
-  { 
-    icon: Briefcase, 
-    label: "Projects", 
-    href: "/projects",
-    subItems: [
-      { icon: Code, label: "Home", href: "/" },
-      { icon: Compass, label: "Planning", href: "/planning" },
-    ]
+  {
+    icon: FileText,
+    label: "Search",
+    href: "/search",
   },
-  { 
-    icon: ShoppingCart, 
-    label: "E-commerce", 
-    href: "/ecommerce",
-    subItems: [
-      { icon: CreditCard, label: "Transactions", href: "/transactions" },
-      { icon: Truck, label: "Shipping", href: "/shipping" },
-    ]
+  {
+    icon: NotebookPen,
+    label: "Add Entry",
+    href: "/exp",
   },
-  { 
-    icon: Camera, 
-    label: "Media", 
-    href: "/media",
+  {
+    icon: List,
+    label: "Leetcode Lists",
+    href: "/leetcode",
     subItems: [
-      { icon: Film, label: "Videos", href: "/videos" },
-      { icon: Music, label: "Audio", href: "/audio" },
-      { icon: Film, label: "Videos", href: "/videos" },
-    ]
+      { icon: CheckCircle, label: "Leetcode 150", href: "/leetcode/leetcode-150" },
+      { icon: EyeOff, label: "Blind 75", href: "/leetcode/blind-75" },
+      { 
+        icon: Briefcase,
+        label: "Company-Based Lists",
+        href: "/leetcode/company-lists",
+      },
+    ],
   },
-  { 
-    icon: ShoppingCart, 
-    label: "E-commerce", 
-    href: "/ecommerce",
+  {
+    icon: FileText,
+    label: "About Us",
+    href: "/about",
+  },
+  {
+    icon: HelpCircle,
+    label: "Guide",
+    href: "/guide",
+  },
+  {
+    icon: Lightbulb,
+    label: "Upcoming Features",
+    href: "/upcoming",
     subItems: [
-      { icon: CreditCard, label: "Transactions", href: "/transactions" },
-      { icon: Truck, label: "Shipping", href: "/shipping" },
-    ]
+      { icon: Brain, label: "AI Interview Help", href: "/upcoming/ai-interview-help" },
+      { icon: Users, label: "Peer Mock Interviews", href: "/upcoming/peer-mock-interviews" },
+      { icon: Calendar, label: "Events", href: "/upcoming/events" },
+    ],
   },
-]
+  {
+    icon: Briefcase,
+    label: "Careers",
+    href: "https://forms.gle/JThZQVQ96ztQ4chS8", // External link
+    external: true, // Custom flag for external links
+  },
+  {
+    icon: Mail,
+    label: "Contact Us",
+    href: "/contact",
+  },
+];
+
+
 function UserAvatar({ name }: { name: string }) {
-  const initials = name.split(' ').map(n => n[0]).join('').toUpperCase()
+  const initials = name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
   return (
     <div className="w-10 h-10 rounded-full bg-gradient-to-b from-purple-500 via-indigo-500 to-blue-500 flex items-center justify-center text-white font-semibold">
       {initials}
     </div>
-  )
+  );
 }
+
 export function ModernSidebar() {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [activeItem, setActiveItem] = React.useState<string | null>(null)
-  const { signOut, openUserProfile } = useClerk()
-  const { user } = useUser()
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [activeItem, setActiveItem] = React.useState<string | null>(null);
+  const { signOut, openUserProfile } = useClerk();
+  const { user } = useUser();
 
   const handleClose = () => {
-    setIsOpen(false)
-    setActiveItem(null)
-  }
+    setIsOpen(false);
+    setActiveItem(null);
+  };
 
   React.useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault()
-        setIsOpen((prev) => !prev)
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setIsOpen((prev) => !prev);
       }
-    }
-  
-    window.addEventListener('keydown', handleKeyPress)
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
     return () => {
-      window.removeEventListener('keydown', handleKeyPress)
-    }
-  }, [])
-  
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
   React.useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      if (isOpen && !(event.target as Element).closest('.sidebar-content')) {
-        handleClose()
+      if (isOpen && !(event.target as Element).closest(".sidebar-content")) {
+        handleClose();
       }
-    }
+    };
 
-    document.addEventListener('mousedown', handleOutsideClick)
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick)
-    }
-  }, [isOpen])
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isOpen]);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        {/* Trigger button code remains unchanged */}
-      </SheetTrigger>
-      <SheetContent 
-        side="left" 
+      <SheetTrigger asChild>{/* Trigger button remains unchanged */}</SheetTrigger>
+      <SheetContent
+        side="left"
         className="sidebar-content w-[300px] p-0 border-r-0 flex flex-col bg-gradient-to-r from-black/95 to-indigo-700/95 "
       >
         <SheetHeader className="p-6 relative">
           <SheetTitle className="text-2xl font-bold text-indigo-100">
             <span className="text-2xl font-extrabold text-white">
-              {"{P}rep"}<span className="font-bold text-white text-2xl">Spective</span> 
+              {"{P}rep"}
+              <span className="font-bold text-white text-2xl">Spective</span>
             </span>
           </SheetTitle>
           <motion.button
@@ -144,9 +183,9 @@ export function ModernSidebar() {
 
         <nav className="flex flex-col gap-1 p-6 pt-0 overflow-y-auto flex-grow custom-scrollbar">
           {sidebarItems.map((item, index) => (
-            <SidebarItem 
-              key={index} 
-              item={item} 
+            <SidebarItem
+              key={index}
+              item={item}
               isActive={activeItem === item.label}
               setActiveItem={setActiveItem}
               onSelect={handleClose}
@@ -157,13 +196,9 @@ export function ModernSidebar() {
         <div className="p-6 mt-auto space-y-4 relative z-50">
           <div className="flex items-center justify-center text-indigo-400 max-w-sm mx-auto">
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
-                <CmdIcon className="w-3 h-3" />
-              </div>
+              <CmdIcon className="w-3 h-3" />
               <span className="text-sm font-medium">+</span>
-              <div className="flex items-center">
-                <span className="text-xs font-medium">K</span>
-              </div>
+              <span className="text-xs font-medium">K</span>
             </div>
           </div>
           <div className="space-y-4">
@@ -187,7 +222,7 @@ export function ModernSidebar() {
                 </Button>
                 {user && (
                   <div className="flex items-center space-x-3 w-full">
-                    <UserAvatar name={user.fullName || ''} />
+                    <UserAvatar name={user.fullName || ""} />
                     <span className="text-lg font-semibold text-white">{user.fullName}</span>
                   </div>
                 )}
@@ -208,7 +243,7 @@ export function ModernSidebar() {
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
 
 interface SidebarItemProps {
@@ -228,8 +263,8 @@ interface SidebarItemProps {
 }
 
 function SidebarItem({ item, isActive, setActiveItem, onSelect }: SidebarItemProps) {
-  const [isHovered, setIsHovered] = React.useState(false)
-  const Icon = item.icon
+  const [isHovered, setIsHovered] = React.useState(false);
+  const Icon = item.icon;
 
   return (
     <motion.div
@@ -237,10 +272,7 @@ function SidebarItem({ item, isActive, setActiveItem, onSelect }: SidebarItemPro
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div
-        whileHover={{ scale: 1.00 }}
-        whileTap={{ scale: 0.95 }}
-      >
+      <motion.div whileHover={{ scale: 1.0 }} whileTap={{ scale: 0.95 }}>
         <Button
           variant="ghost"
           className={cn(
@@ -250,18 +282,21 @@ function SidebarItem({ item, isActive, setActiveItem, onSelect }: SidebarItemPro
             "active:scale-95",
             isActive && "bg-indigo-600/50 text-white"
           )}
-          onClick={() => {
-            if (!item.subItems) {
-              setActiveItem(item.label)
-              onSelect()
-            }
-          }}
+          onClick={() => setActiveItem(item.label)}
+          asChild
         >
-          <Icon className="h-5 w-5" />
-          <span className="text-xs">{item.label}</span>
-          {item.subItems && (
-            <ChevronRight className={`ml-auto h-4 w-4 transition-transform duration-200 ${isHovered ? 'rotate-90' : ''}`} />
-          )}
+          <a href={item.href}>
+            <Icon className="h-5 w-5" />
+            <span className="text-xs">{item.label}</span>
+            {item.subItems && (
+              <ChevronRight
+                className={cn(
+                  "ml-auto h-4 w-4 transition-transform duration-200",
+                  isHovered ? "rotate-90" : ""
+                )}
+              />
+            )}
+          </a>
         </Button>
       </motion.div>
       {item.subItems && (
@@ -269,7 +304,7 @@ function SidebarItem({ item, isActive, setActiveItem, onSelect }: SidebarItemPro
           {isHovered && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
               className="overflow-hidden bg-indigo-800/50 rounded-md mt-1"
@@ -282,17 +317,14 @@ function SidebarItem({ item, isActive, setActiveItem, onSelect }: SidebarItemPro
         </AnimatePresence>
       )}
     </motion.div>
-  )
+  );
 }
 
 function SubItem({ item, onSelect }: { item: { icon: React.ElementType; label: string; href: string }; onSelect: () => void }) {
-  const Icon = item.icon
+  const Icon = item.icon;
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.00 }}
-      whileTap={{ scale: 0.95 }}
-    >
+    <motion.div whileHover={{ scale: 1.0 }} whileTap={{ scale: 0.95 }}>
       <Button
         variant="ghost"
         className={cn(
@@ -300,10 +332,9 @@ function SubItem({ item, onSelect }: { item: { icon: React.ElementType; label: s
           "transition-all duration-200 ease-in-out",
           "focus:bg-indigo-600/50 focus:text-white",
           "active:scale-95",
-          "pl-8" // Indent sub-items
+          "pl-8"
         )}
         asChild
-        onClick={onSelect}
       >
         <a href={item.href}>
           <Icon className="h-4 w-4" />
@@ -311,7 +342,7 @@ function SubItem({ item, onSelect }: { item: { icon: React.ElementType; label: s
         </a>
       </Button>
     </motion.div>
-  )
+  );
 }
 
 <style jsx global>{`
@@ -325,4 +356,3 @@ function SubItem({ item, onSelect }: { item: { icon: React.ElementType; label: s
     display: none;
   }
 `}</style>
-
