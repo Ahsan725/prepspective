@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search..."
+          placeholder="Search by company..."
           className="search-input pr-8" // Add right padding for the clear button
         />
         {query && (

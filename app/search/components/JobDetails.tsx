@@ -69,12 +69,11 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
             />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">{interview.company}</CardTitle>
-            <p className="text-sm text-muted-foreground">Software Engineer Intern</p>
-
+            <CardTitle className="text-2xl font-bold">{interview.role}</CardTitle>
+            <p className="text-lg text-muted-foreground">{interview.company}</p>
           </div>
         </div>
-        <Separator/>
+        <Separator />
       </CardHeader>
       <CardContent className="pt-2 pb-6 h-[calc(100vh-200px)] overflow-y-auto">
         <div className="space-y-6">
@@ -89,19 +88,17 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
               </Badge>
             ))}
           </div>
-          <Separator/>
+          <Separator />
           <div>
             <h3 className="text-lg font-semibold mb-2 flex items-center">
-              {/* <BookOpenIcon className="mr-2 h-5 w-5" /> */}
               Interview Overview
             </h3>
             <p className="text-sm">{interview.overallExperience}</p>
           </div>
-          <Separator/>
+          <Separator />
           {interview.questions.some((q) => q.leetcodeLink) && (
             <div>
               <h3 className="text-lg font-semibold mb-2 flex items-center">
-                {/* <CodeIcon className="mr-2 h-5 w-5" /> */}
                 LeetCode Questions
               </h3>
               <ul className="space-y-2">
@@ -126,10 +123,9 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
               </ul>
             </div>
           )}
-        <Separator/>
+          <Separator />
           <div>
             <h3 className="text-lg font-semibold mb-2 flex items-center">
-              {/* <BriefcaseIcon className="mr-2 h-5 w-5" /> */}
               Interview Rounds
             </h3>
             {interview.rounds && interview.rounds.length > 0 ? (
@@ -150,11 +146,11 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
               <p className="text-sm text-muted-foreground">No interview rounds listed.</p>
             )}
           </div>
-          <Separator/>
+          <Separator />
           <div>
             <h3 className="text-lg font-semibold mb-2 flex items-center">
-              {/* <FileQuestion className="mr-2 h-5 w-5" /> */}
-              All Questions</h3>
+              All Questions
+            </h3>
             <ul className="space-y-4">
               {interview.questions && interview.questions.length > 0 ? (
                 interview.questions.map((question, index) => (
@@ -170,7 +166,7 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
               )}
             </ul>
           </div>
-          <br></br><br></br><br></br>
+          <br /><br /><br />
         </div>
       </CardContent>
     </Card>
@@ -178,4 +174,3 @@ const JobDetails: React.FC<JobDetailsProps> = ({ selectedInterviewId, interview 
 };
 
 export default JobDetails;
-

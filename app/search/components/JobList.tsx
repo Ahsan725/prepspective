@@ -52,17 +52,17 @@ const JobList: React.FC<JobListProps> = ({
   />
   <div>
     <h3 className="text-lg font-bold">{result.role || 'Unknown Role'}</h3>
-    <p className="text-xs text-gray-500">{result.company || 'Unknown Company'}</p>
+    <p className="text-md text-gray-500">{result.company || 'Unknown Company'}</p>
   </div>
 </div>
 
 
                 {/* Date */}
-                <p className="text-sm text-gray-500 mb-2">
+                <p className="text-xs text-gray-500 mb-2 text-right">
                   {result.interviewDate
                     ? new Date(result.interviewDate).toLocaleDateString(undefined, {
                         year: 'numeric',
-                        month: 'long',
+                        month: 'short',
                         day: 'numeric',
                       })
                     : 'Unknown Date'}

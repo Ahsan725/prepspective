@@ -147,7 +147,7 @@ export function BasicInfo({
           <input
             id="role"
             type="text"
-            maxLength={50} // Limit role name to 50 characters
+            maxLength={40} // Limit role name to 50 characters
             value={formData.role || ''}
             onChange={(e) => {
               handleChange('role', e.target.value);
