@@ -13,7 +13,7 @@ const Page: React.FC = () => {
     if (isLoaded && !isSignedIn) {
       setTimeout(() => {
         router.push("/"); // Redirect to root after the message is shown
-      }, 9000); // Delay of 5 seconds
+      }, 5000); // Delay of 5 seconds
     }
   }, [isSignedIn, isLoaded, router]);
 

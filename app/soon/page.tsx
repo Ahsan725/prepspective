@@ -18,9 +18,9 @@ export default function FeatureComingSoon() {
       <div className="text-center relative z-10">
         <div className="flex items-center justify-center mx-auto mb-4 z-20">
           <div className={`${styles['code-loader']} flex items-center gap-1`}>
-            <span className="bg-clip-text text-transparent bg-gradient-to-t from-indigo-700 to-indigo-500 font-bold">{'{'}</span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-t from-indigo-700 to-indigo-500 font-extrabold no-vibrate -mx-1">P</span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-t from-indigo-700 to-indigo-500 font-bold">{'}'}</span>
+            <span className="text-[#2619bc] font-bold">{'{'}</span>
+            <span className="text-[#2619bc] font-extrabold no-vibrate -mx-1">P</span>
+            <span className="text-[#2619bc] font-bold">{'}'}</span>
           </div>
         </div>
         

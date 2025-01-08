@@ -48,7 +48,7 @@ const sidebarItems = [
   },
   {
     icon: FileText,
-    label: "Search",
+    label: "Experiences",
     href: "/search",
   },
   {
@@ -61,7 +61,6 @@ const sidebarItems = [
     label: "Leetcode Lists",
     href: "/soon",
     subItems: [
-      { icon: CheckCircle, label: "Leetcode 150", href: "/soon" },
       { icon: EyeOff, label: "Blind 75", href: "/soon" },
       { 
         icon: Briefcase,
@@ -76,18 +75,12 @@ const sidebarItems = [
     href: "/about",
   },
   {
-    icon: HelpCircle,
-    label: "Guide",
-    href: "/soon",
-  },
-  {
     icon: Lightbulb,
     label: "Upcoming Features",
     href: "/soon",
     subItems: [
       { icon: Brain, label: "AI Interview Help", href: "/soon" },
       { icon: Users, label: "Peer Mock Interviews", href: "/soon" },
-      { icon: Calendar, label: "Events", href: "/soon" },
     ],
   },
   {
@@ -95,11 +88,6 @@ const sidebarItems = [
     label: "Careers",
     href: "https://forms.gle/JThZQVQ96ztQ4chS8", // External link
     external: true, // Custom flag for external links
-  },
-  {
-    icon: Mail,
-    label: "Contact Us",
-    href: "/contact",
   },
 ];
 
