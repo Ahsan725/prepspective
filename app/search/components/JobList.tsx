@@ -41,17 +41,21 @@ const JobList: React.FC<JobListProps> = ({
                 }`}
                 onClick={() => handleMobileRedirect(result.id)}
               >
-                {/* Company Logo and Name */}
-                <div className="flex items-center mb-2">
-                  <Image
-                    src={logoData?.logo || '/placeholder.png'}
-                    alt={result.company || 'Company Logo'}
-                    width={40}
-                    height={40}
-                    className="mr-4 object-contain"
-                  />
-                  <h3 className="text-lg font-bold">{result.company || 'Unknown Company'}</h3>
-                </div>
+{/* Company Logo and Role with Company Name */}
+<div className="flex items-center mb-2">
+  <Image
+    src={logoData?.logo || '/placeholder.png'}
+    alt={result.company || 'Company Logo'}
+    width={40}
+    height={40}
+    className="mr-4 object-contain"
+  />
+  <div>
+    <h3 className="text-lg font-bold">{result.role || 'Unknown Role'}</h3>
+    <p className="text-xs text-gray-500">{result.company || 'Unknown Company'}</p>
+  </div>
+</div>
+
 
                 {/* Date */}
                 <p className="text-sm text-gray-500 mb-2">

@@ -35,7 +35,7 @@ export function BasicInfo({
         {/* Company Field */}
         <div className="space-y-2">
           <Label htmlFor="company" className="text-sm font-medium text-gray-700">
-            Company
+            Company <span className="text-red-500">*</span>
           </Label>
           <Select
             onValueChange={(value) => {
@@ -70,7 +70,7 @@ export function BasicInfo({
         {/* Interview Date Field */}
         <div className="space-y-2">
           <Label htmlFor="interviewDate" className="text-sm font-medium text-gray-700">
-            Interview Date
+            Interview Date <span className="text-red-500">*</span>
           </Label>
           <Popover>
             <PopoverTrigger asChild>
@@ -103,7 +103,7 @@ export function BasicInfo({
         {/* Interview Level Field */}
         <div className="space-y-2">
           <Label htmlFor="level" className="text-sm font-medium text-gray-700">
-            Interview Level
+            Interview Level <span className="text-red-500">*</span>
           </Label>
           <Select
             value={formData.level}
@@ -136,6 +136,38 @@ export function BasicInfo({
           </Select>
           {invalidFields.has('level') && (
             <ErrorMessage message="Please select an interview level" />
+          )}
+        </div>
+
+        {/* Role Field */}
+        <div className="space-y-2">
+          <Label htmlFor="role" className="text-sm font-medium text-gray-700">
+            Role <span className="text-red-500">*</span>
+          </Label>
+          <input
+            id="role"
+            type="text"
+            maxLength={50} // Limit role name to 50 characters
+            value={formData.role || ''}
+            onChange={(e) => {
+              handleChange('role', e.target.value);
+              setInvalidFields((prev) => {
+                const newSet = new Set(prev);
+                if (e.target.value.trim() === '') {
+                  newSet.add('role');
+                } else {
+                  newSet.delete('role');
+                }
+                return newSet;
+              });
+            }}
+            className={`w-full p-2 border ${
+              invalidFields.has('role') ? 'border-red-500' : 'border-gray-300'
+            } rounded`}
+            placeholder="Enter role name (e.g., Embedded Software Eng II)"
+          />
+          {invalidFields.has('role') && (
+            <ErrorMessage message="Role is required and must not exceed 50 characters" />
           )}
         </div>
 

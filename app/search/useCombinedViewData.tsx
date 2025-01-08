@@ -26,6 +26,7 @@ type Round = {
 export type Interview = {
   id: number;
   company: string;
+  role: string; // Added role field
   interviewDate: string;
   level: string;
   createdAt: string;
@@ -36,6 +37,7 @@ export type Interview = {
   ratings: Rating[];
   rounds: Round[];
 };
+
 
 const levelOptions = [
   "Intern",

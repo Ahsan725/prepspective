@@ -42,6 +42,7 @@ export const interviewsTable = sqliteTable('interviews', {
   overallExperience: text('overall_experience'),
   jobOffer: integer('job_offer', { mode: 'boolean' }).default(false),
   level: text('level').default('Not Provided Yet').notNull(),
+  role: text('role').default('Not Provided').notNull(), // New required field
 });
 
 export const roundsTable = sqliteTable('rounds', {

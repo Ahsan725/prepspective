@@ -27,6 +27,7 @@ type InterviewRequestBody = {
   company: string;
   interviewDate: string;
   level: string; // Add the level field
+  role: string; // Add the role field
   jobOffer: boolean;
   overallExperience: string;
   questions?: Question[];
@@ -55,6 +56,7 @@ export async function GET() {
       company: interview.company,
       interviewDate: interview.interviewDate,
       level: interview.level, // Include the level in the response
+      role: interview.role, // Include the role in the response
       jobOffer: !!interview.jobOffer, // Convert to boolean
       overallExperience: interview.overallExperience,
       questions: questions
@@ -98,7 +100,7 @@ export async function POST(req: Request) {
     const body: InterviewRequestBody = await req.json();
 
     // Validate the main interview data
-    if (!body.company || !body.interviewDate || !body.level) {
+    if (!body.company || !body.interviewDate || !body.level || !body.role) {
       return NextResponse.json(
         { success: false, message: 'Invalid interview data.' },
         { status: 400 }
@@ -111,7 +113,8 @@ export async function POST(req: Request) {
       .values({
         company: body.company,
         interviewDate: body.interviewDate,
-        level: body.level, // Add the level field
+        level: body.level, // Include the level field
+        role: body.role, // Include the role field
         jobOffer: body.jobOffer,
         overallExperience: body.overallExperience,
       })
@@ -166,4 +169,3 @@ export async function POST(req: Request) {
     );
   }
 }
-

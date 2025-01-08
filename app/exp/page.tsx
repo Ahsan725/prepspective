@@ -21,6 +21,7 @@ export default function InterviewForm() {
     company: '',
     interviewDate: '',
     level: 'New Grad',
+    role: '', // Added role to the initial state
     jobOffer: null,
     overallExperience: '',
     questions: [],
@@ -74,9 +75,9 @@ export default function InterviewForm() {
       const res = await fetch('/api/interviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData), // Ensure role is included in the form data
       });
-    
+
       if (res.ok) {
         toast({
           title: 'Success!',
@@ -87,6 +88,7 @@ export default function InterviewForm() {
           company: '',
           interviewDate: '',
           level: 'New Grad',
+          role: '', // Reset role field after successful submission
           jobOffer: null,
           overallExperience: '',
           questions: [],
@@ -160,7 +162,7 @@ export default function InterviewForm() {
 
           <SubmitButton loading={loading} />
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <BasicInfo
             formData={formData}

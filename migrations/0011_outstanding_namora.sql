@@ -1,0 +1,1 @@
+ALTER TABLE `interviews` ADD `role` text DEFAULT 'Not Provided' NOT NULL;
