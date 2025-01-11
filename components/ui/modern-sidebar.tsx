@@ -221,7 +221,7 @@ export function ModernSidebar() {
                   <LogOut className="h-5 w-5" />
                   Sign Out
                 </Button>
-                {/* {user && (
+                {/* {user && ( 
                   <div className="flex items-center space-x-3 w-full">
                     <UserAvatar name={user.fullName || ""} />
                     <span className="text-lg font-semibold text-white">{user.fullName}</span>
