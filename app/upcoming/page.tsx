@@ -58,9 +58,9 @@ const featureList: FeaturesProps[] = [
     },
     {
       icon: "Monitor",
-      title: "Interview Performance Analytics",
-      description: "Track your mock interview performance and get detailed feedback on strengths and weaknesses to fine-tune your approach.",
-    },
+      title: "Practice Tests for CodeSignal and More",
+      description: "Boost your online assessment scores by 120-200 points with targeted practice tests designed for platforms like CodeSignal, HackerRank, and others.",
+    },    
   ];
   
 
