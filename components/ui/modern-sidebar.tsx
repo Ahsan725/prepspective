@@ -77,7 +77,7 @@ const sidebarItems = [
   {
     icon: Lightbulb,
     label: "Upcoming Features",
-    href: "/soon",
+    href: "/upcoming",
     subItems: [
       { icon: Brain, label: "AI Interview Help", href: "/soon" },
       { icon: Users, label: "Peer Mock Interviews", href: "/soon" },
