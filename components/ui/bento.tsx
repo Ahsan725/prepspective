@@ -42,7 +42,7 @@ const FeaturesGrid: React.FC = () => {
           What is PrepSpective
         </h2>
         <h3 className="md:w-1/2 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-        They call it luck when opportunity meets preparation, but we call it PrepSpective. Our mission is to to make interviews less terrifying.
+        They call it luck when opportunity meets preparation, but we call it PrepSpective. Our mission is to make interviews less terrifying.
         </h3>
 
         <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2" ref={ref}>
