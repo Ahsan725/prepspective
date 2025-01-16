@@ -103,9 +103,9 @@ export default function ModernHero() {
             {/* Animated Stats Card */}
             <motion.div
               className="bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium text-indigo-600 inline-flex items-center gap-2 mx-auto border-2 border-indigo-500"
-              initial={{ y: -50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5 }}
+              initial={{ y: -50, opacity: 0, filter: "blur(10px)" }}
+              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 1, delay: 0.2 }}
             >
               <p className="text-xs lg:text-sm font-bold text-indigo-600 uppercase tracking-wide">
                 THE BEST INTERVIEW PREP PLATFORM IN THE WORLD!
@@ -116,17 +116,17 @@ export default function ModernHero() {
             <div className="space-y-4">
               <motion.h1
                 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-indigo-800 via-indigo-600 to-purple-700 bg-clip-text text-transparent"
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
+                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 1, delay: 0.4 }}
               >
                 Your Competitive Advantage in Tech Interviews.
               </motion.h1>
               <motion.p
                 className="text-lg lg:text-2xl text-gray-500 max-w-2xl mx-auto"
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
+                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 1, delay: 0.6 }}
               >
                 The only interview prep platform you&rsquo;ll ever need. We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
               </motion.p>
@@ -135,9 +135,9 @@ export default function ModernHero() {
             {/* Animated Waitlist Form */}
             <motion.div
               className="w-full max-w-md space-y-4 mx-auto"
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
+              initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
+              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 1, delay: 0.8 }}
             >
               <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
                 <div className="flex-1">
@@ -167,9 +167,9 @@ export default function ModernHero() {
             {/* Animated Client Logos */}
             <motion.div
               className="mt-12 w-full max-w-3xl mx-auto"
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
+              initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
+              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 1, delay: 1 }}
             >
               <p className="text-sm text-gray-500 mb-4 text-center">Interviews Sourced from Top Companies</p>
               <div className={styles.marqueeContainer}>
@@ -227,4 +227,3 @@ export default function ModernHero() {
     </>
   )
 }
-
