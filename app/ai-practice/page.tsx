@@ -234,7 +234,7 @@ const VoiceRecorder: React.FC = () => {
     <div className="min-h-screen flex flex-col p-4">
       {/* Video Banner */}
       <div className="flex justify-center items-center w-full h-auto my-8">
-        <div className="w-[300px] h-[300px] flex justify-center items-center overflow-hidden">
+        <div className="w-[150px] h-[150px] flex justify-center items-center overflow-hidden">
           <video
             src="https://cdn.dribbble.com/userupload/17608183/file/original-a9b30b0413131d806620dc5db95c99f1.mp4"
             autoPlay
@@ -265,7 +265,7 @@ const VoiceRecorder: React.FC = () => {
             ) : isSupported ? (
               <>
                 <CheckCircle className="h-6 w-6 mr-2" />
-                <span>🎉 Speech recognition is supported in this browser.</span>
+                <span>Speech recognition is supported in this browser.</span>
               </>
             ) : (
               <>
@@ -419,7 +419,7 @@ const VoiceRecorder: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="bg-white p-4 rounded shadow">
+            <div className="bg-white p-4">
               <p className="text-gray-800 whitespace-pre-wrap">
                 {approvedTranscript || 'No approved transcript yet.'}
               </p>
