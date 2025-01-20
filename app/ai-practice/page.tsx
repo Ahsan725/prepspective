@@ -12,8 +12,28 @@ import {
 
 import { CheckCircle, AlertCircle, Loader2, Mic, XCircle } from 'lucide-react'
 
-// Define the SpeechRecognition type
-type SpeechRecognitionType = typeof window.SpeechRecognition | typeof window.webkitSpeechRecognition
+// Extend the Window interface to include SpeechRecognition and webkitSpeechRecognition
+declare global {
+  interface Window {
+    SpeechRecognition: typeof SpeechRecognition
+    webkitSpeechRecognition: typeof SpeechRecognition
+  }
+}
+
+// Define the SpeechRecognition class
+class SpeechRecognition extends EventTarget {
+  continuous: boolean = false
+  interimResults: boolean = false
+  lang: string = 'en-US'
+  onstart: (() => void) | null = null
+  onresult: ((event: SpeechRecognitionEvent) => void) | null = null
+  onerror: ((event: SpeechRecognitionErrorEvent) => void) | null = null
+  onend: (() => void) | null = null
+
+  start() {}
+  stop() {}
+  abort() {}
+}
 
 // Define the SpeechRecognitionEvent type
 interface SpeechRecognitionEvent extends Event {
@@ -48,7 +68,7 @@ const VoiceRecorder: React.FC = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [transcript, setTranscript] = useState('')
   const [approvedTranscript, setApprovedTranscript] = useState('')
-  const [recognition, setRecognition] = useState<InstanceType<SpeechRecognitionType> | null>(null)
+  const [recognition, setRecognition] = useState<SpeechRecognition | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isChecking, setIsChecking] = useState(true)
   const [isSupported, setIsSupported] = useState<boolean | null>(null)
