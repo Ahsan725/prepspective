@@ -9,8 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-
-import { CheckCircle, AlertCircle, Loader2, Mic, XCircle } from 'lucide-react'
+import { Progress } from '@/components/ui/progress'
+import { CheckCircle, AlertCircle, Loader2, Mic, XCircle, Star } from 'lucide-react'
 
 // Extend the Window interface to include SpeechRecognition and webkitSpeechRecognition
 declare global {
@@ -64,6 +64,13 @@ interface SpeechRecognitionAlternative {
   transcript: string
 }
 
+interface FeedbackData {
+  overallScore: number;
+  strengths: string[];
+  areasToImprove: string[];
+  detailedFeedback: string;
+}
+
 const VoiceRecorder: React.FC = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [transcript, setTranscript] = useState('')
@@ -76,6 +83,8 @@ const VoiceRecorder: React.FC = () => {
   const [isRequestingMicAccess, setIsRequestingMicAccess] = useState(false)
   const [isListening, setIsListening] = useState(false)
   const [timeLeft, setTimeLeft] = useState(60)
+  const [isGrading, setIsGrading] = useState(false)
+  const [feedback, setFeedback] = useState<FeedbackData | null>(null)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const accumulatedTranscript = useRef('') // Ref to accumulate the transcript
 
@@ -225,9 +234,37 @@ const VoiceRecorder: React.FC = () => {
     setTranscript(e.target.value)
   }
 
+  const gradeInterview = async () => {
+    if (!approvedTranscript) return;
+    
+    setIsGrading(true);
+    try {
+      const response = await fetch('/api/grade-interview', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ transcript: approvedTranscript }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to grade interview');
+      }
+
+      const feedbackData = await response.json();
+      setFeedback(feedbackData);
+    } catch (error) {
+      console.error('Error grading interview:', error);
+      setError('Failed to grade interview. Please try again.');
+    } finally {
+      setIsGrading(false);
+    }
+  };
+
   const approveTranscript = () => {
     setApprovedTranscript(transcript)
     setTranscript('')
+    setFeedback(null) // Reset feedback when new transcript is approved
   }
 
   return (
@@ -320,9 +357,9 @@ const VoiceRecorder: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row md:space-x-6">
+      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Voice Recorder Card */}
-        <Card className="flex-1 shadow-lg">
+        <Card className="shadow-lg">
           <CardHeader className="border-b">
             <CardTitle className="text-2xl flex items-center">
               <Mic className="h-6 w-6 mr-2 text-indigo-600" />
@@ -407,25 +444,93 @@ const VoiceRecorder: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Approved Transcript Display */}
-        <Card className="flex-1 shadow-lg mt-6 md:mt-0">
-          <CardHeader className="border-b">
-            <CardTitle className="text-2xl flex items-center">
-              <CheckCircle className="h-6 w-6 mr-2 text-emerald-600" />
-              Approved Transcript
-            </CardTitle>
-            <CardDescription className="text-gray-600">
-              Your approved transcription
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-white p-4">
-              <p className="text-gray-800 whitespace-pre-wrap">
-                {approvedTranscript || 'No approved transcript yet.'}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Feedback Card */}
+        <div className="space-y-6">
+          {/* Approved Transcript Card */}
+          <Card className="shadow-lg">
+            <CardHeader className="border-b">
+              <CardTitle className="text-2xl flex items-center">
+                <CheckCircle className="h-6 w-6 mr-2 text-emerald-600" />
+                Approved Transcript
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                Your approved transcription
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-4">
+              <div className="bg-white p-4 rounded-lg border border-gray-100">
+                <p className="text-gray-800 whitespace-pre-wrap">
+                  {approvedTranscript || 'No approved transcript yet.'}
+                </p>
+              </div>
+              {approvedTranscript && !isGrading && !feedback && (
+                <Button 
+                  onClick={gradeInterview}
+                  className="w-full mt-4"
+                >
+                  Grade Interview
+                </Button>
+              )}
+              {isGrading && (
+                <div className="flex items-center justify-center space-x-2 mt-4">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <span>Grading interview...</span>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Feedback Display */}
+          {feedback && (
+            <Card className="shadow-lg">
+              <CardHeader className="border-b">
+                <CardTitle className="text-2xl flex items-center">
+                  <Star className="h-6 w-6 mr-2 text-yellow-500" />
+                  Interview Feedback
+                </CardTitle>
+                <CardDescription className="text-gray-600">
+                  AI-powered interview analysis
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6 pt-4">
+                {/* Overall Score */}
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Overall Score</span>
+                    <span className="text-lg font-bold">{feedback.overallScore}/10</span>
+                  </div>
+                  <Progress value={feedback.overallScore * 10} className="h-2" />
+                </div>
+
+                {/* Strengths */}
+                <div>
+                  <h3 className="font-semibold text-green-600 mb-2">Strengths</h3>
+                  <ul className="list-disc pl-5 space-y-1">
+                    {feedback.strengths.map((strength, index) => (
+                      <li key={index} className="text-gray-700">{strength}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Areas to Improve */}
+                <div>
+                  <h3 className="font-semibold text-amber-600 mb-2">Areas to Improve</h3>
+                  <ul className="list-disc pl-5 space-y-1">
+                    {feedback.areasToImprove.map((area, index) => (
+                      <li key={index} className="text-gray-700">{area}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Detailed Feedback */}
+                <div>
+                  <h3 className="font-semibold text-indigo-600 mb-2">Feedback</h3>
+                  <p className="text-gray-700 whitespace-pre-wrap">{feedback.detailedFeedback}</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
     </div>
   )
