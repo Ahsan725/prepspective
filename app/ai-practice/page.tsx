@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -10,7 +10,9 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
-import { CheckCircle, AlertCircle, Loader2, Mic, XCircle, Star } from 'lucide-react'
+import { CheckCircle, AlertCircle, Loader2, Mic, XCircle, Star, Code, Users } from 'lucide-react'
+import { softwareQuestions } from './data/softwareQuestions'
+import { behavioralQuestions } from './data/behavioralQuestions'
 
 // Extend the Window interface to include SpeechRecognition and webkitSpeechRecognition
 declare global {
@@ -85,6 +87,8 @@ const VoiceRecorder: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState(60)
   const [isGrading, setIsGrading] = useState(false)
   const [feedback, setFeedback] = useState<FeedbackData | null>(null)
+  const [mode, setMode] = useState<'software' | 'behavioral' | null>(null)
+  const [currentQuestion, setCurrentQuestion] = useState<string | null>(null)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const accumulatedTranscript = useRef('') // Ref to accumulate the transcript
 
@@ -111,6 +115,23 @@ const VoiceRecorder: React.FC = () => {
       clearTimeout(timer)
     }
   }, [])
+
+  // Function to select random question based on mode
+  const selectRandomQuestion = (selectedMode: 'software' | 'behavioral') => {
+    const questions = selectedMode === 'software' ? softwareQuestions : behavioralQuestions
+    const randomIndex = Math.floor(Math.random() * questions.length)
+    setCurrentQuestion(questions[randomIndex])
+  }
+
+  // Function to handle mode selection
+  const handleModeSelect = (selectedMode: 'software' | 'behavioral') => {
+    setMode(selectedMode)
+    selectRandomQuestion(selectedMode)
+    // Reset states
+    setTranscript('')
+    setApprovedTranscript('')
+    setFeedback(null)
+  }
 
   // Function to request microphone access
   const requestMicrophoneAccess = async () => {
@@ -235,7 +256,7 @@ const VoiceRecorder: React.FC = () => {
   }
 
   const gradeInterview = async () => {
-    if (!approvedTranscript) return;
+    if (!approvedTranscript || !currentQuestion) return;
     
     setIsGrading(true);
     try {
@@ -244,7 +265,11 @@ const VoiceRecorder: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ transcript: approvedTranscript }),
+        body: JSON.stringify({ 
+          transcript: approvedTranscript,
+          question: currentQuestion,
+          mode: mode
+        }),
       });
 
       if (!response.ok) {
@@ -282,6 +307,62 @@ const VoiceRecorder: React.FC = () => {
           />
         </div>
       </div>
+
+      {/* Mode Selection */}
+      {!mode && (
+        <div className="w-full max-w-4xl mx-auto mb-8">
+          <Card className="shadow-lg">
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl">Select Interview Mode</CardTitle>
+              <CardDescription>Choose the type of interview questions you want to practice</CardDescription>
+            </CardHeader>
+            <CardContent className="flex justify-center gap-4">
+              <Button
+                onClick={() => handleModeSelect('software')}
+                className="flex items-center gap-2 px-6 py-4"
+                size="lg"
+              >
+                <Code className="h-5 w-5" />
+                Software Engineering
+              </Button>
+              <Button
+                onClick={() => handleModeSelect('behavioral')}
+                className="flex items-center gap-2 px-6 py-4"
+                size="lg"
+              >
+                <Users className="h-5 w-5" />
+                Behavioral
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Current Question Display */}
+      {mode && currentQuestion && (
+        <div className="w-full max-w-4xl mx-auto mb-8">
+          <Card className="shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-xl flex items-center gap-2">
+                {mode === 'software' ? <Code className="h-5 w-5" /> : <Users className="h-5 w-5" />}
+                Current Question
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-lg font-medium text-gray-800">{currentQuestion}</p>
+              <div className="mt-4 flex justify-end">
+                <Button
+                  variant="outline"
+                  onClick={() => selectRandomQuestion(mode)}
+                  className="text-sm"
+                >
+                  Try Another Question
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Support and Microphone Access Banner */}
       <div className="w-full max-w-4xl mx-auto mb-4 flex flex-col md:flex-row md:space-x-4">
@@ -357,181 +438,183 @@ const VoiceRecorder: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Voice Recorder Card */}
-        <Card className="shadow-lg">
-          <CardHeader className="border-b">
-            <CardTitle className="text-2xl flex items-center">
-              <Mic className="h-6 w-6 mr-2 text-indigo-600" />
-              Voice Recorder
-            </CardTitle>
-            <CardDescription className="text-gray-600">
-              Record your voice and see it transcribed to text
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Listening Indicator and Timer */}
-            <div className="flex items-center justify-between text-indigo-700 px-4 py-2 rounded-lg">
-              {isListening && (
-                <div className="flex items-center space-x-2">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  <span>Listening...</span>
-                </div>
-              )}
-              {isRecording && (
-                <div className="text-sm font-semibold">
-                  Time Left: {timeLeft} sec
-                </div>
-              )}
-            </div>
-
-            {/* Start/Stop Recording Button */}
-            {hasMicrophoneAccess && (
-              <div className="flex justify-center">
-                <Button
-                  variant={isRecording ? 'destructive' : 'default'}
-                  onClick={isRecording ? stopRecording : startRecording}
-                  disabled={!isSupported || isChecking}
-                  className="w-full flex items-center justify-center"
-                  aria-label={isRecording ? 'Stop recording' : 'Start recording'}
-                >
-                  {isRecording ? (
-                    <>
-                      <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                      Stop Recording
-                    </>
-                  ) : (
-                    <>
-                      <Mic className="h-5 w-5 mr-2" />
-                      Start Recording
-                    </>
-                  )}
-                </Button>
-              </div>
-            )}
-
-            {/* Editable Transcript */}
-            <div className="flex flex-col space-y-2">
-              <label htmlFor="transcript" className="text-sm font-medium text-gray-700">
-                Transcript:
-              </label>
-              <textarea
-                id="transcript"
-                value={transcript}
-                onChange={handleTranscriptChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="Your transcript will appear here..."
-                rows={4}
-                disabled={!transcript && !isRecording}
-              />
-              {transcript && (
-                <Button
-                  onClick={approveTranscript}
-                  disabled={!transcript}
-                  className="self-end mt-2"
-                >
-                  Approve
-                </Button>
-              )}
-            </div>
-
-            {/* Error Message */}
-            {error && (
-              <div className="text-red-500 text-center">
-                {error}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Feedback Card */}
-        <div className="space-y-6">
-          {/* Approved Transcript Card */}
+      {mode && (
+        <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Voice Recorder Card */}
           <Card className="shadow-lg">
             <CardHeader className="border-b">
               <CardTitle className="text-2xl flex items-center">
-                <CheckCircle className="h-6 w-6 mr-2 text-emerald-600" />
-                Approved Transcript
+                <Mic className="h-6 w-6 mr-2 text-indigo-600" />
+                Voice Recorder
               </CardTitle>
               <CardDescription className="text-gray-600">
-                Your approved transcription
+                Record your voice and see it transcribed to text
               </CardDescription>
             </CardHeader>
-            <CardContent className="pt-4">
-              <div className="bg-white p-4 rounded-lg border border-gray-100">
-                <p className="text-gray-800 whitespace-pre-wrap">
-                  {approvedTranscript || 'No approved transcript yet.'}
-                </p>
+            <CardContent className="space-y-4">
+              {/* Listening Indicator and Timer */}
+              <div className="flex items-center justify-between text-indigo-700 px-4 py-2 rounded-lg">
+                {isListening && (
+                  <div className="flex items-center space-x-2">
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <span>Listening...</span>
+                  </div>
+                )}
+                {isRecording && (
+                  <div className="text-sm font-semibold">
+                    Time Left: {timeLeft} sec
+                  </div>
+                )}
               </div>
-              {approvedTranscript && !isGrading && !feedback && (
-                <Button 
-                  onClick={gradeInterview}
-                  className="w-full mt-4"
-                >
-                  Grade Interview
-                </Button>
+
+              {/* Start/Stop Recording Button */}
+              {hasMicrophoneAccess && (
+                <div className="flex justify-center">
+                  <Button
+                    variant={isRecording ? 'destructive' : 'default'}
+                    onClick={isRecording ? stopRecording : startRecording}
+                    disabled={!isSupported || isChecking}
+                    className="w-full flex items-center justify-center"
+                    aria-label={isRecording ? 'Stop recording' : 'Start recording'}
+                  >
+                    {isRecording ? (
+                      <>
+                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                        Stop Recording
+                      </>
+                    ) : (
+                      <>
+                        <Mic className="h-5 w-5 mr-2" />
+                        Start Recording
+                      </>
+                    )}
+                  </Button>
+                </div>
               )}
-              {isGrading && (
-                <div className="flex items-center justify-center space-x-2 mt-4">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  <span>Grading interview...</span>
+
+              {/* Editable Transcript */}
+              <div className="flex flex-col space-y-2">
+                <label htmlFor="transcript" className="text-sm font-medium text-gray-700">
+                  Transcript:
+                </label>
+                <textarea
+                  id="transcript"
+                  value={transcript}
+                  onChange={handleTranscriptChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Your transcript will appear here..."
+                  rows={4}
+                  disabled={!transcript && !isRecording}
+                />
+                {transcript && (
+                  <Button
+                    onClick={approveTranscript}
+                    disabled={!transcript}
+                    className="self-end mt-2"
+                  >
+                    Approve
+                  </Button>
+                )}
+              </div>
+
+              {/* Error Message */}
+              {error && (
+                <div className="text-red-500 text-center">
+                  {error}
                 </div>
               )}
             </CardContent>
           </Card>
 
-          {/* Feedback Display */}
-          {feedback && (
+          {/* Feedback Card */}
+          <div className="space-y-6">
+            {/* Approved Transcript Card */}
             <Card className="shadow-lg">
               <CardHeader className="border-b">
                 <CardTitle className="text-2xl flex items-center">
-                  <Star className="h-6 w-6 mr-2 text-yellow-500" />
-                  Interview Feedback
+                  <CheckCircle className="h-6 w-6 mr-2 text-emerald-600" />
+                  Approved Transcript
                 </CardTitle>
                 <CardDescription className="text-gray-600">
-                  AI-powered interview analysis
+                  Your approved transcription
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6 pt-4">
-                {/* Overall Score */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">Overall Score</span>
-                    <span className="text-lg font-bold">{feedback.overallScore}/10</span>
+              <CardContent className="pt-4">
+                <div className="bg-white p-4 rounded-lg border border-gray-100">
+                  <p className="text-gray-800 whitespace-pre-wrap">
+                    {approvedTranscript || 'No approved transcript yet.'}
+                  </p>
+                </div>
+                {approvedTranscript && !isGrading && !feedback && (
+                  <Button 
+                    onClick={gradeInterview}
+                    className="w-full mt-4"
+                  >
+                    Grade Interview
+                  </Button>
+                )}
+                {isGrading && (
+                  <div className="flex items-center justify-center space-x-2 mt-4">
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <span>Grading interview...</span>
                   </div>
-                  <Progress value={feedback.overallScore * 10} className="h-2" />
-                </div>
-
-                {/* Strengths */}
-                <div>
-                  <h3 className="font-semibold text-green-600 mb-2">Strengths</h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    {feedback.strengths.map((strength, index) => (
-                      <li key={index} className="text-gray-700">{strength}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Areas to Improve */}
-                <div>
-                  <h3 className="font-semibold text-amber-600 mb-2">Areas to Improve</h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    {feedback.areasToImprove.map((area, index) => (
-                      <li key={index} className="text-gray-700">{area}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Detailed Feedback */}
-                <div>
-                  <h3 className="font-semibold text-indigo-600 mb-2">Feedback</h3>
-                  <p className="text-gray-700 whitespace-pre-wrap">{feedback.detailedFeedback}</p>
-                </div>
+                )}
               </CardContent>
             </Card>
-          )}
+
+            {/* Feedback Display */}
+            {feedback && (
+              <Card className="shadow-lg">
+                <CardHeader className="border-b">
+                  <CardTitle className="text-2xl flex items-center">
+                    <Star className="h-6 w-6 mr-2 text-yellow-500" />
+                    Interview Feedback
+                  </CardTitle>
+                  <CardDescription className="text-gray-600">
+                    AI-powered interview analysis
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6 pt-4">
+                  {/* Overall Score */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium">Overall Score</span>
+                      <span className="text-lg font-bold">{feedback.overallScore}/10</span>
+                    </div>
+                    <Progress value={feedback.overallScore * 10} className="h-2" />
+                  </div>
+
+                  {/* Strengths */}
+                  <div>
+                    <h3 className="font-semibold text-green-600 mb-2">Strengths</h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      {feedback.strengths.map((strength, index) => (
+                        <li key={index} className="text-gray-700">{strength}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Areas to Improve */}
+                  <div>
+                    <h3 className="font-semibold text-amber-600 mb-2">Areas to Improve</h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      {feedback.areasToImprove.map((area, index) => (
+                        <li key={index} className="text-gray-700">{area}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Detailed Feedback */}
+                  <div>
+                    <h3 className="font-semibold text-indigo-600 mb-2">Feedback</h3>
+                    <p className="text-gray-700 whitespace-pre-wrap">{feedback.detailedFeedback}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

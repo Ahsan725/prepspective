@@ -7,11 +7,11 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
   try {
-    const { transcript } = await req.json();
+    const { transcript, question, mode } = await req.json();
 
-    if (!transcript) {
+    if (!transcript || !question || !mode) {
       return NextResponse.json(
-        { error: 'Transcript is required' },
+        { error: 'Transcript, question, and mode are required' },
         { status: 400 }
       );
     }
@@ -21,18 +21,26 @@ export async function POST(req: Request) {
       model: "gpt-3.5-turbo",
       messages: [
         {
-            role: "system",
-            content: `
-          You are an expert interviewer and a harsh grader. Analyze the interview response critically and focus solely on identifying areas for growth and improvement. Return the result in the following **strict JSON format**:
+          role: "system",
+          content: `
+You are an expert interviewer and a harsh grader specializing in ${mode === 'software' ? 'technical software engineering' : 'behavioral'} interviews. 
+
+You will grade the following response to this specific interview question: "${question}"
+
+Analyze the interview response critically and focus on identifying areas for growth and improvement. Return the result in the following **strict JSON format**:
 {
-            "overallScore": number (1-10),
-            "strengths": string[],
-            "areasToImprove": string[],
-            "detailedFeedback": string
-          }
-          Your feedback should highlight specific weaknesses or areas that need significant improvement. Do not mention strengths or positive aspects, and ensure your evaluation is critical. Return only the JSON, with no additional text or explanation.Ensure the total response does not exceed 200 characters.`
-          }
-          ,
+  "overallScore": number (1-10),
+  "strengths": string[],
+  "areasToImprove": string[],
+  "detailedFeedback": string
+}
+
+${mode === 'software' 
+  ? 'Focus on technical accuracy, depth of understanding, and clarity of explanation.' 
+  : 'Focus on structure, specific examples, impact, and communication clarity using the STAR method.'}
+
+Your feedback should highlight specific weaknesses or areas that need significant improvement. Return only the JSON, with no additional text or explanation. Ensure the total response does not exceed 200 characters.`
+        },
         {
           role: "user",
           content: transcript
