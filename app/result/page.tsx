@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { RandomLeetCodeQuestion } from "./randomLeetcode"; 
+import { RandomLeetCodeQuestion } from "./randomLeetcode";
 
 export default async function ResultPage(
   props: {
@@ -13,20 +13,22 @@ export default async function ResultPage(
   const timeRaw = (await searchParams?.time) as string | undefined || "Not provided";
 
   // Convert date to spelled-out format
-  const formattedDate = dateRaw !== "Not provided" ? 
-    new Date(dateRaw).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }) : "Not provided";
+  const formattedDate = dateRaw !== "Not provided" 
+    ? new Date(dateRaw).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }) 
+    : "Not provided";
 
   // Convert time to 12-hour format with AM/PM
-  const formattedTime = timeRaw !== "Not provided" ? 
-    new Date(`1970-01-01T${timeRaw}Z`).toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    }) : "Not provided";
+  const formattedTime = timeRaw !== "Not provided" 
+    ? new Date(`1970-01-01T${timeRaw}Z`).toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      }) 
+    : "Not provided";
 
   if (!link) {
     return (
@@ -42,25 +44,33 @@ export default async function ResultPage(
 
   return (
     <main className="container mx-auto p-4 space-y-6">
-      <section className="bg-white p-8 rounded-lg shadow-2xl">
-        <h1 className="text-4xl font-bold mb-6 text-indigo-700">Your Mock Interview Details</h1>
-        <p className="mb-6 text-md">Click below to join your Mock Interview:</p>
+      <section className="bg-white p-8 rounded-lg flex flex-col items-center text-center">
+        <div className="flex items-center justify-center mb-4">
+          <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
+            MOCK INTERVIEWS
+          </h2>
+        </div>
+
+        <h2 className="text-3xl md:text-4xl text-center font-bold mb-8">
+          Mock Interview Details
+        </h2>
+
+        <p className="mb-2 text-md">Click below to join your Mock Interview:</p>
         <a
           href={link}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button className="text-md px-6 py-3">Join Mock Interview</Button>
+          <Button className="text-xl px-6 py-3">Join Mock Interview</Button>
         </a>
 
         {formattedDate && formattedTime && (
-          <p className="mt-6 text-gray-700 text-lg">
-            <strong>Scheduled Date:</strong> {formattedDate}
-            <br />
-            <strong>Scheduled Time:</strong> {formattedTime}
+          <p className="mt-6 text-indigo-700 font-semibold text-lg">
+            {formattedDate} <span className="text-black font-light"> at </span>
+            {formattedTime}
           </p>
-              )}
-              <RandomLeetCodeQuestion />
+        )}
+        <RandomLeetCodeQuestion />
 
         <p className="mt-6 text-md text-gray-600">
           Please join the session <strong>5 minutes before the scheduled time</strong> to ensure everything is set up correctly. Log in to our meeting provider using your Google account or create an account if you are prompted.
@@ -115,7 +125,7 @@ export default async function ResultPage(
 
       <div className="text-center">
         <Link href="/mock">
-          <Button variant="outline">Generate Another Link</Button>
+          <Button variant="outline">New Mock Interview</Button>
         </Link>
       </div>
     </main>
