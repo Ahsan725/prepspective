@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { RandomLeetCodeQuestion } from "./randomLeetcode"; 
 
 export default async function ResultPage(
   props: {
@@ -41,24 +42,25 @@ export default async function ResultPage(
 
   return (
     <main className="container mx-auto p-4 space-y-6">
-      <section className="bg-white p-8 rounded-lg shadow-md">
-        <h1 className="text-4xl font-bold mb-6 text-indigo-700">Mock Interview Details</h1>
+      <section className="bg-white p-8 rounded-lg shadow-2xl">
+        <h1 className="text-4xl font-bold mb-6 text-indigo-700">Your Mock Interview Details</h1>
         <p className="mb-6 text-md">Click below to join your Mock Interview:</p>
         <a
           href={link}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button className="text-lg px-6 py-3">Join Mock Interview</Button>
+          <Button className="text-md px-6 py-3">Join Mock Interview</Button>
         </a>
 
         {formattedDate && formattedTime && (
-          <p className="mt-6 text-gray-700 text-md">
+          <p className="mt-6 text-gray-700 text-lg">
             <strong>Scheduled Date:</strong> {formattedDate}
             <br />
             <strong>Scheduled Time:</strong> {formattedTime}
           </p>
-        )}
+              )}
+              <RandomLeetCodeQuestion />
 
         <p className="mt-6 text-md text-gray-600">
           Please join the session <strong>5 minutes before the scheduled time</strong> to ensure everything is set up correctly. Log in to our meeting provider using your Google account or create an account if you are prompted.
@@ -66,10 +68,10 @@ export default async function ResultPage(
       </section>
 
       <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
-        <section className="bg-white p-6 rounded-lg shadow-md flex-1">
-          <h2 className="text-xl text-gray-400 font-extrabold mb-4">How to Get the Best Out of Your Mock Interview</h2>
+        <section className="bg-indigo-50 p-6 rounded-lg shadow-md flex-1">
+          <h2 className="text-xl text-gray-400 font-bold mb-4">How to Get the Best Out of Your Mock Interview</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-700 text-sm">
-            <li><strong>Take it seriously:</strong> Treat this as if it is a real technical interview.</li>
+            <li><strong>Take it seriously.</strong> Treat this as if it is a real technical interview.</li>
             <li>
               If you are matched with a <strong>peer</strong>, take turns interviewing each other. Decide who goes
               first, and make sure to take notes to provide <strong>grows and glows</strong> feedback.
@@ -86,11 +88,19 @@ export default async function ResultPage(
               Focus on explaining your thought process clearly. Communication is as important as solving the problem.
             </li>
             <li>Take detailed feedback from your peer or mentor and work on areas of improvement.</li>
+            <li>
+              <strong>Set specific goals:</strong> Before the session, decide on one or two specific skills you want to
+              improve, such as debugging, problem breakdown, or time management.
+            </li>
+            <li>
+              <strong>Repeat regularly:</strong> We recommend doing a mock interview every week to keep your skills fresh. If
+              you have an upcoming interview, aim to do one daily to build confidence.
+            </li>
           </ul>
         </section>
 
-        <section className="bg-white p-6 rounded-lg shadow-md flex-1">
-          <h2 className="text-xl text-gray-400 font-extrabold mb-4">How the Pairing Works</h2>
+        <section className="bg-indigo-50 p-6 rounded-lg shadow-md flex-1">
+          <h2 className="text-xl text-gray-400 font-bold mb-4">How the Pairing Works</h2>
           <p className="text-gray-700 text-sm">
             Our goal is to match you with a <strong>mentor</strong> who has experience interviewing at top tech
             companies. However, if there is a shortage of mentors, you will be paired with a <strong>peer</strong>. A
@@ -105,7 +115,7 @@ export default async function ResultPage(
 
       <div className="text-center">
         <Link href="/mock">
-          <Button>Generate Another Link</Button>
+          <Button variant="outline">Generate Another Link</Button>
         </Link>
       </div>
     </main>
