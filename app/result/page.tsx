@@ -83,14 +83,6 @@ export default async function ResultPage(
           <ul className="list-disc pl-6 space-y-2 text-gray-700 text-sm">
             <li><strong>Take it seriously.</strong> Treat this as if it is a real technical interview.</li>
             <li>
-              If you are matched with a <strong>peer</strong>, take turns interviewing each other. Decide who goes
-              first, and make sure to take notes to provide <strong>grows and glows</strong> feedback.
-            </li>
-            <li>
-              If you are matched with a <strong>mentor</strong>, they will interview you and provide detailed feedback
-              after the session.
-            </li>
-            <li>
               Use a question from <strong>LeetCode</strong>, share your screen, and write code in the LeetCode IDE to
               simulate a real interview environment.
             </li>
@@ -118,8 +110,18 @@ export default async function ResultPage(
           </p>
           <p className="mt-2 text-gray-700 text-sm">
             Regardless of who you are paired with, this is an excellent opportunity to improve your interviewing
-            skills, gain feedback, and grow as a candidate.
+                      skills, gain feedback, and grow as a candidate.
+                      <br/><br/>
+                      <li>
+              If you are matched with a <strong>peer</strong>, take turns interviewing each other. Decide who goes
+              first, and make sure to take notes to provide <strong>grows and glows</strong> feedback.
+            </li>
+            <li>
+              If you are matched with a <strong>mentor</strong>, they will interview you and provide detailed feedback
+              after the session.
+            </li>
           </p>
+          
         </section>
       </div>
 
