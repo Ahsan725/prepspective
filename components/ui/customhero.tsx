@@ -160,7 +160,7 @@ export default function ModernHero() {
                 </Button>
               </form>
               <p className="text-md text-indigo-700">
-                Join <NumberTicker value={count + 295} className="font-extrabold text-indigo-700" /> others on the waitlist
+                Join over <NumberTicker value={400} className="font-extrabold text-indigo-700" /> others on the waitlist!
               </p>
             </motion.div>
 
