@@ -30,7 +30,11 @@ export function JitsiForm() {
 
     const result: GenerateJitsiLinkResult = await generateJitsiLink(formData)
     if (result.success && result.link) { // Ensure `result.link` is defined
-      router.push(`/result?link=${encodeURIComponent(result.link)}`)
+      router.push(
+        `/result?link=${encodeURIComponent(result.link)}&date=${encodeURIComponent(
+          startDate
+        )}&time=${encodeURIComponent(startTime)}`
+      )
     } else {
       alert(result.error || "Error generating link. Please try again.")
     }
