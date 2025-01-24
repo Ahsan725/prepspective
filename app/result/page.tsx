@@ -61,11 +61,11 @@ export default async function ResultPage(
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button className="text-xl px-6 py-3">Join Mock Interview</Button>
+          <Button className="text-xl px-6 py-3">Join the Interview</Button>
         </a>
 
         {formattedDate && formattedTime && (
-          <p className="mt-6 text-indigo-700 font-semibold text-lg">
+          <p className="mt-6 text-indigo-700 font-semibold text-sm">
             {formattedDate} <span className="text-black font-light"> at </span>
             {formattedTime}
           </p>
@@ -79,7 +79,7 @@ export default async function ResultPage(
 
       <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
         <section className="bg-indigo-50 p-6 rounded-lg shadow-md flex-1">
-          <h2 className="text-xl text-gray-400 font-bold mb-4">How to Get the Best Out of Your Mock Interview</h2>
+          <h2 className="text-xl text-gray-600 font-bold mb-4">How to Get the Best Out of Your Mock Interview</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-700 text-sm">
             <li><strong>Take it seriously.</strong> Treat this as if it is a real technical interview.</li>
             <li>
@@ -110,7 +110,7 @@ export default async function ResultPage(
         </section>
 
         <section className="bg-indigo-50 p-6 rounded-lg shadow-md flex-1">
-          <h2 className="text-xl text-gray-400 font-bold mb-4">How the Pairing Works</h2>
+          <h2 className="text-xl text-gray-600 font-bold mb-4">How the Pairing Works</h2>
           <p className="text-gray-700 text-sm">
             Our goal is to match you with a <strong>mentor</strong> who has experience interviewing at top tech
             companies. However, if there is a shortage of mentors, you will be paired with a <strong>peer</strong>. A
