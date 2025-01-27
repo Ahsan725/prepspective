@@ -1,8 +1,8 @@
 import { sql } from 'drizzle-orm';
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { boolean, integer, pgTable, text } from 'drizzle-orm/pg-core';
 
 // Users table
-export const usersTable = sqliteTable('users', {
+export const usersTable = pgTable('users', {
   id: integer('id').primaryKey(),
   name: text('name').notNull(),
   age: integer('age').notNull(),
@@ -10,7 +10,7 @@ export const usersTable = sqliteTable('users', {
 });
 
 // Posts table
-export const postsTable = sqliteTable('posts', {
+export const postsTable = pgTable('posts', {
   id: integer('id').primaryKey(),
   title: text('title').notNull(),
   content: text('content').notNull(),
@@ -27,25 +27,25 @@ export const postsTable = sqliteTable('posts', {
 });
 
 // Waitlist table
-export const waitlistTable = sqliteTable('waitlist', {
+export const waitlistTable = pgTable('waitlist', {
   id: integer('id').primaryKey().notNull(),
   email: text('email').notNull().unique(),
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`).notNull(), // Fix default value to store actual timestamp
 });
 
-export const interviewsTable = sqliteTable('interviews', {
+export const interviewsTable = pgTable('interviews', {
   id: integer('id').primaryKey(),
   company: text('company').notNull(),
   interviewDate: text('interview_date').notNull(),
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`).notNull(),
   updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`).notNull().$onUpdate(() => sql`CURRENT_TIMESTAMP`),
   overallExperience: text('overall_experience'),
-  jobOffer: integer('job_offer', { mode: 'boolean' }).default(false),
+  jobOffer: boolean('job_offer').default(false),
   level: text('level').default('Not Provided Yet').notNull(),
   role: text('role').default('Not Provided').notNull(), // New required field
 });
 
-export const roundsTable = sqliteTable('rounds', {
+export const roundsTable = pgTable('rounds', {
   id: integer('id').primaryKey(),
   interviewId: integer('interview_id').references(() => interviewsTable.id, { onDelete: 'cascade' }),
   roundType: text('round_type').notNull(),
@@ -53,14 +53,14 @@ export const roundsTable = sqliteTable('rounds', {
   experience: text('experience'),
 });
 
-export const ratingsTable = sqliteTable('ratings', {
+export const ratingsTable = pgTable('ratings', {
   id: integer('id').primaryKey(),
   interviewId: integer('interview_id').references(() => interviewsTable.id, { onDelete: 'cascade' }),
   category: text('category').notNull(),
   score: integer('score').notNull(),
 });
 
-export const questionsTable = sqliteTable('questions', {
+export const questionsTable = pgTable('questions', {
   id: integer('id').primaryKey(),
   interviewId: integer('interview_id').references(() => interviewsTable.id, { onDelete: 'cascade' }),
   type: text('type').notNull(),
