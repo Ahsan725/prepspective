@@ -1,0 +1,138 @@
+[
+  {
+    "title": "Valid Anagram",
+    "link": "https://leetcode.com/problems/valid-anagram/",
+    "difficulty": "Easy",
+    "videoLink": "https://www.youtube.com/embed/9UtInBqnCgA"
+    ,"completed": false
+    ,"id": 242
+  },
+  {
+    "title": "Group Anagrams",
+    "link": "https://leetcode.com/problems/group-anagrams/",
+    "difficulty": "Medium",
+    "videoLink": "https://www.youtube.com/embed/vzdNOK2oB2E"
+    ,"completed": false
+    ,"id": 49
+  },
+  {
+    "title": "Valid Parentheses",
+    "link": "https://leetcode.com/problems/valid-parentheses/",
+    "difficulty": "Easy",
+    "videoLink": "https://www.youtube.com/embed/WTzjTskDFMg"
+    ,"completed": false
+    ,"id": 20
+  },
+  {
+    "title": "Valid Palindrome",
+    "link": "https://leetcode.com/problems/valid-palindrome/",
+    "difficulty": "Easy",
+    "videoLink": "https://www.youtube.com/embed/jJXJ16kPFWg"
+    ,"completed": false
+    ,"id": 125
+  },
+  {
+    "title": "Encode and Decode Strings (LeetCode Premium)",
+    "link": "https://leetcode.com/problems/encode-and-decode-strings/",
+    "difficulty": "Medium",
+    "videoLink": "https://www.youtube.com/embed/B1k_sxOSgv8"
+    ,"completed": false
+    ,"id": 271
+  },
+  {
+    "title": "Maximum Depth of Binary Tree",
+    "link": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+    "difficulty": "Easy",
+    "videoLink": "https://www.youtube.com/embed/hTM3phVI6YQ"
+    ,"completed": false
+    ,"id": 104
+  },
+  {
+    "title": "Same Tree",
+    "link": "https://leetcode.com/problems/same-tree/",
+    "difficulty": "Easy",
+    "videoLink": "https://www.youtube.com/embed/ySDDslG8wws"
+    ,"completed": false
+    ,"id": 100
+  },
+  {
+    "title": "Invert/Flip Binary Tree",
+    "link": "https://leetcode.com/problems/invert-binary-tree/",
+    "difficulty": "Easy",
+    "videoLink": "https://www.youtube.com/embed/OnSn2XEQ4MY"
+    ,"completed": false
+    ,"id": 226
+  },
+  {
+    "title": "Binary Tree Maximum Path Sum",
+    "link": "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
+    "difficulty": "Hard",
+    "videoLink": "https://www.youtube.com/embed/Hr5cWUld4vU",
+    "completed": false
+    ,"id": 124
+  },
+  {
+    "title": "Binary Tree Level Order Traversal",
+    "link": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+    "difficulty": "Medium",
+    "videoLink": "https://www.youtube.com/embed/6ZnyEApgFYg"
+    ,"completed": false
+    ,"id": 102
+  },
+  {
+    "title": "Serialize and Deserialize Binary Tree",
+    "link": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
+    "difficulty": "Hard",
+    "videoLink": "https://www.youtube.com/embed/u4JAi2JJhI8"
+    ,"completed": false
+    ,"id": 297
+  },
+  {
+    "title": "Subtree of Another Tree",
+    "link": "https://leetcode.com/problems/subtree-of-another-tree/",
+    "difficulty": "Easy",
+    "videoLink": "https://www.youtube.com/embed/E36O5SWp-LE"
+    ,"completed": false
+    ,"id": 572
+  },
+  {
+    "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+    "link": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/",
+    "difficulty": "Medium",
+    "videoLink": "https://www.youtube.com/embed/aZNaLrVebKQ"
+    ,"completed": false
+    ,"id": 105
+  },
+  {
+    "title": "Validate Binary Search Tree",
+    "link": "https://leetcode.com/problems/validate-binary-search-tree/",
+    "difficulty": "Medium",
+    "videoLink": "https://www.youtube.com/embed/s6ATEkipzow"
+    ,"completed": false
+    ,"id": 98
+  },
+  {
+    "title": "Kth Smallest Element in a BST",
+    "link": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
+    "difficulty": "Medium",
+    "videoLink": "https://www.youtube.com/embed/5LUXSvjmGCw"
+    ,"completed": false
+    ,"id": 230
+  },
+  {
+    "title": "Lowest Common Ancestor of a BST",
+    "link": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
+    "difficulty": "Medium",
+    "videoLink": "https://www.youtube.com/embed/cX_kPV_foZc"
+    ,"completed": false
+    ,"id": 235
+  },
+  {
+    "title": "Implement Trie (Prefix Tree)",
+    "link": "https://leetcode.com/problems/implement-trie-prefix-tree/",
+    "difficulty": "Medium",
+    "videoLink": "https://www.youtube.com/embed/K5E2AVpwsko"
+    ,"completed": false
+    ,"id": 208
+  }
+  ]

@@ -29,7 +29,7 @@ You will grade the following response to this specific interview question: "${qu
 
 Analyze the interview response critically and focus on identifying areas for growth and improvement. Return the result in the following **strict JSON format**:
 {
-  "overallScore": number (1-10),
+  "overallScore": number (1-5),
   "strengths": string[],
   "areasToImprove": string[],
   "detailedFeedback": string

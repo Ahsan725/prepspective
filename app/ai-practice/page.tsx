@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,9 +7,25 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
-import { CheckCircle, AlertCircle, Loader2, Mic, XCircle, Star, Code, Users } from 'lucide-react'
+import { 
+  CheckCircle, 
+  AlertCircle, 
+  Loader2, 
+  Mic, 
+  XCircle, 
+  Star, 
+  Code, 
+  Users,
+  Save,
+  History,
+  RefreshCw,
+  BookOpen,
+  Timer,
+  Award
+} from 'lucide-react'
 import { softwareQuestions } from './data/softwareQuestions'
 import { behavioralQuestions } from './data/behavioralQuestions'
 
@@ -73,6 +88,15 @@ interface FeedbackData {
   detailedFeedback: string;
 }
 
+interface InterviewSession {
+  id: string;
+  date: string;
+  mode: 'software' | 'behavioral';
+  question: string;
+  transcript: string;
+  feedback: FeedbackData;
+}
+
 const VoiceRecorder: React.FC = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [transcript, setTranscript] = useState('')
@@ -89,6 +113,13 @@ const VoiceRecorder: React.FC = () => {
   const [feedback, setFeedback] = useState<FeedbackData | null>(null)
   const [mode, setMode] = useState<'software' | 'behavioral' | null>(null)
   const [currentQuestion, setCurrentQuestion] = useState<string | null>(null)
+  const [sessions, setSessions] = useState<InterviewSession[]>([])
+  const [showHistory, setShowHistory] = useState(false)
+  const [practiceCount, setPracticeCount] = useState(0)
+  const [averageScore, setAverageScore] = useState(0)
+  const [showTips, setShowTips] = useState(false)
+  const [countdownStarted, setCountdownStarted] = useState(false)
+  const [countdown, setCountdown] = useState(3)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const accumulatedTranscript = useRef('') // Ref to accumulate the transcript
 
@@ -115,6 +146,55 @@ const VoiceRecorder: React.FC = () => {
       clearTimeout(timer)
     }
   }, [])
+
+  // Load practice statistics on mount
+  useEffect(() => {
+    const savedSessions = localStorage.getItem('interviewSessions')
+    if (savedSessions) {
+      const parsedSessions = JSON.parse(savedSessions)
+      setSessions(parsedSessions)
+      setPracticeCount(parsedSessions.length)
+      
+      const totalScore = parsedSessions.reduce((acc: number, session: InterviewSession) => 
+        acc + session.feedback.overallScore, 0)
+      setAverageScore(totalScore / parsedSessions.length)
+    }
+  }, [])
+
+  // Save session after feedback
+  useEffect(() => {
+    if (feedback && approvedTranscript && currentQuestion && mode) {
+      const newSession: InterviewSession = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        mode,
+        question: currentQuestion,
+        transcript: approvedTranscript,
+        feedback
+      }
+      
+      const updatedSessions = [...sessions, newSession]
+      setSessions(updatedSessions)
+      localStorage.setItem('interviewSessions', JSON.stringify(updatedSessions))
+      setPracticeCount(updatedSessions.length)
+      
+      const totalScore = updatedSessions.reduce((acc, session) => 
+        acc + session.feedback.overallScore, 0)
+      setAverageScore(totalScore / updatedSessions.length)
+    }
+  }, [feedback])
+
+  // Countdown timer for recording preparation
+  useEffect(() => {
+    if (countdownStarted && countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000)
+      return () => clearTimeout(timer)
+    } else if (countdownStarted && countdown === 0) {
+      setCountdownStarted(false)
+      setCountdown(3)
+      startRecording()
+    }
+  }, [countdown, countdownStarted])
 
   // Function to select random question based on mode
   const selectRandomQuestion = (selectedMode: 'software' | 'behavioral') => {
@@ -232,6 +312,10 @@ const VoiceRecorder: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasMicrophoneAccess])
 
+  const handleStartRecording = () => {
+    setCountdownStarted(true)
+  }
+
   const startRecording = () => {
     if (recognition) {
       accumulatedTranscript.current = '' // Reset the accumulated transcript
@@ -293,19 +377,78 @@ const VoiceRecorder: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col p-4">
-      {/* Video Banner */}
-      <div className="flex justify-center items-center w-full h-auto my-8">
-        <div className="w-[150px] h-[150px] flex justify-center items-center overflow-hidden">
-          <video
-            src="https://cdn.dribbble.com/userupload/17608183/file/original-a9b30b0413131d806620dc5db95c99f1.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-          />
+    <div className="min-h-screen flex flex-col p-4 bg-gray-50">
+      {/* Header with Statistics */}
+      <div className="w-full max-w-6xl mx-auto mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+            <CardContent className="flex items-center justify-between p-6">
+              <div>
+                <p className="text-lg font-semibold">Practice Sessions</p>
+                <p className="text-3xl font-bold">{practiceCount}</p>
+              </div>
+              <Award className="h-12 w-12 opacity-80" />
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white">
+            <CardContent className="flex items-center justify-between p-6">
+              <div>
+                <p className="text-lg font-semibold">Average Score</p>
+                <p className="text-3xl font-bold">{averageScore.toFixed(1)}/10</p>
+              </div>
+              <Star className="h-12 w-12 opacity-80" />
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-orange-500 to-red-600 text-white">
+            <CardContent className="flex items-center justify-between p-6">
+              <div>
+                <p className="text-lg font-semibold">Time Practiced</p>
+                <p className="text-3xl font-bold">{practiceCount * 60}s</p>
+              </div>
+              <Timer className="h-12 w-12 opacity-80" />
+            </CardContent>
+          </Card>
         </div>
+      </div>
+
+      {/* Quick Tips Button */}
+      <div className="w-full max-w-6xl mx-auto mb-4">
+        <Button
+          variant="outline"
+          onClick={() => setShowTips(!showTips)}
+          className="flex items-center gap-2"
+        >
+          <BookOpen className="h-4 w-4" />
+          {showTips ? 'Hide Tips' : 'Show Interview Tips'}
+        </Button>
+        
+        {showTips && (
+          <Card className="mt-4 bg-gradient-to-r from-blue-50 to-indigo-50">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold mb-4">Quick Interview Tips</h3>
+              <ul className="space-y-2">
+                <li className="flex items-start gap-2">
+                  <div className="mt-1 flex-shrink-0">•</div>
+                  <p>Structure your answers using the STAR method (Situation, Task, Action, Result)</p>
+                </li>
+                <li className="flex items-start gap-2">
+                  <div className="mt-1 flex-shrink-0">•</div>
+                  <p>Speak clearly and at a moderate pace</p>
+                </li>
+                <li className="flex items-start gap-2">
+                  <div className="mt-1 flex-shrink-0">•</div>
+                  <p>Use specific examples to support your points</p>
+                </li>
+                <li className="flex items-start gap-2">
+                  <div className="mt-1 flex-shrink-0">•</div>
+                  <p>Keep your answers focused and relevant to the question</p>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       {/* Mode Selection */}
@@ -442,54 +585,63 @@ const VoiceRecorder: React.FC = () => {
         <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Voice Recorder Card */}
           <Card className="shadow-lg">
-            <CardHeader className="border-b">
+            <CardHeader className="border-b bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-t-lg">
               <CardTitle className="text-2xl flex items-center">
-                <Mic className="h-6 w-6 mr-2 text-indigo-600" />
+                <Mic className="h-6 w-6 mr-2" />
                 Voice Recorder
               </CardTitle>
-              <CardDescription className="text-gray-600">
-                Record your voice and see it transcribed to text
+              <CardDescription className="text-gray-100">
+                Record your interview response
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Listening Indicator and Timer */}
-              <div className="flex items-center justify-between text-indigo-700 px-4 py-2 rounded-lg">
+            <CardContent className="space-y-4 p-6">
+              {/* Countdown Display */}
+              {countdownStarted && (
+                <div className="flex justify-center items-center h-24">
+                  <span className="text-6xl font-bold text-indigo-600 animate-pulse">
+                    {countdown}
+                  </span>
+                </div>
+              )}
+
+              {/* Recording Status */}
+              <div className="flex items-center justify-between">
                 {isListening && (
-                  <div className="flex items-center space-x-2">
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    <span>Listening...</span>
+                  <div className="flex items-center space-x-2 text-indigo-600">
+                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                    <span className="font-medium">Recording in progress...</span>
                   </div>
                 )}
                 {isRecording && (
-                  <div className="text-sm font-semibold">
-                    Time Left: {timeLeft} sec
+                  <div className="flex items-center space-x-2">
+                    <Timer className="h-5 w-5 text-gray-600" />
+                    <span className="font-medium">{timeLeft}s remaining</span>
                   </div>
                 )}
               </div>
 
-              {/* Start/Stop Recording Button */}
+              {/* Start/Stop Button */}
               {hasMicrophoneAccess && (
-                <div className="flex justify-center">
-                  <Button
-                    variant={isRecording ? 'destructive' : 'default'}
-                    onClick={isRecording ? stopRecording : startRecording}
-                    disabled={!isSupported || isChecking}
-                    className="w-full flex items-center justify-center"
-                    aria-label={isRecording ? 'Stop recording' : 'Start recording'}
-                  >
-                    {isRecording ? (
-                      <>
-                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                        Stop Recording
-                      </>
-                    ) : (
-                      <>
-                        <Mic className="h-5 w-5 mr-2" />
-                        Start Recording
-                      </>
-                    )}
-                  </Button>
-                </div>
+                <Button
+                  variant={isRecording ? 'destructive' : 'default'}
+                  onClick={isRecording ? stopRecording : handleStartRecording}
+                  disabled={!isSupported || isChecking || countdownStarted}
+                  className="w-full h-12 text-lg"
+                >
+                  {isRecording ? (
+                    <>
+                      <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                      Stop Recording
+                    </>
+                  ) : countdownStarted ? (
+                    'Preparing to record...'
+                  ) : (
+                    <>
+                      <Mic className="h-5 w-5 mr-2" />
+                      Start Recording
+                    </>
+                  )}
+                </Button>
               )}
 
               {/* Editable Transcript */}
@@ -615,6 +767,58 @@ const VoiceRecorder: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Interview History */}
+      <div className="w-full max-w-6xl mx-auto mt-8">
+        <Button
+          variant="outline"
+          onClick={() => setShowHistory(!showHistory)}
+          className="flex items-center gap-2 mb-4"
+        >
+          <History className="h-4 w-4" />
+          {showHistory ? 'Hide History' : 'Show Interview History'}
+        </Button>
+        
+        {showHistory && (
+          <div className="space-y-4">
+            {sessions.map((session) => (
+              <Card key={session.id} className="shadow-sm">
+                <CardHeader className="pb-2">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <CardTitle className="text-lg">
+                        {session.mode === 'software' ? 'Software Engineering' : 'Behavioral'} Interview
+                      </CardTitle>
+                      <CardDescription>
+                        {new Date(session.date).toLocaleDateString()}
+                      </CardDescription>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl font-bold text-indigo-600">
+                        {session.feedback.overallScore}/10
+                      </span>
+                    </div>
+                   </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <p className="font-medium">Question:</p>
+                    <p className="text-gray-600">{session.question}</p>
+                    <p className="font-medium mt-4">Your Response:</p>
+                    <p className="text-gray-600">{session.transcript}</p>
+                  </div>
+                </CardContent>
+                <CardFooter className="bg-gray-50">
+                  <div className="w-full">
+                    <p className="font-medium text-sm text-gray-600">Key Feedback:</p>
+                    <p className="text-sm mt-1">{session.feedback.detailedFeedback}</p>
+                  </div>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

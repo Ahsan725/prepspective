@@ -1,0 +1,22 @@
+export const behavioralQuestions = [
+    "Tell me about a time when you had to deal with a difficult team member.",
+    "Describe a project that failed and what you learned from it.",
+    "How do you handle tight deadlines and pressure?",
+    "Tell me about a time you had to learn a new technology quickly.",
+    "Describe a situation where you had to make a difficult decision.",
+    "Tell me about a time you received constructive criticism.",
+    "How do you prioritize tasks when you have multiple deadlines?",
+    "Describe a situation where you showed leadership.",
+    "Tell me about a time you went above and beyond for a project.",
+  "How do you handle disagreements with team members?",
+    "Tell me about a time when you had to overcome a significant challenge or setback. How did you navigate the situation?",
+  "Describe a situation where you had to adapt quickly to a major change at work. What steps did you take?",
+  "Can you share an experience where you encountered conflict within your team? How did you resolve it?",
+  "Tell me about a time when you had to make a critical decision with limited information. What was the outcome?",
+  "Describe a scenario where you failed to meet a deadline or goal. How did you handle the aftermath and what did you learn?",
+  "Tell me about a time when you took a calculated risk in your career. What motivated you and what was the result?",
+  "Describe a situation where you had to influence or persuade someone without having formal authority. How did you achieve buy-in?",
+  "Can you share an experience where you received critical feedback? How did you process and act upon it?",
+  "Tell me about a project or situation where you collaborated with a diverse group of people. What challenges did you face, and how did you overcome them?",
+  "How do you handle high-pressure situations? Provide a specific example where you managed stress effectively."
+  ];

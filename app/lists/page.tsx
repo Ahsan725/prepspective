@@ -1,0 +1,683 @@
+"use client";
+
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Video, Search, X, Maximize2, Minimize2 } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  Tooltip as RechartsTooltip,
+  ResponsiveContainer,
+  Sector,
+} from "recharts";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+
+// Define the Problem type
+type Problem = {
+  id: number; // Unique identifier
+  title: string;
+  link: string;
+  difficulty: "Easy" | "Medium" | "Hard";
+  completed: boolean;
+  videoLink?: string;
+};
+
+// Define the shape of the data for the custom active shape
+type ActiveShapeProps = {
+  cx: number;
+  cy: number;
+  innerRadius: number;
+  outerRadius: number;
+  startAngle: number;
+  endAngle: number;
+  fill: string;
+  payload: { name: string; value: number };
+  percent: number;
+  value: number;
+};
+
+// Custom Active Shape Function
+const CustomActiveShape = (props: any): JSX.Element => {
+  // Cast the incoming props to ActiveShapeProps for type safety
+  const {
+    cx,
+    cy,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    percent,
+    value,
+  } = props as ActiveShapeProps;
+
+  const RADIAN = Math.PI / 180;
+  // Calculate the position for the label
+  const sin = Math.sin((-RADIAN * (startAngle + endAngle)) / 2);
+  const cos = Math.cos((-RADIAN * (startAngle + endAngle)) / 2);
+  const sx = cx + (outerRadius + 10) * cos;
+  const sy = cy + (outerRadius + 10) * sin;
+  const mx = cx + (outerRadius + 30) * cos;
+  const my = cy + (outerRadius + 30) * sin;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+  const ey = my;
+  const textAnchor = cos >= 0 ? "start" : "end";
+
+  return (
+    <g>
+      {/* Expanded Sector */}
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius + 10} // Expand the active slice
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
+      {/* Connector Line */}
+      <path
+        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+        stroke={fill}
+        fill="none"
+      />
+      {/* Dot at the end of the connector */}
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      {/* Label */}
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        textAnchor={textAnchor}
+        fill="#333">
+        {`${payload.name} (${value})`}
+      </text>
+    </g>
+  );
+};
+
+export default function Home() {
+  const [data, setData] = useState<Problem[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [filter, setFilter] = useState<"all" | "Easy" | "Medium" | "Hard">(
+    "all"
+  );
+  const [selectedList, setSelectedList] = useState<string>("list2");
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [error, setError] = useState<string | null>(null); // Error state
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  // Fetch data when selectedList changes
+  useEffect(() => {
+    fetch(`/${selectedList}.json`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((json: Problem[]) => {
+        setData(json);
+        setError(null); // Reset error on successful fetch
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Failed to load problems. Please try again later.");
+      });
+  }, [selectedList]);
+
+  // Memoize filtered data based on searchTerm and filter
+  const filteredData = useMemo(() => {
+    return data
+      .filter((item) =>
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .filter((item) => filter === "all" || item.difficulty === filter);
+  }, [data, searchTerm, filter]);
+
+  const displayData = useMemo(() => {
+    return filteredData;
+  }, [filteredData]);
+
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (event.key === "x") {
+      setActiveVideo(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Add event listener for the 'x' key
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
+  // Compute total and completed per difficulty
+  const totalEasy = data.filter((item) => item.difficulty === "Easy").length;
+  const totalMedium = data.filter(
+    (item) => item.difficulty === "Medium"
+  ).length;
+  const totalHard = data.filter((item) => item.difficulty === "Hard").length;
+
+  const easyCompleted = data.filter(
+    (item) => item.difficulty === "Easy" && item.completed
+  ).length;
+  const mediumCompleted = data.filter(
+    (item) => item.difficulty === "Medium" && item.completed
+  ).length;
+  const hardCompleted = data.filter(
+    (item) => item.difficulty === "Hard" && item.completed
+  ).length;
+
+  const getBadgeColor = (difficulty: "Easy" | "Medium" | "Hard") => {
+    switch (difficulty) {
+      case "Easy":
+        return "bg-emerald-200 text-emerald-800 border-emerald-200";
+      case "Medium":
+        return "bg-amber-200 text-amber-800 border-amber-200";
+      case "Hard":
+        return "bg-rose-200 text-rose-800 border-rose-200";
+      default:
+        return "bg-slate-100 text-slate-800 border-slate-200";
+    }
+  };
+
+  // Data for the radial chart (concentric circles with completed vs total)
+  const chartDataEasy = useMemo(
+    () => [
+      { name: "Completed", value: easyCompleted },
+      { name: "Remaining", value: totalEasy - easyCompleted },
+    ],
+    [easyCompleted, totalEasy]
+  );
+
+  const chartDataMedium = useMemo(
+    () => [
+      { name: "Completed", value: mediumCompleted },
+      { name: "Remaining", value: totalMedium - mediumCompleted },
+    ],
+    [mediumCompleted, totalMedium]
+  );
+
+  const chartDataHard = useMemo(
+    () => [
+      { name: "Completed", value: hardCompleted },
+      { name: "Remaining", value: totalHard - hardCompleted },
+    ],
+    [hardCompleted, totalHard]
+  );
+
+  const COLORS = {
+    Remaining: "#EDF1FF", // Light Gray for Remaining
+  };
+
+  // Define colors per difficulty for the completed part
+  const DIFFICULTY_COLORS = {
+    Easy: "#6EE7B7", // Green
+    Medium: "#FDE046", // Orange
+    Hard: "#F77171", // Red
+  };
+
+  // Toggle the completed status of a problem based on id
+  const toggleCompleted = useCallback((id: number, completed: boolean) => {
+    setData((prevData) =>
+      prevData.map((problem) =>
+        problem.id === id ? { ...problem, completed } : problem
+      )
+    );
+  }, []);
+
+  // Handler for when a slice is hovered
+  const onPieEnter = useCallback((_: any, index: number) => {
+    // You can implement hover effects here if needed
+  }, []);
+
+  return (
+    <>
+      <div className="overflow-hidden bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 dark:bg-slate-900">
+        <main className="w-full h-full p-2">
+          <div className="flex flex-col md:flex-row gap-2 h-full">
+            {/* Left Column: Top Two Cards */}
+            <div className="w-full md:w-1/6 h-full md:h-[calc(100vh-6rem)] overflow-auto">
+              {/* Problem Sets Card */}
+              <Card className="w-full p-2 flex-shrink-0 px-2 py-2 mb-4 border-none shadow-none">
+                <CardHeader>
+                  <CardTitle className="text-center">
+                    <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-xs lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
+                      CURATED LISTS
+                    </h2>
+                    <p className="text-xl md:text-4xl text-center font-bold mb-4">
+                      Study Lists
+                    </p>
+                  </CardTitle>
+                  <p className="text-sm text-gray-600">
+                    Total Problems: {data.length}
+                  </p>
+                </CardHeader>
+                <CardContent className="py-1 px-1">
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      variant={selectedList === "list1" ? "default" : "outline"}
+                      onClick={() => setSelectedList("list1")}
+                      className="text-sm">
+                      Blind 75
+                    </Button>
+                    <Button
+                      variant={selectedList === "list2" ? "default" : "outline"}
+                      onClick={() => setSelectedList("list2")}
+                      className="text-sm">
+                      FAANG 400
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Your Progress Card with Radial Chart */}
+              <Card className="w-full p-2 flex-grow px-4 py-2 border-none pt-0 shadow-none mb-0">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-bold text-gray-600">
+                    Your Progress
+                  </CardTitle>
+                  <CardDescription className="text-sm text-gray-600">
+                    Track your problem-solving journey
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="py-2 px-1 flex flex-col h-full">
+                  <div className="grid grid-cols-3 gap-2 mb-2">
+                    <div className="bg-emerald-300 p-1 rounded-lg text-center">
+                      <p className="text-3xl font-bold text-black">
+                        {easyCompleted}
+                      </p>
+                      <p className="text-xs text-black">Easy</p>
+                    </div>
+                    <div className="bg-yellow-300 p-1 rounded-lg text-center">
+                      <p className="text-3xl font-bold text-black">
+                        {mediumCompleted}
+                      </p>
+                      <p className="text-xs text-black">Medium</p>
+                    </div>
+                    <div className="bg-red-400 p-1 rounded-lg text-center">
+                      <p className="text-3xl font-bold text-black">
+                        {hardCompleted}
+                      </p>
+                      <p className="text-xs text-black">Hard</p>
+                    </div>
+                  </div>
+                  {/* Radial Chart with Concentric Circles */}
+                  <div className="w-full h-48 flex-grow">
+                    <ResponsiveContainer>
+                      <PieChart>
+                        {/* Easy - Outermost Ring */}
+                        <Pie
+                          data={chartDataEasy}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={65}
+                          outerRadius={80}
+                          paddingAngle={1}
+                          startAngle={90}
+                          endAngle={-270}
+                          isAnimationActive={true}
+                          animationDuration={1500}
+                          onMouseEnter={onPieEnter}>
+                          {chartDataEasy.map((entry, index) => (
+                            <Cell
+                              key={`cell-easy-${index}`}
+                              fill={
+                                entry.name === "Completed"
+                                  ? DIFFICULTY_COLORS.Easy
+                                  : COLORS.Remaining
+                              }
+                            />
+                          ))}
+                        </Pie>
+
+                        {/* Medium - Middle Ring */}
+                        <Pie
+                          data={chartDataMedium}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={45}
+                          outerRadius={60}
+                          paddingAngle={1}
+                          startAngle={90}
+                          endAngle={-270}
+                          isAnimationActive={true}
+                          animationDuration={1500}
+                          onMouseEnter={onPieEnter}>
+                          {chartDataMedium.map((entry, index) => (
+                            <Cell
+                              key={`cell-medium-${index}`}
+                              fill={
+                                entry.name === "Completed"
+                                  ? DIFFICULTY_COLORS.Medium
+                                  : COLORS.Remaining
+                              }
+                            />
+                          ))}
+                        </Pie>
+
+                        {/* Hard - Innermost Ring */}
+                        <Pie
+                          data={chartDataHard}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={25}
+                          outerRadius={40}
+                          paddingAngle={1}
+                          startAngle={90}
+                          endAngle={-270}
+                          isAnimationActive={true}
+                          animationDuration={1500}
+                          onMouseEnter={onPieEnter}>
+                          {chartDataHard.map((entry, index) => (
+                            <Cell
+                              key={`cell-hard-${index}`}
+                              fill={
+                                entry.name === "Completed"
+                                  ? DIFFICULTY_COLORS.Hard
+                                  : COLORS.Remaining
+                              }
+                            />
+                          ))}
+                        </Pie>
+
+                        <RechartsTooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <Link href="/upcoming">
+                    <Button
+                      variant="outline"
+                      className="flex items-center text-sm mx-2 my-2 mt-0 justify-center shadow-none hover:shadow-none px-4 py-2 rounded-lg hover:bg-indigo-700 hover:text-white transition-colors"
+                      size="sm">
+                      Company Specific Lists
+                      <ChevronRight className="ml-2 h-4 w-4" />{" "}
+                      {/* Add the Lucide icon */}
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Right Column: Problem List */}
+            <div className="w-full md:w-4/6 overflow-auto h-[calc(100vh-6rem)]">
+              {/* Problem List Header */}
+              <Card className="border-none p-2 shadow-none flex flex-col h-full">
+                <CardHeader className="flex flex-col md:flex-row items-center justify-between gap-2">
+                  {/* Problem List Title */}
+                  <CardTitle className="text-2xl font-bold text-gray-600">
+                    Problem List
+                  </CardTitle>
+
+                  {/* Search Bar and Filter */}
+                  <div className="flex flex-col md:flex-row items-center gap-2 w-full md:w-auto">
+                    {/* Search Bar */}
+                    <div className="relative w-full md:w-80 lg:w-[30rem]">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+                      <Input
+                        placeholder="Search by title"
+                        value={searchTerm}
+                        onChange={(e) => {
+                          setSearchTerm(e.target.value);
+                        }}
+                        className="pl-10 text-sm"
+                        aria-label="Search by title"
+                      />
+                    </div>
+
+                    {/* Difficulty Filter */}
+                    <div className="w-full md:w-auto">
+                      <Select
+                        value={filter}
+                        onValueChange={(value) => {
+                          setFilter(
+                            value as "all" | "Easy" | "Medium" | "Hard"
+                          );
+                        }}
+                        aria-label="Filter by difficulty">
+                        <SelectTrigger className="text-sm">
+                          <SelectValue placeholder="Filter by difficulty" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All</SelectItem>
+                          <SelectItem value="Easy">Easy</SelectItem>
+                          <SelectItem value="Medium">Medium</SelectItem>
+                          <SelectItem value="Hard">Hard</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </CardHeader>
+
+                {/* Scrollable Content Area */}
+                <CardContent className="flex-grow overflow-y-auto">
+                  {/* Your scrollable problem list goes here */}
+                  <ul className="space-y-0">
+                    {displayData.map((item) => (
+                      <li
+                        key={item.id} // Use unique id as key
+                        className="bg-white dark:bg-slate-800 px-4 py-2 border border-slate-100 rounded-xl hover:bg-indigo-50 ml-0 mr-0">
+                        <div className="flex items-center justify-between">
+                          {/* Checkbox and Title */}
+                          <div className="flex items-center gap-3">
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <Checkbox
+                                    checked={item.completed}
+                                    onCheckedChange={(checked) =>
+                                      toggleCompleted(item.id, checked === true)
+                                    }
+                                    aria-label={`Mark ${item.title} as ${
+                                      item.completed ? "incomplete" : "complete"
+                                    }`}
+                                  />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>
+                                    {item.completed
+                                      ? "Mark as incomplete"
+                                      : "Mark as complete"}
+                                  </p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                            <h3 className="text-md font-semibold">
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-500 hover:text-indigo-600 hover:underline">
+                                {item.title}
+                              </a>
+                            </h3>
+                          </div>
+
+                          {/* Badge and Video Solution Button */}
+                          <div className="flex items-center gap-3">
+                            {/* Show only the relevant difficulty badge */}
+                            <Badge
+                              className={`px-2 py-0 rounded-2xl border ${getBadgeColor(
+                                item.difficulty
+                              )} text-sm`}>
+                              {item.difficulty}
+                            </Badge>
+
+                            {/* Video Solution Button */}
+                            {item.videoLink && (
+                              <Button
+                                variant="outline"
+                                onClick={() =>
+                                  setActiveVideo(item.videoLink || null)
+                                }
+                                className="flex items-center gap-1 hover:bg-indigo-700 hover:text-white"
+                                aria-label={`View video solution for ${item.title}`}>
+                                <Video className="h-4 w-4" />
+                                <span className="hidden sm:inline">
+                                  Solution
+                                </span>
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="w-full md:w-1/6 h-full md:h-[calc(100vh-6rem)] overflow-auto p-2">
+              <div className="space-y-4">
+                {/* Box 1 */}
+                <Link href="/upcoming">
+                  <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 mx-0 my-2">
+                    <h3 className="text-black font-bold text-lg mb-1">
+                      Upcoming Events
+                    </h3>
+                    <p className="text-black text-sm">
+                      Discover what’s coming next.
+                    </p>
+                  </div>
+                </Link>
+
+                {/* Box 3 */}
+                <Link href="/upcoming">
+                  <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4  mx-0 my-4">
+                    <h3 className="text-indigo-700 font-bold text-xl mb-1">
+                      Special Features
+                    </h3>
+                    <p className="text-black text-sm">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Sed at mauris a nibh malesuada consectetur. Quisque non
+                      justo vitae mauris vestibulum consectetur. Curabitur
+                      malesuada, nisl vitae tincidunt ultricies, urna orci
+                      varius libero, non fermentum justo massa et orci.
+                    </p>
+                  </div>
+                </Link>
+                {/* Box 2 */}
+                <Link href="/upcoming">
+                  <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4  mx-0 my-2">
+                    <h3 className="text-black font-bold text-xl mb-1">
+                      Targeting a Specific Company?
+                    </h3>
+                    <p className="text-black text-sm">
+                      Check out our company specific lists. These are questions
+                      that have been asked in interviews at top tech companies.
+                    </p>
+                  </div>
+                </Link>
+
+                {/* new ad boxes will go here*/}
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      {/* Fullscreen Video Modal */}
+      {activeVideo && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
+          <div className="fixed top-1/2 right-2 -translate-y-1/2 flex flex-col gap-2 z-50">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={toggleFullscreen}
+                    className="bg-indigo-700/50 text-white border-white/20 hover:bg-indigo-700 hover:text-white p-6 rounded-xl"
+                    aria-label={
+                      isFullscreen ? "Exit fullscreen" : "Enter fullscreen"
+                    }>
+                    {isFullscreen ? (
+                      <Minimize2 className="h-4 w-4" />
+                    ) : (
+                      <Maximize2 className="h-4 w-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setActiveVideo(null)}
+                    className="bg-indigo-700/50 text-white border-white/20 hover:bg-indigo-700 hover:text-white p-6 rounded-xl"
+                    aria-label="Close video">
+                    <X className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Close video</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+
+          <div className="w-full h-full p-1">
+            <iframe
+              src={activeVideo}
+              title="Video Solution"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full rounded"
+            />
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
