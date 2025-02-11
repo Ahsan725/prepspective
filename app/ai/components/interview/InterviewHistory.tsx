@@ -48,8 +48,8 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
     const logoData = await loadImageAsBase64("/pdflogo.png");
   
     // Style configuration
-    const indigo700 = [67, 56, 202]; // RGB for indigo-700
-    const textColor = [0, 0, 0]; // Black
+    const indigo700: [number, number, number] = [67, 56, 202];
+    const textColor: [number, number, number] = [0, 0, 0];
     const headingFontSize = 8;
     const bodyFontSize = 8;
     const titleFontSize = 12;
