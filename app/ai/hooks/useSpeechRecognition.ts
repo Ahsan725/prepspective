@@ -1,3 +1,5 @@
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
 import { useEffect, useRef, useState } from 'react';
 
 export const useSpeechRecognition = () => {

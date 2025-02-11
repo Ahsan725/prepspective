@@ -1,3 +1,5 @@
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
 'use client'
 import React from 'react';
 import { Button } from '@/components/ui/button';

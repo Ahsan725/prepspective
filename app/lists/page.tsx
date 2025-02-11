@@ -63,8 +63,7 @@ type ActiveShapeProps = {
 };
 
 // Custom Active Shape Function
-const CustomActiveShape = (props: any): JSX.Element => {
-  // Cast the incoming props to ActiveShapeProps for type safety
+const CustomActiveShape = (props: ActiveShapeProps): JSX.Element => {
   const {
     cx,
     cy,
@@ -74,9 +73,7 @@ const CustomActiveShape = (props: any): JSX.Element => {
     endAngle,
     fill,
     payload,
-    percent,
-    value,
-  } = props as ActiveShapeProps;
+  } = props;
 
   const RADIAN = Math.PI / 180;
   // Calculate the position for the label
@@ -116,7 +113,7 @@ const CustomActiveShape = (props: any): JSX.Element => {
         y={ey}
         textAnchor={textAnchor}
         fill="#333">
-        {`${payload.name} (${value})`}
+        {`${payload.name} (${payload.value})`}
       </text>
     </g>
   );
@@ -267,7 +264,7 @@ export default function Home() {
   }, []);
 
   // Handler for when a slice is hovered
-  const onPieEnter = useCallback((_: any, index: number) => {
+  const onPieEnter = useCallback((_: unknown, index: number) => {
     // You can implement hover effects here if needed
   }, []);
 

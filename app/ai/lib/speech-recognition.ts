@@ -1,3 +1,5 @@
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
 export class SpeechRecognition extends EventTarget {
   continuous: boolean = false;
   interimResults: boolean = false;
