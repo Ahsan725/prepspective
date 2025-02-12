@@ -113,15 +113,18 @@ export default function ModernHero() {
             </motion.div>
 
             {/* Animated Main Content */}
-            <div className="space-y-4">
-              <motion.h1
-                className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-indigo-800 via-indigo-600 to-purple-700 bg-clip-text text-transparent"
-                initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
-                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 1, delay: 0.4 }}
-              >
-                Your Competitive Advantage in Tech Interviews.
-              </motion.h1>
+            <div className="">
+            <motion.h1
+  className="text-4xl leading-normal font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-8xl bg-gradient-to-b from-indigo-700 via-indigo-500 to-indigo-800 bg-clip-text text-transparent"
+  style={{ fontFamily: 'Segoe' }}
+  initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
+  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+  transition={{ duration: 1, delay: 0.4 }}
+>
+  Walk in Ready. <br />
+  Walk Out Hired.
+</motion.h1>
+
               <motion.p
                 className="text-lg lg:text-2xl text-gray-500 max-w-2xl mx-auto"
                 initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
