@@ -1,88 +1,88 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { ArrowRight } from 'lucide-react'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { useToast } from '@/hooks/use-toast'
-import NumberTicker from './number-ticker'
-import Image from 'next/image'
-import FluidCursor from "@/components/ui/fluidCursor"
-import styles from '@/components/modern-hero.module.css'
-import { motion } from 'framer-motion'
+import { useState, useEffect } from "react";
+import { ArrowRight } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import NumberTicker from "./number-ticker";
+import Image from "next/image";
+import FluidCursor from "@/components/ui/fluidCursor";
+import styles from "@/components/modern-hero.module.css";
+import { motion } from "framer-motion";
 
 export default function ModernHero() {
-  const [email, setEmail] = useState('')
-  const [count, setCount] = useState(0)
-  const { toast } = useToast()
+  const [email, setEmail] = useState("");
+  const [count, setCount] = useState(0);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const response = await fetch('/api/waitlist-count', { method: 'GET' })
-        const data = await response.json()
+        const response = await fetch("/api/waitlist-count", { method: "GET" });
+        const data = await response.json();
         if (response.ok) {
-          setCount(data.count || 0)
+          setCount(data.count || 0);
         }
       } catch (error) {
-        console.error('Failed to fetch waitlist count:', error)
+        console.error("Failed to fetch waitlist count:", error);
       }
-    }
+    };
 
-    fetchCount()
-  }, [])
+    fetchCount();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      const response = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
       if (response.ok) {
-        setCount(data.count)
-        setEmail('')
+        setCount(data.count);
+        setEmail("");
         toast({
           title: `Success, You're in!`,
           description: `The cool kids are waiting for you. Don't go too far, we'll be in touch soon.`,
-        })
+        });
       } else {
         toast({
           title: "Uh oh! Something went wrong.",
           description: `We're not saying it's wrong, but the system is squinting.`,
-        })
+        });
       }
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'An error occurred. Please try again.',
-      })
+        title: "Error",
+        description: "An error occurred. Please try again.",
+      });
     }
-  }
+  };
 
   const clients = [
-    { name: 'Google', src: '/google.png' },
-    { name: 'Amazon', src: '/amazon.png' },
-    { name: 'American Express', src: '/amex.png' },
-    { name: 'Apple', src: '/apple.png' },
-    { name: 'Datadog', src: '/datadog.png' },
-    { name: 'Discord', src: '/discord.png' },
-    { name: 'Figma', src: '/figma.png' },
-    { name: 'LinkedIn', src: '/linkedin.png' },
-    { name: 'Lyft', src: '/lyft.png' },
-    { name: 'Meta', src: '/meta.png' },
-    { name: 'Microsoft', src: '/microsoft.png' },
-    { name: 'Netflix', src: '/netflix.png' },
-    { name: 'Salesforce', src: '/salesforce.png' },
-    { name: 'Spotify', src: '/spotify.png' },
-    { name: 'TikTok', src: '/tiktok.png' },
-    { name: 'Uber', src: '/uber.png' },
-  ]
+    { name: "Google", src: "/google.png" },
+    { name: "Amazon", src: "/amazon.png" },
+    { name: "American Express", src: "/amex.png" },
+    { name: "Apple", src: "/apple.png" },
+    { name: "Datadog", src: "/datadog.png" },
+    { name: "Discord", src: "/discord.png" },
+    { name: "Figma", src: "/figma.png" },
+    { name: "LinkedIn", src: "/linkedin.png" },
+    { name: "Lyft", src: "/lyft.png" },
+    { name: "Meta", src: "/meta.png" },
+    { name: "Microsoft", src: "/microsoft.png" },
+    { name: "Netflix", src: "/netflix.png" },
+    { name: "Salesforce", src: "/salesforce.png" },
+    { name: "Spotify", src: "/spotify.png" },
+    { name: "TikTok", src: "/tiktok.png" },
+    { name: "Uber", src: "/uber.png" },
+  ];
 
   return (
     <>
@@ -105,8 +105,7 @@ export default function ModernHero() {
               className="bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium text-indigo-600 inline-flex items-center gap-2 mx-auto border-2 border-indigo-500"
               initial={{ y: -50, opacity: 0, filter: "blur(10px)" }}
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1, delay: 0.2 }}
-            >
+              transition={{ duration: 1, delay: 0.1 }}>
               <p className="text-xs lg:text-sm font-bold text-indigo-600 uppercase tracking-wide">
                 THE BEST INTERVIEW PREP PLATFORM IN THE WORLD!
               </p>
@@ -114,24 +113,24 @@ export default function ModernHero() {
 
             {/* Animated Main Content */}
             <div className="">
-            <motion.h1
-  className="text-4xl leading-normal font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-8xl bg-gradient-to-b from-indigo-700 via-indigo-500 to-indigo-800 bg-clip-text text-transparent"
-  style={{ fontFamily: 'Segoe' }}
-  initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
-  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-  transition={{ duration: 1, delay: 0.4 }}
->
-  Walk in Ready. <br />
-  Walk Out Hired.
-</motion.h1>
+              <motion.h1
+                className="text-4xl leading-normal font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-8xl bg-gradient-to-b from-indigo-700 via-indigo-400 to-indigo-800 bg-clip-text text-transparent"
+                style={{ fontFamily: "Segoe" }}
+                initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
+                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 1, delay: 0.2 }}>
+                Walk in Ready. <br />
+                Walk Out Hired.
+              </motion.h1>
 
               <motion.p
                 className="text-lg lg:text-2xl text-gray-500 max-w-2xl mx-auto"
                 initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
                 animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 1, delay: 0.6 }}
-              >
-                The only interview prep platform you&rsquo;ll ever need. We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
+                transition={{ duration: 1, delay: 0.6 }}>
+                The only interview prep platform you&rsquo;ll ever need.
+                We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s{" "}
+                <em>pretty</em> close.
               </motion.p>
             </div>
 
@@ -140,9 +139,10 @@ export default function ModernHero() {
               className="w-full max-w-md space-y-4 mx-auto"
               initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1, delay: 0.8 }}
-            >
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+              transition={{ duration: 1, delay: 0.8 }}>
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col sm:flex-row gap-2">
                 <div className="flex-1">
                   <Label htmlFor="email" className="sr-only">
                     Email
@@ -157,13 +157,21 @@ export default function ModernHero() {
                     className="h-12 px-4 text-base border-2 border-indigo-200 focus:border-indigo-500 focus:ring-indigo-500"
                   />
                 </div>
-                <Button type="submit" size="lg" className="h-12 bg-indigo-600 hover:bg-indigo-700 text-white">
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="h-12 bg-indigo-600 hover:bg-indigo-700 text-white">
                   Join Waitlist
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </form>
               <p className="text-md text-indigo-700">
-                Join over <NumberTicker value={400} className="font-extrabold text-indigo-700" /> others on the waitlist!
+                Join over{" "}
+                <NumberTicker
+                  value={400}
+                  className="font-extrabold text-indigo-700"
+                />{" "}
+                others on the waitlist!
               </p>
             </motion.div>
 
@@ -172,9 +180,10 @@ export default function ModernHero() {
               className="mt-12 w-full max-w-3xl mx-auto"
               initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1, delay: 1 }}
-            >
-              <p className="text-sm text-gray-500 mb-4 text-center">Interviews Sourced from Top Companies</p>
+              transition={{ duration: 1, delay: 1 }}>
+              <p className="text-sm text-gray-500 mb-4 text-center">
+                Interviews Sourced from Top Companies
+              </p>
               <div className={styles.marqueeContainer}>
                 <div className={styles.marquee}>
                   <div className={styles.marqueeContent}>
@@ -182,18 +191,21 @@ export default function ModernHero() {
                       <motion.div
                         key={`${client.name}-${index}`}
                         whileHover={{ scale: 1.1 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                      >
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 10,
+                        }}>
                         <Image
                           src={client.src}
                           alt={client.name}
                           width={80}
                           height={32}
-                          style={{ 
-                            width: 'auto', 
-                            height: '32px', 
-                            objectFit: 'contain',
-                            flexShrink: 0
+                          style={{
+                            width: "auto",
+                            height: "32px",
+                            objectFit: "contain",
+                            flexShrink: 0,
                           }}
                         />
                       </motion.div>
@@ -204,18 +216,21 @@ export default function ModernHero() {
                       <motion.div
                         key={`${client.name}-${index}-duplicate`}
                         whileHover={{ scale: 1.1 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                      >
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 10,
+                        }}>
                         <Image
                           src={client.src}
                           alt={client.name}
                           width={80}
                           height={32}
-                          style={{ 
-                            width: 'auto', 
-                            height: '32px', 
-                            objectFit: 'contain',
-                            flexShrink: 0
+                          style={{
+                            width: "auto",
+                            height: "32px",
+                            objectFit: "contain",
+                            flexShrink: 0,
                           }}
                         />
                       </motion.div>
@@ -228,5 +243,5 @@ export default function ModernHero() {
         </div>
       </section>
     </>
-  )
+  );
 }
