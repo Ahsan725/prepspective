@@ -127,7 +127,7 @@ export default function ModernHero() {
                 className="text-lg lg:text-2xl text-gray-500 max-w-2xl mx-auto"
                 initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
                 animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 1, delay: 0.6 }}>
+                transition={{ duration: 1, delay: 0.3 }}>
                 The only interview prep platform you&rsquo;ll ever need.
                 We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s{" "}
                 <em>pretty</em> close.
@@ -139,7 +139,7 @@ export default function ModernHero() {
               className="w-full max-w-md space-y-4 mx-auto"
               initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1, delay: 0.8 }}>
+              transition={{ duration: 1, delay: 0.3 }}>
               <form
                 onSubmit={handleSubmit}
                 className="flex flex-col sm:flex-row gap-2">
@@ -190,7 +190,7 @@ export default function ModernHero() {
                     {clients.map((client, index) => (
                       <motion.div
                         key={`${client.name}-${index}`}
-                        whileHover={{ scale: 1.1 }}
+                        whileHover={{ scale: 1 }}
                         transition={{
                           type: "spring",
                           stiffness: 400,
@@ -215,7 +215,7 @@ export default function ModernHero() {
                     {clients.map((client, index) => (
                       <motion.div
                         key={`${client.name}-${index}-duplicate`}
-                        whileHover={{ scale: 1.1 }}
+                        whileHover={{ scale: 1 }}
                         transition={{
                           type: "spring",
                           stiffness: 400,
