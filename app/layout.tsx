@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs"; // Import ClerkProvider
 import { Toaster } from "@/components/ui/toaster";
 import TempNavbar from "@/components/ui/tempNavbar";
 import CustomNavbar from "@/components/ui/customNavbar";
+import { Analytics } from "@vercel/analytics/react"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -44,6 +45,7 @@ export default function RootLayout({
           <CustomNavbar />
           {/* <TempNavbar /> */}
           {children}
+          <Analytics />
           <Toaster />
           {/* <FluidCursor /> */}
         </body>

@@ -180,7 +180,7 @@ export default function ModernHero() {
               className="mt-12 w-full max-w-3xl mx-auto"
               initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1, delay: 1.5 }}>
+              transition={{ duration: 2, delay: 0 }}>
               <p className="text-sm text-gray-500 mb-4 text-center">
                 Interviews Sourced from Top Companies
               </p>

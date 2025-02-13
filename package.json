@@ -34,6 +34,7 @@
     "@radix-ui/react-tooltip": "^1.1.6",
     "@tanstack/react-table": "^8.20.5",
     "@types/canvas-confetti": "^1.6.4",
+    "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.1.0",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
