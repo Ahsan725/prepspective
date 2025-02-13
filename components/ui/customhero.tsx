@@ -114,7 +114,7 @@ export default function ModernHero() {
             {/* Animated Main Content */}
             <div className="">
               <motion.h1
-                className="text-6xl font-bold tracking-tight md:text-7xl lg:text-9xl bg-gradient-to-b from-indigo-700 via-indigo-400 to-indigo-800 bg-clip-text text-transparent"
+                className="text-5xl font-bold tracking-tight md:text-7xl lg:text-9xl bg-gradient-to-b from-indigo-700 via-indigo-400 to-indigo-800 bg-clip-text text-transparent"
                 style={{ fontFamily: "Segoe" }}
                 initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
                 animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
