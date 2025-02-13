@@ -34,7 +34,7 @@ export default function FeatureComingSoon() {
         </p>
         <p className="text-xl mb-12 text-gray-600">
           We will notify you as soon as it&apos;s ready. Don&apos;t worry, we won&apos;t spam you. <br></br>
-          We&apos;re too busy centering the div to learn email marketing anyway.
+          We&apos;re too busy trying to center the div to learn email marketing anyway.
         </p>
       </div>
     </div>
