@@ -104,7 +104,7 @@ const CustomNavbar = () => {
             <Link
   href="/"
   className={cn(
-    'text-muted-foreground',
+    'text-muted-foreground bg-white z-20 mr-1',
     navigationMenuTriggerStyle,
     buttonVariants({
       variant: 'ghost',
@@ -181,7 +181,7 @@ const CustomNavbar = () => {
               <Link
   href="/about"
   className={cn(
-    'text-muted-foreground',
+    'text-muted-foreground bg-white z-20 ml-1',
     navigationMenuTriggerStyle,
     buttonVariants({
       variant: 'ghost',
@@ -192,21 +192,19 @@ const CustomNavbar = () => {
 </Link>
               <a
                 className={cn(
-                  'text-muted-foreground',
+                  'text-muted-foreground bg-white z-20 ml-1',
                   navigationMenuTriggerStyle,
                   buttonVariants({
                     variant: 'ghost',
                   }),
                 )}
-                href="#"
+                href="/soon"
               >
                 Blog
               </a>
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant={'outline'}>Log in</Button>
-            <Button>Sign up</Button>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -225,6 +223,8 @@ const CustomNavbar = () => {
             </TooltipProvider>
             <ModernSidebar />
             <ContactForm />
+            <Button variant={'outline'}>Log in</Button>
+            <Button>Sign up</Button>
           </div>
         </nav>
         <div className="block lg:hidden">
@@ -317,7 +317,7 @@ const CustomNavbar = () => {
                   <Link href="/about" className="font-semibold">
   About
 </Link>
-                  <a href="#" className="font-semibold">
+                  <a href="/soon" className="font-semibold">
                     Blog
                   </a>
                 </div>
@@ -330,7 +330,7 @@ const CustomNavbar = () => {
                         }),
                         'justify-start text-muted-foreground',
                       )}
-                      href="#"
+                      href="/soon"
                     >
                       Press
                     </a>
