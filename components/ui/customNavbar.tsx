@@ -1,4 +1,5 @@
-import { Book, Menu, Sunset, Trees, Zap } from 'lucide-react';
+'use client';
+import { Book, Menu, Sunset, Trees, Zap, MousePointerClick } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -25,6 +26,14 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import ContactForm from "@/components/ui/contactForm";
+import { ModernSidebar } from '@/components/ui/modern-sidebar'
 
 const subMenuItemsOne = [
   {
@@ -74,24 +83,25 @@ const subMenuItemsTwo = [
 ];
 
 const CustomNavbar = () => {
+  const handleEscapeButtonClick = () => {
+    const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+    window.dispatchEvent(escapeEvent);
+  };
   return (
-    <section className="py-4 px-4">
-      <div className="container">
+    <section className="w-full py-4 px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-7xl">
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              {/* <img
-                src=""
-                className="w-8"
-                alt="logo"
-              /> */}
-              <span className="text-2xl font-bold text-indigo-700"><span className="text-2xl font-extrabold lg:text-2xl text-indigo-700">{"{P}rep"}</span>Spective</span>
+          <div className="flex items-center gap-2">
+              <span className="text-2xl font-extrabold text-indigo-700">
+                {"{P}rep"}<span className="font-bold text-indigo-700 text-2xl">Spective</span> 
+              </span>
             </div>
             <div className="flex items-center">
             <Link
   href="/"
   className={cn(
-    'text-muted-foreground',
+    'text-muted-foreground bg-white z-20 mr-1',
     navigationMenuTriggerStyle,
     buttonVariants({
       variant: 'ghost',
@@ -113,7 +123,7 @@ const CustomNavbar = () => {
                             <li key={idx}>
                               <a
                                 className={cn(
-                                  'flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-indigo-50',
+                                  'flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-indigo-50 hover:text-indigo-700  text-gray-600',
                                 )}
                                 href="#"
                               >
@@ -142,7 +152,7 @@ const CustomNavbar = () => {
                             <li key={idx}>
                               <a
                                 className={cn(
-                                  'flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-indigo-50',
+                                  'flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-indigo-50 hover:text-indigo-700  text-gray-600',
                                 )}
                                 href="#"
                               >
@@ -168,7 +178,7 @@ const CustomNavbar = () => {
               <Link
   href="/about"
   className={cn(
-    'text-muted-foreground',
+    'text-muted-foreground bg-white z-20 ml-1',
     navigationMenuTriggerStyle,
     buttonVariants({
       variant: 'ghost',
@@ -179,19 +189,37 @@ const CustomNavbar = () => {
 </Link>
               <a
                 className={cn(
-                  'text-muted-foreground',
+                  'text-muted-foreground bg-white z-20 ml-1',
                   navigationMenuTriggerStyle,
                   buttonVariants({
                     variant: 'ghost',
                   }),
                 )}
-                href="#"
+                href="/soon"
               >
                 Blog
               </a>
             </div>
           </div>
           <div className="flex gap-2">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleEscapeButtonClick}
+                    variant="outline"
+                    size="icon"
+                  >
+                    <MousePointerClick />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Press ESC or click to disable the cursor.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <ModernSidebar />
+            <ContactForm />
             <Button variant={'outline'}>Log in</Button>
             <Button>Sign up</Button>
           </div>
@@ -208,7 +236,7 @@ const CustomNavbar = () => {
             </div>
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant={'secondary'} size={'icon'}>
+                <Button variant={'link'} size={'icon'} className="text-indigo-800">
                   <Menu className="size-4 border-none" />
                 </Button>
               </SheetTrigger>
@@ -226,12 +254,12 @@ const CustomNavbar = () => {
                   </SheetTitle>
                 </SheetHeader>
                 <div className="my-8 flex flex-col gap-4">
-                <Link href="/" className="font-semibold">
+                <Link href="/" className="text-muted-foreground">
   Home
 </Link>
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="products" className="border-b-0">
-                      <AccordionTrigger className="mb-4 py-0 font-semibold hover:no-underline">
+                      <AccordionTrigger className="mb-4 py-0 text-muted-foreground hover:no-underline">
                         Products
                       </AccordionTrigger>
                       <AccordionContent className="mt-2">
@@ -257,7 +285,7 @@ const CustomNavbar = () => {
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="resources" className="border-b-0">
-                      <AccordionTrigger className="py-0 font-semibold hover:no-underline">
+                      <AccordionTrigger className="py-0 text-muted-foreground hover:no-underline">
                         Resources
                       </AccordionTrigger>
                       <AccordionContent className="mt-2">
@@ -283,10 +311,10 @@ const CustomNavbar = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <Link href="/about" className="font-semibold">
+                  <Link href="/about" className="text-muted-foreground">
   About
 </Link>
-                  <a href="#" className="font-semibold">
+                  <a href="/soon" className="text-muted-foreground">
                     Blog
                   </a>
                 </div>
@@ -299,20 +327,9 @@ const CustomNavbar = () => {
                         }),
                         'justify-start text-muted-foreground',
                       )}
-                      href="#"
+                      href="/soon"
                     >
                       Press
-                    </a>
-                    <a
-                      className={cn(
-                        buttonVariants({
-                          variant: 'ghost',
-                        }),
-                        'justify-start text-muted-foreground',
-                      )}
-                      href="#"
-                    >
-                      Contact
                     </a>
                     <a
                       className={cn(
@@ -362,6 +379,7 @@ const CustomNavbar = () => {
                   <div className="mt-2 flex flex-col gap-3">
                     <Button variant={'outline'}>Log in</Button>
                     <Button>Sign up</Button>
+
                   </div>
                 </div>
               </SheetContent>
@@ -372,5 +390,4 @@ const CustomNavbar = () => {
     </section>
   );
 };
-
 export default CustomNavbar;

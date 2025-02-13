@@ -70,12 +70,17 @@ const ContactForm = () => {
       {/* Modal Trigger */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Contact Us</Button>
+          <Button variant="outline">Contact</Button>
         </DialogTrigger>
 
         {/* Modal Content */}
         <DialogContent>
           <DialogHeader>
+          <div className="flex items-center gap-2">
+              <span className="text-2xl font-extrabold text-indigo-700">
+                {"{P}rep"}<span className="font-bold text-indigo-700 text-2xl">Spective</span> 
+              </span>
+            </div>
             <DialogTitle>Contact Us</DialogTitle>
             <DialogDescription>
               Fill out the form below to send us your message.
@@ -84,7 +89,7 @@ const ContactForm = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name Input */}
             <div>
-              <label htmlFor="name" className="text-sm font-semibold text-indigo-700">
+              <label htmlFor="name" className="text-sm font-semibold text-gray-700">
                 Name
               </label>
               <Input
@@ -98,7 +103,7 @@ const ContactForm = () => {
             </div>
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="text-sm font-semibold text-indigo-700">
+              <label htmlFor="email" className="text-sm font-semibold text-gray-700">
                 Email
               </label>
               <Input
@@ -113,7 +118,7 @@ const ContactForm = () => {
             </div>
             {/* Message Input */}
             <div>
-              <label htmlFor="message" className="text-sm font-semibold text-indigo-700">
+              <label htmlFor="message" className="text-sm font-semibold text-gray-700">
                 Message
               </label>
               <Textarea

@@ -118,3 +118,9 @@ body {
   color: #4337C9; /* White */
 }
 
+/* Add this to your global CSS or within a style tag */
+.full-size-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
