@@ -154,7 +154,7 @@ export function ModernSidebar() {
           <SheetTitle className="text-2xl font-bold text-indigo-100">
             <span className="text-2xl font-extrabold text-white">
               {"{P}rep"}
-              <span className="font-bold text-white text-2xl">Spective</span>
+              <span className="font-light text-white text-2xl">Spective</span>
             </span>
           </SheetTitle>
           <motion.button
