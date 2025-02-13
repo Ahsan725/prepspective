@@ -92,13 +92,10 @@ const CustomNavbar = () => {
       <div className="container mx-auto max-w-7xl">
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              {/* <img
-                src=""
-                className="w-8"
-                alt="logo"
-              /> */}
-              <span className="text-2xl font-bold text-indigo-700"><span className="text-2xl font-extrabold lg:text-2xl text-indigo-700">{"{P}rep"}</span>Spective</span>
+          <div className="flex items-center gap-2">
+              <span className="text-2xl font-extrabold text-indigo-700">
+                {"{P}rep"}<span className="font-bold text-indigo-700 text-2xl">Spective</span> 
+              </span>
             </div>
             <div className="flex items-center">
             <Link
