@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs"; // Import ClerkProvider
 import { Toaster } from "@/components/ui/toaster";
 import TempNavbar from "@/components/ui/tempNavbar";
+import CustomNavbar from "@/components/ui/customNavbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,8 +41,8 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {/* <CustomNavbar /> this will be used later */}
-          <TempNavbar />
+          <CustomNavbar />
+          {/* <TempNavbar /> */}
           {children}
           <Toaster />
           {/* <FluidCursor /> */}

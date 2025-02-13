@@ -1,4 +1,5 @@
-import { Book, Menu, Sunset, Trees, Zap } from 'lucide-react';
+'use client';
+import { Book, Menu, Sunset, Trees, Zap, MousePointerClick } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -25,6 +26,14 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import ContactForm from "@/components/ui/contactForm";
+import { ModernSidebar } from '@/components/ui/modern-sidebar'
 
 const subMenuItemsOne = [
   {
@@ -74,9 +83,13 @@ const subMenuItemsTwo = [
 ];
 
 const CustomNavbar = () => {
+  const handleEscapeButtonClick = () => {
+    const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+    window.dispatchEvent(escapeEvent);
+  };
   return (
-    <section className="py-4 px-4">
-      <div className="container">
+    <section className="w-full py-4 px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-7xl">
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
@@ -194,6 +207,24 @@ const CustomNavbar = () => {
           <div className="flex gap-2">
             <Button variant={'outline'}>Log in</Button>
             <Button>Sign up</Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleEscapeButtonClick}
+                    variant="outline"
+                    size="icon"
+                  >
+                    <MousePointerClick />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Press ESC or click to disable the cursor.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <ModernSidebar />
+            <ContactForm />
           </div>
         </nav>
         <div className="block lg:hidden">
@@ -312,17 +343,6 @@ const CustomNavbar = () => {
                       )}
                       href="#"
                     >
-                      Contact
-                    </a>
-                    <a
-                      className={cn(
-                        buttonVariants({
-                          variant: 'ghost',
-                        }),
-                        'justify-start text-muted-foreground',
-                      )}
-                      href="#"
-                    >
                       Imprint
                     </a>
                     <a
@@ -362,6 +382,7 @@ const CustomNavbar = () => {
                   <div className="mt-2 flex flex-col gap-3">
                     <Button variant={'outline'}>Log in</Button>
                     <Button>Sign up</Button>
+
                   </div>
                 </div>
               </SheetContent>
@@ -372,5 +393,4 @@ const CustomNavbar = () => {
     </section>
   );
 };
-
 export default CustomNavbar;
