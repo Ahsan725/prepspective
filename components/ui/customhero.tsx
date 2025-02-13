@@ -114,12 +114,12 @@ export default function ModernHero() {
             {/* Animated Main Content */}
             <div className="">
               <motion.h1
-                className="text-4xl leading-normal font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-8xl bg-gradient-to-b from-indigo-700 via-indigo-400 to-indigo-800 bg-clip-text text-transparent"
+                className="text-6xl font-bold tracking-tight md:text-7xl lg:text-9xl bg-gradient-to-b from-indigo-700 via-indigo-400 to-indigo-800 bg-clip-text text-transparent"
                 style={{ fontFamily: "Segoe" }}
                 initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
                 animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 1, delay: 0.2 }}>
-                Walk in Ready. <br />
+                <span className="font-extralight italic">Walk in Ready.</span> <br />
                 Walk Out Hired.
               </motion.h1>
 
