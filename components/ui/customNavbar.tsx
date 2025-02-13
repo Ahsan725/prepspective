@@ -239,7 +239,7 @@ const CustomNavbar = () => {
             </div>
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant={'secondary'} size={'icon'}>
+                <Button variant={'link'} size={'icon'} className="text-indigo-800">
                   <Menu className="size-4 border-none" />
                 </Button>
               </SheetTrigger>
@@ -257,12 +257,12 @@ const CustomNavbar = () => {
                   </SheetTitle>
                 </SheetHeader>
                 <div className="my-8 flex flex-col gap-4">
-                <Link href="/" className="font-semibold">
+                <Link href="/" className="text-muted-foreground">
   Home
 </Link>
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="products" className="border-b-0">
-                      <AccordionTrigger className="mb-4 py-0 font-semibold hover:no-underline">
+                      <AccordionTrigger className="mb-4 py-0 text-muted-foreground hover:no-underline">
                         Products
                       </AccordionTrigger>
                       <AccordionContent className="mt-2">
@@ -288,7 +288,7 @@ const CustomNavbar = () => {
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="resources" className="border-b-0">
-                      <AccordionTrigger className="py-0 font-semibold hover:no-underline">
+                      <AccordionTrigger className="py-0 text-muted-foreground hover:no-underline">
                         Resources
                       </AccordionTrigger>
                       <AccordionContent className="mt-2">
@@ -314,10 +314,10 @@ const CustomNavbar = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <Link href="/about" className="font-semibold">
+                  <Link href="/about" className="text-muted-foreground">
   About
 </Link>
-                  <a href="/soon" className="font-semibold">
+                  <a href="/soon" className="text-muted-foreground">
                     Blog
                   </a>
                 </div>
