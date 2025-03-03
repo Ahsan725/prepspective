@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Script from "next/script";
 
 const FAQSection = () => {
   const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
@@ -147,7 +148,27 @@ const FAQSection = () => {
         ))}
       </motion.div>
     </div>
-  </motion.div>
+      </motion.div>
+      <div className="p-6">
+      <h1 className="text-2xl font-bold">Welcome to My Page</h1>
+      <p>Here is some content...</p>
+
+      {/* Google AdSense Ad */}
+      <div className="mt-6 flex justify-center">
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-client="ca-pub-1030596789108573"
+          data-ad-slot="1234567890"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </div>
+
+      <Script id="adsense-init" strategy="afterInteractive">
+        {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+      </Script>
+    </div>
 </section>
   );
 };

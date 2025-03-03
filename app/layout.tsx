@@ -5,7 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs"; // Import ClerkProvider
 import { Toaster } from "@/components/ui/toaster";
 import TempNavbar from "@/components/ui/tempNavbar";
 import CustomNavbar from "@/components/ui/customNavbar";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 
 const geistSans = localFont({
@@ -30,27 +30,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider appearance={{
-      elements: {
-        formButtonPrimary: 'text-primary-foreground hover:bg-indigo-700/90 relative overflow-hidden rounded-md px-5 py-2.5 text-white duration-300 shadow-xl hover:shadow-xl [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:translate-y-1 active:scale-x-102 active:scale-y-97 bg-gradient-to-r from-indigo-800 to-indigo-400 text-sm',
-      },
-    }}>
+    <ClerkProvider
+      appearance={{
+        elements: {
+          formButtonPrimary:
+            "text-primary-foreground hover:bg-indigo-700/90 relative overflow-hidden rounded-md px-5 py-2.5 text-white duration-300 shadow-xl hover:shadow-xl [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:translate-y-1 active:scale-x-102 active:scale-y-97 bg-gradient-to-r from-indigo-800 to-indigo-400 text-sm",
+        },
+      }}>
       {/* Wrap the entire app with ClerkProvider */}
       <html lang="en">
-      <head>
-  <link rel="icon" href="/favicon.ico" />
-  {/* Google AdSense */}
-  <Script
-    id="adsense-script"
-    async
-    strategy="afterInteractive"
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1030596789108573"
-    crossOrigin="anonymous"
-  />
-</head>
+        <head>
+          <link rel="icon" href="/favicon.ico" />
+          {/* Google AdSense */}
+          <Script
+            id="adsense-script"
+            async
+            strategy="afterInteractive"
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1030596789108573"
+            crossOrigin="anonymous"
+          />
+        </head>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <CustomNavbar />
           {/* <TempNavbar /> */}
           {children}
