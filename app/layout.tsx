@@ -7,6 +7,7 @@ import TempNavbar from "@/components/ui/tempNavbar";
 import CustomNavbar from "@/components/ui/customNavbar";
 import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
+import AdSense from "../components/AdSense";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,17 +40,9 @@ export default function RootLayout({
       }}>
       {/* Wrap the entire app with ClerkProvider */}
       <html lang="en">
-        <head>
-          <link rel="icon" href="/favicon.ico" />
-          {/* Google AdSense */}
-          <Script
-            id="adsense-script"
-            async
-            strategy="afterInteractive"
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1030596789108573"
-            crossOrigin="anonymous"
-          />
-        </head>
+      <head>
+        <AdSense pId="ca-pub-1030596789108573"/>
+      </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <CustomNavbar />
