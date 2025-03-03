@@ -41,7 +41,7 @@ export default function RootLayout({
       {/* Wrap the entire app with ClerkProvider */}
       <html lang="en">
       <head>
-        <AdSense pId="ca-pub-1030596789108573"/>
+        <AdSense pId="1030596789108573"/>
       </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
