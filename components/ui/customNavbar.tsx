@@ -10,6 +10,9 @@ import {
   FileText,
   MousePointerClick,
   NotebookPenIcon,
+  Code,
+  Globe,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -75,28 +78,28 @@ const subMenuItemsOne = [
 
 const subMenuItemsTwo = [
   {
-    title: "Help Center",
-    description: "Get all the answers you need right here",
-    icon: <Zap className="size-5 shrink-0 text-indigo-700" />,
-    href: "/help-center",
+    title: "LeetCode Tutoring",
+    description: "Master data structures and algorithms with personalized guidance.",
+    icon: <Code className="size-6 shrink-0 text-indigo-700" />,
+    href: "/leet-code-tutoring",
   },
   {
-    title: "Contact Us",
-    description: "We are here to help you with any questions you have",
-    icon: <Sunset className="size-5 shrink-0 text-indigo-700" />,
-    href: "/contact-us",
+    title: "Resume Writing",
+    description: "Get an ATS-optimized resume that stands out in tech interviews.",
+    icon: <FileText className="size-6 shrink-0 text-indigo-700" />,
+    href: "/resume-writing",
   },
   {
-    title: "Status",
-    description: "Check the current status of our services and APIs",
-    icon: <Trees className="size-5 shrink-0 text-indigo-700" />,
-    href: "/status",
+    title: "Website Development",
+    description: "Professional website development to build your personal or business brand.",
+    icon: <Globe className="size-6 shrink-0 text-indigo-700" />,
+    href: "/website-development",
   },
   {
-    title: "Terms of Service",
-    description: "Our terms and conditions for using our services",
-    icon: <Book className="size-5 shrink-0 text-indigo-700" />,
-    href: "/terms-of-service",
+    title: "Mock Interviews",
+    description: "Simulated technical interviews to boost your confidence and skills.",
+    icon: <Users className="size-6 shrink-0 text-indigo-700" />,
+    href: "/mock-interviews",
   },
 ];
 
