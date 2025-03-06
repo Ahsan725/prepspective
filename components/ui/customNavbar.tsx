@@ -130,13 +130,13 @@ const CustomNavbar = () => {
                   variant: "ghost",
                 })
               )}>
-              Home
+              HOME
             </Link>
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem className="text-muted-foreground">
                   <NavigationMenuTrigger>
-                    <span>Products</span>
+                    <span>PRODUCTS</span>
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="w-80 p-3">
@@ -165,7 +165,7 @@ const CustomNavbar = () => {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="text-muted-foreground">
-                  <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>SERVICES</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="w-80 p-3">
                       <NavigationMenuLink>
@@ -204,7 +204,7 @@ const CustomNavbar = () => {
                   variant: "ghost",
                 })
               )}>
-              About
+              ABOUT
             </Link>
             <Link
               className={cn(
@@ -217,7 +217,7 @@ const CustomNavbar = () => {
               href="https://forms.gle/JThZQVQ96ztQ4chS8"
               target="_blank"
               rel="noopener noreferrer">
-              Careers
+              CAREERS
             </Link>
           </div>
 
@@ -280,12 +280,12 @@ const CustomNavbar = () => {
                 </SheetHeader>
                 <div className="my-8 flex flex-col gap-4">
                   <Link href="/" className="text-muted-foreground">
-                    Home
+                    HOME
                   </Link>
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="products" className="border-b-0">
                       <AccordionTrigger className="mb-4 py-0 text-muted-foreground hover:no-underline">
-                        Products
+                        PRODUCTS
                       </AccordionTrigger>
                       <AccordionContent className="mt-2">
                         {subMenuItemsOne.map((item, idx) => (
@@ -310,7 +310,7 @@ const CustomNavbar = () => {
                     </AccordionItem>
                     <AccordionItem value="resources" className="border-b-0">
                       <AccordionTrigger className="py-0 text-muted-foreground hover:no-underline">
-                        Services
+                        SERVICES
                       </AccordionTrigger>
                       <AccordionContent className="mt-2">
                         {subMenuItemsTwo.map((item, idx) => (
@@ -335,7 +335,7 @@ const CustomNavbar = () => {
                     </AccordionItem>
                   </Accordion>
                   <Link href="/about" className="text-muted-foreground">
-                    About
+                    ABOUT
                   </Link>
                   <a href="/soon" className="text-muted-foreground">
                     Blog
