@@ -15,7 +15,15 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-
+import {
+  SignedIn,
+  SignedOut,
+  SignUpButton,
+  SignInButton,
+  UserButton,
+  useClerk,
+  useUser,
+} from "@clerk/nextjs";
 import {
   Accordion,
   AccordionContent,
@@ -104,10 +112,12 @@ const subMenuItemsTwo = [
 ];
 
 const CustomNavbar = () => {
+  const { isSignedIn, user } = useUser();
   const handleEscapeButtonClick = () => {
     const escapeEvent = new KeyboardEvent("keydown", { key: "Escape" });
     window.dispatchEvent(escapeEvent);
   };
+
   return (
     <section className="w-full py-4 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
@@ -243,8 +253,18 @@ const CustomNavbar = () => {
             </TooltipProvider>
             <ModernSidebar />
             <ContactForm />
-            <Button variant={"outline"}>Log in</Button>
-            <Button>Sign up</Button>
+            {isSignedIn ? (
+              <UserButton afterSignOutUrl="/" />
+            ) : (
+              <>
+                <SignInButton mode="modal">
+                  <Button variant={"outline"}>Log in</Button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <Button>Sign up</Button>
+                </SignUpButton>
+              </>
+            )}
           </div>
         </nav>
 
@@ -398,8 +418,18 @@ const CustomNavbar = () => {
                     </a>
                   </div>
                   <div className="mt-2 flex flex-col gap-3">
-                    <Button variant={"outline"}>Log in</Button>
-                    <Button>Sign up</Button>
+                    {isSignedIn ? (
+                      <UserButton afterSignOutUrl="/" />
+                    ) : (
+                      <>
+                        <SignInButton mode="modal">
+                          <Button variant={"outline"}>Log in</Button>
+                        </SignInButton>
+                        <SignUpButton mode="modal">
+                          <Button>Sign up</Button>
+                        </SignUpButton>
+                      </>
+                    )}
                   </div>
                 </div>
               </SheetContent>
