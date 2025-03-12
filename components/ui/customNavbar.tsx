@@ -13,8 +13,11 @@ import {
   Code,
   Globe,
   Users,
+  UserCog,
+  LogOut,
 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import {
   SignedIn,
   SignedOut,
@@ -87,35 +90,54 @@ const subMenuItemsOne = [
 const subMenuItemsTwo = [
   {
     title: "LeetCode Tutoring",
-    description: "Master data structures and algorithms with personalized guidance.",
+    description:
+      "Master data structures and algorithms with personalized guidance.",
     icon: <Code className="size-6 shrink-0 text-indigo-700" />,
     href: "/leet-code-tutoring",
   },
   {
     title: "Resume Writing",
-    description: "Get an ATS-optimized resume that stands out in tech interviews.",
+    description:
+      "Get an ATS-optimized resume that stands out in tech interviews.",
     icon: <FileText className="size-6 shrink-0 text-indigo-700" />,
     href: "/resume-writing",
   },
   {
     title: "Website Development",
-    description: "Professional website development to build your personal or business brand.",
+    description:
+      "Professional website development to build your personal or business brand.",
     icon: <Globe className="size-6 shrink-0 text-indigo-700" />,
     href: "/website-development",
   },
   {
     title: "Mock Interviews",
-    description: "Simulated technical interviews to boost your confidence and skills.",
+    description:
+      "Simulated technical interviews to boost your confidence and skills.",
     icon: <Users className="size-6 shrink-0 text-indigo-700" />,
     href: "/mock-interviews",
   },
 ];
 
+// const CustomNavbar = () => {
+//   const { isSignedIn, user } = useUser();
+const handleEscapeButtonClick = () => {
+  const escapeEvent = new KeyboardEvent("keydown", { key: "Escape" });
+  window.dispatchEvent(escapeEvent);
+};
+
 const CustomNavbar = () => {
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn } = useUser();
+  const [isSheetOpen, setIsSheetOpen] = useState(false); // State to control the sheet
+
   const handleEscapeButtonClick = () => {
     const escapeEvent = new KeyboardEvent("keydown", { key: "Escape" });
     window.dispatchEvent(escapeEvent);
+  };
+  const { signOut, openUserProfile } = useClerk();
+
+  // Function to close the sheet when a link or button is clicked
+  const closeSheet = () => {
+    setIsSheetOpen(false);
   };
 
   return (
@@ -254,7 +276,21 @@ const CustomNavbar = () => {
             <ModernSidebar />
             <ContactForm />
             {isSignedIn ? (
-              <UserButton afterSignOutUrl="/" />
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: {
+                      width: "2.5rem", // Adjust the width to make the avatar larger
+                      height: "2.5rem", // Adjust the height to make the avatar larger
+                    },
+                    userButtonTrigger: {
+                      "&:focus": {
+                        boxShadow: "none", // Remove the ring (border) on focus
+                      },
+                    },
+                  },
+                }}
+              />
             ) : (
               <>
                 <SignInButton mode="modal">
@@ -279,16 +315,17 @@ const CustomNavbar = () => {
                 Spective
               </span>
             </div>
-            <Sheet>
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
                 <Button
                   variant={"link"}
                   size={"icon"}
-                  className="text-indigo-800">
+                  className="text-indigo-800"
+                  onClick={() => setIsSheetOpen(true)}>
                   <Menu className="size-4 border-none" />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="overflow-y-auto">
+              <SheetContent className="overflow-y-auto flex flex-col">
                 <SheetHeader>
                   <SheetTitle>
                     <div className="flex items-center gap-2">
@@ -301,8 +338,11 @@ const CustomNavbar = () => {
                     </div>
                   </SheetTitle>
                 </SheetHeader>
-                <div className="my-8 flex flex-col gap-4">
-                  <Link href="/" className="text-muted-foreground">
+                <div className="my-8 flex flex-col gap-4 flex-1">
+                  <Link
+                    href="/"
+                    className="text-muted-foreground"
+                    onClick={closeSheet}>
                     HOME
                   </Link>
                   <Accordion type="single" collapsible className="w-full">
@@ -317,7 +357,8 @@ const CustomNavbar = () => {
                             className={cn(
                               "flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-indigo-50"
                             )}
-                            href={item.href}>
+                            href={item.href}
+                            onClick={closeSheet}>
                             {item.icon}
                             <div>
                               <div className="text-sm font-semibold">
@@ -342,7 +383,8 @@ const CustomNavbar = () => {
                             className={cn(
                               "flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-indigo-50"
                             )}
-                            href={item.href}>
+                            href={item.href}
+                            onClick={closeSheet}>
                             {item.icon}
                             <div>
                               <div className="text-sm font-semibold">
@@ -357,23 +399,24 @@ const CustomNavbar = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <Link href="/about" className="text-muted-foreground">
+                  <Link
+                    href="/about"
+                    className="text-muted-foreground"
+                    onClick={closeSheet}>
                     ABOUT
                   </Link>
-                  <a href="/soon" className="text-muted-foreground">
-                    Blog
-                  </a>
                 </div>
                 <div className="border-t pt-4">
                   <div className="grid grid-cols-2 justify-start">
-                    <a
+                    {/* <a
                       className={cn(
                         buttonVariants({
                           variant: "ghost",
                         }),
                         "justify-start text-muted-foreground"
                       )}
-                      href="/soon">
+                      href="/soon"
+                      onClick={closeSheet}>
                       Press
                     </a>
                     <a
@@ -383,7 +426,8 @@ const CustomNavbar = () => {
                         }),
                         "justify-start text-muted-foreground"
                       )}
-                      href="#">
+                      href="#"
+                      onClick={closeSheet}>
                       Imprint
                     </a>
                     <a
@@ -393,17 +437,19 @@ const CustomNavbar = () => {
                         }),
                         "justify-start text-muted-foreground"
                       )}
-                      href="#">
+                      href="#"
+                      onClick={closeSheet}>
                       Sitemap
-                    </a>
-                    <a
+                    </a> */}
+                    {/* <a
                       className={cn(
                         buttonVariants({
                           variant: "ghost",
                         }),
                         "justify-start text-muted-foreground"
                       )}
-                      href="#">
+                      href="#"
+                      onClick={closeSheet}>
                       Legal
                     </a>
                     <a
@@ -413,23 +459,66 @@ const CustomNavbar = () => {
                         }),
                         "justify-start text-muted-foreground"
                       )}
-                      href="#">
+                      href="#"
+                      onClick={closeSheet}>
                       Cookie Settings
-                    </a>
+                    </a> */}
                   </div>
                   <div className="mt-2 flex flex-col gap-3">
                     {isSignedIn ? (
-                      <UserButton afterSignOutUrl="/" />
+                      <div className="flex justify-start">
+                        <UserButton
+                          appearance={{
+                            elements: {
+                              avatarBox: {
+                                width: "3rem",
+                                height: "3rem",
+                              },
+                              userButtonTrigger: {
+                                "&:focus": {
+                                  boxShadow: "none",
+                                },
+                              },
+                            },
+                          }}
+                        />
+                      </div>
                     ) : (
                       <>
                         <SignInButton mode="modal">
-                          <Button variant={"outline"}>Log in</Button>
+                          <Button variant={"outline"} onClick={closeSheet}>
+                            Log in
+                          </Button>
                         </SignInButton>
                         <SignUpButton mode="modal">
-                          <Button>Sign up</Button>
+                          <Button onClick={closeSheet}>Sign up</Button>
                         </SignUpButton>
                       </>
                     )}
+                    <SignedIn>
+                      <div className="flex flex-col items-start space-y-1 relative">
+                        <Button
+                          variant="outline"
+                          className="w-full font-semibold justify-center gap-2 text-indigo-700 hover:bg-indigo-100"
+                          onClick={() => openUserProfile()}>
+                          <UserCog className="h-5 w-5" />
+                          Manage Account
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-center gap-2 text-white bg-indigo-700 hover:bg-black hover:text-white"
+                          onClick={() => signOut()}>
+                          <LogOut className="h-5 w-5" />
+                          Sign Out
+                        </Button>
+                        {/* {user && ( 
+                  <div className="flex items-center space-x-3 w-full">
+                    <UserAvatar name={user.fullName || ""} />
+                    <span className="text-lg font-semibold text-white">{user.fullName}</span>
+                  </div>
+                )} */}
+                      </div>
+                    </SignedIn>
                   </div>
                 </div>
               </SheetContent>
