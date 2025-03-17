@@ -93,7 +93,7 @@ const subMenuItemsTwo = [
     description:
       "Master data structures and algorithms with personalized guidance.",
     icon: <Code className="size-6 shrink-0 text-indigo-700" />,
-    href: "/leet-code-tutoring",
+    href: "/tutor",
   },
   {
     title: "Resume Writing",
