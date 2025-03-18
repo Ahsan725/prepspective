@@ -28,61 +28,20 @@ export default function TutoringPage() {
         initial="initial"
         animate="animate"
         variants={stagger}
-        className="container mx-auto px-4 py-16 md:py-24"
+        className="container mx-auto px-4 py-16"
       >
-        <motion.div variants={fadeIn} className="text-center mb-16">
-          <Badge className="mb-4 bg-indigo-100 text-indigo-800 hover:bg-indigo-200">
+        <motion.div variants={fadeIn} className="text-center mb-12">
+          <Badge className="mb-3 bg-indigo-100 text-indigo-800 hover:bg-indigo-200 rounded-full px-3 py-1 text-sm font-medium">
             Limited Time Offer
           </Badge>
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Master LeetCode With
             <span className="text-indigo-600"> Confidence</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Transform your problem-solving skills with personalized 1-on-1 tutoring sessions
             designed to help you crack coding interviews.
           </p>
-        </motion.div>
-
-        {/* Features Grid */}
-        <motion.div 
-          variants={stagger}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
-        >
-          {[
-            {
-              icon: <Clock className="h-6 w-6 text-indigo-600" />,
-              title: "45-Minute Sessions",
-              description: "Focused, intensive learning tailored to your needs"
-            },
-            {
-              icon: <Brain className="h-6 w-6 text-indigo-600" />,
-              title: "Pattern Recognition",
-              description: "Learn to identify and master common problem patterns"
-            },
-            {
-              icon: <Code2 className="h-6 w-6 text-indigo-600" />,
-              title: "Live Coding",
-              description: "Real-time problem solving with instant feedback"
-            },
-            {
-              icon: <Rocket className="h-6 w-6 text-indigo-600" />,
-              title: "Interview Ready",
-              description: "Gain confidence for technical interviews"
-            }
-          ].map((feature, index) => (
-            <motion.div variants={fadeIn} key={index}>
-              <Card className="p-6 h-full hover:shadow-lg transition-shadow backdrop-blur-sm bg-white/90">
-                <div className="flex flex-col items-center text-center">
-                  <div className="p-3 bg-indigo-50 rounded-lg">
-                    {feature.icon}
-                  </div>
-                  <h3 className="mt-4 font-semibold text-lg">{feature.title}</h3>
-                  <p className="mt-2 text-gray-600">{feature.description}</p>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
         </motion.div>
 
         {/* Pricing Section */}
@@ -92,17 +51,17 @@ export default function TutoringPage() {
         >
           {/* Single Session Card */}
           <motion.div variants={fadeIn}>
-            <Card className="p-8 h-full bg-white backdrop-blur-sm border-gray-200 hover:border-indigo-200 transition-all duration-300 hover:shadow-xl">
+            <Card className="p-6 h-full bg-white backdrop-blur-sm border border-gray-100 hover:border-indigo-200 transition-all duration-300 hover:shadow-lg rounded-2xl">
               <div className="flex flex-col h-full">
                 <div className="text-center">
-                  <h2 className="text-2xl font-bold mb-2">Single Session</h2>
-                  <p className="text-gray-600 mb-6">Perfect for specific problems</p>
-                  <div className="mb-6">
-                    <span className="text-5xl font-bold text-indigo-600">$19</span>
-                    <span className="text-gray-600">/session</span>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Single Session</h2>
+                  <p className="text-gray-600 mb-4">Perfect for specific problems</p>
+                  <div className="mb-4">
+                    <span className="text-7xl font-bold text-indigo-600">$19</span>
+                    <span className="text-gray-600 text-lg">/session</span>
                   </div>
                 </div>
-                <ul className="text-left space-y-3 flex-grow">
+                <ul className="text-left space-y-2 flex-grow">
                   {[
                     "45-minute personalized session",
                     "Problem-solving strategies",
@@ -112,13 +71,13 @@ export default function TutoringPage() {
                   ].map((benefit, index) => (
                     <li key={index} className="flex items-center">
                       <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                      <span className="text-gray-700">{benefit}</span>
+                      <span className="text-gray-700 text-base">{benefit}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8">
+                <div className="mt-6">
                   <Button
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-lg py-6"
+                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-base py-4 rounded-lg shadow-md"
                     onClick={() => window.location.href = "https://book.stripe.com/test_9AQcPK06Xe2d5qw3cc"}
                   >
                     Book Single Session
@@ -130,27 +89,27 @@ export default function TutoringPage() {
 
           {/* Package Deal Card */}
           <motion.div variants={fadeIn}>
-            <Card className="p-8 h-full bg-gradient-to-br from-indigo-50 via-white to-indigo-50 border-2 border-indigo-200 hover:border-indigo-400 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
-              <div className="absolute top-3 right-3">
-                <Badge className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
-                  <Sparkles className="h-4 w-4 mr-1" />
+            <Card className="p-6 h-full bg-gradient-to-br from-indigo-50 via-white to-indigo-50 border-2 border-indigo-200 hover:border-indigo-400 transition-all duration-300 hover:shadow-lg relative overflow-hidden rounded-2xl">
+              <div className="absolute top-1 right-1">
+                <Badge className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full px-3 py-1 text-sm font-medium">
+                  <Sparkles className="h-3 w-3 mr-1" />
                   Best Value
                 </Badge>
               </div>
               <div className="flex flex-col h-full">
                 <div className="text-center">
-                  <h2 className="text-2xl font-bold mb-2">5-Session Package</h2>
-                  <p className="text-gray-600 mb-6">Comprehensive interview prep</p>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">5-Session Package</h2>
+                  <p className="text-gray-600 mb-4">Comprehensive interview prep</p>
                   <div className="mb-2">
-                    <span className="text-5xl font-bold text-indigo-600">$49</span>
-                    <span className="text-gray-600">/package</span>
+                    <span className="text-7xl font-bold text-indigo-600">$49</span>
+                    <span className="text-gray-600 text-lg">/package</span>
                   </div>
-                  <p className="text-sm text-gray-500 mb-6">
+                  <p className="text-sm text-gray-500 mb-4">
                     <span className="line-through">$95</span>
                     <span className="ml-2 text-green-600 font-semibold">Save 48%</span>
                   </p>
                 </div>
-                <ul className="text-left space-y-3 flex-grow">
+                <ul className="text-left space-y-2 flex-grow">
                   {[
                     "5 x 45-minute sessions",
                     "Structured learning path",
@@ -162,13 +121,13 @@ export default function TutoringPage() {
                   ].map((benefit, index) => (
                     <li key={index} className="flex items-center">
                       <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                      <span className="text-gray-700">{benefit}</span>
+                      <span className="text-gray-700 text-base">{benefit}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8">
+                <div className="mt-6">
                   <Button
-                    className="w-full bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-700 hover:to-indigo-900 text-lg py-6 shadow-lg"
+                    className="w-full bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-700 hover:to-indigo-900 text-base py-4 shadow-md rounded-lg"
                     onClick={() => window.location.href = "https://book.stripe.com/test_9AQcPK06Xe2d5qw3cc"}
                   >
                     Get Package Deal
@@ -179,7 +138,10 @@ export default function TutoringPage() {
           </motion.div>
         </motion.div>
 
-        <p className="mt-8 text-center text-sm text-gray-500">Secure payment powered by Stripe</p>
+        {/* Footer Note */}
+        <motion.div variants={fadeIn} className="mt-8 text-center">
+          <p className="text-sm text-gray-500">Secure payment powered by Stripe</p>
+        </motion.div>
       </motion.div>
     </div>
   );
