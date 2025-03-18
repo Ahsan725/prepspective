@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Code2, Brain, Rocket, Clock, CheckCircle2, Sparkles } from "lucide-react";
+import { Code2, Brain, Rocket, Clock, CheckCircle2, Sparkles, Lock } from "lucide-react";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -43,7 +43,13 @@ export default function TutoringPage() {
             designed to help you crack coding interviews.
           </p>
               </motion.div>
-              <p className="text-sm text-center mb-4 text-gray-500">Secure payment powered by Stripe</p>
+              <div className="text-base text-gray-500 flex items-center justify-center gap-1 mb-4 "> <Lock />
+  <p className="text-base text-gray-500 flex items-center justify-center gap-1">
+    Secure payment powered by Stripe 
+  </p>
+</div>
+
+              
 
         {/* Pricing Section */}
         <motion.div 
@@ -79,7 +85,7 @@ export default function TutoringPage() {
                 <div className="mt-6">
                   <Button
                     className="w-full bg-indigo-600 hover:bg-indigo-700 text-base py-4 rounded-lg shadow-md"
-                    onClick={() => window.location.href = "https://book.stripe.com/test_9AQcPK06Xe2d5qw3cc"}
+                    onClick={() => window.location.href = "https://book.stripe.com/00g2a6c0E2GY38Q7ss"}
                   >
                     Book Single Session
                   </Button>
@@ -129,7 +135,7 @@ export default function TutoringPage() {
                 <div className="mt-6">
                   <Button
                     className="w-full bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-700 hover:to-indigo-900 text-base py-4 shadow-md rounded-lg"
-                    onClick={() => window.location.href = "https://book.stripe.com/test_9AQcPK06Xe2d5qw3cc"}
+                    onClick={() => window.location.href = "https://book.stripe.com/4gweWS7Ko95m6l24gh"}
                   >
                     Get Package Deal
                   </Button>
