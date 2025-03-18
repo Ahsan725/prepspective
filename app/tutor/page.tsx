@@ -52,17 +52,17 @@ export default function TutoringPage() {
         >
           {/* Single Session Card */}
           <motion.div variants={fadeIn}>
-            <Card className="p-6 h-full bg-white backdrop-blur-sm border border-gray-100 hover:border-indigo-200 transition-all duration-300 hover:shadow-lg rounded-2xl">
+            <Card className="p-6 h-full bg-white backdrop-blur-sm border-2 border-indigo-200 hover:border-indigo-400 transition-all duration-300 hover:shadow-lg rounded-2xl">
               <div className="flex flex-col h-full">
                 <div className="text-center">
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">Single Session</h2>
                   <p className="text-gray-600 mb-4">Perfect for specific problems</p>
                   <div className="mb-4">
-                    <span className="text-7xl font-bold text-indigo-600">$19</span>
-                    <span className="text-gray-600 text-lg">/session</span>
+                    <span className="text-7xl font-bold tracking-tighter text-indigo-600">$19</span>
+                    <span className="text-gray-600 text-lg">/ session</span>
                   </div>
                 </div>
-                <ul className="text-left space-y-2 flex-grow">
+                <ul className="text-center space-y-2 flex-grow">
                   {[
                     "45-minute personalized session",
                     "Problem-solving strategies",
@@ -102,12 +102,12 @@ export default function TutoringPage() {
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">5-Session Package</h2>
                   <p className="text-gray-600 mb-4">Comprehensive interview prep</p>
                   <div className="mb-2">
-                    <span className="text-7xl font-bold text-indigo-600">$49</span>
-                    <span className="text-gray-600 text-lg">/package</span>
+                    <span className="text-7xl font-bold tracking-tighter text-indigo-600">$49</span>
+                    <span className="text-gray-600 text-lg">/ package</span>
                   </div>
                   <p className="text-sm text-gray-500 mb-4">
-                    <span className="line-through">$95</span>
-                    <span className="ml-2 text-green-600 font-semibold">Save 48%</span>
+                    <span className="line-through text-2xl">$95</span>
+                    <span className="ml-2 text-green-600 font-semibold text-2xl">Save 48%</span>
                   </p>
                 </div>
                 <ul className="text-left space-y-2 flex-grow">
