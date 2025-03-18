@@ -22,15 +22,15 @@ const stagger = {
 
 export default function TutoringPage() {
   return (
-    <div className="min-h-screen">
+    <div className="">
       {/* Hero Section */}
       <motion.div 
         initial="initial"
         animate="animate"
         variants={stagger}
-        className="container mx-auto px-4 py-16"
+        className="container mx-auto px-4 py-2"
       >
-        <motion.div variants={fadeIn} className="text-center mb-12">
+        <motion.div variants={fadeIn} className="text-center mb-4">
           <Badge className="mb-3 bg-indigo-100 text-indigo-800 hover:bg-indigo-200 rounded-full px-3 py-1 text-sm font-medium">
             Limited Time Offer
           </Badge>
@@ -43,8 +43,8 @@ export default function TutoringPage() {
             designed to help you crack coding interviews.
           </p>
               </motion.div>
-              <div className="text-base text-gray-500 flex items-center justify-center gap-1 mb-4 "> <Lock />
-  <p className="text-base text-gray-500 flex items-center justify-center gap-1">
+              <div className="text-base text-indigo-700 flex items-center justify-center gap-1 mb-4 mt-0"> <Lock />
+  <p className="text-base text-indigo-700 flex items-center justify-center gap-1">
     Secure payment powered by Stripe 
   </p>
 </div>
@@ -99,7 +99,7 @@ export default function TutoringPage() {
             <Card className="p-6 h-full bg-gradient-to-br from-indigo-50 via-white to-indigo-50 border-2 border-indigo-200 hover:border-indigo-400 transition-all duration-300 hover:shadow-lg relative overflow-hidden rounded-2xl">
               <div className="absolute top-1 right-1">
                 <Badge className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full px-3 py-1 text-sm font-medium">
-                  <Sparkles className="h-3 w-3 mr-1" />
+                  {/* <Sparkles className="h-3 w-3 mr-1" /> */}
                   Best Value
                 </Badge>
               </div>
