@@ -42,7 +42,8 @@ export default function TutoringPage() {
             Transform your problem-solving skills with personalized 1-on-1 tutoring sessions
             designed to help you crack coding interviews.
           </p>
-        </motion.div>
+              </motion.div>
+              <p className="text-sm text-center mb-4 text-gray-500">Secure payment powered by Stripe</p>
 
         {/* Pricing Section */}
         <motion.div 
@@ -140,7 +141,6 @@ export default function TutoringPage() {
 
         {/* Footer Note */}
         <motion.div variants={fadeIn} className="mt-8 text-center">
-          <p className="text-sm text-gray-500">Secure payment powered by Stripe</p>
         </motion.div>
       </motion.div>
     </div>
