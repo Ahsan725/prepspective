@@ -139,7 +139,7 @@ export function ServiceModal() {
 
               {/* Trust tag */}
               <p className="uppercase tracking-widest text-sm font-semibold text-white/60">
-                Trusted by 1,200+ Developers
+                Trusted by 400+ Developers
               </p>
 
               {/* Service Content */}
@@ -180,7 +180,7 @@ export function ServiceModal() {
               </motion.div>
 
               {/* Enhanced Rating */}
-              <div className="flex items-center justify-center space-x-1 text-yellow-400 text-xl font-bold pt-4">
+              <div className="flex items-center justify-center space-x-1 text-yellow-400 text-2xl font-bold pt-4">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                 ))}

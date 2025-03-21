@@ -64,15 +64,15 @@ export default function ServiceShowcaseSection() {
   return (
     <section className="relative w-full max-w-[95%] mx-auto font-['Segoe UI'] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.1)] mb-40">
       <div className="absolute inset-0 bg-gradient-to-l from-indigo-800 via-indigo-600 to-indigo-800 z-0 rounded-3xl">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,transparent_0%,rgba(0,0,0,0.5)_100%)] rounded-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,transparent_0%,rgba(0,0,0,0.2)_100%)] rounded-3xl" />
       </div>
 
       <div className="relative z-10 px-6 py-20 text-center flex flex-col items-center justify-center space-y-10">
-        <h3 className="text-white text-5xl sm:text-6xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
+        <h3 className="text-white text-5xl sm:text-6xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(255,255,255,0.1)]">
           Struggling to land roles?
         </h3>
         <p className="uppercase tracking-widest text-sm font-semibold text-white/60">
-          Trusted by 1,200+ Developers
+          Trusted by 400+ Developers
         </p>
 
         <AnimatePresence initial={false} custom={direction} mode="wait">
@@ -104,11 +104,11 @@ export default function ServiceShowcaseSection() {
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.button>
-            <div className="flex items-center justify-center space-x-1 text-yellow-400 text-md font-bold pt-4">
+            <div className="flex items-center justify-center space-x-1 text-yellow-400 text-2xl font-bold pt-4">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
               ))}
-              <span className="ml-2">4.9/5 Rating</span>
+              <span className="ml-2">4.9/5</span>
             </div>
           </motion.div>
         </AnimatePresence>
