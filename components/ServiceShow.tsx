@@ -65,10 +65,20 @@ export default function ServiceShowcaseSection() {
     <section className="relative w-full max-w-[95%] mx-auto font-['Segoe UI'] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.1)] mb-40">
       <div className="absolute inset-0 bg-gradient-to-l from-indigo-800 via-indigo-600 to-indigo-800 z-0 rounded-3xl">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,transparent_0%,rgba(0,0,0,0.2)_100%)] rounded-3xl" />
-      </div>
+          </div>
+          <div className="absolute top-5 left-5 z-50">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-extrabold text-indigo-50 drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">
+                {"{P}rep"}
+                <span className="font-bold text-indigo-50 text-2xl drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">
+                  Spective
+                </span>
+              </span>
+            </div>
+          </div>
 
       <div className="relative z-10 px-6 py-20 text-center flex flex-col items-center justify-center space-y-10">
-        <h3 className="text-white text-5xl sm:text-6xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(255,255,255,0.1)]">
+        <h3 className="text-indigo-200 text-5xl sm:text-6xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(255,255,255,0.1)]">
           Struggling to land roles?
         </h3>
         <p className="uppercase tracking-widest text-sm font-semibold text-white/60">
