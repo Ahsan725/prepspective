@@ -100,7 +100,7 @@ const subMenuItemsTwo = [
     description:
       "Get an ATS-optimized resume that stands out in tech interviews.",
     icon: <FileText className="size-6 shrink-0 text-indigo-700" />,
-    href: "/resume-writing",
+    href: "/resume",
   },
   {
     title: "Website Development",

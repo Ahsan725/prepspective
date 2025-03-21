@@ -106,8 +106,8 @@ export default function ModernHero() {
               initial={{ y: -50, opacity: 0, filter: "blur(10px)" }}
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 1, delay: 0.1 }}>
-              <p className="text-xs lg:text-sm font-bold text-indigo-600 uppercase tracking-wide">
-                THE BEST INTERVIEW PREP PLATFORM IN THE WORLD!
+              <p className="text-xs lg:text-sm font-bold text-indigo-600 tracking-wide">
+              We hit max capacity. Waitlist now and get priority when we launch the next batch!
               </p>
             </motion.div>
 
