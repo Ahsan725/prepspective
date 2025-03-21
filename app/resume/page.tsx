@@ -1,4 +1,3 @@
-// app/resume/page.tsx
 'use client';
 
 import React from 'react';
@@ -7,6 +6,8 @@ import { Check, FileText, FileEdit, FileDown, LucideIcon } from 'lucide-react';
 type PricingCardProps = {
   title: string;
   price: string;
+  originalPrice?: string;
+  savingsPercent?: string;
   features: string[];
   description: string;
   popular?: boolean;
@@ -16,6 +17,8 @@ type PricingCardProps = {
 function PricingCard({
   title,
   price,
+  originalPrice,
+  savingsPercent,
   features,
   description,
   popular = false,
@@ -41,12 +44,18 @@ function PricingCard({
       <p className="text-gray-600 text-center mb-6 h-24">{description}</p>
       <div className="text-center mb-6">
         <span className="text-4xl font-bold">${price}</span>
+        {originalPrice && savingsPercent && (
+          <>
+            <p className="text-sm text-gray-500 line-through">${originalPrice}</p>
+            <p className="text-xl font-bold text-indigo-600">{savingsPercent}!</p>
+          </>
+        )}
         <p className="text-sm text-gray-500">One-time investment in your career</p>
       </div>
       <ul className="space-y-4 mb-8">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start">
-            <Check className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
+            <Check className="w-5 h-5 text-indigo-500 mr-3 mt-1 flex-shrink-0" />
             <span className="text-gray-600">{feature}</span>
           </li>
         ))}
@@ -67,8 +76,25 @@ function PricingCard({
 export default function ResumePage() {
   const plans: PricingCardProps[] = [
     {
+      title: 'ATS Killer Template',
+      price: '20',
+      description:
+        'Prefer to do it yourself? Use the exact template our experts use — complete with a guide, sample content, and keyword suggestions.',
+      features: [
+        'ATS-optimized template',
+        'Fully editable format',
+        'Step-by-step writing guide',
+        'Real resume sample content',
+        'Keyword bank included',
+        'Lifetime access',
+      ],
+      icon: FileDown,
+    },
+    {
       title: 'ATS-Optimized Resume',
       price: '30',
+      originalPrice: '45',
+      savingsPercent: 'SAVE 33%',
       description:
         'We will professionally rewrite your resume using a format that consistently gets past Applicant Tracking Systems (ATS) and into recruiter hands.',
       features: [
@@ -84,6 +110,8 @@ export default function ResumePage() {
     {
       title: 'Premium Editable Resume',
       price: '60',
+      originalPrice: '90',
+      savingsPercent: 'SAVE 67%',
       description:
         'Our best-seller. You receive everything from the basic package — plus full editability and personalized support to keep your resume future-proof.',
       popular: true,
@@ -98,21 +126,6 @@ export default function ResumePage() {
       ],
       icon: FileEdit,
     },
-    {
-      title: 'ATS Killer Template',
-      price: '20',
-      description:
-        'Prefer to do it yourself? Use the exact template our experts use — complete with a guide, sample content, and keyword suggestions.',
-      features: [
-        'ATS-optimized template',
-        'Fully editable format',
-        'Step-by-step writing guide',
-        'Real resume sample content',
-        'Keyword bank included',
-        'Lifetime access',
-      ],
-      icon: FileDown,
-    },
   ];
 
   return (
@@ -123,7 +136,7 @@ export default function ResumePage() {
             Land More Interviews with a <span className=" text-indigo-700 font-bold">Resume That Works!</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-        85% of resumes never reach human eyes. Do not let yours be one of them. Our proven,
+            85% of resumes never reach human eyes. Do not let yours be one of them. Our proven,
             ATS-optimized solutions have helped hundreds get interviews faster and repeatedly.
           </p>
         </div>

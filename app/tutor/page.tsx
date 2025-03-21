@@ -117,7 +117,7 @@ export default function TutorPage() {
             <ul className="space-y-4 mb-8">
               {["45-minute personalized session", "Problem-solving strategies", "Interview preparation tips", "Post-session resources"].map((feature, index) => (
                 <li key={index} className="flex items-start">
-                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-indigo-500 mr-3 mt-1 flex-shrink-0" />
                   <span className="text-gray-600">{feature}</span>
                 </li>
               ))}
@@ -144,15 +144,16 @@ export default function TutorPage() {
             <p className="text-gray-600 text-center mb-6 h-20">Got an interview next week? This package helps you prep fast and effectively for one specific company.</p>
             <div className="text-center mb-6">
               <span className="text-4xl font-bold">$65</span>
+              <p className="text-sm text-gray-500 line-through">$95</p>
+              <p className="text-xl font-bold text-indigo-600">SAVE 32%!</p>
               <p className="text-sm text-gray-500">Focused 3-day prep</p>
             </div>
             <ul className="space-y-4 mb-8">
-              {["3 x 60-minute targeted sessions", "Company-specific question patterns", "Live mock interviews", "Custom feedback & action plan", "No LeetCode Premium Required"]
-                .map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
-                    <span className="text-gray-600">{feature}</span>
-                  </li>
+              {["3 x 60-minute targeted sessions", "Company-specific question patterns", "Live mock interviews", "Custom feedback & action plan", "No LeetCode Premium Required"].map((feature, index) => (
+                <li key={index} className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-indigo-500 mr-3 mt-1 flex-shrink-0" />
+                  <span className="text-gray-600">{feature}</span>
+                </li>
               ))}
             </ul>
             <button
@@ -173,15 +174,15 @@ export default function TutorPage() {
             <div className="text-center mb-6">
               <span className="text-4xl font-bold">$49</span>
               <p className="text-sm text-gray-500 line-through">$95</p>
-              <p className="text-sm text-green-600">Save 48%</p>
+              <p className="text-xl font-bold text-indigo-600">SAVE 48%!</p>
+              <p className="text-sm text-gray-500">Complete bundle</p>
             </div>
             <ul className="space-y-4 mb-8">
-              {["5 x 45-minute sessions", "Structured learning path", "Progress tracking", "Interview simulation"]
-                .map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
-                    <span className="text-gray-600">{feature}</span>
-                  </li>
+              {["5 x 45-minute sessions", "Structured learning path", "Progress tracking", "Interview simulation"].map((feature, index) => (
+                <li key={index} className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-indigo-500 mr-3 mt-1 flex-shrink-0" />
+                  <span className="text-gray-600">{feature}</span>
+                </li>
               ))}
             </ul>
             <button

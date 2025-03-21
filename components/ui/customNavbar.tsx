@@ -107,7 +107,7 @@ const subMenuItemsTwo = [
     description:
       "Professional website development to build your personal or business brand.",
     icon: <Globe className="size-6 shrink-0 text-indigo-700" />,
-    href: "/website-development",
+    href: "/webdev",
   },
   {
     title: "Mock Interviews",
