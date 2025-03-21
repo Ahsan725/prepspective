@@ -11,6 +11,7 @@ import Image from "next/image";
 import FluidCursor from "@/components/ui/fluidCursor";
 import styles from "@/components/modern-hero.module.css";
 import { motion } from "framer-motion";
+import { ServiceModal } from '@/components/ServiceModal';
 
 export default function ModernHero() {
   const [email, setEmail] = useState("");
@@ -96,7 +97,7 @@ export default function ModernHero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         />
-
+ <ServiceModal />
         {/* Hero Content */}
         <div className="relative container px-4 mx-auto">
           <div className="max-w-4xl mx-auto space-y-8 text-center">
