@@ -43,9 +43,20 @@ export function ServiceModal() {
   const [direction, setDirection] = useState(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsOpen(true), 7000);
+    const timer = setTimeout(() => {
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const pageHeight = document.documentElement.scrollHeight;
+  
+      const isInBottom25Percent = scrollPosition > pageHeight * 0.75;
+  
+      if (!isInBottom25Percent) {
+        setIsOpen(true);
+      }
+    }, 30000);
+  
     return () => clearTimeout(timer);
   }, []);
+  
 
   useEffect(() => {
     if (isOpen) {

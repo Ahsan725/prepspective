@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Loader from "@/components/ui/loader";
 import SvgImage from '@/components/ui/heroimg';
 import Test from "@/components/ui/test";
+import ServiceShowcase from "@/components/ServiceShow";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -38,6 +39,7 @@ export default function HomePage() {
       <Familiar />
       <FeaturesSection />
       <FAQSection />
+      <ServiceShowcase/>
       {/* <Test /> */}
       <SpeedInsights />
     </main>
