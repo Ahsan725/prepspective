@@ -96,7 +96,7 @@ export default function ServiceShowcaseSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => window.location.href = service.link}
-              className="group relative px-10 py-4 bg-white rounded-xl text-gray-900 font-semibold text-lg shadow-lg hover:shadow-white/40 transition-all duration-300 overflow-hidden border border-white"
+              className="group relative px-10 py-4 bg-white rounded-xl text-gray-900 font-semibold text-lg shadow-lg hover:shadow-white/10 transition-all duration-300 overflow-hidden border border-white"
             >
               <span className="relative z-10 flex items-center justify-center">
                 Get Started
