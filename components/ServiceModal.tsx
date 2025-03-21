@@ -43,7 +43,7 @@ export function ServiceModal() {
   const [direction, setDirection] = useState(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsOpen(true), 60);
+    const timer = setTimeout(() => setIsOpen(true), 7000);
     return () => clearTimeout(timer);
   }, []);
 
