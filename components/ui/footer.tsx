@@ -7,15 +7,15 @@ const sections = [
     title: 'Product',
     links: [
       { name: 'Overview', href: '#' },
-      { name: 'Pricing', href: '#' },
-      { name: 'Marketplace', href: '#' },
+      { name: 'Pricing', href: '/resume' },
+      { name: 'Marketplace', href: '/tutor' },
       { name: 'Features', href: '#' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { name: 'About', href: '#' },
+      { name: 'About', href: '/about' },
       { name: 'Team', href: '#' },
       { name: 'Blog', href: '#' },
       { name: 'Careers', href: '#' },
@@ -24,9 +24,9 @@ const sections = [
   {
     title: 'Resources',
     links: [
-      { name: 'Help', href: '#' },
-      { name: 'Sales', href: '#' },
-      { name: 'Advertise', href: '#' },
+      { name: 'Help', href: '/contact' },
+      { name: 'Sales', href: '/contact' },
+      { name: 'Advertise', href: '/contact' },
       { name: 'Privacy', href: '#' },
     ],
   },

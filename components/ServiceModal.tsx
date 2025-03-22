@@ -84,7 +84,7 @@ export function ServiceModal() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="p-0 overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.1)] max-w-[1000px] w-[95vw] bg-transparent rounded-3xl border-none">
-        <DialogClose className="absolute right-6 top-6 z-50">
+        <DialogClose className="absolute right-3 top-3 z-50">
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -132,7 +132,7 @@ export function ServiceModal() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-white text-3xl sm:text-5xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(255,255,255,0.1)]"
+                className="text-white text-2xl sm:text-5xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(255,255,255,0.1)]"
               >
                 Struggling to land roles?
               </motion.h3>
@@ -179,14 +179,41 @@ export function ServiceModal() {
                 </motion.button>
               </motion.div>
 
-              {/* Enhanced Rating */}
-              <div className="flex items-center justify-center space-x-1 text-yellow-400 text-2xl font-bold pt-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                ))}
-                <span className="ml-2">4.9/5</span>
-              </div>
-            </motion.div>
+ <motion.div
+  className="flex items-center justify-center space-x-1 text-yellow-400 text-2xl font-bold pt-4"
+  initial="hidden"
+  animate="visible"
+  variants={{
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  }}
+>
+  {[...Array(5)].map((_, i) => (
+    <motion.div
+      key={i}
+      variants={{
+        hidden: { opacity: 0, scale: 0.5 },
+        visible: { opacity: 1, scale: 1 },
+      }}
+      transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+    >
+      <Star className="w-8 h-8 fill-yellow-400 text-yellow-400" />
+    </motion.div>
+  ))}
+  <motion.span
+    className="ml-2"
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.9, duration: 0.4 }}
+  >
+    4.9/5
+  </motion.span>
+</motion.div>
+
+          </motion.div>
           </AnimatePresence>
 
           {/* Navigation Dots */}
