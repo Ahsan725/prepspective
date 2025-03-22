@@ -10,6 +10,7 @@ import Loader from "@/components/ui/loader";
 import SvgImage from '@/components/ui/heroimg';
 import Test from "@/components/ui/test";
 import ServiceShowcase from "@/components/ServiceShow";
+import Footer from "@/components/ui/footer";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -39,7 +40,8 @@ export default function HomePage() {
       <Familiar />
       <FeaturesSection />
       <FAQSection />
-      <ServiceShowcase/>
+      <ServiceShowcase />
+      <Footer/>
       {/* <Test /> */}
       <SpeedInsights />
     </main>

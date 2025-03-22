@@ -62,7 +62,7 @@ export default function ServiceShowcaseSection() {
   };
 
   return (
-    <section className="relative w-full max-w-[95%] mx-auto font-['Segoe UI'] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.1)] mb-40">
+    <section className="relative w-full max-w-[99%] mx-auto font-['Segoe UI'] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.1)] mb-0">
       <div className="absolute inset-0 bg-gradient-to-l from-indigo-800 via-indigo-600 to-indigo-800 z-0 rounded-3xl">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,transparent_0%,rgba(0,0,0,0.2)_100%)] rounded-3xl" />
           </div>
@@ -114,12 +114,40 @@ export default function ServiceShowcaseSection() {
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.button>
-            <div className="flex items-center justify-center space-x-1 text-yellow-400 text-2xl font-bold pt-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-              ))}
-              <span className="ml-2">4.9/5</span>
-            </div>
+            <motion.div
+  className="flex items-center justify-center space-x-1 text-yellow-400 text-2xl font-bold pt-4"
+  initial="hidden"
+  animate="visible"
+  variants={{
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  }}
+>
+  {[...Array(5)].map((_, i) => (
+    <motion.div
+      key={i}
+      variants={{
+        hidden: { opacity: 0, scale: 0.5 },
+        visible: { opacity: 1, scale: 1 },
+      }}
+      transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+    >
+      <Star className="w-8 h-8 fill-yellow-400 text-yellow-400" />
+    </motion.div>
+  ))}
+  <motion.span
+    className="ml-2"
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.9, duration: 0.4 }}
+  >
+    4.9/5
+  </motion.span>
+</motion.div>
+
           </motion.div>
         </AnimatePresence>
 
