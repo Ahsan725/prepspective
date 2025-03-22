@@ -308,14 +308,14 @@ const CustomNavbar = () => {
         {/* Mobile Navigation */}
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-bold text-indigo-700">
-                <span className="text-xl font-extrabold lg:text-xl text-indigo-700">
-                  {"{P}rep"}
-                </span>
-                Spective
-              </span>
-            </div>
+          <div className="flex items-center gap-2">
+  <Link href="/" className="flex items-center gap-1 hover:opacity-90 transition-opacity">
+    <span className="text-2xl font-extrabold text-indigo-700">
+      {"{P}rep"}
+      <span className="font-bold text-indigo-700 text-2xl">Spective</span>
+    </span>
+  </Link>
+</div>
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -329,14 +329,14 @@ const CustomNavbar = () => {
               <SheetContent className="overflow-y-auto flex flex-col">
                 <SheetHeader>
                   <SheetTitle>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl font-bold text-indigo-700">
-                        <span className="text-xl font-extrabold lg:text-xl text-indigo-700">
-                          {"{P}rep"}
-                        </span>
-                        Spective
-                      </span>
-                    </div>
+                  <div className="flex items-center gap-2">
+  <Link href="/" className="flex items-center gap-1 hover:opacity-90 transition-opacity">
+    <span className="text-2xl font-extrabold text-indigo-700">
+      {"{P}rep"}
+      <span className="font-bold text-indigo-700 text-2xl">Spective</span>
+    </span>
+  </Link>
+</div>
                   </SheetTitle>
                 </SheetHeader>
                 <div className="my-8 flex flex-col gap-4 flex-1">
