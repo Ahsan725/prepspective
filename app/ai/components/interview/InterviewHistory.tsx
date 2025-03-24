@@ -1,8 +1,6 @@
-/* eslint-enable @typescript-eslint/no-explicit-any */
-
-"use client";
-import React from "react";
-import { Button } from "@/components/ui/button";
+'use client';
+import React from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -10,10 +8,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { History } from "lucide-react";
-import { InterviewSession } from "../../types";
-import jsPDF from "jspdf";
+} from '@/components/ui/card';
+import { History, Star } from 'lucide-react';
+import { InterviewSession } from '../../types';
+import jsPDF from 'jspdf';
 
 interface InterviewHistoryProps {
   showHistory: boolean;
@@ -26,34 +24,28 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
   sessions,
   onToggleHistory,
 }) => {
-  // Helper function to load an image and return a Base64 data URL
-  const loadImageAsBase64 = async (url: string): Promise<string> => {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        resolve(reader.result as string);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  };
-
   const handleDownloadPDF = async () => {
     const doc = new jsPDF();
 
-    // Load logo
-    const logoData = await loadImageAsBase64("/pdflogo.png");
+    const loadImageAsBase64 = async (url: string): Promise<string> => {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          resolve(reader.result as string);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    };
 
-    // Style configuration
+    const logoData = await loadImageAsBase64('/pdflogo.png');
     const indigo700: [number, number, number] = [67, 56, 202];
     const textColor: [number, number, number] = [0, 0, 0];
     const headingFontSize = 8;
     const bodyFontSize = 8;
     const titleFontSize = 12;
-
-    // Layout configuration
     const marginLeft = 10;
     const marginRight = 10;
     const marginTop = 10;
@@ -71,27 +63,24 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       let yPos = yStart;
       const lineHeight = 4;
 
-      // Session Header
-      doc.setFont("times", "bold");
+      doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
       doc.text(`Session ${sessionIndex + 1}:`, marginLeft, yPos);
       yPos += lineHeight;
 
-      // Mode
-      doc.setFont("times", "normal");
+      doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
       doc.text(
         `Mode: ${
-          session.mode === "software" ? "Software Engineering" : "Behavioral"
+          session.mode === 'software' ? 'Software Engineering' : 'Behavioral'
         } Interview`,
         marginLeft,
         yPos
       );
       yPos += lineHeight;
 
-      // Date
       doc.text(
         `Date: ${new Date(session.date).toLocaleDateString()}`,
         marginLeft,
@@ -99,15 +88,13 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       );
       yPos += lineHeight;
 
-      // Question Header
-      doc.setFont("times", "bold");
+      doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
-      doc.text("Question:", marginLeft, yPos);
+      doc.text('Question:', marginLeft, yPos);
       yPos += lineHeight;
 
-      // Question Body
-      doc.setFont("times", "normal");
+      doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
       const questionLines = doc.splitTextToSize(
@@ -117,15 +104,13 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.text(questionLines, marginLeft, yPos);
       yPos += lineHeight * questionLines.length;
 
-      // Response Header
-      doc.setFont("times", "bold");
+      doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
-      doc.text("Your Response:", marginLeft, yPos);
+      doc.text('Your Response:', marginLeft, yPos);
       yPos += lineHeight;
 
-      // Response Body
-      doc.setFont("times", "normal");
+      doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
       const responseLines = doc.splitTextToSize(
@@ -135,29 +120,25 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.text(responseLines, marginLeft, yPos);
       yPos += lineHeight * responseLines.length;
 
-      // Score Header
-      doc.setFont("times", "bold");
+      doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
-      doc.text("Score:", marginLeft, yPos);
+      doc.text('Score:', marginLeft, yPos);
       yPos += lineHeight;
 
-      // Score Body
-      doc.setFont("times", "normal");
+      doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
       doc.text(`${session.feedback.overallScore}/5`, marginLeft, yPos);
       yPos += lineHeight;
 
-      // Feedback Header
-      doc.setFont("times", "bold");
+      doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
-      doc.text("Feedback:", marginLeft, yPos);
+      doc.text('Feedback:', marginLeft, yPos);
       yPos += lineHeight;
 
-      // Feedback Body
-      doc.setFont("times", "normal");
+      doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
       const feedbackLines = doc.splitTextToSize(
@@ -167,38 +148,34 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.text(feedbackLines, marginLeft, yPos);
       yPos += lineHeight * feedbackLines.length;
 
-      // Strengths Header
-      doc.setFont("times", "bold");
+      doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
-      doc.text("Strengths:", marginLeft, yPos);
+      doc.text('Strengths:', marginLeft, yPos);
       yPos += lineHeight;
 
-      // Strengths Body
-      doc.setFont("times", "normal");
+      doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
       const strengthsText = Array.isArray(session.feedback.strengths)
-        ? session.feedback.strengths.join(", ")
-        : "";
+        ? session.feedback.strengths.join(', ')
+        : '';
       const strengthsLines = doc.splitTextToSize(strengthsText, effectiveWidth);
       doc.text(strengthsLines, marginLeft, yPos);
       yPos += lineHeight * strengthsLines.length;
 
-      // Weaknesses Header
-      doc.setFont("times", "bold");
+      doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
-      doc.text("Weaknesses:", marginLeft, yPos);
+      doc.text('Weaknesses:', marginLeft, yPos);
       yPos += lineHeight;
 
-      // Weaknesses Body
-      doc.setFont("times", "normal");
+      doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
       const weaknessesText = Array.isArray(session.feedback.areasToImprove)
-        ? session.feedback.areasToImprove.join(", ")
-        : "";
+        ? session.feedback.areasToImprove.join(', ')
+        : '';
       const weaknessesLines = doc.splitTextToSize(
         weaknessesText,
         effectiveWidth
@@ -210,95 +187,114 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       return yPos;
     };
 
-    // Generate pages
     for (let i = 0; i < sessions.length; i += sessionsPerPage) {
       if (i > 0) doc.addPage();
 
-      // Add logo
-      doc.addImage(logoData, "PNG", marginLeft, marginTop, 30, 5);
+      doc.addImage(logoData, 'PNG', marginLeft, marginTop, 30, 5);
 
-      // Page title
       let yPosition = marginTop + 20;
-      doc.setFont("times", "bold");
+      doc.setFont('times', 'bold');
       doc.setFontSize(titleFontSize);
       doc.setTextColor(...indigo700);
-      doc.text("Interview Grade Report", pageWidth / 2, yPosition, {
-        align: "center",
+      doc.text('Interview Grade Report', pageWidth / 2, yPosition, {
+        align: 'center',
       });
       yPosition += 10;
 
-      // Reset to body style
-      doc.setFont("times", "normal");
+      doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
 
-      // Render sessions
       for (let j = i; j < Math.min(i + sessionsPerPage, sessions.length); j++) {
         yPosition = renderSession(sessions[j], j, yPosition);
       }
     }
 
-    doc.save("PrepSpective_interview_history.pdf");
+    doc.save('PrepSpective_interview_history.pdf');
   };
+
+  const renderStars = (score: number) => (
+    <div className="flex items-center gap-0.5">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star
+          key={star}
+          className={`h-5 w-5 ${score >= star ? 'text-yellow-400' : 'text-gray-300'}`}
+          fill={score >= star ? '#facc15' : 'none'}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <div className="w-full max-w-6xl mx-auto mt-8">
-      <div className="flex justify-between items-center mb-4">
-        <Button
-          variant="outline"
-          onClick={onToggleHistory}
-          className="flex items-center gap-2">
+      <div className="flex justify-between items-center mb-6">
+        <Button variant="outline" onClick={onToggleHistory} className="flex items-center gap-2">
           <History className="h-4 w-4" />
-          {showHistory ? "Hide History" : "Show Interview History"}
+          {showHistory ? 'Hide History' : 'Show Interview History'}
         </Button>
-        <Button
-          variant="outline"
-          onClick={handleDownloadPDF}
-          className="flex items-center gap-2">
+        <Button variant="outline" onClick={handleDownloadPDF} className="flex items-center gap-2">
           Download History PDF
         </Button>
       </div>
 
       {showHistory && (
-        <div className="space-y-4">
+        <div className="space-y-6">
           {sessions.map((session) => (
-            <Card key={session.id} className="shadow-sm">
-              <CardHeader className="pb-2">
+            <Card key={session.id} className="rounded-xl border border-slate-200 shadow-md hover:shadow-lg transition-shadow bg-white">
+              <CardHeader className="p-6 border-b bg-slate-100 rounded-t-xl">
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-lg">
-                      {session.mode === "software"
-                        ? "Software Engineering"
-                        : "Behavioral"}{" "}
-                      Interview
+                    <CardTitle className="text-xl font-bold">
+                      {session.mode === 'software' ? 'Technical Interview' : 'Behavioral Interview'}
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="text-slate-600 text-sm mt-1">
                       {new Date(session.date).toLocaleDateString()}
                     </CardDescription>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold text-indigo-600">
+                  <div className="text-right">
+                    {renderStars(session.feedback.overallScore)}
+                    <p className="text-sm mt-1 font-medium">
                       {session.feedback.overallScore}/5
-                    </span>
+                    </p>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <p className="font-medium">Question:</p>
-                  <p className="text-gray-600">{session.question}</p>
-                  <p className="font-medium mt-4">Your Response:</p>
-                  <p className="text-gray-600">{session.transcript}</p>
+
+              <CardContent className="p-6 space-y-5">
+                <div>
+                  <p className="text-sm text-slate-500 font-medium mb-1">Question</p>
+                  <p className="text-base text-slate-800 leading-relaxed">{session.question}</p>
+                </div>
+
+                <div>
+                  <p className="text-sm text-slate-500 font-medium mb-1">Your Response</p>
+                  <p className="text-base text-slate-800 whitespace-pre-wrap leading-relaxed">{session.transcript}</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <p className="text-sm text-green-700 font-semibold mb-1">Strengths</p>
+                    <ul className="text-slate-700 list-disc list-inside space-y-1 text-sm">
+                      {session.feedback.strengths.map((s, i) => (
+                        <li key={i}>{s}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="text-sm text-yellow-700 font-semibold mb-1">Areas to Improve</p>
+                    <ul className="text-slate-700 list-disc list-inside space-y-1 text-sm">
+                      {session.feedback.areasToImprove.map((w, i) => (
+                        <li key={i}>{w}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </CardContent>
-              <CardFooter className="bg-gray-50">
-                <div className="w-full">
-                  <p className="font-medium text-sm text-gray-600">
-                    Key Feedback:
-                  </p>
-                  <p className="text-sm mt-1">
-                    {session.feedback.detailedFeedback}
-                  </p>
+
+              <CardFooter className="bg-slate-50 px-6 py-4 rounded-b-xl">
+                <div className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">
+                  <p className="font-medium text-slate-800 mb-1">Detailed Feedback:</p>
+                  {session.feedback.detailedFeedback}
                 </div>
               </CardFooter>
             </Card>
