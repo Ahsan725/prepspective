@@ -29,7 +29,7 @@ export const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({
     <div className="space-y-6">
       {/* Transcript Approval Section */}
       <Card className="rounded-lg shadow-sm border border-slate-100">
-        <CardHeader className="p-6 border-b bg-gradient-to-r from-emerald-600 to-emerald-300 text-white rounded-t-xl">
+        <CardHeader className="p-6 border-b bg-gradient-to-tr from-emerald-700 to-teal-400 text-white rounded-t-xl">
           <div className="flex items-center gap-3">
             <CheckCircle className="h-6 w-6" />
             <div>
@@ -73,7 +73,7 @@ export const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({
       {/* Feedback Section */}
       {feedback && (
         <Card className="rounded-lg shadow-sm border border-slate-100">
-          <CardHeader className="p-6 border-b bg-gradient-to-r from-orange-600 to-yellow-400 text-white rounded-t-xl">
+          <CardHeader className="p-6 border-b bg-gradient-to-tr from-orange-600 to-yellow-300 text-white rounded-t-xl">
             <div className="flex items-center gap-3">
               <Star className="h-6 w-6" />
               <div>

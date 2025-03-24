@@ -37,7 +37,7 @@ export const CurrentQuestion: React.FC<CurrentQuestionProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto mb-8">
       <Card className="relative border-none shadow-xl ring-1 ring-slate-200 rounded-xl overflow-hidden">
-        <CardHeader className="bg-gradient-to-tr from-indigo-600 to-purple-600 text-white p-6">
+        <CardHeader className="bg-gradient-to-tr from-blue-700 to-cyan-300 text-white p-6">
           <div className="flex items-center justify-between">
             <CardTitle className="text-2xl font-bold flex items-center gap-3">
               {modeIcon}
