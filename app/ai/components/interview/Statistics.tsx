@@ -59,7 +59,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
   averageScore,
 }) => {
   return (
-    <div className="w-full max-w-6xl mx-auto mb-10">
+    <div className="w-full max-w-6xl mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Questions */}
         <Card className={cardStyles}>

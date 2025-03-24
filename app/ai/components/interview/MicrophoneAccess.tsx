@@ -41,14 +41,14 @@ export const MicrophoneAccess: React.FC<MicrophoneAccessProps> = ({
       )}
 
       {hasMicrophoneAccess && (
-        <div className="flex items-center justify-center space-x-2 bg-emerald-100 border border-emerald-400 text-emerald-700 px-4 py-2 rounded-lg shadow-md">
+        <div className="flex items-center space-x-2 bg-emerald-100 border border-emerald-400 text-emerald-700 px-4 py-2 rounded-lg shadow-md font-bold text-sm">
           <CheckCircle className="h-6 w-6" />
           <span>Microphone access granted.</span>
         </div>
       )}
 
       {hasMicrophoneAccess === false && (
-        <div className="flex items-center justify-center space-x-2 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-lg shadow-md">
+        <div className="flex items-center space-x-2 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-lg shadow-md font-bold text-sm">
           <XCircle className="h-6 w-6" />
           <span>Microphone access denied.</span>
         </div>
