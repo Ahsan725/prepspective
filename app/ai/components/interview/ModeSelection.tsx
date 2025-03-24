@@ -24,7 +24,7 @@ export const ModeSelection: React.FC<ModeSelectionProps> = ({ onModeSelect }) =>
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className="w-full max-w-4xl mx-auto mb-10"
     >
-      <Card className="rounded-xl border-none transition-all duration-300">
+      <Card className="rounded-xl border-none shadow-none">
         <CardHeader className="text-center pb-2">
           <CardTitle className="text-3xl font-bold text-slate-800">
             Choose Your Mode
@@ -36,26 +36,22 @@ export const ModeSelection: React.FC<ModeSelectionProps> = ({ onModeSelect }) =>
 
         <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6 px-6 pb-6">
           {/* Technical Mode */}
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+          <button
             onClick={() => onModeSelect('software')}
-            className="flex flex-col items-center justify-center gap-3 p-6 rounded-lg border border-slate-400 bg-slate-200 hover:bg-indigo-100 transition-all duration-300 hover:shadow-lg text-slate-700 hover:text-indigo-700 hover:border-indigo-500 hover:border-2"
+            className="flex flex-col items-center justify-center gap-3 p-6 rounded-lg border border-slate-300 bg-white hover:bg-indigo-50 transition-colors duration-100 hover:shadow-xl text-slate-800 hover:text-indigo-700"
           >
-            <Code className="h-8 w-8 transition-all duration-300" />
+            <Code className="h-8 w-8 text-indigo-600" />
             <span className="text-2xl font-semibold">Technical</span>
-          </motion.button>
+          </button>
 
           {/* Behavioral Mode */}
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+          <button
             onClick={() => onModeSelect('behavioral')}
-            className="flex flex-col items-center justify-center gap-3 p-6 rounded-lg border border-slate-400 bg-slate-200 hover:bg-indigo-100 transition-all duration-300 hover:shadow-lg text-slate-700 hover:text-indigo-700 hover:border-indigo-500 hover:border-2"
+            className="flex flex-col items-center justify-center gap-3 p-6 rounded-lg border border-slate-300 bg-white hover:bg-indigo-50 transition-colors duration-100 hover:shadow-xl text-slate-800 hover:text-indigo-700"
           >
-            <Users className="h-8 w-8 transition-all duration-300" />
+            <Users className="h-8 w-8 text-indigo-600" />
             <span className="text-2xl font-semibold">Behavioral</span>
-          </motion.button>
+          </button>
         </CardContent>
       </Card>
     </motion.div>
