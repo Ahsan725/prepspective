@@ -72,10 +72,10 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
       <CardHeader className="bg-gradient-to-tr from-indigo-600 to-purple-600 text-white rounded-t-xl p-6">
         <CardTitle className="text-2xl font-bold flex items-center gap-2">
           <Mic className="h-6 w-6" />
-          Voice Recorder
+          Step 1. Record your Response
         </CardTitle>
         <CardDescription className="text-indigo-100 text-sm font-medium mt-1">
-          Record your interview response (max {MAX_TIME} seconds)
+          Read the question properly. Record your interview response (max {MAX_TIME} seconds)
         </CardDescription>
       </CardHeader>
 

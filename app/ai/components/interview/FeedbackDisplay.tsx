@@ -7,7 +7,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { CheckCircle, Loader2, Star } from 'lucide-react';
 import { FeedbackData } from '../../types';
 
@@ -28,97 +27,136 @@ export const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Approved Transcript Card */}
-      <Card className="shadow-lg">
-        <CardHeader className="border-b">
-          <CardTitle className="text-2xl flex items-center">
-            <CheckCircle className="h-6 w-6 mr-2 text-emerald-600" />
-            Ready for Grading?
-          </CardTitle>
-          <CardDescription className="text-gray-600">
-            You can rerecord your answer if you want. Be clear and specific. When you are satisfied with your answer click Grade Interview.
-          </CardDescription>
+      {/* Transcript Approval Section */}
+      <Card className="rounded-lg shadow-sm border border-slate-100">
+        <CardHeader className="p-6 border-b bg-gradient-to-r from-emerald-600 to-emerald-300 text-white rounded-t-xl">
+          <div className="flex items-center gap-3">
+            <CheckCircle className="h-6 w-6" />
+            <div>
+              <CardTitle className="text-2xl font-bold flex items-center gap-2">
+                Step 2. Ready to Grade?
+              </CardTitle>
+              <CardDescription className="text-slate-100 text-sm">
+                Finalize your answer for AI evaluation
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent className="pt-4 space-y-4">
-          {/* the transcript is being generated and eveyrthing is working as fine i have made it invisible by commenting it out just uncomment and you will get the old fubnctionality back */}
-          {/* <label className="flex items-center space-x-2 text-sm text-gray-700">
-            <input
-              type="checkbox"
-              checked={showTranscript}
-              onChange={() => setShowTranscript(!showTranscript)}
-            />
-            <span>Show transcript</span>
-          </label> */}
-
+        <CardContent className="p-5 space-y-4">
           {showTranscript && (
-            <div className="bg-white p-4 rounded-lg border border-gray-100">
-              <p className="text-gray-800 whitespace-pre-wrap">
-                {approvedTranscript || 'No approved transcript yet.'}
-              </p>
+            <div className="bg-slate-50 p-3 rounded-md text-sm text-slate-600 border border-slate-100">
+              {approvedTranscript || 'No transcript provided.'}
             </div>
           )}
 
-          {approvedTranscript && !isGrading && !feedback && (
-            <Button onClick={onGrade} className="w-full">
-              Grade Interview
-            </Button>
-          )}
+          <div className="flex flex-col gap-3">
+            {!isGrading && !feedback && approvedTranscript && (
+              <Button
+                onClick={onGrade}
+                size="sm"
+                className="w-fit text-sm font-semibold bg-emerald-600 hover:bg-emerald-700"
+              >
+                Grade Interview
+              </Button>
+            )}
 
-          {isGrading && (
-            <div className="flex items-center justify-center space-x-2">
-              <Loader2 className="h-5 w-5 animate-spin" />
-              <span>Grading interview...</span>
-            </div>
-          )}
+            {isGrading && (
+              <div className="flex items-center gap-2 text-slate-500 text-sm">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span>Analyzing response...</span>
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
 
-      {/* Feedback Display */}
+      {/* Feedback Section */}
       {feedback && (
-        <Card className="shadow-lg">
-          <CardHeader className="border-b">
-            <CardTitle className="text-2xl flex items-center">
-              <Star className="h-6 w-6 mr-2 text-yellow-500" />
-              Interview Feedback
-            </CardTitle>
-            <CardDescription className="text-gray-600">
-              AI-powered interview analysis
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6 pt-4">
-            {/* Overall Score */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="font-medium">Overall Score</span>
-                <span className="text-lg font-bold">{feedback.overallScore}/5</span>
+        <Card className="rounded-lg shadow-sm border border-slate-100">
+          <CardHeader className="p-6 border-b bg-gradient-to-r from-orange-600 to-yellow-400 text-white rounded-t-xl">
+            <div className="flex items-center gap-3">
+              <Star className="h-6 w-6" />
+              <div>
+                <CardTitle className="text-2xl font-bold flex items-center gap-2">
+                  Step 3. AI Evaluation
+                </CardTitle>
+                <CardDescription className="text-slate-100 text-sm">
+                  Performance analysis and recommendations
+                </CardDescription>
               </div>
-              <Progress value={feedback.overallScore * 15} className="h-2" />
             </div>
+          </CardHeader>
 
-            {/* Strengths */}
-            <div>
-              <h3 className="font-semibold text-green-600 mb-2">Strengths</h3>
-              <ul className="list-disc pl-5 space-y-1">
-                {feedback.strengths.map((strength, index) => (
-                  <li key={index} className="text-gray-700">{strength}</li>
-                ))}
-              </ul>
-            </div>
+          <CardContent className="p-5 space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Metrics Column */}
+              <div className="lg:col-span-1 space-y-4">
+                <div className="bg-white p-4 rounded-lg border border-slate-100 shadow-xs">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className={`h-12 w-12 ${
+                            feedback.overallScore >= star
+                              ? 'text-amber-500'
+                              : 'text-slate-200'
+                          }`}
+                          fill={feedback.overallScore >= star ? '#f59e0b' : 'none'}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-sm font-semibold text-slate-700">
+                      Overall Score: {feedback.overallScore}/5
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-            {/* Areas to Improve */}
-            <div>
-              <h3 className="font-semibold text-amber-600 mb-2">Areas to Improve</h3>
-              <ul className="list-disc pl-5 space-y-1">
-                {feedback.areasToImprove.map((area, index) => (
-                  <li key={index} className="text-gray-700">{area}</li>
-                ))}
-              </ul>
-            </div>
+              {/* Content Column */}
+              <div className="lg:col-span-2 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Strengths */}
+                  <div className="p-3 bg-green-50 rounded-lg border border-green-100">
+                    <h3 className="text-lg font-semibold text-green-700 mb-2">
+                      Strengths
+                    </h3>
+                    <ul className="space-y-1.5 text-md text-slate-700">
+                      {feedback.strengths.map((s, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-green-500 text-xl">✓</span>
+                          {s}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-            {/* Detailed Feedback */}
-            <div>
-              <h3 className="font-semibold text-indigo-600 mb-2">Feedback</h3>
-              <p className="text-gray-700 whitespace-pre-wrap">{feedback.detailedFeedback}</p>
+                  {/* Improvements */}
+                  <div className="p-3 bg-rose-50 rounded-lg border border-rose-100">
+                    <h3 className="text-lg font-semibold text-rose-700 mb-2">
+                      Areas to Improve
+                    </h3>
+                    <ul className="space-y-1.5 text-md text-slate-700">
+                      {feedback.areasToImprove.map((a, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-rose-500 text-xl">x</span>
+                          {a}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Detailed Feedback */}
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
+                  <h3 className="text-lg font-semibold text-blue-700 mb-3">
+                    Detailed Analysis
+                  </h3>
+                  <div className="text-md text-slate-700 leading-relaxed">
+                    {feedback.detailedFeedback}
+                  </div>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
