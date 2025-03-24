@@ -50,7 +50,7 @@ const App: React.FC = () => {
   const [gradeCount, setGradeCount] = useState(0);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
 
-  const FEEDBACK_TRIGGER_THRESHOLD = 2; // Change this to 5, 10, etc. to delay feedback modal
+  const FEEDBACK_TRIGGER_THRESHOLD = 1; // Change this to 5, 10, etc. to delay feedback modal
 
   const {
     mode,
