@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -23,6 +24,8 @@ export const CurrentQuestion: React.FC<CurrentQuestionProps> = ({
   onChangeMode,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [animatingOut, setAnimatingOut] = useState(false);
+  const [displayedQuestion, setDisplayedQuestion] = useState(question);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(question);
@@ -30,8 +33,20 @@ export const CurrentQuestion: React.FC<CurrentQuestionProps> = ({
     setTimeout(() => setCopied(false), 1500);
   };
 
-  const modeLabel =
-    mode === 'software' ? 'Technical' : 'Behavioral';
+  const handleNewQuestionClick = () => {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      onNewQuestion();
+      setAnimatingOut(false);
+    }, 400); // duration matches animation below
+  };
+
+  // Update displayedQuestion when prop changes
+  React.useEffect(() => {
+    setDisplayedQuestion(question);
+  }, [question]);
+
+  const modeLabel = mode === 'software' ? 'Technical' : 'Behavioral';
   const modeIcon = mode === 'software' ? <Code className="h-6 w-6" /> : <Users className="h-6 w-6" />;
 
   return (
@@ -50,21 +65,23 @@ export const CurrentQuestion: React.FC<CurrentQuestionProps> = ({
         </CardHeader>
 
         <CardContent className="p-6 bg-white">
-          <div className="flex justify-between items-start flex-col md:flex-row md:items-center md:space-y-0 space-y-4 mb-6 animate-fade-in">
-            <p className="text-lg md:text-xl leading-relaxed text-slate-800 max-w-4xl md:mr-8">
-              {question}
-            </p>
+          <div className="flex justify-between items-start flex-col md:flex-row md:items-center md:space-y-0 space-y-4 mb-6">
+            <motion.p
+              key={displayedQuestion}
+              initial={{ opacity: 0, filter: 'blur(26px)' }}
+              animate={{ opacity: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, filter: 'blur(16px)' }}
+              transition={{ duration: 0.8 }}
+              className="text-lg md:text-xl leading-relaxed text-slate-800 max-w-4xl md:mr-8"
+            >
+              {displayedQuestion}
+            </motion.p>
+
             <div className="flex gap-2 flex-shrink-0">
-              <Button
-                variant="outline"
-                onClick={onNewQuestion}
-              >
+              <Button variant="outline" onClick={handleNewQuestionClick}>
                 Try Another Question
               </Button>
-              <Button
-                variant="outline"
-                onClick={onChangeMode}
-              >
+              <Button variant="outline" onClick={onChangeMode}>
                 Change Mode
               </Button>
               <Button
@@ -77,8 +94,11 @@ export const CurrentQuestion: React.FC<CurrentQuestionProps> = ({
               </Button>
             </div>
           </div>
+
           {copied && (
-            <p className="text-sm text-green-600 font-medium mt-1">Copied to clipboard!</p>
+            <p className="text-sm text-green-600 font-medium mt-1">
+              Copied to clipboard!
+            </p>
           )}
         </CardContent>
       </Card>
