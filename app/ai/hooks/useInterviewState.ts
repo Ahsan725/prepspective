@@ -121,6 +121,7 @@ export const useInterviewState = () => {
     setShowTips,
     setCountdownStarted,
     setCountdown,
+    setFeedback,
     selectRandomQuestion,
     handleModeSelect,
     gradeInterview,

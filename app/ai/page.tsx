@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useSpeechRecognition } from './hooks/useSpeechRecognition';
 import { useInterviewState } from './hooks/useInterviewState';
@@ -11,9 +12,19 @@ import { MicrophoneAccess } from './components/interview/MicrophoneAccess';
 import { VoiceRecorder } from './components/interview/VoiceRecorder';
 import { FeedbackDisplay } from './components/interview/FeedbackDisplay';
 import { InterviewHistory } from './components/interview/InterviewHistory';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { toast } from '@/hooks/use-toast';
 
 const App: React.FC = () => {
-  // Speech recognition state from hook
   const {
     isRecording,
     transcript,
@@ -30,7 +41,17 @@ const App: React.FC = () => {
     setTranscript,
   } = useSpeechRecognition();
 
-  // Interview state from hook (assumes useInterviewState exposes setMode)
+  const [feedbackForm, setFeedbackForm] = useState({
+    name: '',
+    message: '',
+  });
+  const [feedbackResult, setFeedbackResult] = useState('');
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+  const [gradeCount, setGradeCount] = useState(0);
+  const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
+
+  const FEEDBACK_TRIGGER_THRESHOLD = 2; // Change this to 5, 10, etc. to delay feedback modal
+
   const {
     mode,
     currentQuestion,
@@ -48,31 +69,39 @@ const App: React.FC = () => {
     setShowHistory,
     setShowTips,
     gradeInterview,
-    setMode, // used to reset the mode
+    setMode,
+    setFeedback,
   } = useInterviewState();
 
-  // New state to track AI feature usage (max 2 times per session for demo purposes)
   const [usageCount, setUsageCount] = useState<number>(0);
-  const maxUsage = 2;
+  const [isFeedbackRequired, setIsFeedbackRequired] = useState(false);
+  const maxUsage = 3;
 
-  // Load initial usage count from sessionStorage
   useEffect(() => {
     const storedCount = sessionStorage.getItem('aiUsageCount');
-    if (storedCount) {
-      setUsageCount(parseInt(storedCount, 10));
-    }
+    const parsedCount = storedCount ? parseInt(storedCount, 10) : 0;
+    setUsageCount(parsedCount);
   }, []);
 
-  // Wrap the gradeInterview function to track usage and disable after maxUsage.
   const handleGradeInterview = async () => {
     if (usageCount >= maxUsage) {
       alert('You have reached the maximum usage of the AI feature for this session.');
       return;
     }
+
+    // Check if feedback is required after a certain number of uses
+    if (gradeCount >= FEEDBACK_TRIGGER_THRESHOLD && !hasSubmittedFeedback) {
+      setIsFeedbackRequired(true);
+      return;
+    }
+
     await gradeInterview();
+
     const newCount = usageCount + 1;
     setUsageCount(newCount);
     sessionStorage.setItem('aiUsageCount', newCount.toString());
+
+    setGradeCount((prev) => prev + 1);
   };
 
   const handleTranscriptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -84,49 +113,42 @@ const App: React.FC = () => {
     setTranscript('');
   };
 
-  // New function to reset the interview mode, showing the mode selection screen again.
   const handleChangeMode = () => {
-    // Reset the mode to null so that ModeSelection is shown.
     setMode(null);
+  };
+
+  const handleNewQuestion = () => {
+    if (mode) {
+      selectRandomQuestion(mode);
+      setFeedback(null);
+    }
   };
 
   return (
     <div className="min-h-screen p-4 bg-gray-50">
-      <Statistics 
-        practiceCount={practiceCount}
-        averageScore={averageScore}
-          />
-                    {/* Display running total of AI feature usage as a centered badge */}
-                    <div className="mt-4 flex justify-center">
-              <div className="text-center text-sm font-extrabold text-indigo-500 bg-indigo-200 px-4 py-2 rounded-full border-2 border-indigo-500">
-                  
-              AI Credits: {maxUsage - usageCount} remaining
-            </div>
-          </div>
+      <Statistics practiceCount={practiceCount} averageScore={averageScore} />
 
-      <InterviewTips
-        showTips={showTips}
-        onToggleTips={() => setShowTips(!showTips)}
-      />
+      <div className="mt-4 flex justify-center">
+        <div className="text-center text-sm font-extrabold text-indigo-500 bg-indigo-200 px-4 py-2 rounded-full border-2 border-indigo-500">
+          AI Credits: {maxUsage - usageCount} remaining
+        </div>
+      </div>
 
-      {!mode && (
-        <ModeSelection onModeSelect={handleModeSelect} />
-      )}
+      <InterviewTips showTips={showTips} onToggleTips={() => setShowTips(!showTips)} />
+
+      {!mode && <ModeSelection onModeSelect={handleModeSelect} />}
 
       {mode && currentQuestion && (
         <CurrentQuestion
           mode={mode}
           question={currentQuestion}
-          onNewQuestion={() => selectRandomQuestion(mode)}
+          onNewQuestion={handleNewQuestion}
           onChangeMode={handleChangeMode}
         />
       )}
 
       <div className="w-full max-w-4xl mx-auto mb-4 flex flex-col md:flex-row md:space-x-4">
-        <BrowserSupport
-          isChecking={isChecking}
-          isSupported={isSupported}
-        />
+        <BrowserSupport isChecking={isChecking} isSupported={isSupported} />
         <MicrophoneAccess
           isSupported={isSupported}
           hasMicrophoneAccess={hasMicrophoneAccess}
@@ -159,7 +181,6 @@ const App: React.FC = () => {
             onGrade={handleGradeInterview}
           />
 
-          {/* Notice when the limit is reached */}
           {usageCount >= maxUsage && (
             <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
               You have reached the maximum usage of the AI feature for this session.
@@ -173,6 +194,89 @@ const App: React.FC = () => {
         sessions={sessions}
         onToggleHistory={() => setShowHistory(!showHistory)}
       />
+
+      <Dialog open={isFeedbackRequired} onOpenChange={() => setIsFeedbackRequired(false)}>
+        <DialogContent>
+          <DialogHeader>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-extrabold text-indigo-700">
+                {'{P}rep'}<span className="font-bold text-indigo-700 text-2xl">Spective</span>
+              </span>
+            </div>
+            <DialogTitle>Feedback is required to continue using this feature</DialogTitle>
+            <DialogDescription>
+              Please let us know how the experience has been so far.
+            </DialogDescription>
+          </DialogHeader>
+          <form
+            className="space-y-4"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setIsSubmittingFeedback(true);
+              setFeedbackResult('Sending...');
+
+              const formDataToSend = new FormData();
+              formDataToSend.append('access_key', '89b85a1d-9630-4362-85b2-76ff6fc9f6ee');
+              if (feedbackForm.name) formDataToSend.append('name', feedbackForm.name);
+              formDataToSend.append('message', feedbackForm.message);
+
+              try {
+                const res = await fetch('https://api.web3forms.com/submit', {
+                  method: 'POST',
+                  body: formDataToSend,
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                  toast({
+                    title: 'Thanks for your feedback!',
+                    description: 'We really appreciate it 😊',
+                  });
+                  setFeedbackForm({ name: '', message: '' });
+                  setFeedbackResult('Submitted!');
+                  setIsFeedbackRequired(false);
+                  setHasSubmittedFeedback(true);
+                } else {
+                  setFeedbackResult(data.message);
+                }
+              } catch (err) {
+                setFeedbackResult('An error occurred. Please try again.');
+              } finally {
+                setIsSubmittingFeedback(false);
+              }
+            }}
+          >
+            <div>
+              <label htmlFor="name" className="text-sm font-semibold text-gray-700">
+                Name (optional)
+              </label>
+              <Input
+                id="name"
+                name="name"
+                value={feedbackForm.name}
+                onChange={(e) => setFeedbackForm((f) => ({ ...f, name: e.target.value }))}
+              />
+            </div>
+            <div>
+              <label htmlFor="message" className="text-sm font-semibold text-gray-700">
+                Feedback
+              </label>
+              <Textarea
+                id="message"
+                name="message"
+                value={feedbackForm.message}
+                onChange={(e) => setFeedbackForm((f) => ({ ...f, message: e.target.value }))}
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={isSubmittingFeedback}>
+              {isSubmittingFeedback ? 'Submitting...' : 'Submit Feedback'}
+            </Button>
+            <span className="text-sm text-gray-600">{feedbackResult}</span>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
