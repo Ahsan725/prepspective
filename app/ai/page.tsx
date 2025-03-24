@@ -107,7 +107,18 @@ const App: React.FC = () => {
         {/* Left Sidebar */}
         <div className="lg:col-span-4 space-y-4">
           <Statistics practiceCount={practiceCount} averageScore={averageScore} />
-          <InterviewTips showTips={showTips} onToggleTips={() => setShowTips(!showTips)} />
+          <div className="flex">
+            {maxUsage - usageCount > 0 ? (
+              <div className="text-sm font-bold text-indigo-600 bg-indigo-100 px-4 py-1 rounded-full border border-indigo-400">
+                AI Credits: {maxUsage - usageCount} remaining
+              </div>
+            ) : (
+              <div className="text-sm font-bold text-red-600 bg-red-100 px-4 py-1 rounded-full border border-red-400">
+                AI Credits: 0 remaining
+              </div>
+            )}
+          </div>
+          <InterviewTips showTips={!showTips} onToggleTips={() => setShowTips(showTips)} />
           <InterviewHistory showHistory={showHistory} sessions={sessions} onToggleHistory={() => setShowHistory(!showHistory)} />
         </div>
 
@@ -126,17 +137,7 @@ const App: React.FC = () => {
           </div>
 
           {/* AI Credits */}
-          <div className="flex justify-end">
-            {maxUsage - usageCount > 0 ? (
-              <div className="text-sm font-bold text-indigo-600 bg-indigo-100 px-4 py-1 rounded-full border border-indigo-400">
-                AI Credits: {maxUsage - usageCount} remaining
-              </div>
-            ) : (
-              <div className="text-sm font-bold text-red-600 bg-red-100 px-4 py-1 rounded-full border border-red-400">
-                AI Credits: 0 remaining
-              </div>
-            )}
-          </div>
+
 
           {/* Mode Selection */}
           {!mode && <ModeSelection onModeSelect={handleModeSelect} />}

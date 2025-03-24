@@ -15,12 +15,13 @@ const cardStyles = `
   flex 
   items-center 
   justify-center 
-  text-white 
+  text-slate-800 
   group 
   border 
-  border-white/10 
+  border-slate-200 
+  bg-white 
   shadow-sm 
-  hover:shadow-lg 
+  hover:shadow-md 
   transition-all 
   duration-300
 `;
@@ -30,7 +31,7 @@ const iconBox = `
   flex-col 
   items-center 
   justify-center 
-  gap-2 
+  gap-1 
   transition-all 
   duration-300 
   opacity-100 
@@ -44,7 +45,7 @@ const hoverBox = `
   flex-col 
   items-center 
   justify-center 
-  gap-1 
+  gap-0.5 
   transition-all 
   duration-300 
   opacity-0 
@@ -61,35 +62,35 @@ export const Statistics: React.FC<StatisticsProps> = ({
     <div className="w-full max-w-6xl mx-auto mb-10">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Questions */}
-        <Card className={`${cardStyles} bg-gradient-to-br from-indigo-600 via-indigo-500 to-purple-600`}>
+        <Card className={cardStyles}>
           <div className={iconBox}>
-            <Award className="h-8 w-8 opacity-90" />
-            <p className="text-4xl font-bold">{practiceCount}</p>
+            <Award className="h-6 w-6 text-slate-500" />
+            <p className="text-4xl font-bold tracking-tight">{practiceCount}</p>
           </div>
           <div className={hoverBox}>
-            <p className="text-sm uppercase tracking-wider text-white font-bold">Questions</p>
+            <p className="text-sm uppercase text-slate-700 font-semibold tracking-wide">Questions</p>
           </div>
         </Card>
 
         {/* Average Score */}
-        <Card className={`${cardStyles} bg-gradient-to-br from-emerald-600 via-emerald-500 to-teal-600`}>
+        <Card className={cardStyles}>
           <div className={iconBox}>
-            <Star className="h-8 w-8 opacity-90" />
-            <p className="text-4xl font-bold">{averageScore.toFixed(1)}/5</p>
+            <Star className="h-6 w-6 text-slate-500" />
+            <p className="text-4xl font-bold tracking-tight">{averageScore.toFixed(1)}/5</p>
           </div>
           <div className={hoverBox}>
-            <p className="text-sm uppercase tracking-wider text-white font-bold">Average Score</p>
+            <p className="text-sm uppercase text-slate-700 font-semibold tracking-wide">Average Score</p>
           </div>
         </Card>
 
         {/* Time */}
-        <Card className={`${cardStyles} bg-gradient-to-br from-rose-500 via-orange-500 to-yellow-500`}>
+        <Card className={cardStyles}>
           <div className={iconBox}>
-            <Timer className="h-8 w-8 opacity-90" />
-            <p className="text-4xl font-bold">{practiceCount}m</p>
+            <Timer className="h-6 w-6 text-slate-500" />
+            <p className="text-4xl font-bold tracking-tight">{practiceCount}m</p>
           </div>
           <div className={hoverBox}>
-            <p className="text-sm uppercase tracking-wider text-white font-bold">Total Time</p>
+            <p className="text-sm uppercase text-slate-700 font-semibold tracking-wide">Total Time</p>
           </div>
         </Card>
       </div>

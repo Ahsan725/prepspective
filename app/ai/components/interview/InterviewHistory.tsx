@@ -230,10 +230,10 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       <div className="flex justify-between items-center mb-6">
         <Button variant="outline" onClick={onToggleHistory} className="flex items-center gap-2">
           <History className="h-4 w-4" />
-          {showHistory ? 'Hide History' : 'Show Interview History'}
+          {showHistory ? 'Hide History' : 'View History'}
         </Button>
         <Button variant="outline" onClick={handleDownloadPDF} className="flex items-center gap-2">
-          Download History PDF
+          Download
         </Button>
       </div>
 

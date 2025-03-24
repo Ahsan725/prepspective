@@ -27,7 +27,7 @@ export const BrowserSupport: React.FC<BrowserSupportProps> = ({
         ) : isSupported ? (
           <>
             <CheckCircle className="h-6 w-6 mr-2" />
-            <span>Speech recognition is supported in this browser.</span>
+            <span>Speech recognition is supported.</span>
           </>
         ) : (
           <>
