@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+// Updated VoiceRecorder component with premium look and feel
+import React, { useEffect, useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -39,26 +40,27 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
   onApproveTranscript,
 }) => {
   const [showTranscript, setShowTranscript] = useState(false);
-  const MAX_TIME = 60; // 1 minute
+  const MAX_TIME = 60;
   const [timer, setTimer] = useState<number>(MAX_TIME);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isRecording && timer > 0) {
-      interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
+    if (isRecording) {
+      setTimer(MAX_TIME);
+      intervalRef.current = setInterval(() => {
+        setTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(intervalRef.current!);
+            onStopRecording();
+            return 0;
+          }
+          return prev - 1;
+        });
       }, 1000);
-    } else if (timer <= 0 && isRecording) {
-      onStopRecording();
     }
-    return () => clearInterval(interval);
-  }, [isRecording, timer, onStopRecording]);
-
-  useEffect(() => {
-    if (!isRecording) setTimer(MAX_TIME);
+    return () => clearInterval(intervalRef.current!);
   }, [isRecording]);
 
-  // Automatically approve transcript when recording stops
   useEffect(() => {
     if (!isRecording && transcript) {
       onApproveTranscript();
@@ -66,92 +68,91 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
   }, [isRecording, transcript, onApproveTranscript]);
 
   return (
-    <Card className="shadow-lg">
-      <CardHeader className="border-b bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-t-lg">
-        <CardTitle className="text-2xl flex items-center">
-          <Mic className="h-6 w-6 mr-2" />
+    <Card className="rounded-xl border-none bg-white shadow-xl ring-1 ring-slate-200">
+      <CardHeader className="bg-gradient-to-tr from-indigo-600 to-purple-600 text-white rounded-t-xl p-6">
+        <CardTitle className="text-2xl font-bold flex items-center gap-2">
+          <Mic className="h-6 w-6" />
           Voice Recorder
         </CardTitle>
-        <CardDescription className="text-gray-100">
-          Record your interview response (max 1 min)
+        <CardDescription className="text-indigo-100 text-sm font-medium mt-1">
+          Record your interview response (max {MAX_TIME} seconds)
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4 p-6">
-        {/* Recording Status */}
+
+      <CardContent className="space-y-6 p-6">
         <div className="flex items-center justify-between">
           {isListening && (
-            <div className="flex items-center space-x-2 text-indigo-600">
-              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-              <span className="font-medium">Recording in progress...</span>
+            <div className="flex items-center gap-2 font-semibold text-rose-600">
+              <span className="relative flex h-5 w-5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500"></span>
+              </span>
+              <span>Recording in progress</span>
             </div>
           )}
           {isRecording && (
-            <div className="flex items-center space-x-2">
-              <span className="font-medium">{timer}s remaining</span>
-            </div>
+            <span className="text-sm text-slate-600 font-medium">{timer}s remaining</span>
           )}
         </div>
 
-        {/* Start/Stop Button */}
         {hasMicrophoneAccess && (
-          <Button
-            variant={isRecording ? 'destructive' : 'default'}
-            onClick={isRecording ? onStopRecording : onStartRecording}
-            disabled={!isSupported || isChecking}
-            className="p-6 px-8 text-lg"
-          >
-            {isRecording ? (
-              <>
-                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                Stop Recording
-              </>
-            ) : (
-              <>
-                <Mic className="h-5 w-5 mr-2" />
-                Start Recording
-              </>
-            )}
-          </Button>
+          <div className="flex justify-center">
+            <Button
+              size="lg"
+              onClick={isRecording ? onStopRecording : onStartRecording}
+              disabled={!isSupported || isChecking}
+              className={`transition-all duration-200 text-white text-base font-semibold px-6 py-3 ${
+                isRecording ? 'bg-red-600 hover:bg-red-700' : 'bg-indigo-600 hover:bg-indigo-700'
+              }`}
+            >
+              {isRecording ? (
+                <>
+                  <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                  Stop Recording
+                </>
+              ) : (
+                <>
+                  <Mic className="h-5 w-5 mr-2" />
+                  Start Recording
+                </>
+              )}
+            </Button>
+          </div>
         )}
 
-        {/* Toggle Transcript View Right now it is being generated but completely invisible  the whole logic is here just uncomment and it will work perfectly fine*/}
-        {/* <div className="flex items-center space-x-2">
+        {/* Transcript toggle */}
+        {/* <div className="flex items-center gap-2">
           <input
             type="checkbox"
             id="toggle-transcript"
             checked={showTranscript}
             onChange={(e) => setShowTranscript(e.target.checked)}
           />
-          <label htmlFor="toggle-transcript" className="text-sm text-gray-700">
+          <label htmlFor="toggle-transcript" className="text-sm text-slate-700">
             Edit transcript
           </label>
         </div> */}
 
         {showTranscript && (
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="transcript" className="text-sm font-medium text-gray-700">
-              Transcript:
-            </label>
+          <div className="space-y-3">
             <textarea
               id="transcript"
               value={transcript}
               onChange={onTranscriptChange}
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full resize-none border border-slate-300 rounded-md p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Your transcript will appear here..."
               rows={4}
             />
-            <Button
-              onClick={onApproveTranscript}
-              className="self-end mt-2"
-            >
-              Save Transcript
-            </Button>
+            <div className="flex justify-end">
+              <Button onClick={onApproveTranscript} className="bg-indigo-600 text-white hover:bg-indigo-700">
+                Save Transcript
+              </Button>
+            </div>
           </div>
         )}
 
-        {/* Error Message */}
         {error && (
-          <div className="text-red-500 text-center">
+          <div className="text-center text-sm text-red-600 font-medium">
             {error}
           </div>
         )}

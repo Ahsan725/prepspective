@@ -1,3 +1,4 @@
+// Refactored /app/ai/page.tsx using a modern grid layout for a sleek, premium look
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -41,16 +42,13 @@ const App: React.FC = () => {
     setTranscript,
   } = useSpeechRecognition();
 
-  const [feedbackForm, setFeedbackForm] = useState({
-    name: '',
-    message: '',
-  });
+  const [feedbackForm, setFeedbackForm] = useState({ name: '', message: '' });
   const [feedbackResult, setFeedbackResult] = useState('');
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
   const [gradeCount, setGradeCount] = useState(0);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
 
-  const FEEDBACK_TRIGGER_THRESHOLD = 1; // Change this to 5, 10, etc. to delay feedback modal
+  const FEEDBACK_TRIGGER_THRESHOLD = 1;
 
   const {
     mode,
@@ -78,142 +76,107 @@ const App: React.FC = () => {
   const maxUsage = 3;
 
   useEffect(() => {
-    const storedCount = sessionStorage.getItem('aiUsageCount');
+    const storedCount = localStorage.getItem('aiUsageCount');
     const parsedCount = storedCount ? parseInt(storedCount, 10) : 0;
     setUsageCount(parsedCount);
-  }, []);
+  }, []);  
 
   const handleGradeInterview = async () => {
     if (usageCount >= maxUsage) {
       alert('You have reached the maximum usage of the AI feature for this session.');
       return;
     }
-
-    // Check if feedback is required after a certain number of uses
     if (gradeCount >= FEEDBACK_TRIGGER_THRESHOLD && !hasSubmittedFeedback) {
       setIsFeedbackRequired(true);
       return;
     }
-
     await gradeInterview();
-
     const newCount = usageCount + 1;
     setUsageCount(newCount);
-    sessionStorage.setItem('aiUsageCount', newCount.toString());
-
+    localStorage.setItem('aiUsageCount', newCount.toString());
     setGradeCount((prev) => prev + 1);
   };
 
-  const handleTranscriptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTranscript(e.target.value);
-  };
-
-  const handleApproveTranscript = () => {
-    setApprovedTranscript(transcript);
-    setTranscript('');
-  };
-
-  const handleChangeMode = () => {
-    setMode(null);
-  };
-
-  const handleNewQuestion = () => {
-    if (mode) {
-      selectRandomQuestion(mode);
-      setFeedback(null);
-    }
-  };
+  const handleTranscriptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setTranscript(e.target.value);
+  const handleApproveTranscript = () => { setApprovedTranscript(transcript); setTranscript(''); };
+  const handleChangeMode = () => setMode(null);
+  const handleNewQuestion = () => { if (mode) { selectRandomQuestion(mode); setFeedback(null); } };
 
   return (
-    <div className="min-h-screen p-4 bg-gray-50">
-      <Statistics practiceCount={practiceCount} averageScore={averageScore} />
+    <div className="min-h-screen p-6 bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-screen-2xl mx-auto">
+        <div className="lg:col-span-4 space-y-4">
+          <Statistics practiceCount={practiceCount} averageScore={averageScore} />
+          <InterviewTips showTips={showTips} onToggleTips={() => setShowTips(!showTips)} />
+          <InterviewHistory showHistory={showHistory} sessions={sessions} onToggleHistory={() => setShowHistory(!showHistory)} />
+        </div>
 
-      <div className="mt-4 flex justify-center">
-  {maxUsage - usageCount > 0 ? (
-    <div className="text-center text-sm font-extrabold text-indigo-500 bg-indigo-200 px-4 py-2 rounded-full border-2 border-indigo-500">
-      AI Credits: {maxUsage - usageCount} remaining
-    </div>
-  ) : (
-    <div className="text-center text-sm font-extrabold text-red-500 bg-red-100 px-4 py-2 rounded-full border-2 border-red-500">
-      AI Credits: 0 remaining <br></br> <span className="text-gray-700 font-semibold text-xs">You have reached the maximum usage of AI credits.</span>
-    </div>
-  )}
-</div>
+        <div className="lg:col-span-8 space-y-6">
+          <div className="flex justify-end">
+            {maxUsage - usageCount > 0 ? (
+              <div className="text-sm font-bold text-indigo-600 bg-indigo-100 px-4 py-1 rounded-full border border-indigo-400">
+                AI Credits: {maxUsage - usageCount} remaining
+              </div>
+            ) : (
+              <div className="text-sm font-bold text-red-600 bg-red-100 px-4 py-1 rounded-full border border-red-400">
+                AI Credits: 0 remaining
+              </div>
+            )}
+          </div>
 
+          {!mode && <ModeSelection onModeSelect={handleModeSelect} />}
 
-      <InterviewTips showTips={showTips} onToggleTips={() => setShowTips(!showTips)} />
+          {mode && currentQuestion && (
+            <CurrentQuestion
+              mode={mode}
+              question={currentQuestion}
+              onNewQuestion={handleNewQuestion}
+              onChangeMode={handleChangeMode}
+            />
+          )}
 
-      {!mode && <ModeSelection onModeSelect={handleModeSelect} />}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <BrowserSupport isChecking={isChecking} isSupported={isSupported} />
+            <MicrophoneAccess
+              isSupported={isSupported}
+              hasMicrophoneAccess={hasMicrophoneAccess}
+              isRequestingMicAccess={isRequestingMicAccess}
+              onRequestAccess={requestMicrophoneAccess}
+            />
+          </div>
 
-      {mode && currentQuestion && (
-        <CurrentQuestion
-          mode={mode}
-          question={currentQuestion}
-          onNewQuestion={handleNewQuestion}
-          onChangeMode={handleChangeMode}
-        />
-      )}
-
-      <div className="w-full max-w-4xl mx-auto mb-4 flex flex-col md:flex-row md:space-x-4">
-        <BrowserSupport isChecking={isChecking} isSupported={isSupported} />
-        <MicrophoneAccess
-          isSupported={isSupported}
-          hasMicrophoneAccess={hasMicrophoneAccess}
-          isRequestingMicAccess={isRequestingMicAccess}
-          onRequestAccess={requestMicrophoneAccess}
-        />
-      </div>
-
-      {mode && (
-        <div className="w-full max-w-6xl mx-auto">
-          <VoiceRecorder
-            isRecording={isRecording}
-            isListening={isListening}
-            timeLeft={timeLeft}
-            transcript={transcript}
-            hasMicrophoneAccess={hasMicrophoneAccess}
-            isSupported={isSupported}
-            isChecking={isChecking}
-            error={error}
-            onStartRecording={startRecording}
-            onStopRecording={stopRecording}
-            onTranscriptChange={handleTranscriptChange}
-            onApproveTranscript={handleApproveTranscript}
-          />
-
-          <FeedbackDisplay
-            approvedTranscript={approvedTranscript}
-            isGrading={isGrading}
-            feedback={feedback}
-            onGrade={handleGradeInterview}
-          />
-
-          {usageCount >= maxUsage && (
-            <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
-              You have reached the maximum usage of the AI feature for this session.
-            </div>
+          {mode && (
+            <>
+              <VoiceRecorder
+                isRecording={isRecording}
+                isListening={isListening}
+                timeLeft={timeLeft}
+                transcript={transcript}
+                hasMicrophoneAccess={hasMicrophoneAccess}
+                isSupported={isSupported}
+                isChecking={isChecking}
+                error={error}
+                onStartRecording={startRecording}
+                onStopRecording={stopRecording}
+                onTranscriptChange={handleTranscriptChange}
+                onApproveTranscript={handleApproveTranscript}
+              />
+              <FeedbackDisplay
+                approvedTranscript={approvedTranscript}
+                isGrading={isGrading}
+                feedback={feedback}
+                onGrade={handleGradeInterview}
+              />
+            </>
           )}
         </div>
-      )}
-
-      <InterviewHistory
-        showHistory={showHistory}
-        sessions={sessions}
-        onToggleHistory={() => setShowHistory(!showHistory)}
-      />
+      </div>
 
       <Dialog open={isFeedbackRequired} onOpenChange={() => setIsFeedbackRequired(false)}>
         <DialogContent>
           <DialogHeader>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-extrabold text-indigo-700">
-                {'{P}rep'}<span className="font-bold text-indigo-700 text-2xl">Spective</span>
-              </span>
-            </div>
-            <DialogTitle>Feedback is required to continue using this feature</DialogTitle>
-            <DialogDescription>
-              Please let us know how the experience has been so far.
-            </DialogDescription>
+            <DialogTitle>Feedback Required</DialogTitle>
+            <DialogDescription>Please let us know how the experience has been so far.</DialogDescription>
           </DialogHeader>
           <form
             className="space-y-4"
@@ -221,25 +184,18 @@ const App: React.FC = () => {
               e.preventDefault();
               setIsSubmittingFeedback(true);
               setFeedbackResult('Sending...');
-
-              const formDataToSend = new FormData();
-              formDataToSend.append('access_key', '89b85a1d-9630-4362-85b2-76ff6fc9f6ee');
-              if (feedbackForm.name) formDataToSend.append('name', feedbackForm.name);
-              formDataToSend.append('message', feedbackForm.message);
-
+              const formData = new FormData();
+              formData.append('access_key', '89b85a1d-9630-4362-85b2-76ff6fc9f6ee');
+              if (feedbackForm.name) formData.append('name', feedbackForm.name);
+              formData.append('message', feedbackForm.message);
               try {
                 const res = await fetch('https://api.web3forms.com/submit', {
                   method: 'POST',
-                  body: formDataToSend,
+                  body: formData,
                 });
-
                 const data = await res.json();
-
                 if (data.success) {
-                  toast({
-                    title: 'Thanks for your feedback!',
-                    description: 'We really appreciate it 😊',
-                  });
+                  toast({ title: 'Thanks for your feedback!', description: 'We really appreciate it 😊' });
                   setFeedbackForm({ name: '', message: '' });
                   setFeedbackResult('Submitted!');
                   setIsFeedbackRequired(false);
@@ -255,27 +211,12 @@ const App: React.FC = () => {
             }}
           >
             <div>
-              <label htmlFor="name" className="text-sm font-semibold text-gray-700">
-                Name (optional)
-              </label>
-              <Input
-                id="name"
-                name="name"
-                value={feedbackForm.name}
-                onChange={(e) => setFeedbackForm((f) => ({ ...f, name: e.target.value }))}
-              />
+              <label htmlFor="name" className="text-sm font-semibold">Name (optional)</label>
+              <Input id="name" value={feedbackForm.name} onChange={(e) => setFeedbackForm(f => ({ ...f, name: e.target.value }))} />
             </div>
             <div>
-              <label htmlFor="message" className="text-sm font-semibold text-gray-700">
-                Feedback
-              </label>
-              <Textarea
-                id="message"
-                name="message"
-                value={feedbackForm.message}
-                onChange={(e) => setFeedbackForm((f) => ({ ...f, message: e.target.value }))}
-                required
-              />
+              <label htmlFor="message" className="text-sm font-semibold">Feedback</label>
+              <Textarea id="message" required value={feedbackForm.message} onChange={(e) => setFeedbackForm(f => ({ ...f, message: e.target.value }))} />
             </div>
             <Button type="submit" className="w-full" disabled={isSubmittingFeedback}>
               {isSubmittingFeedback ? 'Submitting...' : 'Submit Feedback'}
