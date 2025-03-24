@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -24,6 +24,8 @@ export const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({
   feedback,
   onGrade,
 }) => {
+  const [showTranscript, setShowTranscript] = useState(false);
+
   return (
     <div className="space-y-6">
       {/* Approved Transcript Card */}
@@ -31,25 +33,39 @@ export const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({
         <CardHeader className="border-b">
           <CardTitle className="text-2xl flex items-center">
             <CheckCircle className="h-6 w-6 mr-2 text-emerald-600" />
-            Approved Transcript
+            Ready for Grading?
           </CardTitle>
           <CardDescription className="text-gray-600">
-            Your approved transcription
+            You can rerecord your answer if you want. Be clear and specific. When you are satisfied with your answer click Grade Interview.
           </CardDescription>
         </CardHeader>
-        <CardContent className="pt-4">
-          <div className="bg-white p-4 rounded-lg border border-gray-100">
-            <p className="text-gray-800 whitespace-pre-wrap">
-              {approvedTranscript || 'No approved transcript yet.'}
-            </p>
-          </div>
+        <CardContent className="pt-4 space-y-4">
+          {/* the transcript is being generated and eveyrthing is working as fine i have made it invisible by commenting it out just uncomment and you will get the old fubnctionality back */}
+          {/* <label className="flex items-center space-x-2 text-sm text-gray-700">
+            <input
+              type="checkbox"
+              checked={showTranscript}
+              onChange={() => setShowTranscript(!showTranscript)}
+            />
+            <span>Show transcript</span>
+          </label> */}
+
+          {showTranscript && (
+            <div className="bg-white p-4 rounded-lg border border-gray-100">
+              <p className="text-gray-800 whitespace-pre-wrap">
+                {approvedTranscript || 'No approved transcript yet.'}
+              </p>
+            </div>
+          )}
+
           {approvedTranscript && !isGrading && !feedback && (
-            <Button onClick={onGrade} className="w-full mt-4">
+            <Button onClick={onGrade} className="w-full">
               Grade Interview
             </Button>
           )}
+
           {isGrading && (
-            <div className="flex items-center justify-center space-x-2 mt-4">
+            <div className="flex items-center justify-center space-x-2">
               <Loader2 className="h-5 w-5 animate-spin" />
               <span>Grading interview...</span>
             </div>

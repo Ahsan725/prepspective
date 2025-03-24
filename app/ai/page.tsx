@@ -129,10 +129,17 @@ const App: React.FC = () => {
       <Statistics practiceCount={practiceCount} averageScore={averageScore} />
 
       <div className="mt-4 flex justify-center">
-        <div className="text-center text-sm font-extrabold text-indigo-500 bg-indigo-200 px-4 py-2 rounded-full border-2 border-indigo-500">
-          AI Credits: {maxUsage - usageCount} remaining
-        </div>
-      </div>
+  {maxUsage - usageCount > 0 ? (
+    <div className="text-center text-sm font-extrabold text-indigo-500 bg-indigo-200 px-4 py-2 rounded-full border-2 border-indigo-500">
+      AI Credits: {maxUsage - usageCount} remaining
+    </div>
+  ) : (
+    <div className="text-center text-sm font-extrabold text-red-500 bg-red-100 px-4 py-2 rounded-full border-2 border-red-500">
+      AI Credits: 0 remaining <br></br> <span className="text-gray-700 font-semibold text-xs">You have reached the maximum usage of AI credits.</span>
+    </div>
+  )}
+</div>
+
 
       <InterviewTips showTips={showTips} onToggleTips={() => setShowTips(!showTips)} />
 

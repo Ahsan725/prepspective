@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -38,6 +38,33 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
   onTranscriptChange,
   onApproveTranscript,
 }) => {
+  const [showTranscript, setShowTranscript] = useState(false);
+  const MAX_TIME = 60; // 1 minute
+  const [timer, setTimer] = useState<number>(MAX_TIME);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isRecording && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (timer <= 0 && isRecording) {
+      onStopRecording();
+    }
+    return () => clearInterval(interval);
+  }, [isRecording, timer, onStopRecording]);
+
+  useEffect(() => {
+    if (!isRecording) setTimer(MAX_TIME);
+  }, [isRecording]);
+
+  // Automatically approve transcript when recording stops
+  useEffect(() => {
+    if (!isRecording && transcript) {
+      onApproveTranscript();
+    }
+  }, [isRecording, transcript, onApproveTranscript]);
+
   return (
     <Card className="shadow-lg">
       <CardHeader className="border-b bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-t-lg">
@@ -46,7 +73,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
           Voice Recorder
         </CardTitle>
         <CardDescription className="text-gray-100">
-          Record your interview response
+          Record your interview response (max 1 min)
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 p-6">
@@ -60,7 +87,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
           )}
           {isRecording && (
             <div className="flex items-center space-x-2">
-              <span className="font-medium">{timeLeft}s remaining</span>
+              <span className="font-medium">{timer}s remaining</span>
             </div>
           )}
         </div>
@@ -87,30 +114,40 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
           </Button>
         )}
 
-        {/* Transcript */}
-        <div className="flex flex-col space-y-2">
-          <label htmlFor="transcript" className="text-sm font-medium text-gray-700">
-            Transcript:
-          </label>
-          <textarea
-            id="transcript"
-            value={transcript}
-            onChange={onTranscriptChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Your transcript will appear here..."
-            rows={4}
-            disabled={!transcript && !isRecording}
+        {/* Toggle Transcript View Right now it is being generated but completely invisible  the whole logic is here just uncomment and it will work perfectly fine*/}
+        {/* <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="toggle-transcript"
+            checked={showTranscript}
+            onChange={(e) => setShowTranscript(e.target.checked)}
           />
-          {transcript && (
+          <label htmlFor="toggle-transcript" className="text-sm text-gray-700">
+            Edit transcript
+          </label>
+        </div> */}
+
+        {showTranscript && (
+          <div className="flex flex-col space-y-2">
+            <label htmlFor="transcript" className="text-sm font-medium text-gray-700">
+              Transcript:
+            </label>
+            <textarea
+              id="transcript"
+              value={transcript}
+              onChange={onTranscriptChange}
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Your transcript will appear here..."
+              rows={4}
+            />
             <Button
               onClick={onApproveTranscript}
-              disabled={!transcript}
               className="self-end mt-2"
             >
-              Approve
+              Save Transcript
             </Button>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Error Message */}
         {error && (
