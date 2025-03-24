@@ -49,24 +49,27 @@ export const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({
             </div>
           )}
 
-          <div className="flex flex-col gap-3">
-            {!isGrading && !feedback && approvedTranscript && (
-              <Button
-                onClick={onGrade}
-                size="sm"
-                className="w-fit text-sm font-semibold bg-emerald-600 hover:bg-emerald-700"
-              >
-                Grade Interview
-              </Button>
-            )}
+<div className="flex flex-col gap-3">
+  {!isGrading && !feedback && approvedTranscript && (
+    <div className="flex justify-center">
+      <Button
+        onClick={onGrade}
+        size="sm"
+        className="w-fit text-white text-base font-semibold px-6 py-6"
+      >
+        Grade Interview
+      </Button>
+    </div>
+  )}
 
-            {isGrading && (
-              <div className="flex items-center gap-2 text-slate-500 text-sm">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Analyzing response...</span>
-              </div>
-            )}
-          </div>
+  {isGrading && (
+    <div className="flex items-center justify-center gap-2 text-slate-500 text-sm">
+      <Loader2 className="h-4 w-4 animate-spin" />
+      <span>Analyzing response...</span>
+    </div>
+  )}
+</div>
+
         </CardContent>
       </Card>
 
