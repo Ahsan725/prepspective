@@ -1,4 +1,3 @@
-// Refactored /app/ai/page.tsx using a modern grid layout for a sleek, premium look
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -79,7 +78,7 @@ const App: React.FC = () => {
     const storedCount = localStorage.getItem('aiUsageCount');
     const parsedCount = storedCount ? parseInt(storedCount, 10) : 0;
     setUsageCount(parsedCount);
-  }, []);  
+  }, []);
 
   const handleGradeInterview = async () => {
     if (usageCount >= maxUsage) {
@@ -105,13 +104,28 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen p-6">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-screen-2xl mx-auto">
+        {/* Left Sidebar */}
         <div className="lg:col-span-4 space-y-4">
           <Statistics practiceCount={practiceCount} averageScore={averageScore} />
           <InterviewTips showTips={showTips} onToggleTips={() => setShowTips(!showTips)} />
           <InterviewHistory showHistory={showHistory} sessions={sessions} onToggleHistory={() => setShowHistory(!showHistory)} />
         </div>
 
+        {/* Main Content */}
         <div className="lg:col-span-8 space-y-6">
+
+          {/* Status Checks */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <BrowserSupport isChecking={isChecking} isSupported={isSupported} />
+            <MicrophoneAccess
+              isSupported={isSupported}
+              hasMicrophoneAccess={hasMicrophoneAccess}
+              isRequestingMicAccess={isRequestingMicAccess}
+              onRequestAccess={requestMicrophoneAccess}
+            />
+          </div>
+
+          {/* AI Credits */}
           <div className="flex justify-end">
             {maxUsage - usageCount > 0 ? (
               <div className="text-sm font-bold text-indigo-600 bg-indigo-100 px-4 py-1 rounded-full border border-indigo-400">
@@ -124,8 +138,10 @@ const App: React.FC = () => {
             )}
           </div>
 
+          {/* Mode Selection */}
           {!mode && <ModeSelection onModeSelect={handleModeSelect} />}
 
+          {/* Question */}
           {mode && currentQuestion && (
             <CurrentQuestion
               mode={mode}
@@ -135,16 +151,7 @@ const App: React.FC = () => {
             />
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <BrowserSupport isChecking={isChecking} isSupported={isSupported} />
-            <MicrophoneAccess
-              isSupported={isSupported}
-              hasMicrophoneAccess={hasMicrophoneAccess}
-              isRequestingMicAccess={isRequestingMicAccess}
-              onRequestAccess={requestMicrophoneAccess}
-            />
-          </div>
-
+          {/* Voice Recorder + Feedback */}
           {mode && (
             <>
               <VoiceRecorder
@@ -172,6 +179,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
+      {/* Feedback Modal */}
       <Dialog open={isFeedbackRequired} onOpenChange={() => setIsFeedbackRequired(false)}>
         <DialogContent>
           <DialogHeader>

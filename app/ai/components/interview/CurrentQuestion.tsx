@@ -31,7 +31,7 @@ export const CurrentQuestion: React.FC<CurrentQuestionProps> = ({
   };
 
   const modeLabel =
-    mode === 'software' ? 'Software Engineering' : 'Behavioral';
+    mode === 'software' ? 'Technical' : 'Behavioral';
   const modeIcon = mode === 'software' ? <Code className="h-6 w-6" /> : <Users className="h-6 w-6" />;
 
   return (
