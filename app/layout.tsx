@@ -8,6 +8,7 @@ import CustomNavbar from "@/components/ui/customNavbar";
 import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import AdSense from "../components/AdSense";
+import TopProgressBar from "@/components/ui/topProgressBar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,6 +46,7 @@ export default function RootLayout({
       </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+                <TopProgressBar />
           <CustomNavbar />
           {/* <TempNavbar /> */}
           {children}
