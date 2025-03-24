@@ -9,7 +9,7 @@ interface StatisticsProps {
 
 const cardStyles = `
   relative 
-  h-28 
+  h-20 
   rounded-xl 
   overflow-hidden 
   flex 
@@ -19,7 +19,7 @@ const cardStyles = `
   group 
   border 
   border-slate-200 
-  bg-white 
+  bg-slate-100 
   shadow-sm 
   hover:shadow-md 
   transition-all 
@@ -76,7 +76,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
         <Card className={cardStyles}>
           <div className={iconBox}>
             <Star className="h-6 w-6 text-slate-500" />
-            <p className="text-4xl font-bold tracking-tight">{averageScore.toFixed(1)}/5</p>
+            <p className="text-4xl font-bold tracking-tight">{averageScore.toFixed(0)}/5</p>
           </div>
           <div className={hoverBox}>
             <p className="text-sm uppercase text-slate-700 font-semibold tracking-wide">Average Score</p>

@@ -296,13 +296,13 @@ export default function Home() {
                       variant={selectedList === "list1" ? "default" : "outline"}
                       onClick={() => setSelectedList("list1")}
                       className="text-sm">
-                      Blind 75
+                      Easy Start
                     </Button>
                     <Button
                       variant={selectedList === "list2" ? "default" : "outline"}
                       onClick={() => setSelectedList("list2")}
                       className="text-sm">
-                      FAANG 400
+                      Blind 75
                     </Button>
                   </div>
                 </CardContent>
@@ -570,50 +570,70 @@ export default function Home() {
               </Card>
             </div>
             <div className="w-full md:w-1/6 h-full md:h-[calc(100vh-6rem)] overflow-auto p-2">
-              <div className="space-y-4">
-                {/* Box 1 */}
-                <Link href="/upcoming">
-                  <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 mx-0 my-2">
-                    <h3 className="text-black font-bold text-lg mb-1">
-                      Upcoming Events
-                    </h3>
-                    <p className="text-black text-sm">
-                      Discover what’s coming next.
-                    </p>
-                  </div>
-                </Link>
+  <div className="space-y-4">
 
-                {/* Box 3 */}
-                <Link href="/upcoming">
-                  <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4  mx-0 my-4">
-                    <h3 className="text-indigo-700 font-bold text-xl mb-1">
-                      Special Features
-                    </h3>
-                    <p className="text-black text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Sed at mauris a nibh malesuada consectetur. Quisque non
-                      justo vitae mauris vestibulum consectetur. Curabitur
-                      malesuada, nisl vitae tincidunt ultricies, urna orci
-                      varius libero, non fermentum justo massa et orci.
-                    </p>
-                  </div>
-                </Link>
-                {/* Box 2 */}
-                <Link href="/upcoming">
-                  <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4  mx-0 my-2">
-                    <h3 className="text-black font-bold text-xl mb-1">
-                      Targeting a Specific Company?
-                    </h3>
-                    <p className="text-black text-sm">
-                      Check out our company specific lists. These are questions
-                      that have been asked in interviews at top tech companies.
-                    </p>
-                  </div>
-                </Link>
+    {/* Box 2 */}
+    <Link href="/upcoming">
+      <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 mx-0 my-2">
+        <h3 className="text-black font-bold text-md mb-1">
+          Targeting a Specific Company?
+        </h3>
+        <p className="text-black text-sm">
+          Check out our company-specific question sets from real interviews.
+        </p>
+      </div>
+    </Link>
 
-                {/* new ad boxes will go here*/}
-              </div>
-            </div>
+    {/* New Ad Box - LeetCode Tutoring */}
+    <Link href="/tutor">
+      <div className="cursor-pointer border border-emerald-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
+        <h3 className="font-bold text-md mb-1">
+          1:1 LeetCode Tutoring
+        </h3>
+        <p className="text-sm text-black">
+          Personalized sessions to help you crush your coding interviews.
+        </p>
+      </div>
+    </Link>
+
+    {/* New Ad Box - Resume Service */}
+    <Link href="/resume">
+      <div className="cursor-pointer border border-pink-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
+        <h3 className="font-bold text-md mb-1">
+          Grinding LeetCode but Resume Not Getting You Interviews?
+        </h3>
+        <p className="text-sm text-black">
+          Let us optimize it to beat ATS filters and land recruiter calls.
+        </p>
+      </div>
+    </Link>
+
+    {/* New Ad Box - Mock Interview */}
+    <Link href="/mock-interviews">
+      <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
+        <h3 className="font-bold text-md mb-1">
+          Mock Interviews with Mentors
+        </h3>
+        <p className="text-sm text-black">
+          Practice live interviews with experts. Get real feedback.
+        </p>
+      </div>
+    </Link>
+
+    {/* New Ad Box - Web Dev Services */}
+    <Link href="/webdev">
+      <div className="cursor-pointer border border-blue-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
+        <h3 className="font-bold text-md mb-1">
+          Need a Portfolio or SaaS Site?
+        </h3>
+        <p className="text-sm text-black">
+          We build clean, modern websites tailored to your goals.
+        </p>
+      </div>
+    </Link>
+  </div>
+</div>
+
           </div>
         </main>
       </div>
