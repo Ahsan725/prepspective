@@ -15,7 +15,7 @@ export const BrowserSupport: React.FC<BrowserSupportProps> = ({
 
   useEffect(() => {
     if (!isChecking) {
-      const delay = setTimeout(() => setShowResult(true), 2000); // Extend delay here (2000ms)
+      const delay = setTimeout(() => setShowResult(true), 4000); // Extend delay here (2000ms)
       return () => clearTimeout(delay);
     }
   }, [isChecking]);
