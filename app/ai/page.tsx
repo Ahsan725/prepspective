@@ -23,6 +23,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
+import Footer from "@/components/ui/footer";
 
 const App: React.FC = () => {
   const {
@@ -234,6 +235,7 @@ const App: React.FC = () => {
           </form>
         </DialogContent>
       </Dialog>
+      <Footer/>
     </div>
   );
 };
