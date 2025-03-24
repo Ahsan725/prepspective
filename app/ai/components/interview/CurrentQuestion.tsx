@@ -51,7 +51,7 @@ export const CurrentQuestion: React.FC<CurrentQuestionProps> = ({
 
         <CardContent className="p-6 bg-white">
           <div className="flex justify-between items-start flex-col md:flex-row md:items-center md:space-y-0 space-y-4 mb-6 animate-fade-in">
-            <p className="text-lg md:text-2xl leading-relaxed text-slate-800 max-w-4xl md:mr-8">
+            <p className="text-lg md:text-xl leading-relaxed text-slate-800 max-w-4xl md:mr-8">
               {question}
             </p>
             <div className="flex gap-2 flex-shrink-0">

@@ -103,7 +103,7 @@ const App: React.FC = () => {
   const handleNewQuestion = () => { if (mode) { selectRandomQuestion(mode); setFeedback(null); } };
 
   return (
-    <div className="min-h-screen p-6 bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen p-6">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-screen-2xl mx-auto">
         <div className="lg:col-span-4 space-y-4">
           <Statistics practiceCount={practiceCount} averageScore={averageScore} />
