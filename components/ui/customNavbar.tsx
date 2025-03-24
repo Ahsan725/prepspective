@@ -83,7 +83,7 @@ const subMenuItemsOne = [
     title: "AI Interview",
     description: "Get Actionable feedback from AI Interview Practice ",
     icon: <Brain className="size-5 shrink-0 text-indigo-700" />,
-    href: "/soon",
+    href: "/ai",
   },
 ];
 
