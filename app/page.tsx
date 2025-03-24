@@ -11,8 +11,6 @@ import SvgImage from '@/components/ui/heroimg';
 import Test from "@/components/ui/test";
 import ServiceShowcase from "@/components/ServiceShow";
 import Footer from "@/components/ui/footer";
-// import 'styles/nprogress.css';
-import TopProgressBar from "@/components/ui/topProgressBar";
 
 
 export default function HomePage() {
@@ -37,7 +35,6 @@ export default function HomePage() {
 
   return (
     <main>
-      <TopProgressBar />
       <CustomHero />
       <Bento />
       {/* <SvgImage src="/mockup.svg" alt="Example SVG Image" /> */}
