@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-import '@/components/stylesnprogress.module.css';
 
 
 // Optional: Custom styling

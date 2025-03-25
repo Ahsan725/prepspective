@@ -125,3 +125,17 @@ body {
   height: 100%;
   border: none;
 }
+
+/* nprogress customization */
+#nprogress .bar {
+  background: #5141ff !important; /* Tailwind's indigo-700 */
+  height: 3px !important; /* Make it thicker */
+}
+
+#nprogress {
+  pointer-events: none;
+}
+
+/* #nprogress .peg {
+  box-shadow: 0 0 10px #4338ca, 0 0 5px #4338ca;
+} */
