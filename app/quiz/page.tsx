@@ -97,13 +97,31 @@ export default function QuizPage() {
   };
 
   // Analysis text based on the score percentage
-  const getAnalysisText = (score: number): string => {
+  const getAnalysisText = (score: number): JSX.Element => {
     if (score < 40) {
-      return "Your performance here is low. Start with easy questions to build a strong foundation.";
+      return (
+        <>
+          Performance is <span className="text-rose-500 font-semibold">below expectations</span> for technical interviews. Focus on foundational easy questions. Consider targeted LeetCode tutoring for accelerated improvement.
+          <br /><br />
+          <a href="/tutor" className="text-blue-500 underline">LeetCode Tutoring</a>
+        </>
+      );
     } else if (score < 70) {
-      return "Your score is moderate. Practice medium-difficulty questions to improve further.";
+      return (
+        <>
+          <span className="text-orange-400 font-semibold">Moderate performance</span>. Enhance your skills with medium-difficulty problems. Simulate real interview pressure with a mock interview session.
+          <br /><br />
+          <a href="/mock-interviews" className="text-blue-500 underline">Mock Interviews</a>
+        </>
+      );
     } else {
-      return "Excellent work! Challenge yourself with hard questions to further sharpen your skills.";
+      return (
+        <>
+          <span className="text-emerald-500 font-semibold">Excellent performance</span>! Challenge yourself with hard questions to maintain momentum. If interviews are not yielding results, a resume revamp could be beneficial.
+          <br /><br />
+          <a href="/resume" className="text-blue-500 underline">Resume Revamp</a>
+        </>
+      );
     }
   };
 
@@ -150,14 +168,14 @@ export default function QuizPage() {
           <CardHeader className="bg-gradient-to-br from-indigo-800 to-indigo-500 text-white">
             <CardTitle className="text-2xl font-bold">Your Results</CardTitle>
             <CardDescription className="text-white/80 text-xl text-right">
-                          You scored <span className="font-extrabold text-3xl text-white">
+                          Skill Scan Score:  <span className="font-extrabold text-3xl text-white">
   {Math.round(
     (Object.values(score).reduce((sum, val) => sum + val, 0) / questions.length) *
       1000 +
       Math.floor(Math.random() * 49) +
       1
   )}
-</span> overall
+</span>
                           {/* (
               {Object.values(score).reduce((sum, val) => sum + val, 0)} of {questions.length} correct) */}
             </CardDescription>
@@ -178,12 +196,12 @@ export default function QuizPage() {
             {/* Grid of DS results with analysis */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {Object.entries(calculateResults()).map(([ds, score]) => (
-                <div key={ds} className="p-4 border rounded-lg">
+                <div key={ds} className="p-4 border-none bg-slate-50 rounded-xl">
                   <div className="flex items-center gap-2 mb-2">
                     {getIcon(ds)}
                     <span className="font-medium capitalize">{ds.replace("-", " ")}</span>
                   </div>
-                  <div className="text-lg font-bold">{Math.round(score)}%</div>
+                  <div className="text-lg font-bold text-indigo-700">{Math.round(score)}%</div>
                   <div className="text-sm mt-2 text-gray-700">{getAnalysisText(score)}</div>
                 </div>
               ))}
