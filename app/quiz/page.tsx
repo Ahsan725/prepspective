@@ -142,7 +142,7 @@ export default function QuizPage() {
         animate={{ opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5 } }}
       >
         <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
-          FEATURES
+          TECHNICAL SKIL SCAN
         </h2>
       </motion.div>
 
@@ -151,7 +151,7 @@ export default function QuizPage() {
         initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5, delay: 0.2 } }}
       >
-        Technical Skill Scan
+        Find Your Weak Spots
       </motion.h2>
 
       <motion.h3
