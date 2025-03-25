@@ -60,7 +60,7 @@ const Footer = () => {
                   <a href="#"><FaTwitter className="size-6" /></a>
                 </li>
                 <li className="hover:text-indigo-800">
-                  <a href="#"><FaLinkedin className="size-6" /></a>
+                  <a href="https://www.linkedin.com/in/ahsan-/"><FaLinkedin className="size-6" /></a>
                 </li>
               </ul>
             </div>
