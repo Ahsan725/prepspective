@@ -230,25 +230,16 @@ export default function QuizPage() {
                 <div className="space-y-3">
                   {currentQ.options.map((option, index) => (
                     <button
-                      key={index}
-                      onClick={() => handleAnswer(index)}
-                      disabled={showFeedback}
-                      className={cn(
-                        "w-full text-left px-4 py-3 rounded-lg border-2 transition-all duration-200 flex items-center",
-                        selectedAnswer === index ? "border-indigo-500" : "border-indigo-200 hover:border-indigo-300",
-                        showFeedback && selectedAnswer === index && isCorrect && "bg-indigo-100 border-indigo-500",
-                        showFeedback && selectedAnswer === index && !isCorrect && "bg-red-50 border-red-500",
-                        showFeedback && index === currentQ.correctAnswer && "bg-indigo-100 border-indigo-500"
-                      )}
-                    >
-                      <div className="flex-1">{option}</div>
-                      {showFeedback && index === currentQ.correctAnswer && (
-                        <CheckCircle2 className="h-5 w-5 text-indigo-500 ml-2" />
-                      )}
-                      {showFeedback && selectedAnswer === index && !isCorrect && (
-                        <XCircle className="h-5 w-5 text-red-500 ml-2" />
-                      )}
-                    </button>
+  key={index}
+  onClick={() => handleAnswer(index)}
+  className={cn(
+    "w-full text-left px-4 py-3 rounded-lg border-2 transition-all duration-200 flex items-center",
+    selectedAnswer === index ? "bg-indigo-100 border-indigo-500" : "border-indigo-200 hover:border-indigo-300"
+  )}
+>
+  <div className="flex-1">{option}</div>
+</button>
+
                   ))}
                 </div>
               </div>
