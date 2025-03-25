@@ -133,7 +133,7 @@ export default function QuizPage() {
         initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5, delay: 0.2 } }}
       >
-        What Sets Us Apart
+        Technical Skill Scan
       </motion.h2>
 
       <motion.h3
