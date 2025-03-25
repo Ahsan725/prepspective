@@ -96,6 +96,17 @@ export default function QuizPage() {
     return dataStructureIcons[dataStructure] || dataStructureIcons.default;
   };
 
+  // Analysis text based on the score percentage
+  const getAnalysisText = (score: number): string => {
+    if (score < 40) {
+      return "Your performance here is low. Start with easy questions to build a strong foundation.";
+    } else if (score < 70) {
+      return "Your score is moderate. Practice medium-difficulty questions to improve further.";
+    } else {
+      return "Excellent work! Challenge yourself with hard questions to further sharpen your skills.";
+    }
+  };
+
   const restartQuiz = () => {
     setCurrentQuestion(0);
     setScore({});
@@ -130,7 +141,7 @@ export default function QuizPage() {
         initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5, delay: 0.4 } }}
       >
-        Understand exactly where you need to improve. This diagnostic tool pinpoints your specific data structure knowledge gaps, enabling targeted technical interview preparation and 10x more effective learning.
+        Understand exactly where you need to improve. This diagnostic tool pinpoints your specific data structure knowledge gaps, enabling targeted technical interview preparation and more effective learning.
       </motion.h3>
 
       {/* Conditional Rendering of Quiz or Results */}
@@ -138,9 +149,10 @@ export default function QuizPage() {
         <Card className="overflow-hidden border-0 shadow-lg mb-8 mt-8">
           <CardHeader className="bg-gradient-to-br from-indigo-800 to-indigo-500 text-white">
             <CardTitle className="text-2xl font-bold">Your Results</CardTitle>
-            <CardDescription className="text-white/80">
-              You scored {Math.round((Object.values(score).reduce((sum, val) => sum + val, 0) / questions.length) * 100)}% overall (
-              {Object.values(score).reduce((sum, val) => sum + val, 0)} of {questions.length} correct)
+            <CardDescription className="text-white/80 text-xl text-right">
+                          You scored <span className="font-extrabold text-3xl text-white">{Math.round((Object.values(score).reduce((sum, val) => sum + val, 0) / questions.length) * 1000)}</span> overall
+                          {/* (
+              {Object.values(score).reduce((sum, val) => sum + val, 0)} of {questions.length} correct) */}
             </CardDescription>
           </CardHeader>
           <CardContent className="p-6">
@@ -154,18 +166,18 @@ export default function QuizPage() {
                   }))}
                 />
               </div>
-              <p className="text-sm mt-2">
-                Your proficiency across different data structures
-              </p>
+              <p className="text-sm mt-2">Your proficiency across different data structures</p>
             </div>
-            <div className="space-y-4">
+            {/* Grid of DS results with analysis */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {Object.entries(calculateResults()).map(([ds, score]) => (
-                <div key={ds} className="flex items-center justify-between px-4 py-2 border rounded-lg">
-                  <div className="flex items-center gap-2">
+                <div key={ds} className="p-4 border rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
                     {getIcon(ds)}
                     <span className="font-medium capitalize">{ds.replace("-", " ")}</span>
                   </div>
-                  <span className="font-medium">{Math.round(score)}%</span>
+                  <div className="text-lg font-bold">{Math.round(score)}%</div>
+                  <div className="text-sm mt-2 text-gray-700">{getAnalysisText(score)}</div>
                 </div>
               ))}
             </div>
