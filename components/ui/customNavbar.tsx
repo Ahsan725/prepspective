@@ -6,6 +6,7 @@ import {
   Trees,
   Zap,
   Brain,
+  Target,
   List,
   FileText,
   MousePointerClick,
@@ -63,19 +64,19 @@ import { ModernSidebar } from "@/components/ui/modern-sidebar";
 const subMenuItemsOne = [
   {
     title: "Experiences",
-    description: "The latest industry news, updates, and info",
+    description: "Read the interview experience entries to learn and ace every interview",
     icon: <FileText className="size-5 shrink-0 text-indigo-700" />,
     href: "/search",
   },
   {
     title: "Add Entry",
-    description: "Our mission is to innovate and empower the world",
+    description: "Add your interview experience, feedback and advice",
     icon: <NotebookPenIcon className="size-5 shrink-0 text-indigo-700" />,
     href: "/exp",
   },
   {
     title: "Lists",
-    description: "Browse job listing and discover our workspace",
+    description: "Curated LeetCode Study lists with solutions and tracking",
     icon: <List className="size-5 shrink-0 text-indigo-700" />,
     href: "/lists",
   },
@@ -84,6 +85,12 @@ const subMenuItemsOne = [
     description: "Get Actionable feedback from AI Interview Practice ",
     icon: <Brain className="size-5 shrink-0 text-indigo-700" />,
     href: "/ai",
+  },
+  {
+    title: "Skill Scan",
+    description: "Pinpoints your specific data structure knowledge gaps ",
+    icon: <Target className="size-5 shrink-0 text-indigo-700" />,
+    href: "/quiz",
   },
 ];
 
