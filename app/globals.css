@@ -136,6 +136,6 @@ body {
   pointer-events: none;
 }
 
-/* #nprogress .peg {
-  box-shadow: 0 0 10px #4338ca, 0 0 5px #4338ca;
-} */
+#nprogress .peg {
+  box-shadow: 0 0 20px #4338ca, 0 0 5px #4338ca;
+}
