@@ -16,7 +16,7 @@ const sections = [
     title: 'Company',
     links: [
       { name: 'About', href: '/about' },
-      { name: 'Team', href: '#' },
+      { name: 'Team', href: 'https://www.linkedin.com/in/ahsan-/' },
       { name: 'Blog', href: '#' },
       { name: 'Careers', href: '#' },
     ],
