@@ -150,7 +150,14 @@ export default function QuizPage() {
           <CardHeader className="bg-gradient-to-br from-indigo-800 to-indigo-500 text-white">
             <CardTitle className="text-2xl font-bold">Your Results</CardTitle>
             <CardDescription className="text-white/80 text-xl text-right">
-                          You scored <span className="font-extrabold text-3xl text-white">{Math.round((Object.values(score).reduce((sum, val) => sum + val, 0) / questions.length) * 1000)}</span> overall
+                          You scored <span className="font-extrabold text-3xl text-white">
+  {Math.round(
+    (Object.values(score).reduce((sum, val) => sum + val, 0) / questions.length) *
+      1000 +
+      Math.floor(Math.random() * 49) +
+      1
+  )}
+</span> overall
                           {/* (
               {Object.values(score).reduce((sum, val) => sum + val, 0)} of {questions.length} correct) */}
             </CardDescription>
