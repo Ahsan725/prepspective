@@ -135,8 +135,8 @@ export default function QuizPage() {
 
       {/* Conditional Rendering of Quiz or Results */}
       {showResults ? (
-        <Card className="overflow-hidden border-0 shadow-lg mb-8">
-          <CardHeader className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white">
+        <Card className="overflow-hidden border-0 shadow-lg mb-8 mt-8">
+          <CardHeader className="bg-gradient-to-br from-indigo-800 to-indigo-500 text-white">
             <CardTitle className="text-2xl font-bold">Your Results</CardTitle>
             <CardDescription className="text-white/80">
               You scored {Math.round((Object.values(score).reduce((sum, val) => sum + val, 0) / questions.length) * 100)}% overall (
@@ -154,23 +154,23 @@ export default function QuizPage() {
                   }))}
                 />
               </div>
-              <p className="text-sm text-indigo-700 mt-2">
+              <p className="text-sm mt-2">
                 Your proficiency across different data structures
               </p>
             </div>
             <div className="space-y-4">
               {Object.entries(calculateResults()).map(([ds, score]) => (
-                <div key={ds} className="flex items-center justify-between px-4 py-2 border border-indigo-200 rounded-lg">
+                <div key={ds} className="flex items-center justify-between px-4 py-2 border rounded-lg">
                   <div className="flex items-center gap-2">
                     {getIcon(ds)}
-                    <span className="font-medium capitalize text-indigo-700">{ds.replace("-", " ")}</span>
+                    <span className="font-medium capitalize">{ds.replace("-", " ")}</span>
                   </div>
-                  <span className="text-indigo-700 font-semibold">{Math.round(score)}%</span>
+                  <span className="font-medium">{Math.round(score)}%</span>
                 </div>
               ))}
             </div>
           </CardContent>
-          <CardFooter className="bg-indigo-50 px-6 py-4 flex justify-end">
+          <CardFooter className="px-6 py-4 flex justify-end">
             <Button onClick={restartQuiz}>Restart Quiz</Button>
           </CardFooter>
         </Card>
