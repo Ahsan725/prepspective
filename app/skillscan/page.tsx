@@ -134,7 +134,7 @@ export default function QuizPage() {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-24 py-8">
+    <div className="max-w-screen-2xl mx-auto px-4 md:px-24 py-8">
       {/* Animated Page Heading */}
       <motion.div
         className="flex items-center justify-center mb-4"
@@ -246,7 +246,7 @@ export default function QuizPage() {
 
               {/* Right side: Code snippet */}
               {currentQ.codeSnippet && (
-                <div className="hidden md:block md:col-span-2">
+                <div className="md:col-span-2">
                   <div className="sticky top-4">
                     <CodeSnippet code={currentQ.codeSnippet} />
                   </div>

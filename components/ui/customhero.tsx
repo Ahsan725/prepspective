@@ -108,7 +108,7 @@ export default function ModernHero() {
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 1, delay: 0.1 }}>
               <p className="text-[0.55rem] lg:text-sm font-bold text-indigo-600 tracking-wide">
-              We hit max capacity. Waitlist now and get priority when we launch the next batch!
+              We hit max capacity. Waitlist to get priority when we launch the next batch!
               </p>
             </motion.div>
 
