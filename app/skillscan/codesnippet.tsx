@@ -6,13 +6,13 @@ export function CodeSnippet({ code }: { code: string }) {
   return (
     <div className="relative bg-[#282c34] rounded-xl shadow-2xl overflow-hidden border border-slate-700">
       <div className="absolute top-3 right-3">
-        <Code className="h-5 w-5 text-slate-400" />
+        <Code className="h-5 w-5 text-slate-300" />
       </div>
 
       <pre className="p-4 font-mono text-sm leading-relaxed text-slate-100 whitespace-pre-wrap overflow-x-auto">
         {code.split("\n").map((line, i) => (
           <div key={i} className="w-full">
-            <span className="text-slate-500 select-none pr-4">{String(i + 1).padStart(2, "0")}</span>
+            <span className="text-slate-400 select-none pr-4">{String(i + 1).padStart(2, "0")}</span>
             <span
               className="inline-block"
               dangerouslySetInnerHTML={{ __html: highlightLine(line) }}
