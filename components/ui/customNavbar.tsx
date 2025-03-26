@@ -90,7 +90,7 @@ const subMenuItemsOne = [
     title: "Skill Scan",
     description: "Pinpoints your specific data structure knowledge gaps ",
     icon: <Target className="size-5 shrink-0 text-indigo-700" />,
-    href: "/quiz",
+    href: "/skillscan",
   },
 ];
 
