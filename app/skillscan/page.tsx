@@ -117,7 +117,7 @@ export default function QuizPage() {
     } else {
       return (
         <>
-          <span className="text-emerald-500 font-semibold">Excellent performance</span>! Challenge yourself with hard questions to maintain momentum. If interviews are not yielding results, a resume revamp could be beneficial.
+          <span className="text-emerald-500 font-semibold">Great performance</span>! Challenge yourself with hard questions to maintain momentum. If interviews are not yielding results, a resume revamp could be beneficial.
           <br /><br />
           <a href="/resume" className="text-blue-500 underline">Resume Revamp</a>
         </>
@@ -201,7 +201,7 @@ export default function QuizPage() {
                     {getIcon(ds)}
                     <span className="font-medium capitalize">{ds.replace("-", " ")}</span>
                   </div>
-                  <div className="text-lg font-bold text-indigo-700">{Math.round(score)}%</div>
+                  {/* <div className="text-lg font-bold text-indigo-700">{Math.round(score)}%</div> */}
                   <div className="text-sm mt-2 text-gray-700">{getAnalysisText(score)}</div>
                 </div>
               ))}
@@ -213,15 +213,26 @@ export default function QuizPage() {
         </Card>
       ) : (
         <Card className="overflow-hidden border-0 shadow-none transition-all duration-300">
-          <CardHeader>
-            <div className="flex justify-center gap-2">
-              {getIcon(currentQ.dataStructure)}
-              <Badge variant="secondary" className="capitalize bg-indigo-500 text-white">
-                {currentQ.dataStructure.replace("-", " ")}
-              </Badge>
-            </div>
-            <CardTitle className="text-2xl mt-0 text-center pt-0 font-light">{currentQ.question}</CardTitle>
-          </CardHeader>
+<CardHeader>
+  <div className="flex justify-center gap-2">
+    {getIcon(currentQ.dataStructure)}
+    <Badge variant="secondary" className="capitalize bg-indigo-500 text-white">
+      {currentQ.dataStructure.replace("-", " ")}
+    </Badge>
+  </div>
+  <motion.div
+    key={currentQ.question}
+    initial={{ opacity: 0, filter: 'blur(26px)' }}
+    animate={{ opacity: 1, filter: 'blur(0px)' }}
+    exit={{ opacity: 0, filter: 'blur(16px)' }}
+    transition={{ duration: 0.8 }}
+  >
+    <CardTitle className="md:text-2xl text-xl mt-0 text-center pt-0 font-light">
+      {currentQ.question}
+    </CardTitle>
+  </motion.div>
+</CardHeader>
+
 
           <CardContent className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
