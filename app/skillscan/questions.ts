@@ -162,5 +162,65 @@ export const questions: Question[] = [
       ],
       correctAnswer: 1,
       dataStructure: "queue",
-    },
+  },
+  {
+    id: 16,
+    question:
+      "What is the time complexity of the following sliding window algorithm for finding the longest substring without repeating characters?",
+    codeSnippet:
+      "def lengthOfLongestSubstring(s):\n    charIndex = {}\n    left = 0\n    maxLen = 0\n    for right, char in enumerate(s):\n        if char in charIndex and charIndex[char] >= left:\n            left = charIndex[char] + 1\n        charIndex[char] = right\n        maxLen = max(maxLen, right - left + 1)\n    return maxLen",
+    options: ["O(n)", "O(n²)", "O(n log n)", "O(2ⁿ)"],
+    correctAnswer: 0,
+    dataStructure: "string",
+  },
+  {
+    id: 17,
+    question:
+      "Which tree traversal order does the following serialization algorithm use?",
+    codeSnippet:
+      "def serialize(root):\n    def helper(node):\n        if not node:\n            return ['#']\n        return [str(node.val)] + helper(node.left) + helper(node.right)\n    return ' '.join(helper(root))",
+    options: ["In-order", "Pre-order", "Post-order", "Level-order"],
+    correctAnswer: 1,
+    dataStructure: "tree",
+  },
+  {
+    id: 18,
+    question:
+      "What is the time complexity of the following dynamic programming solution for the Longest Increasing Subsequence problem?",
+    codeSnippet:
+      "def lengthOfLIS(nums):\n    if not nums:\n        return 0\n    dp = [1] * len(nums)\n    for i in range(1, len(nums)):\n        for j in range(i):\n            if nums[i] > nums[j]:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp)",
+    options: ["O(n)", "O(n log n)", "O(n²)", "O(2ⁿ)"],
+    correctAnswer: 2,
+    dataStructure: "array",
+  },
+  {
+    id: 19,
+    question:
+      "What is the time complexity of the following Dijkstra's algorithm implementation using a min-heap?",
+    codeSnippet:
+      "def dijkstra(graph, start):\n    import heapq\n    distances = {node: float('inf') for node in graph}\n    distances[start] = 0\n    heap = [(0, start)]\n    while heap:\n        current_distance, current_node = heapq.heappop(heap)\n        if current_distance > distances[current_node]:\n            continue\n        for neighbor, weight in graph[current_node]:\n            distance = current_distance + weight\n            if distance < distances[neighbor]:\n                distances[neighbor] = distance\n                heapq.heappush(heap, (distance, neighbor))\n    return distances",
+    options: [
+      "O((V+E) log V)",
+      "O(V²)",
+      "O(V log V)",
+      "O(E log V)",
+    ],
+    correctAnswer: 0,
+    dataStructure: "graph",
+  },
+  {
+    id: 20,
+    question:
+      "What does the following union-find based algorithm check for in an undirected graph?",
+    codeSnippet:
+      "def find(parent, i):\n    if parent[i] != i:\n        parent[i] = find(parent, parent[i])\n    return parent[i]\n\n\ndef union(parent, rank, x, y):\n    xroot = find(parent, x)\n    yroot = find(parent, y)\n    if rank[xroot] < rank[yroot]:\n        parent[xroot] = yroot\n    elif rank[xroot] > rank[yroot]:\n        parent[yroot] = xroot\n    else:\n        parent[yroot] = xroot\n        rank[xroot] += 1\n\n\ndef validTree(n, edges):\n    if len(edges) != n - 1:\n        return False\n    parent = list(range(n))\n    rank = [0] * n\n    for x, y in edges:\n        if find(parent, x) == find(parent, y):\n            return False\n        union(parent, rank, x, y)\n    return True",
+    options: [
+      "Detects a cycle in the graph",
+      "Checks if the graph is bipartite",
+      "Determines if the graph forms a valid tree",
+      "Finds the minimum spanning tree",
+    ],
+    correctAnswer: 2,
+    dataStructure: "graph",
+  },
   ];
