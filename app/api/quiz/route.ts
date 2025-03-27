@@ -6,7 +6,7 @@ import { OpenAI } from "openai";
 export async function GET(request: Request) {
   // Parse the query parameters from the URL
   const { searchParams } = new URL(request.url);
-  const topic = searchParams.get("topic") || "datastructures";
+  const topic = searchParams.get("topic") || "find the mistake";
   const normalizedTopic = topic.toLowerCase();
 
   const openai = new OpenAI({
@@ -15,15 +15,15 @@ export async function GET(request: Request) {
 
   // Construct the prompt for quiz generation
   const prompt = `
-Generate a leetcode style problem set consisting of exactly 3 medium difficulty questions for the leetcode topic "${normalizedTopic}". Each question should challenge users to apply their problem-solving skills to analyze and complete an incomplete Python code snippet. The code snippet should be relevant to the question but not make the correct answer obvious, encouraging careful thought to determine the best approach.
+Generate a leetcode-style problem set consisting of exactly 3 hard difficulty multiple choice questions for the leetcode topic "${normalizedTopic}". Each question should test advanced problem-solving and algorithmic intuition. The question should ask a single, focused inquiry about an algorithmic aspect (such as time complexity, space complexity, correctness, or behavior) of the code snippet.
 
-Please output a JSON array where each element is an object with the following fields:
+For each question, output an object with the following fields:
 - id: a unique integer starting from 1.
-- question: a string containing a leetcode style question.
-- codeSnippet: a non-empty string containing a Python code snippet. Ensure the snippet is long enough and functional, even if incomplete.
-- options: an array of exactly four string options.
-- correctAnswer: the index (0-3) of the correct option.
-- topic: a distinct, randomly generated subtopic derived from the main topic "${normalizedTopic}" that tests a specific aspect of the problem.
+- question: a clear and singular multiple choice question that asks about a specific algorithmic or operational aspect of the provided code snippet.
+- codeSnippet: a non-empty string containing a Python code snippet. The snippet should be long enough to be meaningful and functionally relevant, even if incomplete.
+- options: an array of exactly four string options presenting plausible answers.
+- correctAnswer: the index (0-3) corresponding to the correct option.
+- topic: a distinct, randomly generated subtopic derived from the main topic "${normalizedTopic}" that targets a specific advanced concept.
 
 Ensure that the JSON output is valid and that no extra text is included.
 

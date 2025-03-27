@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RadarChart } from "../skillscan/radar-chart";
+import Loader from "@/components/ui/loader"; // adjust path if needed
 
 // Define icons for topics. For topics not in this mapping, the default icon is used.
 const topicIcons: Record<string, React.ReactNode> = {
@@ -54,32 +55,41 @@ interface Question {
 export default function QuizPage() {
   // Local states for quiz data and UI control
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [selectedTopic, setSelectedTopic] = useState<string>("datastructures");
+  const [selectedTopic, setSelectedTopic] = useState<string>("find the mistake");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState<{ [key: string]: number }>({});
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResults, setShowResults] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Function to fetch quiz data when user clicks "Start Quiz"
   async function fetchQuizData() {
     setLoading(true);
+    setError(null);
     try {
-      const res = await fetch(`/api/quiz?topic=${encodeURIComponent(selectedTopic)}`);
+      const res = await fetch(
+        `/api/quiz?topic=${encodeURIComponent(selectedTopic)}`
+      );
       if (!res.ok) {
         throw new Error("Failed to fetch quiz data");
       }
       const data = await res.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
       setQuestions(data);
       setCurrentQuestion(0);
       setScore({});
       setSelectedAnswer(null);
       setShowResults(false);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
+      setError("An error occurred while fetching quiz data. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   // Trigger API call on button click
@@ -136,25 +146,48 @@ export default function QuizPage() {
     if (score < 40) {
       return (
         <>
-          Performance is <span className="text-rose-500 font-semibold">below expectations</span> for technical interviews. Focus on foundational easy questions. Consider targeted LeetCode tutoring for accelerated improvement.
-          <br /><br />
-          <a href="/tutor" className="text-blue-500 underline">LeetCode Tutoring</a>
+          Performance is{" "}
+          <span className="text-rose-500 font-semibold">
+            below expectations
+          </span>{" "}
+          for technical interviews. Focus on foundational easy questions.
+          Consider targeted LeetCode tutoring for accelerated improvement.
+          <br />
+          <br />
+          <a href="/tutor" className="text-blue-500 underline">
+            LeetCode Tutoring
+          </a>
         </>
       );
     } else if (score < 70) {
       return (
         <>
-          <span className="text-orange-400 font-semibold">Moderate performance</span>. Enhance your skills with medium-difficulty problems. Simulate real interview pressure with a mock interview session.
-          <br /><br />
-          <a href="/mock-interviews" className="text-blue-500 underline">Mock Interviews</a>
+          <span className="text-orange-400 font-semibold">
+            Moderate performance
+          </span>
+          . Enhance your skills with medium-difficulty problems. Simulate real
+          interview pressure with a mock interview session.
+          <br />
+          <br />
+          <a href="/mock-interviews" className="text-blue-500 underline">
+            Mock Interviews
+          </a>
         </>
       );
     } else {
       return (
         <>
-          <span className="text-emerald-500 font-semibold">Great performance</span>! Challenge yourself with hard questions to maintain momentum. If interviews are not yielding results, a resume revamp could be beneficial.
-          <br /><br />
-          <a href="/resume" className="text-blue-500 underline">Resume Revamp</a>
+          <span className="text-emerald-500 font-semibold">
+            Great performance
+          </span>
+          ! Challenge yourself with hard questions to maintain momentum. If
+          interviews are not yielding results, a resume revamp could be
+          beneficial.
+          <br />
+          <br />
+          <a href="/resume" className="text-blue-500 underline">
+            Resume Revamp
+          </a>
         </>
       );
     }
@@ -170,22 +203,89 @@ export default function QuizPage() {
 
   return (
     <div className="max-w-screen-2xl mx-auto px-4 md:px-24 py-8">
+      {/* Animated Page Heading */}
+      <motion.div
+        className="flex items-center justify-center mb-4"
+        initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: { duration: 0.5 },
+        }}>
+        <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
+          SKIL SCAN AI
+        </h2>
+      </motion.div>
+
+      <motion.h2
+        className="text-3xl md:text-4xl text-center font-bold mb-4"
+        initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: { duration: 0.5, delay: 0.2 },
+        }}>
+        Find Your Weak Spots
+      </motion.h2>
+
+      <motion.h3
+        className="md:w-4/5 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-0 md:text-lg lg:text-xl dark:text-gray-400"
+        initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: { duration: 0.5, delay: 0.4 },
+        }}>
+        Understand exactly where you need to improve. This diagnostic tool
+        pinpoints your specific knowledge gaps, enabling targeted technical
+        interview preparation and more effective learning.
+      </motion.h3>
+
+      {/* Error message */}
+      {error && (
+        <div className="flex flex-col items-center justify-center py-8">
+          <p className="text-red-500 text-lg mb-4">{error}</p>
+          <Button onClick={handleStartQuiz}>Retry</Button>
+        </div>
+      )}
+
       {/* If no quiz data yet, show topic selector and Start Quiz button */}
-      {questions.length === 0 && (
-        <div className="mb-8">
+      {questions.length === 0 && !loading && !error && (
+        <div className="mb-8 flex flex-col items-center">
           <div className="mb-4">
-            <label htmlFor="topic" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="topic"
+              className="block text-sm font-medium text-gray-700">
               Select Topic
             </label>
             <select
               id="topic"
               value={selectedTopic}
               onChange={(e) => setSelectedTopic(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm w-64" // fixed width
             >
-              <option value="datastructures">Data Structures</option>
+              <option value="find the mistake">Identifying Approach</option>
               <option value="time complexity">Time Complexity</option>
               <option value="problem solving">Problem Solving</option>
+              <option value="lists">Lists</option>
+              <option value="dynamic programming">Dynamic Programming</option>
+              <option value="graphs">Graphs</option>
+              <option value="stacks">Stacks</option>
+              <option value="dfs">DFS</option>
+              <option value="trees">Trees</option>
+              <option value="recursion">Recursion</option>
+              <option value="greedy algorithms">Greedy Algorithms</option>
+              <option value="backtracking">Backtracking</option>
+              <option value="bit manipulation">Bit Manipulation</option>
+              <option value="sorting">Sorting</option>
+              <option value="searching">Searching</option>
+              <option value="hash tables">Hash Tables</option>
+              <option value="heaps">Heaps</option>
+              <option value="queues">Queues</option>
+              <option value="strings">Strings</option>
             </select>
           </div>
           <Button onClick={handleStartQuiz} disabled={loading}>
@@ -194,10 +294,10 @@ export default function QuizPage() {
         </div>
       )}
 
-      {/* Loading state */}
-      {loading && questions.length === 0 && (
-        <div className="text-center">
-          <p>Loading quiz...</p>
+      {/* Loader */}
+      {loading && questions.length === 0 && !error && (
+        <div className="flex justify-center items-center h-[60vh]">
+          <Loader />
         </div>
       )}
 
@@ -207,7 +307,9 @@ export default function QuizPage() {
           <CardHeader>
             <div className="flex justify-center gap-2">
               {getIcon(currentQ.topic)}
-              <Badge variant="secondary" className="capitalize bg-indigo-500 text-white">
+              <Badge
+                variant="secondary"
+                className="capitalize bg-indigo-500 text-white">
                 {currentQ.topic.replace("-", " ")}
               </Badge>
             </div>
@@ -216,8 +318,7 @@ export default function QuizPage() {
               initial={{ opacity: 0, filter: "blur(26px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               exit={{ opacity: 0, filter: "blur(16px)" }}
-              transition={{ duration: 0.8 }}
-            >
+              transition={{ duration: 0.8 }}>
               <CardTitle className="md:text-2xl text-xl mt-0 text-center pt-0 font-light">
                 {currentQ.question}
               </CardTitle>
@@ -237,8 +338,7 @@ export default function QuizPage() {
                         selectedAnswer === index
                           ? "bg-indigo-100 border-indigo-500"
                           : "border-indigo-200 hover:border-indigo-300"
-                      )}
-                    >
+                      )}>
                       <div className="flex-1">{option}</div>
                     </button>
                   ))}
@@ -255,9 +355,16 @@ export default function QuizPage() {
             </div>
           </CardContent>
           <CardFooter className="px-6 py-4 flex justify-between">
-            <div className="text-sm text-indigo-700">Select an answer to continue</div>
-            <Button onClick={handleNext} disabled={selectedAnswer === null || showFeedback} className="px-6 shadow-none hover:shadow-none">
-              {currentQuestion === questions.length - 1 ? "Finish Quiz" : "Next Question"}
+            <div className="text-sm text-indigo-700">
+              Select an answer to continue
+            </div>
+            <Button
+              onClick={handleNext}
+              disabled={selectedAnswer === null || showFeedback}
+              className="px-6 shadow-none hover:shadow-none">
+              {currentQuestion === questions.length - 1
+                ? "Finish Quiz"
+                : "Next Question"}
             </Button>
           </CardFooter>
         </Card>
@@ -272,7 +379,8 @@ export default function QuizPage() {
               Skill Scan Score:{" "}
               <span className="font-extrabold text-3xl text-white">
                 {Math.round(
-                  (Object.values(score).reduce((sum, val) => sum + val, 0) / questions.length) *
+                  (Object.values(score).reduce((sum, val) => sum + val, 0) /
+                    questions.length) *
                     1000 +
                     Math.floor(Math.random() * 49) +
                     1
@@ -284,23 +392,35 @@ export default function QuizPage() {
             <div className="flex flex-col items-center justify-center mb-8">
               <div className="w-full max-w-md h-80">
                 <RadarChart
-                  data={Object.entries(calculateResults()).map(([name, value]) => ({
-                    subject: name.charAt(0).toUpperCase() + name.slice(1).replace("-", " "),
-                    score: value,
-                    fullMark: 100,
-                  }))}
+                  data={Object.entries(calculateResults()).map(
+                    ([name, value]) => ({
+                      subject:
+                        name.charAt(0).toUpperCase() +
+                        name.slice(1).replace("-", " "),
+                      score: value,
+                      fullMark: 100,
+                    })
+                  )}
                 />
               </div>
-              <p className="text-sm mt-2">Your proficiency across different topics</p>
+              <p className="text-sm mt-2">
+                Your proficiency across different topics
+              </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {Object.entries(calculateResults()).map(([topic, score]) => (
-                <div key={topic} className="p-4 border-none bg-slate-50 rounded-xl">
+                <div
+                  key={topic}
+                  className="p-4 border-none bg-slate-50 rounded-xl">
                   <div className="flex items-center gap-2 mb-2">
                     {getIcon(topic)}
-                    <span className="font-medium capitalize">{topic.replace("-", " ")}</span>
+                    <span className="font-medium capitalize">
+                      {topic.replace("-", " ")}
+                    </span>
                   </div>
-                  <div className="text-sm mt-2 text-gray-700">{getAnalysisText(score)}</div>
+                  <div className="text-sm mt-2 text-gray-700">
+                    {getAnalysisText(score)}
+                  </div>
                 </div>
               ))}
             </div>

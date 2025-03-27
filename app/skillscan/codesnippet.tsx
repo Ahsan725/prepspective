@@ -24,7 +24,7 @@ export function CodeSnippet({ code }: { code: string }) {
   )
 }
 
-function highlightLine(line: string, highlightClass: string = "text-purple-400", keywords: string[] = ["False", "and", "as", "assert", "async", "await", "break", "continue", "def", "del", "elif", "else", "except", "finally", "for", "from", "global", "if", "import", "in", "is", "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try", "while", "with", "yield", "match", "case", "print","heapq", "heapify", "append", "pop", "range","appendleft", "deque", "defaultdict", "put", "get", "Queue", "popleft","True", "None", "self" ]): string {
+function highlightLine(line: string, highlightClass: string = "text-purple-400", keywords: string[] = ["False", "and", "as", "assert", "async", "await", "break", "continue", "def", "del", "elif", "else", "except", "finally", "for", "from", "global", "if", "import", "in", "is", "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try", "while", "with", "yield", "match", "case", "print","heapq", "heapify", "append", "pop", "range","appendleft", "deque", "defaultdict", "put", "get", "Queue", "extend", "join", "collections", "List", "Dict", "str", "popleft","True", "None", "self" ]): string {
 
     function escapeHtml(unsafe: string): string {
         return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
