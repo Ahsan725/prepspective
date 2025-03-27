@@ -282,7 +282,7 @@ const CustomNavbar = () => {
               </Tooltip>
             </TooltipProvider>
             <ModernSidebar />
-            <ContactForm />
+            {/* <ContactForm /> */}
             {isSignedIn ? (
               <UserButton
                 appearance={{

@@ -5,8 +5,8 @@ import CombinedView from "./CombinedView";
 import { Input } from "@/components/ui/input"; // Adjust the import path as needed
 import { Button } from "@/components/ui/button"; // Adjust the import path as needed
 
-// Set your access password here (client-side hardcoding is not secure)
-const ACCESS_PASSWORD = "plshelp";
+
+const ACCESS_PASSWORD = "class-700";
 
 const Page: React.FC = () => {
   const [password, setPassword] = useState("");
