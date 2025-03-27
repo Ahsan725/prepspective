@@ -1,42 +1,51 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useAuth } from "@clerk/nextjs"; // Import Clerk's useAuth hook
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import CombinedView from "./CombinedView";
+import { Input } from "@/components/ui/input"; // Adjust the import path as needed
+import { Button } from "@/components/ui/button"; // Adjust the import path as needed
+
+// Set your access password here (client-side hardcoding is not secure)
+const ACCESS_PASSWORD = "plshelp";
 
 const Page: React.FC = () => {
-  const { isSignedIn, isLoaded } = useAuth(); // Add isLoaded to ensure auth status is fully resolved
-  const router = useRouter(); // Next.js router for redirection
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [authenticated, setAuthenticated] = useState(false);
 
-  useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      setTimeout(() => {
-        router.push("/"); // Redirect to root after the message is shown
-      }, 5000); // Delay of 5 seconds
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === ACCESS_PASSWORD) {
+      setAuthenticated(true);
+    } else {
+      setError("Incorrect password. Please try again.");
     }
-  }, [isSignedIn, isLoaded, router]);
+  };
 
-  // While auth status is loading, show nothing or a loading state
-  if (!isLoaded) {
-    return null;
+  if (authenticated) {
+    return <CombinedView />;
   }
 
-  // If not signed in, show the message
-  if (!isSignedIn) {
-    return (
-      <div className="flex flex-col items-center justify-start min-h-screen pt-10">
-        <div className="mb-4">
-          <h2 className="inline-block font-extrabold text-xs sm:text-sm md:text-lg lg:text-xl text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-1">
-            Sign in to view this page. Redirecting...
-          </h2>
-        </div>
-      </div>
-    );
-  }
-  // If signed in, render the CombinedView component
   return (
-      <CombinedView />
+    <div className="flex flex-col items-center justify-start min-h-screen pt-10">
+      <h2 className="mb-4 text-center text-2xl font-bold text-indigo-700">
+        Enter password to view this page:
+      </h2>
+      <form onSubmit={handleSubmit} className="flex flex-col items-center">
+        <Input
+          type="password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setError(null);
+          }}
+          placeholder="Password"
+          className="mb-2 w-80"
+        />
+        <Button type="submit">Submit</Button>
+        {error && <p className="mt-2 text-red-500">{error}</p>}
+      </form>
+    </div>
   );
 };
 
