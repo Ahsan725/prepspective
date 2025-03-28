@@ -84,7 +84,7 @@ export default function TutorPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-lg max-w-3xl mx-auto mb-20">
+        {/* <div className="bg-white rounded-2xl p-6 shadow-lg max-w-3xl mx-auto mb-20">
           <div className="flex items-start gap-4">
             <img
               src={testimonials[currentTestimonial].image}
@@ -100,7 +100,7 @@ export default function TutorPage() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {/* Single Session */}
