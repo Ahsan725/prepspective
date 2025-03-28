@@ -1,5 +1,6 @@
 import { sql } from 'drizzle-orm';
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, integer, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
+
 
 // Users table
 export const usersTable = sqliteTable('users', {
@@ -67,6 +68,22 @@ export const questionsTable = sqliteTable('questions', {
   question: text('question').notNull(),
   leetcodeLink: text('leetcode_link'),
 });
+
+import { primaryKey } from 'drizzle-orm/sqlite-core';
+
+export const userProblemStatusTable = sqliteTable(
+  'user_problem_status',
+  {
+    userId: text('user_id').notNull(), // Clerk user id
+    problemId: integer('problem_id').notNull(), // Reference to the problem id
+    completed: integer('completed', { mode: 'boolean' })
+      .default(false)
+      .notNull(),
+  },
+  (table) => ({
+    pk: primaryKey(table.userId, table.problemId),
+  })
+);
 
 
 // Type inference for users

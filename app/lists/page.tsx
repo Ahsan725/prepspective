@@ -37,6 +37,8 @@ import {
 } from "recharts";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+
 
 // Define the Problem type
 type Problem = {
@@ -120,6 +122,7 @@ const CustomActiveShape = (props: ActiveShapeProps): JSX.Element => {
 };
 
 export default function Home() {
+  const { user, isLoaded } = useUser();
   const [data, setData] = useState<Problem[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filter, setFilter] = useState<"all" | "Easy" | "Medium" | "Hard">(
@@ -142,22 +145,47 @@ export default function Home() {
 
   // Fetch data when selectedList changes
   useEffect(() => {
-    fetch(`/${selectedList}.json`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+    // Only proceed if the Clerk user is loaded
+    if (!isLoaded) return;
+  
+    async function fetchData() {
+      try {
+        // Fetch the static list of problems
+        const problemsRes = await fetch(`/${selectedList}.json`);
+        if (!problemsRes.ok) {
+          throw new Error(`HTTP error! status: ${problemsRes.status}`);
         }
-        return response.json();
-      })
-      .then((json: Problem[]) => {
-        setData(json);
-        setError(null); // Reset error on successful fetch
-      })
-      .catch((error) => {
+        const problems: Problem[] = await problemsRes.json();
+  
+        // Fetch the user's saved progress; include credentials so cookies are sent
+        const progressRes = await fetch("/api/updateStatus", {
+          credentials: "include",
+        });
+        let progressMapping: Record<number, boolean> = {};
+        if (progressRes.ok) {
+          progressMapping = await progressRes.json();
+        }
+  
+        // Merge the progress data into the problems list
+        const merged = problems.map((problem) => ({
+          ...problem,
+          completed:
+            progressMapping[problem.id] !== undefined
+              ? progressMapping[problem.id]
+              : problem.completed,
+        }));
+  
+        setData(merged);
+        setError(null);
+      } catch (error) {
         console.error("Error fetching data:", error);
         setError("Failed to load problems. Please try again later.");
-      });
-  }, [selectedList]);
+      }
+    }
+    fetchData();
+  }, [selectedList, isLoaded]);
+  
+  
 
   // Memoize filtered data based on searchTerm and filter
   const filteredData = useMemo(() => {
@@ -254,14 +282,36 @@ export default function Home() {
     Hard: "#F77171", // Red
   };
 
-  // Toggle the completed status of a problem based on id
   const toggleCompleted = useCallback((id: number, completed: boolean) => {
+    // Optimistically update the UI.
     setData((prevData) =>
       prevData.map((problem) =>
         problem.id === id ? { ...problem, completed } : problem
       )
     );
+  
+    // Send the update to the API.
+    fetch('/api/updateStatus', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ problemId: id, completed }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log('Update success:', data);
+      })
+      .catch((error) => {
+        console.error('Error updating status:', error);
+        // Optionally, you might want to revert the optimistic update if necessary.
+      });
   }, []);
+  
+  
 
   // Handler for when a slice is hovered
   const onPieEnter = useCallback((_: unknown, index: number) => {
