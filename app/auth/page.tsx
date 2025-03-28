@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
+import Footer from '@/components/ui/footer';
 import {
   Card,
   CardContent,
@@ -127,6 +128,7 @@ export default function AuthPage() {
           </CardContent>
         </Card>
       </motion.div>
+      <Footer/>
     </div>
   );
 }
