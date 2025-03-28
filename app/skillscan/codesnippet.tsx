@@ -24,20 +24,87 @@ export function CodeSnippet({ code }: { code: string }) {
   )
 }
 
-function highlightLine(line: string, highlightClass: string = "text-purple-400", keywords: string[] = ["False", "and", "as", "assert", "async", "await", "break", "continue", "def", "del", "elif", "else", "except", "finally", "for", "from", "global", "if", "import", "in", "is", "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try", "while", "with", "yield", "match", "case", "print","heapq", "heapify", "append", "pop", "range","appendleft", "deque", "defaultdict", "put", "get", "Queue", "extend", "join", "collections", "List", "Dict", "str", "popleft","True", "None", "self" ]): string {
+function highlightLine(line: string): string {
+  function escapeHtml(unsafe: string): string {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
 
-    function escapeHtml(unsafe: string): string {
-        return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+  const categories = [
+    {
+      keywords: [
+        "False", "True", "None", "and", "or", "not", "is", "in", "if", "elif", "else",
+        "while", "for", "try", "except", "finally", "break", "continue", "pass",
+        "return", "yield", "raise", "assert", "with", "as", "def", "lambda", "del",
+        "global", "nonlocal", "match", "case", "import", "from"
+      ],
+      className: "text-purple-400"
+    },
+    {
+      keywords: ["async", "await"],
+      className: "text-pink-400"
+    },
+    {
+      keywords: [
+        "print", "range", "len", "append", "pop", "extend", "join",
+        "put", "get", "appendleft", "popleft"
+      ],
+      className: "text-emerald-400"
+    },
+    {
+      keywords: [
+        "heapq", "heapify", "collections", "deque", "defaultdict",
+        "Queue", "List", "Dict", "str"
+      ],
+      className: "text-yellow-400"
+    },
+    {
+      keywords: ["self"],
+      className: "text-blue-400"
     }
+  ];
 
-    let escapedLine = escapeHtml(line);
+  // Separate code and comment
+  const commentIndex = line.indexOf("#");
+  const codePart = commentIndex >= 0 ? line.slice(0, commentIndex) : line;
+  const commentPart = commentIndex >= 0 ? line.slice(commentIndex) : "";
 
-    // Removed number highlighting
-    // escapedLine = escapedLine.replace(/\b\d+\b/g, (match) => `<span class="${highlightClass}">${match}</span>`);
+  // Escape both parts (but don't escape quotes)
+  let escapedCode = escapeHtml(codePart);
+  const escapedComment = escapeHtml(commentPart);
 
+  // Highlight numbers
+  escapedCode = escapedCode.replace(
+    /\b(\d+)\b/g,
+    `<span class="text-orange-400">$1</span>`
+  );
+
+
+  escapedCode = escapedCode.replace(
+    /([\[\]{}()])/g,
+    `<span class="text-cyan-500 font-bold">$1</span>`
+  );
+
+  // Highlight keywords
+  for (const { keywords, className } of categories) {
     for (const keyword of keywords) {
-        escapedLine = escapedLine.replace(new RegExp(`\\b(${keyword})\\b`, 'g'), `<span class="${highlightClass}">$1</span>`);
+      const regex = new RegExp(`\\b(${keyword})\\b`, "g");
+      escapedCode = escapedCode.replace(
+        regex,
+        `<span class="${className}">$1</span>`
+      );
     }
+  }
 
-    return escapedLine;
+  // Combine highlighted code + comment (which is just escaped, not modified)
+  if (commentIndex >= 0) {
+    return `${escapedCode}<span class="text-blue-400">${escapedComment}</span>`;
+  }
+
+  return escapedCode;
 }
+
+
+

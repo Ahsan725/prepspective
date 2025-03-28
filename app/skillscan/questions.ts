@@ -174,16 +174,6 @@ export const questions: Question[] = [
     dataStructure: "string",
   },
   {
-    id: 17,
-    question:
-      "Which tree traversal order does the following serialization algorithm use?",
-    codeSnippet:
-      "def serialize(root):\n    def helper(node):\n        if not node:\n            return ['#']\n        return [str(node.val)] + helper(node.left) + helper(node.right)\n    return ' '.join(helper(root))",
-    options: ["In-order", "Pre-order", "Post-order", "Level-order"],
-    correctAnswer: 1,
-    dataStructure: "tree",
-  },
-  {
     id: 18,
     question:
       "What is the time complexity of the following dynamic programming solution for the Longest Increasing Subsequence problem?",
