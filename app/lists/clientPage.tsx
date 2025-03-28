@@ -346,7 +346,7 @@ export default function Home() {
                       variant={selectedList === "list1" ? "default" : "outline"}
                       onClick={() => setSelectedList("list1")}
                       className="text-sm">
-                      Easy Start
+                      Blind 150
                     </Button>
                     <Button
                       variant={selectedList === "list2" ? "default" : "outline"}
