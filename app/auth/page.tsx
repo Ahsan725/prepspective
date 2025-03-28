@@ -1,13 +1,13 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 
 const containerVariants = {
@@ -38,6 +38,12 @@ const logoVariants = {
 
 export default function AuthPage() {
   const router = useRouter();
+  const [loading, setLoading] = useState<null | 'signin' | 'signup'>(null);
+
+  const handleClick = (path: string, type: 'signin' | 'signup') => {
+    setLoading(type);
+    setTimeout(() => router.push(path), 1500); // simulate loading delay
+  };
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-white px-4 pt-12">
@@ -79,7 +85,6 @@ export default function AuthPage() {
 
         <Card className="border-none shadow-none mt-0 pt-0">
           <CardHeader className="text-center space-y-1">
-            {/* <CardTitle className="text-2xl">Welcome back</CardTitle> */}
             <CardDescription>
               Please sign in to your account or create a new one
             </CardDescription>
@@ -89,9 +94,10 @@ export default function AuthPage() {
             <motion.div variants={itemVariants}>
               <Button
                 className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
-                onClick={() => router.push('/signin')}
+                onClick={() => handleClick('/signin', 'signin')}
+                disabled={!!loading}
               >
-                Sign In
+                {loading === 'signin' ? 'Off we go...' : 'Sign In'}
               </Button>
             </motion.div>
 
@@ -99,9 +105,10 @@ export default function AuthPage() {
               <Button
                 variant="outline"
                 className="w-full border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700"
-                onClick={() => router.push('/signup')}
+                onClick={() => handleClick('/signup', 'signup')}
+                disabled={!!loading}
               >
-                Sign Up
+                {loading === 'signup' ? 'Off we go...' : 'Sign Up'}
               </Button>
             </motion.div>
           </CardContent>
