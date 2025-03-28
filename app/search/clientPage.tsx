@@ -31,7 +31,7 @@ const Page: React.FC = () => {
       <h2 className="mb-4 text-center text-2xl font-medium">
         Enter Early Access password to view this page:
           </h2>
-          <p className="font-extralight mb-2 text-indigo-500 text-sm">If you do not have access but would like to get access sign up for the waitlist!</p>
+          <p className="font-extralight mb-2 text-indigo-500 text-sm mx-auto px-2">If you do not have access but would like to get access sign up for the waitlist!</p>
       <form onSubmit={handleSubmit} className="flex flex-col items-center">
         <Input
           type="password"
