@@ -121,16 +121,10 @@ export default function AboutPage() {
           Our Products &amp; Impact
         </h2>
         <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-          Our offerings range from comprehensive interview guides and
-          interactive coding walkthroughs to personalized mock interview
-          sessions. Each resource is crafted with precision and passion. The
+         Each resource is crafted with precision and passion. The
           positive feedback we’ve received is overwhelming – many in our
           community have secured entry-level positions and internships thanks to
-          these tools. For more details, check out our{" "}
-          <a href="/testimonials" className="text-slate-600 hover:underline">
-            testimonials
-          </a>
-          .
+          these tools and services.
         </p>
       </motion.div>
 
