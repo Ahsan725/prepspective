@@ -108,7 +108,7 @@ export default function ModernHero() {
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 1, delay: 0.1 }}>
               <p className="text-[0.55rem] lg:text-sm font-bold text-indigo-600 tracking-wide">
-              PrepSpective sign-ups are now open. Create your account today to start using the platform.
+              Sign-ups are now live. Create your account today to start using PrepSpective.
               </p>
             </motion.div>
 
