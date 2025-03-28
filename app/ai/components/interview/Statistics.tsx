@@ -9,17 +9,17 @@ interface StatisticsProps {
 
 const cardStyles = `
   relative 
-  h-20 
+  h-16 md:h-20 
   rounded-xl 
   overflow-hidden 
   flex 
   items-center 
   justify-center 
-  text-slate-800 
+  text-gray-800 
   group 
   border 
-  border-slate-200 
-  bg-slate-100 
+  border-gray-200 
+  bg-white 
   shadow-sm 
   hover:shadow-md 
   transition-all 
@@ -60,37 +60,47 @@ export const Statistics: React.FC<StatisticsProps> = ({
 }) => {
   return (
     <div className="w-full max-w-6xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-2 md:gap-6">
         {/* Questions */}
         <Card className={cardStyles}>
           <div className={iconBox}>
-            <Award className="h-6 w-6 text-slate-500" />
-            <p className="text-4xl font-bold tracking-tight">{practiceCount}</p>
+            <Award className="h-4 w-4 md:h-6 md:w-6 text-gray-500" />
+            <p className="text-2xl md:text-4xl font-bold tracking-tight">{practiceCount}</p>
           </div>
           <div className={hoverBox}>
-            <p className="text-sm uppercase text-slate-700 font-semibold tracking-wide">Questions</p>
+            <p className="text-sm uppercase text-gray-700 font-semibold tracking-wide">
+              Questions
+            </p>
           </div>
         </Card>
 
         {/* Average Score */}
         <Card className={cardStyles}>
           <div className={iconBox}>
-            <Star className="h-6 w-6 text-slate-500" />
-            <p className="text-4xl font-bold tracking-tight">{averageScore.toFixed(0)}/5</p>
+            <Star className="h-4 w-4 md:h-6 md:w-6 text-gray-500" />
+            <p className="text-2xl md:text-4xl font-bold tracking-tight">
+              {averageScore.toFixed(0)}/5
+            </p>
           </div>
           <div className={hoverBox}>
-            <p className="text-sm uppercase text-slate-700 font-semibold tracking-wide">Average Score</p>
+            <p className="text-sm uppercase text-center text-gray-700 font-semibold tracking-wide">
+              Average <br></br>Score
+            </p>
           </div>
         </Card>
 
-        {/* Time */}
+        {/* Total Time */}
         <Card className={cardStyles}>
           <div className={iconBox}>
-            <Timer className="h-6 w-6 text-slate-500" />
-            <p className="text-4xl font-bold tracking-tight">{practiceCount}m</p>
+            <Timer className="h-4 w-4 md:h-6 md:w-6 text-gray-500" />
+            <p className="text-2xl md:text-4xl font-bold tracking-tight">
+              {practiceCount}m
+            </p>
           </div>
           <div className={hoverBox}>
-            <p className="text-sm uppercase text-slate-700 font-semibold tracking-wide">Total Time</p>
+            <p className="text-sm uppercase text-gray-700 font-semibold tracking-wide">
+              Total Time
+            </p>
           </div>
         </Card>
       </div>
