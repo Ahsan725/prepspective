@@ -74,7 +74,7 @@ export default function AuthPage() {
           className="mx-auto text-center font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mb-0 pb-0"
           variants={itemVariants}
         >
-          Join or sign in to PrepSpective to unlock personalized interview preparation, insights, and expert guidance.
+          Join or sign in to unlock personalized interview preparation, insights, and expert guidance.
         </motion.h3>
 
         <Card className="border-none shadow-none mt-0 pt-0">

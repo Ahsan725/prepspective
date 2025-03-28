@@ -12,6 +12,12 @@ interface Service {
 
 const services: Service[] = [
   {
+    title: "AI Interview Feedback Expert",
+    description: "Receive highly specific, actionable interview feedback powered by AI. Proven superior to Claude, ChatGPT, and DeepSeek based on side-by-side beta testing at interview response grading.",
+    image: "https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+    link: "/ai"
+  },
+  {
     title: "Resume Writing",
     description: "Get your ATS-optimized resume crafted by experts. Stand out from the competition with our proven templates.",
     image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
@@ -34,7 +40,13 @@ const services: Service[] = [
     description: "Practice makes perfect. Get real interview experience with detailed feedback and improvement strategies.",
     image: "https://images.unsplash.com/photo-1565688534245-05d6b5be184a?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
     link: "/mock-interviews"
-  }
+  },
+  {
+    title: "Skill Scan",
+    description: "Pinpoint exactly where your technical weaknesses lie. Our advanced Skill Scan provides a detailed breakdown to level up your interview readiness.",
+    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+    link: "/skillscan"
+  },
 ];
 
 export function ServiceModal() {
