@@ -1,7 +1,8 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useUser } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -38,7 +39,19 @@ const logoVariants = {
 
 export default function AuthPage() {
   const router = useRouter();
+  const { isSignedIn } = useUser();
   const [loading, setLoading] = useState<null | 'signin' | 'signup'>(null);
+
+  useEffect(() => {
+    if (isSignedIn) {
+      router.push('/'); // Redirect to home if the user is signed in
+    }
+  }, [isSignedIn, router]);
+
+  // While the user is signed in, don't render anything.
+  if (isSignedIn) {
+    return null;
+  }
 
   const handleClick = (path: string, type: 'signin' | 'signup') => {
     setLoading(type);
@@ -73,7 +86,7 @@ export default function AuthPage() {
           className="text-3xl md:text-4xl text-center font-bold mb-4"
           variants={itemVariants}
         >
-          Welcome Back
+          We’ve Been Expecting You
         </motion.h2>
 
         <motion.h3
