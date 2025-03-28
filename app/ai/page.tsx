@@ -7,7 +7,7 @@ export default async function QuizPageWrapper() {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect("/signin?redirect_url=/ai");
+    redirect("/auth?redirect_url=/ai");
   }
 
   return <ClientPage />;

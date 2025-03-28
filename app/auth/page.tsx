@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-// Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -37,27 +36,50 @@ const logoVariants = {
   },
 };
 
-const Index = () => {
+export default function AuthPage() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-white px-4 pt-16">
+    <div className="flex flex-col items-center justify-start min-h-screen bg-white px-4 pt-12">
       <motion.div
         className="w-full max-w-md"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
       >
-        <motion.div className="mb-6 text-center" variants={logoVariants}>
+        <motion.div className="mb-4 text-center" variants={logoVariants}>
           <span className="text-4xl font-extrabold text-indigo-700">
             {'{P}rep'}
             <span className="font-bold text-indigo-700">Spective</span>
           </span>
         </motion.div>
 
-        <Card className="border-none shadow-none">
+        <motion.div
+          className="flex items-center justify-center mb-4"
+          variants={itemVariants}
+        >
+          <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
+            AUTHENTICATION
+          </h2>
+        </motion.div>
+
+        <motion.h2
+          className="text-3xl md:text-4xl text-center font-bold mb-4"
+          variants={itemVariants}
+        >
+          Welcome Back
+        </motion.h2>
+
+        <motion.h3
+          className="mx-auto text-center font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mb-0 pb-0"
+          variants={itemVariants}
+        >
+          Join or sign in to PrepSpective to unlock personalized interview preparation, insights, and expert guidance.
+        </motion.h3>
+
+        <Card className="border-none shadow-none mt-0 pt-0">
           <CardHeader className="text-center space-y-1">
-            <CardTitle className="text-2xl">Welcome back</CardTitle>
+            {/* <CardTitle className="text-2xl">Welcome back</CardTitle> */}
             <CardDescription>
               Please sign in to your account or create a new one
             </CardDescription>
@@ -87,6 +109,4 @@ const Index = () => {
       </motion.div>
     </div>
   );
-};
-
-export default Index;
+}
