@@ -28,10 +28,10 @@ const Page: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen pt-10">
-      <h2 className="mb-4 text-center text-2xl font-medium">
+      <h2 className="mb-4 text-center lg:text-2xl font-medium">
         Enter Early Access password to view this page:
           </h2>
-          <p className="font-extralight mb-2 text-indigo-500 text-sm mx-auto px-2">If you do not have access but would like to get access sign up for the waitlist!</p>
+          <p className="font-extralight mb-2 text-slate-400 text-xs mx-auto px-2 text-center">If you do not have access but would like to get access sign up for the waitlist.</p>
       <form onSubmit={handleSubmit} className="flex flex-col items-center">
         <Input
           type="password"
