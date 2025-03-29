@@ -147,7 +147,7 @@
     "title": "Minimum Window Substring",
     "link": "https://leetcode.com/problems/minimum-window-substring/",
     "difficulty": "Hard",
-    "videoLink": "",
+    "videoLink": "https://www.youtube.com/embed/jSto0O4AJbM&t=1s",
     "completed": false,
     "id": 76
   },
@@ -155,7 +155,7 @@
     "title": "Sliding Window Maximum",
     "link": "https://leetcode.com/problems/sliding-window-maximum/",
     "difficulty": "Hard",
-    "videoLink": "",
+    "videoLink": "https://www.youtube.com/embed/DfljaUwZsOk",
     "completed": false,
     "id": 239
   },
@@ -683,7 +683,7 @@
     "title": "Walls And Gates",
     "link": "https://leetcode.com/problems/walls-and-gates/",
     "difficulty": "Medium",
-    "videoLink": "",
+    "videoLink": "https://www.youtube.com/embed/DfljaUwZsOk",
     "completed": false,
     "id": 286
   },
@@ -763,7 +763,7 @@
     "title": "Swim In Rising Water",
     "link": "https://leetcode.com/problems/swim-in-rising-water/",
     "difficulty": "Hard",
-    "videoLink": "",
+    "videoLink": "https://www.youtube.com/embed/amvrKlMLuGY",
     "completed": false,
     "id": 778
   },
@@ -771,7 +771,7 @@
     "title": "Alien Dictionary",
     "link": "https://leetcode.com/problems/alien-dictionary/",
     "difficulty": "Hard",
-    "videoLink": "",
+    "videoLink": "https://www.youtube.com/embed/6kTZYvNNyps",
     "completed": false,
     "id": 269
   },
@@ -1011,7 +1011,7 @@
     "title": "Merge Triplets to Form Target Triplet",
     "link": "https://leetcode.com/problems/merge-triplets-to-form-target-triplet/",
     "difficulty": "Medium",
-    "videoLink": "",
+    "videoLink": "https://www.youtube.com/embed/kShkQLQZ9K4",
     "completed": false,
     "id": 1899
   },
@@ -1059,7 +1059,7 @@
     "title": "Meeting Rooms",
     "link": "https://leetcode.com/problems/meeting-rooms/",
     "difficulty": "Easy",
-    "videoLink": "",
+    "videoLink": "https://www.youtube.com/embed/PaJxqZVPhbg",
     "completed": false,
     "id": 252
   },
@@ -1067,7 +1067,7 @@
     "title": "Meeting Rooms II",
     "link": "https://leetcode.com/problems/meeting-rooms-ii/",
     "difficulty": "Medium",
-    "videoLink": "",
+    "videoLink": "https://www.youtube.com/embed/FdzJmTCVyJU",
     "completed": false,
     "id": 253
   },
@@ -1075,7 +1075,7 @@
     "title": "Minimum Interval to Include Each Query",
     "link": "https://leetcode.com/problems/minimum-interval-to-include-each-query/",
     "difficulty": "Medium",
-    "videoLink": "",
+    "videoLink": "https://www.youtube.com/embed/5hQ5WWW5awQ",
     "completed": false,
     "id": 1851
   },
@@ -1139,7 +1139,7 @@
     "title": "Detect Squares",
     "link": "https://leetcode.com/problems/detect-squares/",
     "difficulty": "Medium",
-    "videoLink": "",
+    "videoLink": "https://www.youtube.com/embed/bahebearrDc",
     "completed": false,
     "id": 2013
   },
