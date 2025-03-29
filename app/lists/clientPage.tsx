@@ -19,6 +19,7 @@ import {
   Maximize2,
   Minimize2,
   RotateCcw,
+  ExternalLink
 } from "lucide-react";
 import {
   Card,
@@ -582,14 +583,16 @@ export default function Home() {
                                 </Tooltip>
                               </TooltipProvider>
                               <h3 className="text-md font-semibold">
-                                <a
-                                  href={item.link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-gray-500 hover:text-indigo-600 hover:underline">
-                                  {item.title}
-                                </a>
-                              </h3>
+  <a
+    href={item.link}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group inline-flex items-center text-gray-500 hover:text-indigo-600 hover:underline"
+  >
+    {item.title}
+    <ExternalLink className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200" size={16} />
+  </a>
+</h3>
                             </div>
                           </div>
                           <div className="flex items-center gap-3">
