@@ -109,17 +109,32 @@ const CustomActiveShape = (props: any): JSX.Element => {
   );
 };
 
-// Helper: Returns inline status based on lastCompleted date.
+// Helper: Returns inline review status based on lastCompleted date.
 const getReviewStatus = (lastCompleted?: string | null) => {
   if (!lastCompleted) return null;
   const lastDate = new Date(lastCompleted);
   const diffDays =
     (new Date().getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24);
-  return diffDays >= 7 ? (
-    <div className="flex items-center gap-1 font-extrabold text-xs text-indigo-400">
-      <RotateCcw className="h-4 w-4" />
-      <span>Review</span>
-    </div>
+  return diffDays >= 1 ? (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {/* Using a span as the trigger element */}
+          <span
+            className="flex items-center gap-1 font-extrabold text-xs text-indigo-400 cursor-pointer"
+            tabIndex={0} // ensures it's focusable for accessibility
+          >
+            <RotateCcw className="h-4 w-4" />
+            <span>Review</span>
+          </span>
+        </TooltipTrigger>
+        <TooltipContent side="top">
+          <div>
+          To mark as reviewed, check the box and then uncheck it.
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   ) : (
     <div className="text-xs lg:text-xs text-slate-400">
       Completed: {lastDate.toLocaleDateString()}
@@ -131,9 +146,9 @@ export default function Home() {
   const { user, isLoaded } = useUser();
   const [data, setData] = useState<Problem[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filter, setFilter] = useState<"all" | "Easy" | "Medium" | "Hard">(
-    "all"
-  );
+  const [filter, setFilter] = useState<
+    "all" | "Easy" | "Medium" | "Hard" | "Review"
+  >("all");
   const [selectedList, setSelectedList] = useState<string>("list2");
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -195,13 +210,23 @@ export default function Home() {
     fetchData();
   }, [selectedList, isLoaded]);
 
-  // Filter problems based on search term and difficulty
+  // Filter problems based on search term and the selected filter.
+  // If "Review" is selected, only include problems that are completed
+  // and whose lastCompleted date is at least 7 days old.
   const filteredData = useMemo(() => {
-    return data
-      .filter((item) =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .filter((item) => filter === "all" || item.difficulty === filter);
+    return data.filter((item) => {
+      if (!item.title.toLowerCase().includes(searchTerm.toLowerCase()))
+        return false;
+      if (filter === "all") return true;
+      if (filter === "Review") {
+        if (!item.completed || !item.lastCompleted) return false;
+        const diffDays =
+          (new Date().getTime() - new Date(item.lastCompleted).getTime()) /
+          (1000 * 60 * 60 * 24);
+        return diffDays >= 1; //7 days review
+      }
+      return item.difficulty === filter;
+    });
   }, [data, searchTerm, filter]);
 
   const displayData = useMemo(() => filteredData, [filteredData]);
@@ -497,7 +522,12 @@ export default function Home() {
                         value={filter}
                         onValueChange={(value) => {
                           setFilter(
-                            value as "all" | "Easy" | "Medium" | "Hard"
+                            value as
+                              | "all"
+                              | "Easy"
+                              | "Medium"
+                              | "Hard"
+                              | "Review"
                           );
                         }}
                         aria-label="Filter by difficulty">
@@ -509,6 +539,7 @@ export default function Home() {
                           <SelectItem value="Easy">Easy</SelectItem>
                           <SelectItem value="Medium">Medium</SelectItem>
                           <SelectItem value="Hard">Hard</SelectItem>
+                          <SelectItem value="Review">Review</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -571,7 +602,6 @@ export default function Home() {
                               )} text-sm`}>
                               {item.difficulty}
                             </Badge>
-
                             {item.videoLink && (
                               <Button
                                 variant="outline"
