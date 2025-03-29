@@ -87,6 +87,20 @@ export const userProblemStatusTable = sqliteTable(
   })
 );
 
+// import { integer, text, sqliteTable } from "drizzle-orm/sqlite-core";
+
+export const bookings = sqliteTable("bookings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userId: text("userId"), // clerk user id
+  startDate: text("startDate"),
+  endDate: text("endDate"),
+  startTime: text("startTime"),
+  endTime: text("endTime"),
+  matchedBookingId: integer("matchedBookingId").default(0),
+  jitsiLink: text("jitsiLink")
+});
+
+
 
 
 // Type inference for users
