@@ -636,13 +636,13 @@ export default function Home() {
                               item.lastCompleted &&
                               getReviewStatus(item.lastCompleted)}
                             <Badge
-                              className={`px-2 py-0 rounded-2xl border ${
+                              className={`px-2 py-0 font-light text-xs rounded-2xl border ${
                                 item.difficulty === "Easy"
-                                  ? "bg-emerald-200 text-emerald-800 border-emerald-200"
+                                  ? "bg-[#6EE7B7] text-black"
                                   : item.difficulty === "Medium"
-                                  ? "bg-amber-200 text-amber-800 border-amber-200"
+                                  ? "bg-[#FDE046] text-black"
                                   : item.difficulty === "Hard"
-                                  ? "bg-rose-200 text-rose-800 border-rose-200"
+                                  ? "bg-[#fb9292] text-black"
                                   : "bg-slate-100 text-slate-800 border-slate-200"
                               } text-sm`}
                             >
