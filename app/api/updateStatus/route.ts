@@ -18,10 +18,13 @@ export async function GET(req: Request) {
       .from(userProblemStatusTable)
       .where(eq(userProblemStatusTable.userId, userId));
 
-    // Map each record to a boolean (0 becomes false, non-zero becomes true)
-    const progressMap: Record<number, boolean> = {};
+    // Map each record to an object containing both the completed status and the lastCompleted timestamp.
+    const progressMap: Record<number, { completed: boolean; lastCompleted: string | null }> = {};
     progress.forEach((record) => {
-      progressMap[record.problemId] = Boolean(record.completed);
+      progressMap[record.problemId] = {
+        completed: Boolean(record.completed),
+        lastCompleted: record.lastCompleted || null,
+      };
     });
 
     return NextResponse.json(progressMap);
@@ -31,45 +34,48 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-    const clerkAuth = await auth();
-    const { userId } = clerkAuth;
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-  
-    const { problemId, completed } = await req.json();
-  
-    try {
-      if (completed) {
-        // If the question is marked complete, insert or update the record.
-        await db
-          .insert(userProblemStatusTable)
-          .values({
-            userId,
-            problemId,
-            completed, // boolean value as expected
-          })
-          .onConflictDoUpdate({
-            target: [userProblemStatusTable.userId, userProblemStatusTable.problemId],
-            set: { completed },
-          });
-      } else {
-        // If the question is unchecked, delete the record from the DB.
-        await db
-          .delete(userProblemStatusTable)
-          .where(
-            and(
-              eq(userProblemStatusTable.userId, userId),
-              eq(userProblemStatusTable.problemId, problemId)
-            )
-          );
-      }
-  
-      return NextResponse.json({ success: true });
-    } catch (error: any) {
-      console.error("Error in POST /api/updateStatus", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+  const clerkAuth = await auth();
+  const { userId } = clerkAuth;
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  
-  
+
+  const { problemId, completed } = await req.json();
+
+  try {
+    if (completed) {
+      // If the question is marked complete, insert or update the record.
+      // We update the "lastCompleted" field with the current timestamp.
+      await db
+        .insert(userProblemStatusTable)
+        .values({
+          userId,
+          problemId,
+          completed, // boolean value as expected
+          lastCompleted: new Date().toISOString(),
+        })
+        .onConflictDoUpdate({
+          target: [userProblemStatusTable.userId, userProblemStatusTable.problemId],
+          set: { 
+            completed, 
+            lastCompleted: new Date().toISOString(),
+          },
+        });
+    } else {
+      // If the question is unchecked, delete the record from the DB.
+      await db
+        .delete(userProblemStatusTable)
+        .where(
+          and(
+            eq(userProblemStatusTable.userId, userId),
+            eq(userProblemStatusTable.problemId, problemId)
+          )
+        );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error("Error in POST /api/updateStatus", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}

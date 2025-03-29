@@ -12,7 +12,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Video, Search, X, Maximize2, Minimize2 } from "lucide-react";
+import {
+  Video,
+  Search,
+  X,
+  Maximize2,
+  Minimize2,
+  RotateCcw,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -39,8 +46,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 
-
-// Define the Problem type
+// Define the Problem type (updated with lastCompleted)
 type Problem = {
   id: number; // Unique identifier
   title: string;
@@ -48,24 +54,11 @@ type Problem = {
   difficulty: "Easy" | "Medium" | "Hard";
   completed: boolean;
   videoLink?: string;
+  lastCompleted?: string | null;
 };
 
-// Define the shape of the data for the custom active shape
-type ActiveShapeProps = {
-  cx: number;
-  cy: number;
-  innerRadius: number;
-  outerRadius: number;
-  startAngle: number;
-  endAngle: number;
-  fill: string;
-  payload: { name: string; value: number };
-  percent: number;
-  value: number;
-};
-
-// Custom Active Shape Function
-const CustomActiveShape = (props: ActiveShapeProps): JSX.Element => {
+// Custom Active Shape Function (unchanged)
+const CustomActiveShape = (props: any): JSX.Element => {
   const {
     cx,
     cy,
@@ -78,7 +71,6 @@ const CustomActiveShape = (props: ActiveShapeProps): JSX.Element => {
   } = props;
 
   const RADIAN = Math.PI / 180;
-  // Calculate the position for the label
   const sin = Math.sin((-RADIAN * (startAngle + endAngle)) / 2);
   const cos = Math.cos((-RADIAN * (startAngle + endAngle)) / 2);
   const sx = cx + (outerRadius + 10) * cos;
@@ -91,25 +83,21 @@ const CustomActiveShape = (props: ActiveShapeProps): JSX.Element => {
 
   return (
     <g>
-      {/* Expanded Sector */}
       <Sector
         cx={cx}
         cy={cy}
         innerRadius={innerRadius}
-        outerRadius={outerRadius + 10} // Expand the active slice
+        outerRadius={outerRadius + 10}
         startAngle={startAngle}
         endAngle={endAngle}
         fill={fill}
       />
-      {/* Connector Line */}
       <path
         d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
         stroke={fill}
         fill="none"
       />
-      {/* Dot at the end of the connector */}
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-      {/* Label */}
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
@@ -118,6 +106,24 @@ const CustomActiveShape = (props: ActiveShapeProps): JSX.Element => {
         {`${payload.name} (${payload.value})`}
       </text>
     </g>
+  );
+};
+
+// Helper: Returns inline status based on lastCompleted date.
+const getReviewStatus = (lastCompleted?: string | null) => {
+  if (!lastCompleted) return null;
+  const lastDate = new Date(lastCompleted);
+  const diffDays =
+    (new Date().getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24);
+  return diffDays >= 7 ? (
+    <div className="flex items-center gap-1 font-extrabold text-xs text-indigo-400">
+      <RotateCcw className="h-4 w-4" />
+      <span>Review</span>
+    </div>
+  ) : (
+    <div className="text-xs lg:text-xs text-slate-400">
+      Completed: {lastDate.toLocaleDateString()}
+    </div>
   );
 };
 
@@ -131,7 +137,7 @@ export default function Home() {
   const [selectedList, setSelectedList] = useState<string>("list2");
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [error, setError] = useState<string | null>(null);
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -145,36 +151,40 @@ export default function Home() {
 
   // Fetch data when selectedList changes
   useEffect(() => {
-    // Only proceed if the Clerk user is loaded
     if (!isLoaded) return;
-  
+
     async function fetchData() {
       try {
-        // Fetch the static list of problems
         const problemsRes = await fetch(`/${selectedList}.json`);
         if (!problemsRes.ok) {
           throw new Error(`HTTP error! status: ${problemsRes.status}`);
         }
         const problems: Problem[] = await problemsRes.json();
-  
-        // Fetch the user's saved progress; include credentials so cookies are sent
+
+        // Fetch the user's progress (which now includes "lastCompleted")
         const progressRes = await fetch("/api/updateStatus", {
           credentials: "include",
         });
-        let progressMapping: Record<number, boolean> = {};
+        let progressMapping: Record<
+          number,
+          { completed: boolean; lastCompleted: string | null }
+        > = {};
         if (progressRes.ok) {
           progressMapping = await progressRes.json();
         }
-  
+
         // Merge the progress data into the problems list
-        const merged = problems.map((problem) => ({
-          ...problem,
-          completed:
-            progressMapping[problem.id] !== undefined
-              ? progressMapping[problem.id]
+        const merged = problems.map((problem) => {
+          const progressData = progressMapping[problem.id];
+          return {
+            ...problem,
+            completed: progressData
+              ? progressData.completed
               : problem.completed,
-        }));
-  
+            lastCompleted: progressData ? progressData.lastCompleted : null,
+          };
+        });
+
         setData(merged);
         setError(null);
       } catch (error) {
@@ -184,10 +194,8 @@ export default function Home() {
     }
     fetchData();
   }, [selectedList, isLoaded]);
-  
-  
 
-  // Memoize filtered data based on searchTerm and filter
+  // Filter problems based on search term and difficulty
   const filteredData = useMemo(() => {
     return data
       .filter((item) =>
@@ -196,9 +204,7 @@ export default function Home() {
       .filter((item) => filter === "all" || item.difficulty === filter);
   }, [data, searchTerm, filter]);
 
-  const displayData = useMemo(() => {
-    return filteredData;
-  }, [filteredData]);
+  const displayData = useMemo(() => filteredData, [filteredData]);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === "x") {
@@ -207,16 +213,13 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Add event listener for the 'x' key
     document.addEventListener("keydown", handleKeyDown);
-
-    // Clean up the event listener when the component unmounts
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleKeyDown]);
 
-  // Compute total and completed per difficulty
+  // Compute totals and completed counts
   const totalEasy = data.filter((item) => item.difficulty === "Easy").length;
   const totalMedium = data.filter(
     (item) => item.difficulty === "Medium"
@@ -246,7 +249,6 @@ export default function Home() {
     }
   };
 
-  // Data for the radial chart (concentric circles with completed vs total)
   const chartDataEasy = useMemo(
     () => [
       { name: "Completed", value: easyCompleted },
@@ -271,15 +273,11 @@ export default function Home() {
     [hardCompleted, totalHard]
   );
 
-  const COLORS = {
-    Remaining: "#EDF1FF", // Light Gray for Remaining
-  };
-
-  // Define colors per difficulty for the completed part
+  const COLORS = { Remaining: "#EDF1FF" };
   const DIFFICULTY_COLORS = {
-    Easy: "#6EE7B7", // Green
-    Medium: "#FDE046", // Orange
-    Hard: "#F77171", // Red
+    Easy: "#6EE7B7",
+    Medium: "#FDE046",
+    Hard: "#F77171",
   };
 
   const toggleCompleted = useCallback((id: number, completed: boolean) => {
@@ -289,10 +287,10 @@ export default function Home() {
         problem.id === id ? { ...problem, completed } : problem
       )
     );
-  
+
     // Send the update to the API.
-    fetch('/api/updateStatus', {
-      method: 'POST',
+    fetch("/api/updateStatus", {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ problemId: id, completed }),
     })
@@ -303,29 +301,22 @@ export default function Home() {
         return res.json();
       })
       .then((data) => {
-        console.log('Update success:', data);
+        console.log("Update success:", data);
       })
       .catch((error) => {
-        console.error('Error updating status:', error);
-        // Optionally, you might want to revert the optimistic update if necessary.
+        console.error("Error updating status:", error);
       });
   }, []);
-  
-  
 
-  // Handler for when a slice is hovered
-  const onPieEnter = useCallback((_: unknown, index: number) => {
-    // You can implement hover effects here if needed
-  }, []);
+  const onPieEnter = useCallback((_: unknown, index: number) => {}, []);
 
   return (
     <>
       <div className="overflow-hidden bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 dark:bg-slate-900">
         <main className="w-full h-full p-2">
           <div className="flex flex-col md:flex-row gap-2 h-full">
-            {/* Left Column: Top Two Cards */}
+            {/* Left Column */}
             <div className="w-full md:w-1/6 h-full md:h-[calc(100vh-6rem)] overflow-auto">
-              {/* Problem Sets Card */}
               <Card className="w-full p-2 flex-shrink-0 px-2 py-2 mb-4 border-none shadow-none">
                 <CardHeader>
                   <CardTitle className="text-center">
@@ -358,7 +349,6 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              {/* Your Progress Card with Radial Chart */}
               <Card className="w-full p-2 flex-grow px-4 py-2 border-none pt-0 shadow-none mb-0">
                 <CardHeader>
                   <CardTitle className="text-2xl font-bold text-gray-600">
@@ -389,11 +379,9 @@ export default function Home() {
                       <p className="text-xs text-black">Hard</p>
                     </div>
                   </div>
-                  {/* Radial Chart with Concentric Circles */}
                   <div className="w-full h-48 flex-grow">
                     <ResponsiveContainer>
                       <PieChart>
-                        {/* Easy - Outermost Ring */}
                         <Pie
                           data={chartDataEasy}
                           dataKey="value"
@@ -419,8 +407,6 @@ export default function Home() {
                             />
                           ))}
                         </Pie>
-
-                        {/* Medium - Middle Ring */}
                         <Pie
                           data={chartDataMedium}
                           dataKey="value"
@@ -446,8 +432,6 @@ export default function Home() {
                             />
                           ))}
                         </Pie>
-
-                        {/* Hard - Innermost Ring */}
                         <Pie
                           data={chartDataHard}
                           dataKey="value"
@@ -473,7 +457,6 @@ export default function Home() {
                             />
                           ))}
                         </Pie>
-
                         <RechartsTooltip />
                       </PieChart>
                     </ResponsiveContainer>
@@ -484,41 +467,31 @@ export default function Home() {
                       className="flex items-center text-sm mx-2 my-2 mt-0 justify-center shadow-none hover:shadow-none px-4 py-2 rounded-lg hover:bg-indigo-700 hover:text-white transition-colors"
                       size="sm">
                       Company Specific Lists
-                      <ChevronRight className="ml-2 h-4 w-4" />{" "}
-                      {/* Add the Lucide icon */}
+                      <ChevronRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Right Column: Problem List */}
+            {/* Problem List */}
             <div className="w-full md:w-4/6 overflow-auto h-[calc(100vh-6rem)]">
-              {/* Problem List Header */}
               <Card className="border-none p-2 shadow-none flex flex-col h-full">
                 <CardHeader className="flex flex-col md:flex-row items-center justify-between gap-2">
-                  {/* Problem List Title */}
                   <CardTitle className="text-2xl font-bold text-gray-600">
                     Problem List
                   </CardTitle>
-
-                  {/* Search Bar and Filter */}
                   <div className="flex flex-col md:flex-row items-center gap-2 w-full md:w-auto">
-                    {/* Search Bar */}
                     <div className="relative w-full md:w-80 lg:w-[30rem]">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
                       <Input
                         placeholder="Search by title"
                         value={searchTerm}
-                        onChange={(e) => {
-                          setSearchTerm(e.target.value);
-                        }}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         className="pl-10 text-sm"
                         aria-label="Search by title"
                       />
                     </div>
-
-                    {/* Difficulty Filter */}
                     <div className="w-full md:w-auto">
                       <Select
                         value={filter}
@@ -541,54 +514,57 @@ export default function Home() {
                     </div>
                   </div>
                 </CardHeader>
-
-                {/* Scrollable Content Area */}
                 <CardContent className="flex-grow overflow-y-auto">
-                  {/* Your scrollable problem list goes here */}
                   <ul className="space-y-0">
                     {displayData.map((item) => (
                       <li
-                        key={item.id} // Use unique id as key
+                        key={item.id}
                         className="bg-white dark:bg-slate-800 px-4 py-2 border border-slate-100 rounded-xl hover:bg-indigo-50 ml-0 mr-0">
                         <div className="flex items-center justify-between">
-                          {/* Checkbox and Title */}
-                          <div className="flex items-center gap-3">
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger>
-                                  <Checkbox
-                                    checked={item.completed}
-                                    onCheckedChange={(checked) =>
-                                      toggleCompleted(item.id, checked === true)
-                                    }
-                                    aria-label={`Mark ${item.title} as ${
-                                      item.completed ? "incomplete" : "complete"
-                                    }`}
-                                  />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  <p>
-                                    {item.completed
-                                      ? "Mark as incomplete"
-                                      : "Mark as complete"}
-                                  </p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                            <h3 className="text-md font-semibold">
-                              <a
-                                href={item.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-gray-500 hover:text-indigo-600 hover:underline">
-                                {item.title}
-                              </a>
-                            </h3>
+                          <div className="flex flex-col">
+                            <div className="flex items-center gap-3">
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger>
+                                    <Checkbox
+                                      checked={item.completed}
+                                      onCheckedChange={(checked) =>
+                                        toggleCompleted(
+                                          item.id,
+                                          checked === true
+                                        )
+                                      }
+                                      aria-label={`Mark ${item.title} as ${
+                                        item.completed
+                                          ? "incomplete"
+                                          : "complete"
+                                      }`}
+                                    />
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>
+                                      {item.completed
+                                        ? "Mark as incomplete"
+                                        : "Mark as complete"}
+                                    </p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                              <h3 className="text-md font-semibold">
+                                <a
+                                  href={item.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-gray-500 hover:text-indigo-600 hover:underline">
+                                  {item.title}
+                                </a>
+                              </h3>
+                            </div>
                           </div>
-
-                          {/* Badge and Video Solution Button */}
                           <div className="flex items-center gap-3">
-                            {/* Show only the relevant difficulty badge */}
+                            {item.completed &&
+                              item.lastCompleted &&
+                              getReviewStatus(item.lastCompleted)}
                             <Badge
                               className={`px-2 py-0 rounded-2xl border ${getBadgeColor(
                                 item.difficulty
@@ -596,7 +572,6 @@ export default function Home() {
                               {item.difficulty}
                             </Badge>
 
-                            {/* Video Solution Button */}
                             {item.videoLink && (
                               <Button
                                 variant="outline"
@@ -619,71 +594,65 @@ export default function Home() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Right Column */}
             <div className="w-full md:w-1/6 h-full md:h-[calc(100vh-6rem)] overflow-auto p-2">
-  <div className="space-y-4">
-
-    {/* Box 2 */}
-    <Link href="/upcoming">
-      <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 mx-0 my-2">
-        <h3 className="text-black font-bold text-md mb-1">
-          Targeting a Specific Company?
-        </h3>
-        <p className="text-black text-sm">
-          Check out our company-specific question sets from real interviews.
-        </p>
-      </div>
-    </Link>
-
-    {/* New Ad Box - LeetCode Tutoring */}
-    <Link href="/tutor">
-      <div className="cursor-pointer border border-emerald-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
-        <h3 className="font-bold text-md mb-1">
-          1:1 LeetCode Tutoring
-        </h3>
-        <p className="text-sm text-black">
-          Personalized sessions to help you crush your coding interviews.
-        </p>
-      </div>
-    </Link>
-
-    {/* New Ad Box - Resume Service */}
-    <Link href="/resume">
-      <div className="cursor-pointer border border-pink-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
-        <h3 className="font-bold text-md mb-1">
-          Grinding LeetCode but Resume Not Getting You Interviews?
-        </h3>
-        <p className="text-sm text-black">
-          Let us optimize it to beat ATS filters and land recruiter calls.
-        </p>
-      </div>
-    </Link>
-
-    {/* New Ad Box - Mock Interview */}
-    <Link href="/mock-interviews">
-      <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
-        <h3 className="font-bold text-md mb-1">
-          Mock Interviews with Mentors
-        </h3>
-        <p className="text-sm text-black">
-          Practice live interviews with experts. Get real feedback.
-        </p>
-      </div>
-    </Link>
-
-    {/* New Ad Box - Web Dev Services */}
-    <Link href="/webdev">
-      <div className="cursor-pointer border border-blue-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
-        <h3 className="font-bold text-md mb-1">
-          Need a Portfolio or SaaS Site?
-        </h3>
-        <p className="text-sm text-black">
-          We build clean, modern websites tailored to your goals.
-        </p>
-      </div>
-    </Link>
-  </div>
-</div>
-
+              <div className="space-y-4">
+                <Link href="/upcoming">
+                  <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 mx-0 my-2">
+                    <h3 className="text-black font-bold text-md mb-1">
+                      Targeting a Specific Company?
+                    </h3>
+                    <p className="text-black text-sm">
+                      Check out our company-specific question sets from real
+                      interviews.
+                    </p>
+                  </div>
+                </Link>
+                <Link href="/tutor">
+                  <div className="cursor-pointer border border-emerald-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
+                    <h3 className="font-bold text-md mb-1">
+                      1:1 LeetCode Tutoring
+                    </h3>
+                    <p className="text-sm text-black">
+                      Personalized sessions to help you crush your coding
+                      interviews.
+                    </p>
+                  </div>
+                </Link>
+                <Link href="/resume">
+                  <div className="cursor-pointer border border-pink-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
+                    <h3 className="font-bold text-md mb-1">
+                      Grinding LeetCode but Resume Not Getting You Interviews?
+                    </h3>
+                    <p className="text-sm text-black">
+                      Let us optimize it to beat ATS filters and land recruiter
+                      calls.
+                    </p>
+                  </div>
+                </Link>
+                <Link href="/mock-interviews">
+                  <div className="cursor-pointer border border-indigo-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
+                    <h3 className="font-bold text-md mb-1">
+                      Mock Interviews with Mentors
+                    </h3>
+                    <p className="text-sm text-black">
+                      Practice live interviews with experts. Get real feedback.
+                    </p>
+                  </div>
+                </Link>
+                <Link href="/webdev">
+                  <div className="cursor-pointer border border-blue-200 bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 rounded-md p-4 my-2 hover:shadow-md transition">
+                    <h3 className="font-bold text-md mb-1">
+                      Need a Portfolio or SaaS Site?
+                    </h3>
+                    <p className="text-sm text-black">
+                      We build clean, modern websites tailored to your goals.
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            </div>
           </div>
         </main>
       </div>
@@ -733,7 +702,6 @@ export default function Home() {
               </Tooltip>
             </TooltipProvider>
           </div>
-
           <div className="w-full h-full p-1">
             <iframe
               src={activeVideo}

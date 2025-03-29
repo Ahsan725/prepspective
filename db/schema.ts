@@ -79,11 +79,14 @@ export const userProblemStatusTable = sqliteTable(
     completed: integer('completed', { mode: 'boolean' })
       .default(false)
       .notNull(),
+    // New field to store the last completed time as an ISO 8601 string.
+    lastCompleted: text('last_completed'),
   },
   (table) => ({
     pk: primaryKey(table.userId, table.problemId),
   })
 );
+
 
 
 // Type inference for users
