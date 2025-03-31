@@ -19,7 +19,7 @@ export default function MockInterviewPage() {
         'Choose your interviewer based on role/field'
       ],
       cta: 'Book a Session',
-      link: 'https://buy.stripe.com/mock-interview-single'
+      link: 'https://buy.stripe.com/bIY7uqaWAgxO7p65kq'
     },
     {
       title: '3 Interview Bundle',
@@ -36,7 +36,7 @@ export default function MockInterviewPage() {
         'Access to post-interview notes & scorecard'
       ],
       cta: 'Get the Bundle',
-      link: 'https://buy.stripe.com/mock-interview-bundle-3'
+      link: 'https://buy.stripe.com/9AQbKG7Ko6XedNufZ5'
     },
     {
       title: 'Ultimate 7 Pack',
@@ -51,10 +51,10 @@ export default function MockInterviewPage() {
         'Mix of technical, behavioral, & system design (if relevant)',
         'Peer-level mentors from Google, Meta, Amazon, and more',
         'Personalized improvement roadmap',
-        'Free scheduling flexibility and interviewer selection'
+        'Free scheduling flexibility'
       ],
       cta: 'Start Full Prep',
-      link: 'https://buy.stripe.com/mock-interview-bundle-7'
+      link: 'https://buy.stripe.com/fZe01Y8Os3L2dNueV2'
     }
   ];
 
@@ -63,7 +63,7 @@ export default function MockInterviewPage() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            Mock Interviews with <span className="text-indigo-700">People Who Made It</span>
+            Professional Mock Interviews with <span className="text-indigo-700">People Who Made It</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Get interview practice with interns and new grads who landed roles at top companies — no matter your field or major.
