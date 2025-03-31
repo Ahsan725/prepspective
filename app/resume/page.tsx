@@ -12,6 +12,7 @@ type PricingCardProps = {
   description: string;
   popular?: boolean;
   icon: LucideIcon;
+  stripeLink: string;
 };
 
 function PricingCard({
@@ -23,6 +24,7 @@ function PricingCard({
   description,
   popular = false,
   icon: Icon,
+  stripeLink,
 }: PricingCardProps) {
   return (
     <div
@@ -60,15 +62,18 @@ function PricingCard({
           </li>
         ))}
       </ul>
-      <button
-        className={`w-full py-3 px-6 rounded-lg font-semibold text-lg transition-colors ${
+      <a
+        href={stripeLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`block text-center w-full py-3 px-6 rounded-lg font-semibold text-lg transition-colors ${
           popular
             ? 'bg-indigo-500 text-white hover:bg-indigo-600'
             : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
         }`}
       >
         {popular ? 'Boost My Resume Now' : 'Choose This Plan'}
-      </button>
+      </a>
     </div>
   );
 }
@@ -89,6 +94,7 @@ export default function ResumePage() {
         'Lifetime access',
       ],
       icon: FileDown,
+      stripeLink: 'https://buy.stripe.com/eVaaGC3u8a9q4cUfZ1',
     },
     {
       title: 'ATS-Optimized Resume',
@@ -106,6 +112,7 @@ export default function ResumePage() {
         '1 round of revisions',
       ],
       icon: FileText,
+      stripeLink: 'https://buy.stripe.com/6oE3ea0hWftKdNu3cg',
     },
     {
       title: 'Premium Editable Resume',
@@ -125,6 +132,7 @@ export default function ResumePage() {
         '6 months of email support',
       ],
       icon: FileEdit,
+      stripeLink: 'https://buy.stripe.com/14k1625Cg0yQgZGcMR',
     },
   ];
 
@@ -133,7 +141,8 @@ export default function ResumePage() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            Land More Interviews with a <span className=" text-indigo-700 font-bold">Resume That Works!</span>
+            Land More Interviews with a{' '}
+            <span className="text-indigo-700 font-bold">Resume That Works!</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             85% of resumes never reach human eyes. Do not let yours be one of them. Our proven,
@@ -149,10 +158,12 @@ export default function ResumePage() {
 
         <div className="mt-16 text-center">
           <p className="text-lg text-gray-700 font-semibold">
-            Every package is backed by our <span className="text-indigo-500">100% satisfaction guarantee.</span>
+            Every package is backed by our{' '}
+            <span className="text-indigo-500">100% satisfaction guarantee.</span>
           </p>
           <p className="text-sm text-gray-500 mt-2">
-            If you do not go past the screening stage in the next 12 months of regularly applying, we will simply refund you. That is how much we believe in our product.
+            If you do not go past the screening stage in the next 12 months of regularly applying, we
+            will simply refund you. That is how much we believe in our product.
           </p>
         </div>
       </div>
