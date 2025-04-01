@@ -7,7 +7,7 @@ export default function WebDevPage() {
   const packages = [
     {
       title: '1-Page Website',
-      price: '$99',
+      price: '$59',
       originalPrice: null,
       savingsPercent: null,
       description: 'Ideal for personal portfolios, landing pages, or business intros.',
@@ -21,13 +21,13 @@ export default function WebDevPage() {
         'Help with domain registration'
       ],
       cta: 'Get My Website',
-      link: 'https://buy.stripe.com/one-page-website'
+      link: 'https://buy.stripe.com/cN201Y6Gk95meRycMV'
     },
     {
       title: '3-Page Website',
-      price: '$199',
-      originalPrice: '$249',
-      savingsPercent: 'SAVE 20%',
+      price: '$99',
+      originalPrice: '$199',
+      savingsPercent: 'SAVE 50%',
       description: 'Perfect for service-based businesses, freelancers, or small brands.',
       icon: Layers,
       features: [
@@ -38,12 +38,12 @@ export default function WebDevPage() {
         'Email integration and setup'
       ],
       cta: 'Build My Site',
-      link: 'https://buy.stripe.com/three-page-website'
+      link: 'https://buy.stripe.com/bIY4ie6GkbdudNuaEO'
     },
     {
       title: 'Micro-SaaS Starter',
       price: '$699',
-      originalPrice: '$899',
+      originalPrice: null,
       savingsPercent: 'SAVE 22%',
       description: 'Launch your startup idea with a functional micro-SaaS MVP.',
       icon: ServerCog,
@@ -58,7 +58,7 @@ export default function WebDevPage() {
         '1-on-1 onboarding call & tech walkthrough'
       ],
       cta: 'Launch My SaaS',
-      link: 'https://buy.stripe.com/micro-saas-website'
+      link: 'https://buy.stripe.com/bIYg0W4yca9qfVC7sD'
     }
   ];
 
