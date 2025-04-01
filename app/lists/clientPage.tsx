@@ -115,7 +115,7 @@ const getReviewStatus = (lastCompleted?: string | null) => {
   const lastDate = new Date(lastCompleted);
   const diffDays =
     (new Date().getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24);
-  return diffDays >= 1 ? (
+  return diffDays >= 7 ? (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -220,7 +220,7 @@ export default function Home() {
         const diffDays =
           (new Date().getTime() - new Date(item.lastCompleted).getTime()) /
           (1000 * 60 * 60 * 24);
-        return diffDays >= 1;
+        return diffDays >= 7;
       }
       return item.difficulty === filter;
     });
