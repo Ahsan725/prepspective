@@ -66,6 +66,10 @@ function PricingCard({
         href={stripeLink}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={(e) => {
+          e.preventDefault();
+          window.open(stripeLink, '_blank', 'noopener,noreferrer');
+        }}
         className={`block text-center w-full py-3 px-6 rounded-lg font-semibold text-lg transition-colors ${
           popular
             ? 'bg-indigo-500 text-white hover:bg-indigo-600'
