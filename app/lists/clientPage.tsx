@@ -375,10 +375,10 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle className="text-2xl font-bold text-gray-600">
                     Your Progress
-                    <p>Spaced Repetitions built-in! </p>
                   </CardTitle>
                   <CardDescription className="text-sm text-gray-600">
                     Track your problem-solving journey
+                    <p>Spaced Repetitions built-in! </p>
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="py-2 px-1 flex flex-col h-full">
