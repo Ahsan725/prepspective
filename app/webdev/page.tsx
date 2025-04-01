@@ -62,6 +62,11 @@ export default function WebDevPage() {
     }
   ];
 
+  const handleNavigation = (link: string): void => {
+    console.log('Navigating to:', link);
+    window.open(link, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-l from-teal-50 via-indigo-50 to-purple-50 py-20 px-4">
       <div className="max-w-7xl mx-auto">
@@ -114,12 +119,13 @@ export default function WebDevPage() {
                 ))}
               </ul>
               <button
+                type="button"
+                onClick={() => handleNavigation(pkg.link)}
                 className={`w-full py-3 px-6 rounded-lg font-semibold text-lg transition-colors ${
                   pkg.popular
                     ? 'bg-indigo-500 text-white hover:bg-indigo-600'
                     : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                 }`}
-                onClick={() => window.location.href = pkg.link}
               >
                 {pkg.cta}
               </button>
