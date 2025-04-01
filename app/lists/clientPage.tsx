@@ -541,6 +541,7 @@ export default function Home() {
                   <CardTitle className="text-2xl font-bold text-gray-600">
                     Problem List
                   </CardTitle>
+                  <p>Spaced Repitions built-in! </p>
                   <div className="flex flex-col md:flex-row items-center gap-2 w-full md:w-auto">
                     <div className="relative w-full md:w-80 lg:w-[30rem]">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
