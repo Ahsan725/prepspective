@@ -11,6 +11,7 @@ import SvgImage from '@/components/ui/heroimg';
 import Test from "@/components/ui/test";
 import ServiceShowcase from "@/components/ServiceShow";
 import Footer from "@/components/ui/footer";
+// import Feature from "@/components/ui/FeatureShowcase";
 
 
 export default function HomePage() {
@@ -36,6 +37,7 @@ export default function HomePage() {
   return (
     <main>
       <CustomHero />
+      {/* <Feature/> */}
       <Bento />
       {/* <SvgImage src="/mockup.svg" alt="Example SVG Image" /> */}
       <Familiar />

@@ -1,0 +1,271 @@
+
+.backgroundDecorations {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  .gradientOrb {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at center,
+      rgba(157, 78, 221, 0.3) 0%,
+      rgba(99, 102, 241, 0.2) 40%,
+      rgba(236, 72, 153, 0.1) 70%,
+      rgba(239, 68, 68, 0) 100%
+    );
+    filter: blur(40px);
+    opacity: 0.6;
+    animation: pulse-glow 8s ease-in-out infinite alternate;
+  }
+  
+  @keyframes pulse-glow {
+    0% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+  }
+  
+  .ctaButton {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .ctaButton::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.05) 30%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 70%
+    );
+    transform: rotate(30deg);
+    animation: shine 6s linear infinite;
+    pointer-events: none;
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) rotate(30deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(30deg);
+    }
+  }
+  
+  .videoContainer {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    z-index: 1;
+  }
+  
+  .browserFrame {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1a1a1a;
+    transform: translateZ(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .browserFrame:hover {
+    transform: translateZ(20px) rotateX(2deg);
+  }
+  
+  .browserHeader {
+    background: #2a2a2a;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  
+  .browserDots {
+    display: flex;
+    gap: 6px;
+    margin-right: 12px;
+  }
+  
+  .browserDot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  
+  .red {
+    background-color: #ff5f57;
+  }
+  
+  .yellow {
+    background-color: #ffbd2e;
+  }
+  
+  .green {
+    background-color: #28c940;
+  }
+  
+  .browserAddressBar {
+    background: #444;
+    border-radius: 4px;
+    color: #ccc;
+    font-size: 14px;
+    padding: 4px 12px;
+    flex-grow: 1;
+  }
+  
+  .browserContent {
+    position: relative;
+    overflow: hidden;
+    background: #1e1e1e;
+    min-height: 400px;
+  }
+  
+  .featureVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+  
+  .videoGlow {
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -25%;
+    background: radial-gradient(
+      circle at center,
+      rgba(157, 78, 221, 0.4) 0%,
+      rgba(99, 102, 241, 0.3) 25%,
+      rgba(236, 72, 153, 0.2) 50%,
+      rgba(239, 68, 68, 0.1) 75%,
+      rgba(79, 70, 229, 0) 90%
+    );
+    filter: blur(50px);
+    z-index: -1;
+    opacity: 0.7;
+    animation: pulse-glow 8s ease-in-out infinite alternate;
+  }
+  
+  .codeSnippet {
+    position: absolute;
+    background: rgba(40, 40, 45, 0.9);
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    padding-bottom: 12px;
+    width: 200px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #e1e1e1;
+    z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+  
+  .codeSnippet1 {
+    top: 20%;
+    right: 10%;
+  }
+  
+  .codeSnippet2 {
+    bottom: 20%;
+    left: 10%;
+  }
+  
+  .codeHeader {
+    background: rgba(60, 60, 65, 0.9);
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .codeHeader span {
+    margin-left: auto;
+    font-size: 11px;
+    color: #aaa;
+  }
+  
+  .codeDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #aaa;
+    opacity: 0.5;
+  }
+  
+  .codeSnippet pre {
+    padding: 0 12px;
+    margin: 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    color: #b68afc;
+  }
+  
+  .particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 5;
+    pointer-events: none;
+  }
+  
+  .particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float-particle 10s linear infinite;
+  }
+  
+  @keyframes float-particle {
+    0% {
+      opacity: 0;
+      transform: translateY(0) scale(0);
+    }
+    10% {
+      opacity: 0.8;
+      transform: translateY(-20px) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-100px) scale(0);
+    }
+  }
