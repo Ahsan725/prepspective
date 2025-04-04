@@ -9,7 +9,7 @@ export function CodeSnippet({ code }: { code: string }) {
         <Code className="h-5 w-5 text-slate-300" />
       </div>
 
-      <pre className="p-4 font-mono text-sm leading-relaxed text-slate-100 whitespace-pre-wrap overflow-x-auto">
+      <pre className="p-4 font-mono text-sm leading-relaxed text-indigo-200 whitespace-pre-wrap overflow-x-auto">
         {code.split("\n").map((line, i) => (
           <div key={i} className="w-full">
             <span className="text-slate-400 select-none pr-4">{String(i + 1).padStart(2, "0")}</span>
@@ -51,18 +51,18 @@ function highlightLine(line: string): string {
         "print", "range", "len", "append", "pop", "extend", "join",
         "put", "get", "appendleft", "popleft"
       ],
-      className: "text-emerald-400"
+      className: "text-pink-300"
     },
     {
       keywords: [
         "heapq", "heapify", "collections", "deque", "defaultdict",
         "Queue", "List", "Dict", "str"
       ],
-      className: "text-yellow-400"
+      className: "text-sky-400"
     },
     {
       keywords: ["self"],
-      className: "text-blue-400"
+      className: "text-yellow-400"
     }
   ];
 
@@ -78,13 +78,13 @@ function highlightLine(line: string): string {
   // Highlight numbers
   escapedCode = escapedCode.replace(
     /\b(\d+)\b/g,
-    `<span class="text-orange-400">$1</span>`
+    `<span class="text-emerald-400">$1</span>`
   );
 
 
   escapedCode = escapedCode.replace(
     /([\[\]{}()])/g,
-    `<span class="text-cyan-500 font-bold">$1</span>`
+    `<span class="text-orange-300 font-bold">$1</span>`
   );
 
   // Highlight keywords
