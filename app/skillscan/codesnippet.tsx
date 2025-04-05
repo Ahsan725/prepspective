@@ -38,7 +38,7 @@ function highlightLine(line: string): string {
         "False", "True", "None", "and", "or", "not", "is", "in", "if", "elif", "else",
         "while", "for", "try", "except", "finally", "break", "continue", "pass",
         "return", "yield", "raise", "assert", "with", "as", "def", "lambda", "del",
-        "global", "nonlocal", "match", "case", "import", "from"
+        "global", "nonlocal", "match", "case", "import", "from", "enumerate"
       ],
       className: "text-purple-400"
     },
