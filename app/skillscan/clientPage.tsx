@@ -282,7 +282,7 @@ export default function QuizPage() {
             </div>
           </CardContent>
           <CardFooter className="px-6 py-4 flex justify-end">
-            <Button onClick={restartQuiz}>Restart Quiz</Button>
+            {/* <Button onClick={restartQuiz}>Restart Quiz</Button> */}
           </CardFooter>
         </Card>
       ) : (
