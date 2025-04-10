@@ -36,7 +36,7 @@ Analyze the interview response critically and focus on identifying areas for gro
 }
 
 ${mode === 'software' 
-  ? 'Focus on technical accuracy, depth of understanding, and clarity of explanation.' 
+  ? 'Focus on technical accuracy, depth of understanding, and soft skills.' 
   : 'Focus on structure, specific examples, impact, and communication clarity using the STAR method.'}
 
 Give higher score but critical feedback. Do not focus too much on STAR format just recommend it. Give unique insights and tricks to make the response better. Your feedback should highlight specific weaknesses or areas that need significant improvement. Return only the JSON, with no additional text or explanation. Ensure the total response does not exceed 200 characters.`
