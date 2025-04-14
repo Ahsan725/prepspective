@@ -31,7 +31,8 @@ const formatTime = (ms: number) => {
   const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
-  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  // return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  return `${days}d ${hours}h ${minutes}m`;
 };
 
 const App: React.FC = () => {
@@ -87,7 +88,7 @@ const App: React.FC = () => {
 
   // State for referral code feature.
   const [referralCode, setReferralCode] = useState('');
-  // referralRedeemed is now maintained in localStorage so we can always check its timestamp
+  // referralRedeemed tracks whether a valid referral code has been applied.
   const [referralRedeemed, setReferralRedeemed] = useState(false);
 
   // New state for credit expiry and countdown timer.
@@ -166,7 +167,6 @@ const App: React.FC = () => {
         }
       }
     }, 1000);
-
     return () => clearInterval(timer);
   }, [creditsExpiry]);
 
@@ -175,7 +175,7 @@ const App: React.FC = () => {
     const validCodes = ['REFCODE1', 'chonks', 'REFCODE3'];
     const storedReferralTimestamp = localStorage.getItem('referralRedeemedTimestamp');
     if (storedReferralTimestamp) {
-      // Referral has been redeemed before: calculate the remaining time
+      // Referral has been redeemed before: calculate the remaining time.
       const referralTime = parseInt(storedReferralTimestamp, 10);
       const timeLeftForReferral = referralTime + cycleDuration - Date.now();
       if (timeLeftForReferral > 0) {
@@ -191,7 +191,7 @@ const App: React.FC = () => {
       }
     }
     
-    // Now attempt to validate the entered referral code.
+    // Validate the entered referral code.
     if (validCodes.includes(referralCode.trim())) {
       setCreditLimit(10);
       setReferralRedeemed(true);
@@ -225,10 +225,19 @@ const App: React.FC = () => {
     setGradeCount((prev) => prev + 1);
   };
 
-  const handleTranscriptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setTranscript(e.target.value);
-  const handleApproveTranscript = () => { setApprovedTranscript(transcript); setTranscript(''); };
+  const handleTranscriptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    setTranscript(e.target.value);
+  const handleApproveTranscript = () => {
+    setApprovedTranscript(transcript);
+    setTranscript('');
+  };
   const handleChangeMode = () => setMode(null);
-  const handleNewQuestion = () => { if (mode) { selectRandomQuestion(mode); setFeedback(null); } };
+  const handleNewQuestion = () => {
+    if (mode) {
+      selectRandomQuestion(mode);
+      setFeedback(null);
+    }
+  };
 
   return (
     <div className="min-h-screen p-6">
@@ -252,19 +261,40 @@ const App: React.FC = () => {
                 Credits reset in: {creditsCountdown}
               </div>
             )}
-            {/* Referral Code Input */}
+            {/* Referral Code Input and Button */}
             <div className="mt-4">
               <Input 
                 placeholder="Enter Referral Code"
                 value={referralCode}
                 onChange={(e) => setReferralCode(e.target.value)}
               />
-              <Button
-                onClick={handleReferralSubmit}
-                className="mt-2 w-full"
+              {/* The Button is disabled when referralRedeemed is true. Its wrapper handles clicks to show a toast message. */}
+              <div
+                onClick={(e) => {
+                  if (referralRedeemed) {
+                    const storedReferralTimestamp = localStorage.getItem('referralRedeemedTimestamp');
+                    if (storedReferralTimestamp) {
+                      const referralTime = parseInt(storedReferralTimestamp, 10);
+                      const timeLeftForReferral = referralTime + cycleDuration - Date.now();
+                      if (timeLeftForReferral > 0) {
+                        toast({
+                          title: "Referral Code Already Used",
+                          description: `Try again in ${formatTime(timeLeftForReferral)}.`,
+                        });
+                      }
+                      e.stopPropagation();
+                    }
+                  }
+                }}
               >
-                {referralRedeemed ? 'Referral Code Applied' : 'Apply Referral Code'}
-              </Button>
+                <Button
+                  disabled={referralRedeemed}
+                  onClick={handleReferralSubmit}
+                  className="mt-2 w-full"
+                >
+                  {referralRedeemed ? 'Referral Code Applied' : 'Apply Referral Code'}
+                </Button>
+              </div>
             </div>
           </div>
           <InterviewTips showTips={!showTips} onToggleTips={() => setShowTips(showTips)} />
