@@ -56,13 +56,14 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
     const sessionsPerPage = 2;
 
     const renderSession = (
-      session: any,
+      session: InterviewSession,
       sessionIndex: number,
       yStart: number
     ): number => {
       let yPos = yStart;
       const lineHeight = 4;
 
+      // Session header
       doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
@@ -88,6 +89,7 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       );
       yPos += lineHeight;
 
+      // Question section
       doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
@@ -104,6 +106,7 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.text(questionLines, marginLeft, yPos);
       yPos += lineHeight * questionLines.length;
 
+      // Do NOT include the actual user response; add a placeholder instead.
       doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
@@ -113,13 +116,10 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
-      const responseLines = doc.splitTextToSize(
-        session.transcript,
-        effectiveWidth
-      );
-      doc.text(responseLines, marginLeft, yPos);
-      yPos += lineHeight * responseLines.length;
+      doc.text('Response hidden for privacy', marginLeft, yPos);
+      yPos += lineHeight;
 
+      // Score section
       doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
@@ -132,6 +132,7 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.text(`${session.feedback.overallScore}/5`, marginLeft, yPos);
       yPos += lineHeight;
 
+      // Feedback section
       doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
@@ -148,6 +149,7 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.text(feedbackLines, marginLeft, yPos);
       yPos += lineHeight * feedbackLines.length;
 
+      // Strengths section
       doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
@@ -164,6 +166,7 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.text(strengthsLines, marginLeft, yPos);
       yPos += lineHeight * strengthsLines.length;
 
+      // Weaknesses section
       doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
       doc.setTextColor(...indigo700);
@@ -266,9 +269,10 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
                   <p className="text-base text-slate-800 leading-relaxed">{session.question}</p>
                 </div>
 
+                {/* Replace "Your Response" block with a placeholder */}
                 <div>
                   <p className="text-sm text-slate-500 font-medium mb-1">Your Response</p>
-                  <p className="text-base text-slate-800 whitespace-pre-wrap leading-relaxed">{session.transcript}</p>
+                  <p className="text-base text-slate-800 leading-relaxed">Response hidden for privacy.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
