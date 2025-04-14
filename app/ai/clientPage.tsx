@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import React, { useState, useEffect } from 'react';
 import { useSpeechRecognition } from './hooks/useSpeechRecognition';
 import { useInterviewState } from './hooks/useInterviewState';
@@ -48,6 +47,8 @@ const App: React.FC = () => {
   const [gradeCount, setGradeCount] = useState(0);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
 
+  // Use a state for credit limit. Default is 3 credits.
+  const [creditLimit, setCreditLimit] = useState<number>(3);
   const FEEDBACK_TRIGGER_THRESHOLD = 1;
 
   const {
@@ -73,16 +74,57 @@ const App: React.FC = () => {
 
   const [usageCount, setUsageCount] = useState<number>(0);
   const [isFeedbackRequired, setIsFeedbackRequired] = useState(false);
-  const maxUsage = 3;
 
+  // State for referral code feature
+  const [referralCode, setReferralCode] = useState('');
+  const [referralRedeemed, setReferralRedeemed] = useState(false);
+
+  // Retrieve persisted data for usage count, credit limit, and referral redemption status
   useEffect(() => {
-    const storedCount = localStorage.getItem('aiUsageCount');
-    const parsedCount = storedCount ? parseInt(storedCount, 10) : 0;
-    setUsageCount(parsedCount);
+    const storedUsage = localStorage.getItem('aiUsageCount');
+    const parsedUsage = storedUsage ? parseInt(storedUsage, 10) : 0;
+    setUsageCount(parsedUsage);
+
+    const storedCreditLimit = localStorage.getItem('creditLimit');
+    if (storedCreditLimit) {
+      setCreditLimit(parseInt(storedCreditLimit, 10));
+    }
+
+    const storedReferral = localStorage.getItem('referralRedeemed');
+    if (storedReferral === 'true') {
+      setReferralRedeemed(true);
+    }
   }, []);
 
+  const handleReferralSubmit = () => {
+    // Replace these with your actual valid referral codes
+    const validCodes = ['shifu', 'chonks', 'REFCODE3'];
+    if (validCodes.includes(referralCode.trim())) {
+      if (!referralRedeemed) {
+        setCreditLimit(10);
+        setReferralRedeemed(true);
+        localStorage.setItem('creditLimit', '10');
+        localStorage.setItem('referralRedeemed', 'true');
+        toast({
+          title: "Referral Code Accepted!",
+          description: "Your AI credits have been increased to 10.",
+        });
+      } else {
+        toast({
+          title: "Referral Code Already Applied",
+          description: "You have already used a referral code.",
+        });
+      }
+    } else {
+      toast({
+        title: "Invalid Referral Code",
+        description: "Please enter a valid referral code.",
+      });
+    }
+  };
+
   const handleGradeInterview = async () => {
-    if (usageCount >= maxUsage) {
+    if (usageCount >= creditLimit) {
       alert('You have reached the maximum usage of the AI feature for this session.');
       return;
     }
@@ -108,16 +150,32 @@ const App: React.FC = () => {
         {/* Left Sidebar */}
         <div className="lg:col-span-4 space-y-4">
           <Statistics practiceCount={practiceCount} averageScore={averageScore} />
-          <div className="flex">
-            {maxUsage - usageCount > 0 ? (
+          <div className="flex flex-col gap-2">
+            {creditLimit - usageCount > 0 ? (
               <div className="text-sm font-bold text-indigo-600 bg-indigo-100 px-4 py-1 rounded-full border border-indigo-400">
-                AI Credits: {maxUsage - usageCount} remaining
+                AI Credits: {creditLimit - usageCount} remaining
               </div>
             ) : (
               <div className="text-sm font-bold text-red-600 bg-red-100 px-4 py-1 rounded-full border border-red-400">
                 AI Credits: 0 remaining
               </div>
             )}
+            {/* Referral Code Input */}
+            <div className="mt-4">
+              <Input 
+                placeholder="Enter Referral Code"
+                value={referralCode}
+                onChange={(e) => setReferralCode(e.target.value)}
+                disabled={referralRedeemed}
+              />
+              <Button
+                onClick={handleReferralSubmit}
+                disabled={referralRedeemed}
+                className="mt-2 w-full"
+              >
+                {referralRedeemed ? 'Referral Code Applied' : 'Apply Referral Code'}
+              </Button>
+            </div>
           </div>
           <InterviewTips showTips={!showTips} onToggleTips={() => setShowTips(showTips)} />
           <InterviewHistory showHistory={showHistory} sessions={sessions} onToggleHistory={() => setShowHistory(!showHistory)} />
@@ -125,7 +183,6 @@ const App: React.FC = () => {
 
         {/* Main Content */}
         <div className="lg:col-span-8 space-y-6">
-
           {/* Status Checks */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <BrowserSupport isChecking={isChecking} isSupported={isSupported} />
@@ -136,9 +193,6 @@ const App: React.FC = () => {
               onRequestAccess={requestMicrophoneAccess}
             />
           </div>
-
-          {/* AI Credits */}
-
 
           {/* Mode Selection */}
           {!mode && <ModeSelection onModeSelect={handleModeSelect} />}
@@ -222,11 +276,20 @@ const App: React.FC = () => {
           >
             <div>
               <label htmlFor="name" className="text-sm font-semibold">Name (optional)</label>
-              <Input id="name" value={feedbackForm.name} onChange={(e) => setFeedbackForm(f => ({ ...f, name: e.target.value }))} />
+              <Input
+                id="name"
+                value={feedbackForm.name}
+                onChange={(e) => setFeedbackForm(f => ({ ...f, name: e.target.value }))}
+              />
             </div>
             <div>
               <label htmlFor="message" className="text-sm font-semibold">Feedback</label>
-              <Textarea id="message" required value={feedbackForm.message} onChange={(e) => setFeedbackForm(f => ({ ...f, message: e.target.value }))} />
+              <Textarea
+                id="message"
+                required
+                value={feedbackForm.message}
+                onChange={(e) => setFeedbackForm(f => ({ ...f, message: e.target.value }))}
+              />
             </div>
             <Button type="submit" className="w-full" disabled={isSubmittingFeedback}>
               {isSubmittingFeedback ? 'Submitting...' : 'Submit Feedback'}
