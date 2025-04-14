@@ -24,6 +24,16 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import Footer from "@/components/ui/footer";
 
+// Helper to format milliseconds into "D days HH:MM:SS" format
+const formatTime = (ms: number) => {
+  const totalSeconds = Math.floor(ms / 1000);
+  const days = Math.floor(totalSeconds / (24 * 3600));
+  const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+};
+
 const App: React.FC = () => {
   const {
     isRecording,
@@ -47,7 +57,7 @@ const App: React.FC = () => {
   const [gradeCount, setGradeCount] = useState(0);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
 
-  // Use a state for credit limit. Default is 3 credits.
+  // Default credit limit is 3.
   const [creditLimit, setCreditLimit] = useState<number>(3);
   const FEEDBACK_TRIGGER_THRESHOLD = 1;
 
@@ -75,46 +85,122 @@ const App: React.FC = () => {
   const [usageCount, setUsageCount] = useState<number>(0);
   const [isFeedbackRequired, setIsFeedbackRequired] = useState(false);
 
-  // State for referral code feature
+  // State for referral code feature.
   const [referralCode, setReferralCode] = useState('');
+  // referralRedeemed is now maintained in localStorage so we can always check its timestamp
   const [referralRedeemed, setReferralRedeemed] = useState(false);
 
-  // Retrieve persisted data for usage count, credit limit, and referral redemption status
-  useEffect(() => {
-    const storedUsage = localStorage.getItem('aiUsageCount');
-    const parsedUsage = storedUsage ? parseInt(storedUsage, 10) : 0;
-    setUsageCount(parsedUsage);
+  // New state for credit expiry and countdown timer.
+  const [creditsExpiry, setCreditsExpiry] = useState<number>(0);
+  const [creditsCountdown, setCreditsCountdown] = useState<string>('');
 
+  // Duration for one cycle in milliseconds (3 days)
+  const cycleDuration = 3 * 24 * 60 * 60 * 1000;
+
+  // Function to reset credits for a new cycle.
+  const resetCredits = () => {
+    setUsageCount(0);
+    setCreditLimit(3);
+    setReferralRedeemed(false);
+    localStorage.removeItem('referralRedeemedTimestamp');
+    const newExpiry = Date.now() + cycleDuration;
+    setCreditsExpiry(newExpiry);
+    localStorage.setItem('creditsExpiry', newExpiry.toString());
+    toast({
+      title: "Credits Reset",
+      description: "Your AI credits have been reset to 3. You can now use referral codes again.",
+    });
+  };
+
+  // On mount, load persisted data from localStorage and check expiry.
+  useEffect(() => {
+    // Get usage count.
+    const storedCount = localStorage.getItem('aiUsageCount');
+    setUsageCount(storedCount ? parseInt(storedCount, 10) : 0);
+
+    // Get credit limit if it was updated earlier.
     const storedCreditLimit = localStorage.getItem('creditLimit');
     if (storedCreditLimit) {
       setCreditLimit(parseInt(storedCreditLimit, 10));
     }
 
-    const storedReferral = localStorage.getItem('referralRedeemed');
-    if (storedReferral === 'true') {
-      setReferralRedeemed(true);
+    // Get referral redeemed status.
+    const storedReferral = localStorage.getItem('referralRedeemedTimestamp');
+    if (storedReferral) {
+      const redeemedTime = parseInt(storedReferral, 10);
+      // If the referral was redeemed less than 3 days ago, mark it as used.
+      if (Date.now() < redeemedTime + cycleDuration) {
+        setReferralRedeemed(true);
+      } else {
+        localStorage.removeItem('referralRedeemedTimestamp');
+        setReferralRedeemed(false);
+      }
+    }
+
+    // Handle credits expiry.
+    const storedExpiry = localStorage.getItem('creditsExpiry');
+    if (storedExpiry) {
+      const expiry = parseInt(storedExpiry, 10);
+      if (Date.now() >= expiry) {
+        resetCredits();
+      } else {
+        setCreditsExpiry(expiry);
+      }
+    } else {
+      // Set a new expiry if none exists.
+      const newExpiry = Date.now() + cycleDuration;
+      localStorage.setItem('creditsExpiry', newExpiry.toString());
+      setCreditsExpiry(newExpiry);
     }
   }, []);
 
-  const handleReferralSubmit = () => {
-    // Replace these with your actual valid referral codes
-    const validCodes = ['shifu', 'chonks', 'REFCODE3'];
-    if (validCodes.includes(referralCode.trim())) {
-      if (!referralRedeemed) {
-        setCreditLimit(10);
-        setReferralRedeemed(true);
-        localStorage.setItem('creditLimit', '10');
-        localStorage.setItem('referralRedeemed', 'true');
-        toast({
-          title: "Referral Code Accepted!",
-          description: "Your AI credits have been increased to 10.",
-        });
-      } else {
-        toast({
-          title: "Referral Code Already Applied",
-          description: "You have already used a referral code.",
-        });
+  // Set up an interval to update the countdown timer and automatically reset credits when needed.
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (creditsExpiry) {
+        const diff = creditsExpiry - Date.now();
+        if (diff <= 0) {
+          resetCredits();
+        } else {
+          setCreditsCountdown(formatTime(diff));
+        }
       }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [creditsExpiry]);
+
+  // Handle referral code submission with a cooldown of 3 days.
+  const handleReferralSubmit = () => {
+    const validCodes = ['REFCODE1', 'chonks', 'REFCODE3'];
+    const storedReferralTimestamp = localStorage.getItem('referralRedeemedTimestamp');
+    if (storedReferralTimestamp) {
+      // Referral has been redeemed before: calculate the remaining time
+      const referralTime = parseInt(storedReferralTimestamp, 10);
+      const timeLeftForReferral = referralTime + cycleDuration - Date.now();
+      if (timeLeftForReferral > 0) {
+        toast({
+          title: "Referral Code Already Used",
+          description: `You already applied a referral code. Try again in ${formatTime(timeLeftForReferral)}.`,
+        });
+        return;
+      } else {
+        // If expired, clear the old redeemed status.
+        localStorage.removeItem('referralRedeemedTimestamp');
+        setReferralRedeemed(false);
+      }
+    }
+    
+    // Now attempt to validate the entered referral code.
+    if (validCodes.includes(referralCode.trim())) {
+      setCreditLimit(10);
+      setReferralRedeemed(true);
+      localStorage.setItem('creditLimit', '10');
+      localStorage.setItem('referralRedeemedTimestamp', Date.now().toString());
+      toast({
+        title: "Referral Code Accepted!",
+        description: "Your AI credits have been increased to 10 for this cycle.",
+      });
     } else {
       toast({
         title: "Invalid Referral Code",
@@ -160,17 +246,21 @@ const App: React.FC = () => {
                 AI Credits: 0 remaining
               </div>
             )}
+            {/* Display Countdown Timer */}
+            {creditsCountdown && (
+              <div className="text-xs text-gray-600">
+                Credits reset in: {creditsCountdown}
+              </div>
+            )}
             {/* Referral Code Input */}
             <div className="mt-4">
               <Input 
                 placeholder="Enter Referral Code"
                 value={referralCode}
                 onChange={(e) => setReferralCode(e.target.value)}
-                disabled={referralRedeemed}
               />
               <Button
                 onClick={handleReferralSubmit}
-                disabled={referralRedeemed}
                 className="mt-2 w-full"
               >
                 {referralRedeemed ? 'Referral Code Applied' : 'Apply Referral Code'}
