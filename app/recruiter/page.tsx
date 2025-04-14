@@ -17,7 +17,7 @@ export default function OpenLandingPage() {
           className="max-w-3xl text-center"
         >
           <h1 className="text-4xl font-bold tracking-tight mb-4">
-            Projects Open for Exploration
+            No Log-In Required for Recruiters
           </h1>
           <p className="text-lg text-muted-foreground">
             Showcasing real-world solutions: AI-driven interview feedback, advanced LeetCode tracking, 
