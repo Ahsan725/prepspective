@@ -64,7 +64,8 @@ import { ModernSidebar } from "@/components/ui/modern-sidebar";
 const subMenuItemsOne = [
   {
     title: "Experiences",
-    description: "Read the interview experience entries to learn and ace every interview",
+    description:
+      "Read the interview experience entries to learn and ace every interview",
     icon: <FileText className="size-5 shrink-0 text-indigo-700" />,
     href: "/search",
   },
@@ -152,15 +153,18 @@ const CustomNavbar = () => {
       <div className="container mx-auto max-w-7xl">
         <nav className="hidden justify-between items-center lg:flex">
           {/* Logo on the left */}
-<div className="flex items-center gap-2">
-  <Link href="/" className="flex items-center gap-1 hover:opacity-90 transition-opacity">
-    <span className="text-2xl font-extrabold text-indigo-700">
-      {"{P}rep"}
-      <span className="font-bold text-indigo-700 text-2xl">Spective</span>
-    </span>
-  </Link>
-</div>
-
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              className="flex items-center gap-1 hover:opacity-90 transition-opacity">
+              <span className="text-2xl font-extrabold text-indigo-700">
+                {"{P}rep"}
+                <span className="font-bold text-indigo-700 text-2xl">
+                  Spective
+                </span>
+              </span>
+            </Link>
+          </div>
 
           {/* Centered Navigation Items */}
           <div className="flex items-center justify-center flex-1">
@@ -272,7 +276,8 @@ const CustomNavbar = () => {
                   <Button
                     onClick={handleEscapeButtonClick}
                     variant="outline"
-                    size="icon">
+                    size="icon"
+                    className="rounded-full">
                     <MousePointerClick />
                   </Button>
                 </TooltipTrigger>
@@ -315,14 +320,18 @@ const CustomNavbar = () => {
         {/* Mobile Navigation */}
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-  <Link href="/" className="flex items-center gap-1 hover:opacity-90 transition-opacity">
-    <span className="text-2xl font-extrabold text-indigo-700">
-      {"{P}rep"}
-      <span className="font-bold text-indigo-700 text-2xl">Spective</span>
-    </span>
-  </Link>
-</div>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/"
+                className="flex items-center gap-1 hover:opacity-90 transition-opacity">
+                <span className="text-2xl font-extrabold text-indigo-700">
+                  {"{P}rep"}
+                  <span className="font-bold text-indigo-700 text-2xl">
+                    Spective
+                  </span>
+                </span>
+              </Link>
+            </div>
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -336,14 +345,18 @@ const CustomNavbar = () => {
               <SheetContent className="overflow-y-auto flex flex-col">
                 <SheetHeader>
                   <SheetTitle>
-                  <div className="flex items-center gap-2">
-  <Link href="/" className="flex items-center gap-1 hover:opacity-90 transition-opacity">
-    <span className="text-2xl font-extrabold text-indigo-700">
-      {"{P}rep"}
-      <span className="font-bold text-indigo-700 text-2xl">Spective</span>
-    </span>
-  </Link>
-</div>
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href="/"
+                        className="flex items-center gap-1 hover:opacity-90 transition-opacity">
+                        <span className="text-2xl font-extrabold text-indigo-700">
+                          {"{P}rep"}
+                          <span className="font-bold text-indigo-700 text-2xl">
+                            Spective
+                          </span>
+                        </span>
+                      </Link>
+                    </div>
                   </SheetTitle>
                 </SheetHeader>
                 <div className="my-8 flex flex-col gap-4 flex-1">
