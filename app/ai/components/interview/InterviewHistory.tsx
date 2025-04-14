@@ -63,6 +63,20 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       let yPos = yStart;
       const lineHeight = 4;
 
+      // Determine mode text for PDF
+      let modeText = '';
+      if (session.mode === 'software') {
+        modeText = 'Technical (Software Engineering) Interview';
+      } else if (session.mode === 'behavioral') {
+        modeText = 'Behavioral Interview';
+      } else if (session.mode === 'data-analytics') {
+        modeText = 'Data Analytics Interview';
+      } else if (session.mode === 'product-management') {
+        modeText = 'Product Management Interview';
+      } else {
+        modeText = 'Interview';
+      }
+
       // Session header
       doc.setFont('times', 'bold');
       doc.setFontSize(headingFontSize);
@@ -73,13 +87,7 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
-      doc.text(
-        `Mode: ${
-          session.mode === 'software' ? 'Software Engineering' : 'Behavioral'
-        } Interview`,
-        marginLeft,
-        yPos
-      );
+      doc.text(`Mode: ${modeText}`, marginLeft, yPos);
       yPos += lineHeight;
 
       doc.text(
@@ -99,10 +107,7 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.setFont('times', 'normal');
       doc.setFontSize(bodyFontSize);
       doc.setTextColor(...textColor);
-      const questionLines = doc.splitTextToSize(
-        session.question,
-        effectiveWidth
-      );
+      const questionLines = doc.splitTextToSize(session.question, effectiveWidth);
       doc.text(questionLines, marginLeft, yPos);
       yPos += lineHeight * questionLines.length;
 
@@ -179,10 +184,7 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       const weaknessesText = Array.isArray(session.feedback.areasToImprove)
         ? session.feedback.areasToImprove.join(', ')
         : '';
-      const weaknessesLines = doc.splitTextToSize(
-        weaknessesText,
-        effectiveWidth
-      );
+      const weaknessesLines = doc.splitTextToSize(weaknessesText, effectiveWidth);
       doc.text(weaknessesLines, marginLeft, yPos);
       yPos += lineHeight * weaknessesLines.length;
 
@@ -199,9 +201,7 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       doc.setFont('times', 'bold');
       doc.setFontSize(titleFontSize);
       doc.setTextColor(...indigo700);
-      doc.text('Interview Grade Report', pageWidth / 2, yPosition, {
-        align: 'center',
-      });
+      doc.text('Interview Grade Report', pageWidth / 2, yPosition, { align: 'center' });
       yPosition += 10;
 
       doc.setFont('times', 'normal');
@@ -228,6 +228,14 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
     </div>
   );
 
+  const renderModeLabel = (mode: InterviewSession['mode']) => {
+    if (mode === 'software') return 'Technical';
+    if (mode === 'behavioral') return 'Behavioral';
+    if (mode === 'data-analytics') return 'Data Analytics';
+    if (mode === 'product-management') return 'Product Management';
+    return 'Interview';
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto mt-8">
       <div className="flex justify-between items-center mb-6">
@@ -241,14 +249,17 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
       </div>
 
       {showHistory && (
-        <div className="space-y-6">
+        <div className="max-h-[1200px] overflow-y-auto space-y-6">
           {sessions.map((session) => (
-            <Card key={session.id} className="rounded-xl border border-slate-200 shadow-md hover:shadow-lg transition-shadow bg-white">
+            <Card
+              key={session.id}
+              className="rounded-xl border border-slate-200 shadow-md hover:shadow-lg transition-shadow bg-white"
+            >
               <CardHeader className="p-6 border-b bg-slate-100 rounded-t-xl">
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle className="text-xl font-bold">
-                      {session.mode === 'software' ? 'Technical Interview' : 'Behavioral Interview'}
+                      {renderModeLabel(session.mode)}
                     </CardTitle>
                     <CardDescription className="text-slate-600 text-sm mt-1">
                       {new Date(session.date).toLocaleDateString()}
@@ -266,13 +277,18 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
               <CardContent className="p-6 space-y-5">
                 <div>
                   <p className="text-sm text-slate-500 font-medium mb-1">Question</p>
-                  <p className="text-base text-slate-800 leading-relaxed">{session.question}</p>
+                  <p className="text-base text-slate-800 leading-relaxed">
+                    {session.question}
+                  </p>
                 </div>
 
-                {/* Replace "Your Response" block with a placeholder */}
                 <div>
-                  <p className="text-sm text-slate-500 font-medium mb-1">Your Response</p>
-                  <p className="text-base text-slate-800 leading-relaxed">Response hidden for privacy.</p>
+                  <p className="text-sm text-slate-500 font-medium mb-1">
+                    Your Response
+                  </p>
+                  <p className="text-base text-slate-800 leading-relaxed">
+                    Response hidden for privacy.
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -285,7 +301,9 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
                     </ul>
                   </div>
                   <div>
-                    <p className="text-sm text-yellow-700 font-semibold mb-1">Areas to Improve</p>
+                    <p className="text-sm text-yellow-700 font-semibold mb-1">
+                      Areas to Improve
+                    </p>
                     <ul className="text-slate-700 list-disc list-inside space-y-1 text-sm">
                       {session.feedback.areasToImprove.map((w, i) => (
                         <li key={i}>{w}</li>
@@ -297,7 +315,9 @@ export const InterviewHistory: React.FC<InterviewHistoryProps> = ({
 
               <CardFooter className="bg-slate-50 px-6 py-4 rounded-b-xl">
                 <div className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">
-                  <p className="font-medium text-slate-800 mb-1">Detailed Feedback:</p>
+                  <p className="font-medium text-slate-800 mb-1">
+                    Detailed Feedback:
+                  </p>
                   {session.feedback.detailedFeedback}
                 </div>
               </CardFooter>

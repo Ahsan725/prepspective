@@ -1,7 +1,10 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { InterviewMode, InterviewSession, FeedbackData } from '../types';
 import { softwareQuestions } from '../data/softwareQuestions';
 import { behavioralQuestions } from '../data/behavioralQuestions';
+import { dataAnalyticsQuestions } from '../data/dataAnalyticsQuestions';
+import { productManagementQuestions } from '../data/productManagementQuestions';
 
 export const useInterviewState = () => {
   const [mode, setMode] = useState<InterviewMode>(null);
@@ -38,9 +41,22 @@ export const useInterviewState = () => {
   }, [countdown, countdownStarted]);
 
   const selectRandomQuestion = (selectedMode: Exclude<InterviewMode, null>) => {
-    const questions = selectedMode === 'software' ? softwareQuestions : behavioralQuestions;
-    const randomIndex = Math.floor(Math.random() * questions.length);
-    setCurrentQuestion(questions[randomIndex]);
+    let questions: string[] = [];
+    if (selectedMode === 'software') {
+      questions = softwareQuestions;
+    } else if (selectedMode === 'behavioral') {
+      questions = behavioralQuestions;
+    } else if (selectedMode === 'data-analytics') {
+      questions = dataAnalyticsQuestions;
+    } else if (selectedMode === 'product-management') {
+      questions = productManagementQuestions;
+    }
+    if (questions.length > 0) {
+      const randomIndex = Math.floor(Math.random() * questions.length);
+      setCurrentQuestion(questions[randomIndex]);
+    } else {
+      setCurrentQuestion('');
+    }
   };
 
   const handleModeSelect = (selectedMode: Exclude<InterviewMode, null>) => {

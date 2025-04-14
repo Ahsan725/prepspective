@@ -34,10 +34,10 @@ export interface FeedbackData {
 export interface InterviewSession {
   id: string;
   date: string;
-  mode: 'software' | 'behavioral';
+  mode: 'software' | 'behavioral' | 'data-analytics' | 'product-management';
   question: string;
   transcript: string;
   feedback: FeedbackData;
 }
 
-export type InterviewMode = 'software' | 'behavioral' | null;
+export type InterviewMode = 'software' | 'behavioral' | 'data-analytics' | 'product-management' | null;

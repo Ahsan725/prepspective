@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import {
@@ -7,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Code, Users, ClipboardCopy } from 'lucide-react';
+import { Code, Users, ClipboardCopy, BarChart2, Briefcase } from 'lucide-react';
 import { InterviewMode } from '../../types';
 
 interface CurrentQuestionProps {
@@ -41,13 +42,35 @@ export const CurrentQuestion: React.FC<CurrentQuestionProps> = ({
     }, 400); // duration matches animation below
   };
 
-  // Update displayedQuestion when prop changes
-  React.useEffect(() => {
+  // Update displayedQuestion when the question prop changes
+  useEffect(() => {
     setDisplayedQuestion(question);
   }, [question]);
 
-  const modeLabel = mode === 'software' ? 'Technical' : 'Behavioral';
-  const modeIcon = mode === 'software' ? <Code className="h-6 w-6" /> : <Users className="h-6 w-6" />;
+  // Define mode labels and icons based on the selected mode
+  let modeLabel: string;
+  let modeIcon: JSX.Element | null;
+  switch (mode) {
+    case 'software':
+      modeLabel = 'Technical';
+      modeIcon = <Code className="h-6 w-6 text-white" />;
+      break;
+    case 'behavioral':
+      modeLabel = 'Behavioral';
+      modeIcon = <Users className="h-6 w-6 text-white" />;
+      break;
+    case 'data-analytics':
+      modeLabel = 'Data Analytics';
+      modeIcon = <BarChart2 className="h-6 w-6 text-white" />;
+      break;
+    case 'product-management':
+      modeLabel = 'Product Management';
+      modeIcon = <Briefcase className="h-6 w-6 text-white" />;
+      break;
+    default:
+      modeLabel = 'Interview';
+      modeIcon = null;
+  }
 
   return (
     <div className="w-full max-w-6xl mx-auto mb-8">
