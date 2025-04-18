@@ -40,7 +40,7 @@ export default function HomePage() {
       {/* <Feature/> */}
       <Bento />
       {/* <SvgImage src="/mockup.svg" alt="Example SVG Image" /> */}
-      <Familiar />
+      {/* <Familiar /> */}
       <FeaturesSection />
       <FAQSection />
       <ServiceShowcase />

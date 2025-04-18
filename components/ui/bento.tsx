@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import NumberTicker from "@/components/ui/number-ticker";
 import SparklesText from "@/components/ui/sparkles-text";
@@ -34,7 +34,7 @@ const FeaturesGrid: React.FC = () => {
         {/* Mission Statement */}
         <div className="flex items-center justify-center mb-4">
           <h2 className="inline-block font-extrabold text-xs sm:text-xs md:text-sm lg:text-md text-indigo-700 text-center tracking-wider bg-indigo-200 rounded-md px-2 py-0">
-            MISSION STATEMENT
+            OUR MISSION
           </h2>
         </div>
 
@@ -42,113 +42,130 @@ const FeaturesGrid: React.FC = () => {
           What is PrepSpective
         </h2>
         <h3 className="md:w-1/2 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-        They call it luck when opportunity meets preparation, but we call it PrepSpective. Our mission is to make interviews less terrifying.
+          AI‑powered interview mastery, algorithm training, and progress analytics—all in one seamless platform.
         </h3>
 
-        <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2" ref={ref}>
-          {/* Feature 1: Comprehensive Insights */}
+        <div
+          className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2"
+          ref={ref}
+        >
+          {/* Feature 1: AI Interview Practice */}
           <div className="relative lg:row-span-2 flex items-center justify-center text-center py-8">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800 lg:rounded-l-[2rem]"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)] px-8 py-8">
               {isVisible && (
                 <p className="whitespace-pre-wrap tracking-tighter text-6xl font-bold text-white">
-                  <NumberTicker value={1000} className="text-white tracking-tighter" />+
+                  <NumberTicker
+                    value={5000}
+                    className="text-white tracking-tighter"
+                  />
+                  +
                 </p>
               )}
               <p className="mt-2 text-xl font-semibold tracking-tight text-white">
-                Anonymous Interviews Sourced
+                AI Interview Sessions Run
               </p>
               <p className="mt-4 text-sm/6 text-white">
-                Leverage the collective wisdom of thousands of candidates to
-                better prepare for your interviews.
+                Train with lifelike AI interviewers across tech, business,
+                finance, and more! Receive personalized feedback, including glows and grows, after every
+                session.
               </p>
               <div className="border-t border-white/30 mt-6 pt-4 w-full">
                 <h3 className="text-lg font-semibold text-white">
-                  Extensive Insights
+                  Lifelike Simulation
                 </h3>
                 <p className="mt-2 text-sm text-white">
-                  Access detailed breakdowns of interview processes, including
-                  past questions, difficulty levels, and candidate feedback.
+                  Dynamic, follow up questioning adapts to your answers for a
+                  truly authentic interview experience.
                 </p>
               </div>
               <div className="border-t border-white/30 mt-6 pt-4 w-full">
-                <h3 className="text-lg font-semibold text-white">
-                Can&apos;t Believe It&apos;s Free
-                </h3>
+                <h3 className="text-lg font-semibold text-white">Actionable Feedback</h3>
                 <p className="mt-2 text-sm text-white">
-Unlike pricey platforms like LeetCode Premium or Glassdoor, PrepSpective is completely free and focused on eliminating the frustration of outdated or mislabeled information.TLDR for Reddit minus the sassiness.  
+                  Instant, targeted feedback pinpoints strengths and areas to
+                  improve, so you level up faster.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Feature 2: Community-Powered Platform */}
+          {/* Feature 2: LeetCode Progress Tracker */}
           <div className="relative max-lg:row-start-1 flex items-center justify-center text-center py-8">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-200 via-indigo-100 to-indigo-50 max-lg:rounded-t-[2rem]"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)] px-8 py-8">
               {isVisible && (
                 <p className="whitespace-pre-wrap tracking-tighter text-6xl font-bold text-indigo-700">
-                  <NumberTicker value={500} className="text-indigo-700 tracking-tighter" />+
+                  <NumberTicker
+                    value={700}
+                    className="text-indigo-700 tracking-tighter"
+                  />
+                  +
                 </p>
               )}
               <p className="mt-2 text-xl font-semibold tracking-tight text-indigo-700">
-                Companies Supported
+                Problems Tracked
               </p>
               <p className="mt-4 text-sm/6 text-indigo-700">
-                Insights from startups to tech giants across industries,
-                tailored to your preparation.
+                Built‑in spaced repetition, distraction‑free solutions, and
+                progress dashboards keep your LeetCode grind strategic and
+                efficient.
               </p>
             </div>
           </div>
 
-          {/* Feature 3: Targeted Preparation */}
+          {/* Feature 3: SkillScan AI */}
           <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2 flex items-center justify-center text-center py-8">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-50 via-indigo-100 to-indigo-200"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] px-8 py-8">
-              {isVisible && (
+            {isVisible && (
                 <p className="whitespace-pre-wrap tracking-tighter text-6xl font-bold text-indigo-700">
-                  <NumberTicker value={10} className="text-indigo-700 tracking-tighter" />X
+                  <NumberTicker
+                    value={400}
+                    className="text-indigo-700 tracking-tighter"
+                  />
+                  +
                 </p>
               )}
               <p className="mt-2 text-xl font-semibold tracking-tight text-indigo-700">
-                Faster Prep Time
+                Skill Gaps Identified
               </p>
               <p className="mt-4 text-sm/6 text-indigo-700">
-              Achieve in hours what used to take days. Interview questions organized by difficulty, type, and
-                company for targeted preparation.
+                SkillScan AI analyzes your code history and quiz results to
+                surface exactly which data‑structure and algorithm concepts need
+                attention.
               </p>
             </div>
           </div>
 
-          {/* Feature 4: Free and Accessible */}
+          {/* Feature 4: One Platform */}
           <div className="relative lg:row-span-2 flex items-center justify-center text-center py-8">
             <div className="absolute inset-px rounded-lg bg-gradient-to-l from-indigo-800 via-indigo-500 to-indigo-800 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]"></div>
             <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)] px-8 py-8">
-                          {/* <p className="text-7xl font-bold text-white">1 Platform</p> */}
-                          {/* <HyperText
-      className="text-7xl font-Optima font-bold text-white"
-      text="1 Platform"
-                          /> */}
-                          <SparklesText text="1 Platform" className="text-6xl font-Optima font-bold text-white" />
+              <SparklesText
+                text="1 Platform"
+                className="text-6xl font-Optima font-bold text-white"
+              />
               <p className="mt-2 text-xl font-semibold tracking-tight text-white">
                 Infinite Possibilities
               </p>
               <p className="mt-4 text-sm/6 text-white">
-              PrepSpective brings everything from timelines to question and all interview experiences together in one place, making it easy to find the exact information you need for your target company and role.
+                Practice, track, and analyze—all within a single cohesive
+                workspace built to accelerate your journey to mastery.
               </p>
               <div className="border-t border-white/30 mt-6 pt-4 w-full">
-                <h3 className="text-lg font-semibold text-white">Built for the Community</h3>
+                <h3 className="text-lg font-semibold text-white">Data‑Driven Insights</h3>
                 <p className="mt-2 text-sm text-white">
-                  Join events, share insights, and collaborate with others to
-                  grow and succeed in your career.
+                  Performance dashboards and adaptive drills ensure you focus on
+                  high‑impact practice without burnout.
                 </p>
               </div>
               <div className="border-t border-white/30 mt-6 pt-4 w-full">
                 <h3 className="text-lg font-semibold text-white">
-                Prepare Smarter, Not Harder
+                  Prepare Smarter, Not Harder
                 </h3>
                 <p className="mt-2 text-sm text-white">
-                Understand company-specific trends, question patterns, interview formats, rounds, evaluation criteria and difficulty levels to optimize time spent prepping.
+                  Automated schedules adjust to your progress, so you maintain
+                  momentum and confidence heading into any interview.
                 </p>
               </div>
             </div>
