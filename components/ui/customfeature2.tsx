@@ -9,36 +9,43 @@ interface FeaturesProps {
   description: string;
 }
 
+// Focused exclusively on AI interview practice, LeetCode tracking, and SkillScan AI.
 const featureList: FeaturesProps[] = [
   {
-    icon: "Users",
-    title: "Community-Driven Insights",
-    description: "Tap into a wealth of real, anonymous interview experiences shared by individuals who've been in your shoes, giving you unmatched preparation advantages.",
+    icon: "Bot",
+    title: "AI Interview Practice",
+    description:
+      "Simulate real‑world interviews with adaptive AI interviewers—technical, behavioral, or case study—across tech, business, and finance domains.",
   },
   {
-    icon: "TrendingUp",
-    title: "Company-Specific Preparation",
-    description: "Learn the exact trends, technical expectations, and interview patterns of your target companies to tailor your preparation effectively.",
+    icon: "LayoutGrid",
+    title: "Cross‑Domain Coverage",
+    description:
+      "One click swaps personas: software engineer, product manager, data analyst, marketer, and more—all in the same practice environment.",
   },
   {
-    icon: "Clock",
-    title: "Effortless Time Optimization",
-    description: "Focus only on what truly matters by cutting out unnecessary preparation and targeting high-value areas, saving you countless hours.",
+    icon: "MessageCircle",
+    title: "Instant Coaching",
+    description:
+      "Receive structured feedback, suggested talking points, and follow‑up questions immediately after each answer to accelerate growth.",
   },
   {
-    icon: "FileText",
-    title: "Detailed Interview Breakdown",
-    description: "Understand interview structures, including question types, expected difficulty, recruiter timelines, and what it takes to succeed at each stage.",
+    icon: "ListTodo",
+    title: "LeetCode Smart Tracker",
+    description:
+      "Progress lists with built‑in spaced repetition, difficulty tagging, and timers keep your algorithm grind efficient and distraction‑free.",
   },
   {
-    icon: "Target",
-    title: "Clarity & Confidence",
-    description: "Minimize uncertainty with actionable insights on interview expectations, boosting your confidence and helping you perform at your best.",
+    icon: "BookOpen",
+    title: "Clean, Focused Solutions",
+    description:
+      "View editor‑ready reference solutions side‑by‑side—no ads, no spoilers—so you can stay in flow while learning best practices.",
   },
   {
-    icon: "Infinity",
-    title: "Unparalleled Accessibility",
-    description: "Access a robust platform offering comprehensive insights and resources that evolve with your needs—empowering everyone from students to seasoned professionals.",
+    icon: "Radar",
+    title: "SkillScan AI",
+    description:
+      "Pinpoint exactly which data‑structure and algorithm topics are weakest using code history and quiz analytics, then auto‑generate a remediation plan.",
   },
 ];
 
@@ -92,7 +99,7 @@ export const FeaturesSection = () => {
           },
         }}
       >
-        What Sets Us Apart
+        Built to Accelerate Your Prep
       </motion.h2>
 
       <motion.h3
@@ -107,7 +114,7 @@ export const FeaturesSection = () => {
           },
         }}
       >
-        Our platform revolutionizes interview preparation with tailored insights, expert breakdowns, and a supportive community designed to help you succeed.
+        PrepSpective unifies AI‑driven mock interviews, smart LeetCode tracking, and pinpoint skill analytics—so you can focus on what matters and land offers faster.
       </motion.h3>
 
       {/* Feature List using CardHoverEffect */}
