@@ -107,7 +107,7 @@ export default function ModernHero() {
               ) : (
                 <div className="flex justify-center gap-4">
                   <SignInButton mode="modal">
-                    <Button variant="outline"size="lg" className="group text-xl">
+                    <Button variant="outline"size="lg" className="group text-lg">
                       <span className="flex items-center gap-2">
                         Login
                         {/* <ArrowRight className="transform transition-transform duration-200 group-hover:translate-x-1" /> */}
@@ -116,7 +116,7 @@ export default function ModernHero() {
                   </SignInButton>
 
                   <SignUpButton mode="modal">
-                    <Button variant="default" size="lg" className="group text-xl">
+                    <Button variant="default" size="lg" className="group text-lg">
                       <span className="flex items-center gap-2">
                         Sign Up
                         {/* <ArrowRight className="transform transition-transform duration-200 group-hover:translate-x-1" /> */}
