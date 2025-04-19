@@ -1,70 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import NumberTicker from "./number-ticker";
 import Image from "next/image";
 import FluidCursor from "@/components/ui/fluidCursor";
 import styles from "@/components/modern-hero.module.css";
 import { motion } from "framer-motion";
-import { ServiceModal } from '@/components/ServiceModal';
+import { ServiceModal } from "@/components/ServiceModal";
 
 export default function ModernHero() {
-  const [email, setEmail] = useState("");
-  const [count, setCount] = useState(0);
-  const { toast } = useToast();
-
-  useEffect(() => {
-    const fetchCount = async () => {
-      try {
-        const response = await fetch("/api/waitlist-count", { method: "GET" });
-        const data = await response.json();
-        if (response.ok) {
-          setCount(data.count || 0);
-        }
-      } catch (error) {
-        console.error("Failed to fetch waitlist count:", error);
-      }
-    };
-
-    fetchCount();
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch("/api/waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setCount(data.count);
-        setEmail("");
-        toast({
-          title: `Success, You're in!`,
-          description: `The cool kids are waiting for you. Don't go too far, we'll be in touch soon.`,
-        });
-      } else {
-        toast({
-          title: "Uh oh! Something went wrong.",
-          description: `We're not saying it's wrong, but the system is squinting.`,
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "An error occurred. Please try again.",
-      });
-    }
-  };
+  const { isSignedIn } = useUser();
 
   const clients = [
     { name: "Google", src: "/google.png" },
@@ -97,7 +43,8 @@ export default function ModernHero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         />
- <ServiceModal />
+        <ServiceModal />
+
         {/* Hero Content */}
         <div className="relative container px-4 mx-auto">
           <div className="max-w-4xl mx-auto space-y-8 text-center">
@@ -108,12 +55,12 @@ export default function ModernHero() {
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 1, delay: 0.1 }}>
               <p className="text-[0.55rem] lg:text-sm font-bold text-indigo-600 tracking-wide">
-              Sign-ups are now live. Create your account today to start using PrepSpective.
+                Sign-ups are now live. Create your account today to start using PrepSpective.
               </p>
             </motion.div>
 
             {/* Animated Main Content */}
-            <div className="">
+            <div>
               <motion.h1
                 className="text-5xl font-bold tracking-tight md:text-7xl lg:text-9xl bg-gradient-to-b from-indigo-700 via-indigo-400 to-indigo-800 bg-clip-text text-transparent"
                 style={{ fontFamily: "Segoe" }}
@@ -130,50 +77,35 @@ export default function ModernHero() {
                 animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 1, delay: 0.3 }}>
                 The only interview prep platform you&rsquo;ll ever need.
-                We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s{" "}
-                <em>pretty</em> close.
+                We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
               </motion.p>
             </div>
 
-            {/* Animated Waitlist Form */}
+            {/* Conditional Buttons */}
             <motion.div
-              className="w-full max-w-md space-y-4 mx-auto"
+              className="w-full max-w-md mx-auto"
               initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 1, delay: 0.3 }}>
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col sm:flex-row gap-2">
-                <div className="flex-1">
-                  <Label htmlFor="email" className="sr-only">
-                    Email
-                  </Label>
-                  <Input
-                    id="email"
-                    placeholder="Enter your email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="h-12 px-4 text-base border-2 border-indigo-200 focus:border-indigo-500 focus:ring-indigo-500"
-                  />
+              {isSignedIn ? (
+                <div className="flex justify-center gap-4">
+                  <Link href="/ai">
+                    <Button size="default" variant="default">Interview Expert</Button>
+                  </Link>
+                  <Link href="/skillscan">
+                    <Button size="default" variant="outline">Technical SkillScan</Button>
+                  </Link>
                 </div>
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="h-12 bg-indigo-600 hover:bg-indigo-700 text-white">
-                  Join Waitlist
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </form>
-              <p className="text-md text-indigo-700">
-                Join over{" "}
-                <NumberTicker
-                  value={400}
-                  className="font-extrabold text-indigo-700"
-                />{" "}
-                others on the waitlist!
-              </p>
+              ) : (
+                <div className="flex justify-center gap-4">
+                  <SignInButton>
+                    <Button size="lg">Login</Button>
+                  </SignInButton>
+                  <SignUpButton>
+                    <Button size="lg" variant="secondary">Sign Up</Button>
+                  </SignUpButton>
+                </div>
+              )}
             </motion.div>
 
             {/* Animated Client Logos */}
@@ -183,7 +115,7 @@ export default function ModernHero() {
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 2, delay: 0 }}>
               <p className="text-sm text-gray-500 mb-4 text-center">
-                Interviews Sourced from Top Companies
+                Our Users have landed offers at Top Companies
               </p>
               <div className={styles.marqueeContainer}>
                 <div className={styles.marquee}>
@@ -192,11 +124,7 @@ export default function ModernHero() {
                       <motion.div
                         key={`${client.name}-${index}`}
                         whileHover={{ scale: 1 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 400,
-                          damping: 10,
-                        }}>
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}>
                         <Image
                           src={client.src}
                           alt={client.name}
@@ -217,11 +145,7 @@ export default function ModernHero() {
                       <motion.div
                         key={`${client.name}-${index}-duplicate`}
                         whileHover={{ scale: 1 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 400,
-                          damping: 10,
-                        }}>
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}>
                         <Image
                           src={client.src}
                           alt={client.name}
