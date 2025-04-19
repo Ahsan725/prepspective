@@ -3,6 +3,7 @@
 import { SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import FluidCursor from "@/components/ui/fluidCursor";
 import styles from "@/components/modern-hero.module.css";
@@ -36,7 +37,6 @@ export default function ModernHero() {
       {/* Main Hero Section */}
       <section className="relative overflow-hidden mb-[78px] bg-white py-16 sm:py-24">
         <FluidCursor />
-        {/* Animated Background Grid Pattern */}
         <motion.div
           className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]"
           initial={{ opacity: 0 }}
@@ -48,7 +48,6 @@ export default function ModernHero() {
         {/* Hero Content */}
         <div className="relative container px-4 mx-auto">
           <div className="max-w-4xl mx-auto space-y-8 text-center">
-            {/* Animated Stats Card */}
             <motion.div
               className="bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium text-indigo-600 inline-flex items-center gap-2 mx-auto border-2 border-indigo-500"
               initial={{ y: -50, opacity: 0, filter: "blur(10px)" }}
@@ -59,7 +58,6 @@ export default function ModernHero() {
               </p>
             </motion.div>
 
-            {/* Animated Main Content */}
             <div>
               <motion.h1
                 className="text-5xl font-bold tracking-tight md:text-7xl lg:text-9xl bg-gradient-to-b from-indigo-700 via-indigo-400 to-indigo-800 bg-clip-text text-transparent"
@@ -76,8 +74,7 @@ export default function ModernHero() {
                 initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
                 animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 1, delay: 0.3 }}>
-                The only interview prep platform you&rsquo;ll ever need.
-                We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
+                The only interview prep platform you&rsquo;ll ever need. We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
               </motion.p>
             </div>
 
@@ -89,26 +86,47 @@ export default function ModernHero() {
               transition={{ duration: 1, delay: 0.3 }}>
               {isSignedIn ? (
                 <div className="flex justify-center gap-4">
-                  <Link href="/ai">
-                    <Button size="default" variant="default">Interview Expert</Button>
+                  <Link href="/ai" passHref>
+                    <Button asChild size="lg" className="group">
+                      <a className="flex items-center gap-2">
+                        AI Practice
+                        <ArrowRight className="transform transition-transform duration-200 group-hover:translate-x-1" />
+                      </a>
+                    </Button>
                   </Link>
-                  <Link href="/skillscan">
-                    <Button size="default" variant="outline">Technical SkillScan</Button>
+
+                  <Link href="/skillscan" passHref>
+                    <Button asChild variant="outline" size="lg" className="group">
+                      <a className="flex items-center gap-2">
+                        SkillScan
+                        <ArrowRight className="transform transition-transform duration-200 group-hover:translate-x-1" />
+                      </a>
+                    </Button>
                   </Link>
                 </div>
               ) : (
                 <div className="flex justify-center gap-4">
-                  <SignInButton>
-                    <Button size="default">Login</Button>
+                  <SignInButton mode="modal">
+                    <Button variant="outline"size="lg" className="group text-xl">
+                      <span className="flex items-center gap-2">
+                        Login
+                        {/* <ArrowRight className="transform transition-transform duration-200 group-hover:translate-x-1" /> */}
+                      </span>
+                    </Button>
                   </SignInButton>
-                  <SignUpButton>
-                    <Button size="default" variant="outline">Sign Up</Button>
+
+                  <SignUpButton mode="modal">
+                    <Button variant="default" size="lg" className="group text-xl">
+                      <span className="flex items-center gap-2">
+                        Sign Up
+                        {/* <ArrowRight className="transform transition-transform duration-200 group-hover:translate-x-1" /> */}
+                      </span>
+                    </Button>
                   </SignUpButton>
                 </div>
               )}
             </motion.div>
 
-            {/* Animated Client Logos */}
             <motion.div
               className="mt-12 w-full max-w-3xl mx-auto"
               initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
@@ -130,12 +148,7 @@ export default function ModernHero() {
                           alt={client.name}
                           width={80}
                           height={32}
-                          style={{
-                            width: "auto",
-                            height: "32px",
-                            objectFit: "contain",
-                            flexShrink: 0,
-                          }}
+                          style={{ width: "auto", height: "32px", objectFit: "contain", flexShrink: 0 }}
                         />
                       </motion.div>
                     ))}
@@ -151,12 +164,7 @@ export default function ModernHero() {
                           alt={client.name}
                           width={80}
                           height={32}
-                          style={{
-                            width: "auto",
-                            height: "32px",
-                            objectFit: "contain",
-                            flexShrink: 0,
-                          }}
+                          style={{ width: "auto", height: "32px", objectFit: "contain", flexShrink: 0 }}
                         />
                       </motion.div>
                     ))}
