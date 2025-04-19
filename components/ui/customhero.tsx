@@ -99,10 +99,10 @@ export default function ModernHero() {
               ) : (
                 <div className="flex justify-center gap-4">
                   <SignInButton>
-                    <Button size="lg">Login</Button>
+                    <Button size="default">Login</Button>
                   </SignInButton>
                   <SignUpButton>
-                    <Button size="lg" variant="secondary">Sign Up</Button>
+                    <Button size="default" variant="outline">Sign Up</Button>
                   </SignUpButton>
                 </div>
               )}
