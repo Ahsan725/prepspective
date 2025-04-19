@@ -92,7 +92,7 @@ export default function ServiceShowcaseSection() {
 
       <div className="relative z-10 px-6 py-20 text-center flex flex-col items-center justify-center space-y-10">
         <h3 className="text-indigo-200 text-5xl sm:text-6xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(255,255,255,0.1)]">
-          Connect with the mentors?
+          Get Help From Mentors?
         </h3>
         <p className="uppercase tracking-widest text-sm font-semibold text-white/60">
           Trusted by 400+ Developers

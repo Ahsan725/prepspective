@@ -146,7 +146,7 @@ export function ServiceModal() {
                 transition={{ delay: 0.1 }}
                 className="text-white text-2xl sm:text-5xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(255,255,255,0.1)]"
               >
-                Struggling to land roles?
+                Get Help From Mentors?
               </motion.h3>
 
               {/* Trust tag */}

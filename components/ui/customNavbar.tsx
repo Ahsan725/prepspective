@@ -62,19 +62,19 @@ import ContactForm from "@/components/ui/contactForm";
 import { ModernSidebar } from "@/components/ui/modern-sidebar";
 
 const subMenuItemsOne = [
-  {
-    title: "Experiences",
-    description:
-      "Read the interview experience entries to learn and ace every interview",
-    icon: <FileText className="size-5 shrink-0 text-indigo-700" />,
-    href: "/search",
-  },
-  {
-    title: "Add Entry",
-    description: "Add your interview experience, feedback and advice",
-    icon: <NotebookPenIcon className="size-5 shrink-0 text-indigo-700" />,
-    href: "/exp",
-  },
+  // {
+  //   title: "Experiences",
+  //   description:
+  //     "Read the interview experience entries to learn and ace every interview",
+  //   icon: <FileText className="size-5 shrink-0 text-indigo-700" />,
+  //   href: "/search",
+  // },
+  // {
+  //   title: "Add Entry",
+  //   description: "Add your interview experience, feedback and advice",
+  //   icon: <NotebookPenIcon className="size-5 shrink-0 text-indigo-700" />,
+  //   href: "/exp",
+  // },
   {
     title: "Lists",
     description: "Curated LeetCode Study lists with solutions and tracking",
@@ -212,7 +212,7 @@ const CustomNavbar = () => {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="text-muted-foreground">
-                  <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>Mentor Services</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="w-80 p-3">
                       <NavigationMenuLink>
