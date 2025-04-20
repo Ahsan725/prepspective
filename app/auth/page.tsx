@@ -1,8 +1,9 @@
 'use client';
+
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useClerk } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import Footer from '@/components/ui/footer';
 import {
@@ -41,22 +42,30 @@ const logoVariants = {
 export default function AuthPage() {
   const router = useRouter();
   const { isSignedIn } = useUser();
+  const { openSignIn, openSignUp } = useClerk();
   const [loading, setLoading] = useState<null | 'signin' | 'signup'>(null);
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push('/'); // Redirect to home if the user is signed in
+      router.push('/'); // redirect home if already signed in
     }
   }, [isSignedIn, router]);
 
-  // While the user is signed in, don't render anything.
   if (isSignedIn) {
     return null;
   }
 
-  const handleClick = (path: string, type: 'signin' | 'signup') => {
+  const handleClick = (type: 'signin' | 'signup') => {
     setLoading(type);
-    setTimeout(() => router.push(path), 1500); // simulate loading delay
+    // small delay to show button loading state
+    setTimeout(() => {
+      if (type === 'signin') {
+        openSignIn();
+      } else {
+        openSignUp();
+      }
+      setLoading(null);
+    }, 300);
   };
 
   return (
@@ -108,10 +117,10 @@ export default function AuthPage() {
             <motion.div variants={itemVariants}>
               <Button
                 className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
-                onClick={() => handleClick('/signin', 'signin')}
+                onClick={() => handleClick('signin')}
                 disabled={!!loading}
               >
-                {loading === 'signin' ? 'Off we go...' : 'Sign In'}
+                {loading === 'signin' ? 'Opening…' : 'Sign In'}
               </Button>
             </motion.div>
 
@@ -119,16 +128,16 @@ export default function AuthPage() {
               <Button
                 variant="outline"
                 className="w-full border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700"
-                onClick={() => handleClick('/signup', 'signup')}
+                onClick={() => handleClick('signup')}
                 disabled={!!loading}
               >
-                {loading === 'signup' ? 'Off we go...' : 'Sign Up'}
+                {loading === 'signup' ? 'Opening…' : 'Sign Up'}
               </Button>
             </motion.div>
           </CardContent>
         </Card>
       </motion.div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
