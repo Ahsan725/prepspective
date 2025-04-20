@@ -5,7 +5,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkProvider, useUser } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
-import TempNavbar from "@/components/ui/tempNavbar";
 import CustomNavbar from "@/components/ui/customNavbar";
 import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
@@ -32,27 +31,37 @@ const geistMono = localFont({
 
 // Listens for sign-in / sign-out and shows a toast
 function AuthListener() {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
   const { toast } = useToast();
-  const prevSignedIn = useRef(isSignedIn);
+  const prevSignedIn = useRef<boolean>();
 
   useEffect(() => {
+    // wait until Clerk has loaded the user state
+    if (!isLoaded) return;
+
+    // on first load, initialize prevSignedIn and bail out
+    if (prevSignedIn.current === undefined) {
+      prevSignedIn.current = isSignedIn;
+      return;
+    }
+
+    // on subsequent changes only, fire the toast
     if (prevSignedIn.current !== isSignedIn) {
       if (isSignedIn) {
         toast({
           title: "Oh, look who is back.",
-          description: "You are logged in. Try not to cause too much trouble.",
+          description: "You are logged in.",
         });
       } else {
         toast({
-          title: "Bye bye, then.",
-          description: "You have logged out. We will pretend to miss you. ",
+          title: "We will pretend to miss you.",
+          description: "You have logged out.",
         });
       }
     }
+
     prevSignedIn.current = isSignedIn;
-  }, [isSignedIn, toast]);
-  
+  }, [isLoaded, isSignedIn, toast]);
 
   return null;
 }
