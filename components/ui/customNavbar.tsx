@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   Book,
@@ -145,6 +145,7 @@ const CustomNavbar = () => {
   const { isSignedIn } = useUser();
   const { signOut, openUserProfile } = useClerk();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleEscapeButtonClick = () =>
     window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
@@ -256,18 +257,27 @@ const CustomNavbar = () => {
 
           {/* Right Side */}
           <div className="flex gap-2">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button onClick={handleEscapeButtonClick} variant="outline" size="icon" className="rounded-full">
-                    <MousePointerClick />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Press ESC or click to disable the cursor.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            {pathname === '/' && (
+              <div className="hidden md:block">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={handleEscapeButtonClick}
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full"
+                      >
+                        <MousePointerClick />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Press ESC or click to disable the cursor.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            )}
 
             <ModernSidebar />
 
