@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Dialog, DialogContent, DialogClose } from '../components/ui/dialog';
 import { X, ArrowRight, Star } from 'lucide-react';
@@ -13,39 +13,51 @@ interface Service {
 const services: Service[] = [
   {
     title: "AI Interview Feedback Expert",
-    description: "Receive highly specific, actionable interview feedback powered by AI. Proven superior to Claude, ChatGPT, and DeepSeek based on side-by-side beta testing at interview response grading.",
-    image: "https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
-    link: "/ai"
+    description:
+      "Receive highly specific, actionable interview feedback powered by AI. Proven superior to Claude, ChatGPT, and DeepSeek based on side-by-side beta testing at interview response grading.",
+    image:
+      "https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+    link: "/ai",
   },
   {
     title: "Resume Writing",
-    description: "Get your ATS-optimized resume crafted by experts. Stand out from the competition with our proven templates.",
-    image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
-    link: "/resume"
+    description:
+      "Get your ATS-optimized resume crafted by experts. Stand out from the competition with our proven templates.",
+    image:
+      "https://images.unsplash.com/photo-1586281380349-632531db7ed4?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+    link: "/resume",
   },
   {
     title: "LeetCode Tutoring",
-    description: "Master coding interviews with personalized 1-on-1 tutoring sessions. Learn problem-solving strategies that work.",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
-    link: "/tutor"
+    description:
+      "Master coding interviews with personalized 1-on-1 tutoring sessions. Learn problem-solving strategies that work.",
+    image:
+      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+    link: "/tutor",
   },
   {
     title: "Web Dev Services",
-    description: "Launch your dream project with expert web development. From idea to deployment — we’ll build it with you.",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
-    link: "/webdev"
+    description:
+      "Launch your dream project with expert web development. From idea to deployment — we’ll build it with you.",
+    image:
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+    link: "/webdev",
   },
   {
     title: "Mock Interviews",
-    description: "Practice makes perfect. Get real interview experience with detailed feedback and improvement strategies.",
-    image: "https://images.unsplash.com/photo-1565688534245-05d6b5be184a?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
-    link: "/mock-interviews"
+    description:
+      "Practice makes perfect. Get real interview experience with detailed feedback and improvement strategies.",
+    image:
+      "https://images.unsplash.com/photo-1565688534245-05d6b5be1845?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+    link: "/mock-interviews",
   },
   {
     title: "Skill Scan",
-    description: "Pinpoint exactly where your technical weaknesses lie. Our advanced Skill Scan provides a detailed breakdown to level up your interview readiness.",
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
-    link: "/skillscan"
+    description:
+      "Pinpoint exactly where your technical weaknesses lie. Our advanced Skill Scan provides a detailed breakdown to level up your interview readiness.",
+    image:
+      "https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+    link: "/skillscan",
   },
 ];
 
@@ -53,39 +65,67 @@ export function ServiceModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentService, setCurrentService] = useState(0);
   const [direction, setDirection] = useState(0);
+  // Ref to track timestamp of last keyboard activity
+  const lastKeyboardRef = useRef<number>(0);
 
+  // Update lastKeyboardRef on any keydown
+  useEffect(() => {
+    const handleKeyDown = () => {
+      lastKeyboardRef.current = Date.now();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  // After 30 seconds, open modal only if:
+  // 1) user hasn't scrolled into bottom 25%
+  // 2) no keyboard activity in last 30 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       const scrollPosition = window.scrollY + window.innerHeight;
       const pageHeight = document.documentElement.scrollHeight;
-  
       const isInBottom25Percent = scrollPosition > pageHeight * 0.75;
-  
-      if (!isInBottom25Percent) {
+
+      const now = Date.now();
+      const hadRecentKeyboard = now - lastKeyboardRef.current < 30000;
+
+      if (!isInBottom25Percent && !hadRecentKeyboard) {
         setIsOpen(true);
       }
     }, 30000);
-  
+
     return () => clearTimeout(timer);
   }, []);
-  
 
+  // Auto-cycle through services when open
   useEffect(() => {
-    if (isOpen) {
-      const interval = setInterval(() => {
-        setDirection(1);
-        setCurrentService((prev) => (prev + 1) % services.length);
-      }, 6000);
-      return () => clearInterval(interval);
-    }
+    if (!isOpen) return;
+    const interval = setInterval(() => {
+      setDirection(1);
+      setCurrentService((prev) => (prev + 1) % services.length);
+    }, 6000);
+    return () => clearInterval(interval);
   }, [isOpen]);
 
   const service = services[currentService];
 
   const slideVariants = {
-    enter: (direction: number) => ({ x: direction > 0 ? 1000 : -1000, opacity: 0 }),
-    center: { zIndex: 1, x: 0, opacity: 1 },
-    exit: (direction: number) => ({ zIndex: 0, x: direction < 0 ? 1000 : -1000, opacity: 0 })
+    enter: (d: number) => ({
+      x: d > 0 ? 1000 : -1000,
+      opacity: 0,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (d: number) => ({
+      zIndex: 0,
+      x: d < 0 ? 1000 : -1000,
+      opacity: 0,
+    }),
   };
 
   const changeService = (newIndex: number) => {
@@ -112,11 +152,11 @@ export function ServiceModal() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,transparent_0%,rgba(0,0,0,0.5)_100%)] rounded-3xl" />
           </div>
 
-          {/* Smaller Logo */}
+          {/* Logo */}
           <div className="absolute top-5 left-5 z-50">
             <div className="flex items-center gap-2">
               <span className="text-2xl font-extrabold text-indigo-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">
-                {"{P}rep"}
+                {'{P}rep'}
                 <span className="font-bold text-indigo-300 text-2xl drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">
                   Spective
                 </span>
@@ -124,7 +164,7 @@ export function ServiceModal() {
             </div>
           </div>
 
-          {/* Content Slides */}
+          {/* Slides */}
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <motion.div
               key={currentService}
@@ -134,12 +174,11 @@ export function ServiceModal() {
               animate="center"
               exit="exit"
               transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 }
+                x: { type: 'spring', stiffness: 300, damping: 30 },
+                opacity: { duration: 0.2 },
               }}
               className="relative z-20 h-full flex flex-col items-center justify-center px-10 py-16 text-center space-y-8"
             >
-              {/* Big Headline */}
               <motion.h3
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -149,12 +188,10 @@ export function ServiceModal() {
                 Get Help From Mentors?
               </motion.h3>
 
-              {/* Trust tag */}
               <p className="uppercase tracking-widest text-sm font-semibold text-white/60">
                 Trusted by 400+ Developers
               </p>
 
-              {/* Service Content */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -169,7 +206,6 @@ export function ServiceModal() {
                 </p>
               </motion.div>
 
-              {/* CTA Button */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -178,7 +214,7 @@ export function ServiceModal() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => window.location.href = service.link}
+                  onClick={() => (window.location.href = service.link)}
                   className="group relative px-10 py-4 bg-white rounded-xl text-gray-900 font-semibold text-lg shadow-lg
                     hover:shadow-white/40 transition-all duration-300 overflow-hidden border border-white"
                 >
@@ -191,41 +227,40 @@ export function ServiceModal() {
                 </motion.button>
               </motion.div>
 
- <motion.div
-  className="flex items-center justify-center space-x-1 text-yellow-400 text-2xl font-bold pt-4"
-  initial="hidden"
-  animate="visible"
-  variants={{
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  }}
->
-  {[...Array(5)].map((_, i) => (
-    <motion.div
-      key={i}
-      variants={{
-        hidden: { opacity: 0, scale: 0.5 },
-        visible: { opacity: 1, scale: 1 },
-      }}
-      transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-    >
-      <Star className="w-8 h-8 fill-yellow-400 text-yellow-400" />
-    </motion.div>
-  ))}
-  <motion.span
-    className="ml-2"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.9, duration: 0.4 }}
-  >
-    4.9/5
-  </motion.span>
-</motion.div>
-
-          </motion.div>
+              <motion.div
+                className="flex items-center justify-center space-x-1 text-yellow-400 text-2xl font-bold pt-4"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.15,
+                    },
+                  },
+                }}
+              >
+                {[...Array(5)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.5 },
+                      visible: { opacity: 1, scale: 1 },
+                    }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                  >
+                    <Star className="w-8 h-8 fill-yellow-400 text-yellow-400" />
+                  </motion.div>
+                ))}
+                <motion.span
+                  className="ml-2"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9, duration: 0.4 }}
+                >
+                  4.9/5
+                </motion.span>
+              </motion.div>
+            </motion.div>
           </AnimatePresence>
 
           {/* Navigation Dots */}
