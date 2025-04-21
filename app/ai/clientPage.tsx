@@ -108,8 +108,8 @@ const App: React.FC = () => {
     setCreditsExpiry(newExpiry);
     localStorage.setItem('creditsExpiry', newExpiry.toString());
     toast({
-      title: "Credits Reset",
-      description: "Your AI credits have been reset to 3. You can now use referral codes again.",
+      title: "More Credits Added",
+      description: "More AI credits have been added to your account.",
     });
   };
 
