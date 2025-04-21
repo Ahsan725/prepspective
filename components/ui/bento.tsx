@@ -42,7 +42,7 @@ const FeaturesGrid: React.FC = () => {
           What is PrepSpective
         </h2>
         <h3 className="md:w-1/2 mx-auto text-center mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-          AI‑powered interview mastery, algorithm training, and progress analytics—all in one seamless platform.
+          A powerful suite of tools and expertly developed for interview mastery, algorithm training, and progress analytics, all in one seamless platform.
         </h3>
 
         <div
@@ -65,7 +65,7 @@ const FeaturesGrid: React.FC = () => {
               <p className="mt-2 text-xl font-semibold tracking-tight text-white">
                 AI Interview Sessions Run
               </p>
-              <p className="mt-4 text-sm/6 text-white">
+              <p className="mt-4 text-md text-white">
                 Train with lifelike AI interviewers across tech, business,
                 finance, and more! Receive personalized feedback, including glows and grows, after every
                 session.
@@ -74,14 +74,14 @@ const FeaturesGrid: React.FC = () => {
                 <h3 className="text-lg font-semibold text-white">
                   Lifelike Simulation
                 </h3>
-                <p className="mt-2 text-sm text-white">
+                <p className="mt-2 text-md text-white">
                   Dynamic, follow up questioning adapts to your answers for a
                   truly authentic interview experience.
                 </p>
               </div>
               <div className="border-t border-white/30 mt-6 pt-4 w-full">
                 <h3 className="text-lg font-semibold text-white">Actionable Feedback</h3>
-                <p className="mt-2 text-sm text-white">
+                <p className="mt-2 text-md text-white">
                   Instant, targeted feedback pinpoints strengths and areas to
                   improve, so you level up faster.
                 </p>
@@ -105,7 +105,7 @@ const FeaturesGrid: React.FC = () => {
               <p className="mt-2 text-xl font-semibold tracking-tight text-indigo-700">
                 Problems Tracked
               </p>
-              <p className="mt-4 text-sm/6 text-indigo-700">
+              <p className="mt-4 text-md text-indigo-700">
                 Built‑in spaced repetition, distraction‑free solutions, and
                 progress dashboards keep your LeetCode grind strategic and
                 efficient.
@@ -129,7 +129,7 @@ const FeaturesGrid: React.FC = () => {
               <p className="mt-2 text-xl font-semibold tracking-tight text-indigo-700">
                 Skill Gaps Identified
               </p>
-              <p className="mt-4 text-sm/6 text-indigo-700">
+              <p className="mt-4 text-md text-indigo-700">
                 SkillScan AI analyzes your code history and quiz results to
                 surface exactly which data‑structure and algorithm concepts need
                 attention.
@@ -148,13 +148,13 @@ const FeaturesGrid: React.FC = () => {
               <p className="mt-2 text-xl font-semibold tracking-tight text-white">
                 Infinite Possibilities
               </p>
-              <p className="mt-4 text-sm/6 text-white">
+              <p className="mt-4 text-md text-white">
                 Practice, track, and analyze—all within a single cohesive
                 workspace built to accelerate your journey to mastery.
               </p>
               <div className="border-t border-white/30 mt-6 pt-4 w-full">
                 <h3 className="text-lg font-semibold text-white">Data‑Driven Insights</h3>
-                <p className="mt-2 text-sm text-white">
+                <p className="mt-2 text-md text-white">
                   Performance dashboards and adaptive drills ensure you focus on
                   high‑impact practice without burnout.
                 </p>
@@ -163,7 +163,7 @@ const FeaturesGrid: React.FC = () => {
                 <h3 className="text-lg font-semibold text-white">
                   Prepare Smarter, Not Harder
                 </h3>
-                <p className="mt-2 text-sm text-white">
+                <p className="mt-2 text-md text-white">
                   Automated schedules adjust to your progress, so you maintain
                   momentum and confidence heading into any interview.
                 </p>
