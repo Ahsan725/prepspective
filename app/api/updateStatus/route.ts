@@ -4,30 +4,49 @@ import { NextResponse } from "next/server";
 import { db } from "@/db"; // your Turso database client
 import { userProblemStatusTable } from "@/db/schema";
 import { eq, and } from "drizzle-orm/expressions";
+import { createHash } from "crypto";
 
 export async function GET(req: Request) {
   const clerkAuth = await auth();
-  const { userId } = clerkAuth;
+  const userId = clerkAuth.userId;
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const progress = await db
+    // 1) fetch all progress rows
+    const rows = await db
       .select()
       .from(userProblemStatusTable)
       .where(eq(userProblemStatusTable.userId, userId));
 
-    // Map each record to an object containing both the completed status and the lastCompleted timestamp.
+    // 2) build a map { problemId: { completed, lastCompleted } }
     const progressMap: Record<number, { completed: boolean; lastCompleted: string | null }> = {};
-    progress.forEach((record) => {
-      progressMap[record.problemId] = {
-        completed: Boolean(record.completed),
-        lastCompleted: record.lastCompleted || null,
+    for (const r of rows) {
+      progressMap[r.problemId] = {
+        completed: Boolean(r.completed),
+        lastCompleted: r.lastCompleted ?? null,
       };
-    });
+    }
 
-    return NextResponse.json(progressMap);
+    // 3) compute an ETag by hashing the JSON
+    const payload = JSON.stringify(progressMap);
+    const etag = createHash("sha1").update(payload).digest("hex");
+
+    // 4) if client sent the same ETag, no need to resend
+    const ifNone = req.headers.get("if-none-match");
+    if (ifNone === etag) {
+      return new NextResponse(null, { status: 304 });
+    }
+
+    // 5) otherwise, return data + the new ETag
+    return NextResponse.json(progressMap, {
+      status: 200,
+      headers: {
+        "ETag": etag,
+        // optionally: "Cache-Control": "private, max-age=0, must-revalidate"
+      },
+    });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -35,7 +54,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   const clerkAuth = await auth();
-  const { userId } = clerkAuth;
+  const userId = clerkAuth.userId;
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -44,25 +63,24 @@ export async function POST(req: Request) {
 
   try {
     if (completed) {
-      // If the question is marked complete, insert or update the record.
-      // We update the "lastCompleted" field with the current timestamp.
+      // mark complete or update timestamp
       await db
         .insert(userProblemStatusTable)
         .values({
           userId,
           problemId,
-          completed, // boolean value as expected
+          completed,
           lastCompleted: new Date().toISOString(),
         })
         .onConflictDoUpdate({
           target: [userProblemStatusTable.userId, userProblemStatusTable.problemId],
-          set: { 
-            completed, 
+          set: {
+            completed,
             lastCompleted: new Date().toISOString(),
           },
         });
     } else {
-      // If the question is unchecked, delete the record from the DB.
+      // uncheck → delete row
       await db
         .delete(userProblemStatusTable)
         .where(
