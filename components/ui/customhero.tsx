@@ -48,15 +48,26 @@ export default function ModernHero() {
         {/* Hero Content */}
         <div className="relative container px-4 mx-auto">
           <div className="max-w-4xl mx-auto space-y-8 text-center">
-            <motion.div
-              className="bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium text-indigo-600 inline-flex items-center gap-2 mx-auto border-2 border-indigo-500"
-              initial={{ y: -50, opacity: 0, filter: "blur(10px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1, delay: 0.1 }}>
-              <p className="text-[0.55rem] lg:text-sm font-bold text-indigo-600 tracking-wide">
-                Sign-ups are now live. Create your account today to start using PrepSpective.
-              </p>
-            </motion.div>
+<motion.div
+  className="
+    bg-indigo-50 rounded-full
+    px-1 py-px         /* 1px vertical on all small/medium */
+    lg:px-4 lg:py-1.5  /* original padding on large screens */
+    text-sm font-medium text-indigo-600
+    inline-flex items-center gap-2 mx-auto
+    border-2 border-indigo-500
+  "
+  initial={{ y: -50, opacity: 0, filter: 'blur(10px)' }}
+  animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+  transition={{ duration: 1, delay: 0.1 }}
+>
+  <p className="text-[0.55rem] lg:text-sm font-bold text-indigo-600 tracking-wide">
+    Sign-ups are now live. Create your account today to start using PrepSpective.
+  </p>
+</motion.div>
+
+
+
 
             <div>
               <motion.h1
