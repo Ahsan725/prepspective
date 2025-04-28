@@ -9,7 +9,7 @@ export function CodeSnippet({ code }: { code: string }) {
         <Code className="h-5 w-5 text-slate-300" />
       </div>
 
-      <pre className="p-4 font-mono text-sm leading-relaxed text-indigo-100 whitespace-pre-wrap overflow-x-auto">
+      <pre className="p-4 font-mono text-sm leading-relaxed text-slate-200 whitespace-pre-wrap overflow-x-auto">
         {code.split("\n").map((line, i) => (
           <div key={i} className="w-full">
             <span className="text-slate-400 select-none pr-4">{String(i + 1).padStart(2, "0")}</span>
