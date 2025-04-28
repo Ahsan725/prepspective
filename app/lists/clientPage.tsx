@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { RandomLeetCodeQuestion } from "@/app/result/randomLeetcode";
 import {
   Select,
   SelectContent,
@@ -521,7 +522,7 @@ export default function Home() {
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
-                  <Link href="/upcoming">
+                  {/* <Link href="/upcoming">
                     <Button
                       variant="outline"
                       className="flex items-center text-sm mx-2 my-2 mt-0 justify-center shadow-none hover:shadow-none px-4 py-2 rounded-lg hover:bg-indigo-700 hover:text-white transition-colors"
@@ -530,7 +531,8 @@ export default function Home() {
                       Company Specific Lists
                       <ChevronRight className="ml-2 h-4 w-4" />
                     </Button>
-                  </Link>
+                  </Link> */}
+                  <RandomLeetCodeQuestion />
                 </CardContent>
               </Card>
             </div>
