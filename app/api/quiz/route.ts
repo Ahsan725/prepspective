@@ -15,7 +15,7 @@ export async function GET(request: Request) {
 
   // Construct the prompt for quiz generation
   const prompt = `
-Generate a leetcode-style problem set consisting of exactly 3 hard difficulty multiple choice questions for the leetcode topic "${normalizedTopic}". Each question should test advanced problem-solving and algorithmic intuition. The question should ask a single, focused inquiry about an algorithmic aspect (such as time complexity, space complexity, correctness, or behavior) of the code snippet.
+Generate a leetcode-style problem set consisting of exactly 2 hard difficulty multiple choice questions for the leetcode topic "${normalizedTopic}". Each question should test advanced problem-solving and algorithmic intuition. The question should ask a single, focused inquiry about an algorithmic aspect (such as time complexity, space complexity, correctness, or behavior) of the code snippet.
 
 For each question, output an object with the following fields:
 - id: a unique integer starting from 1.
