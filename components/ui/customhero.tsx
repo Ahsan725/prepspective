@@ -48,43 +48,42 @@ export default function ModernHero() {
         {/* Hero Content */}
         <div className="relative container px-4 mx-auto">
           <div className="max-w-4xl mx-auto space-y-8 text-center">
-<motion.div
-  className="
-    bg-indigo-50 rounded-full
-    px-1 py-px         /* 1px vertical on all small/medium */
-    lg:px-4 lg:py-1.5  /* original padding on large screens */
-    text-sm font-medium text-indigo-600
-    inline-flex items-center gap-2 mx-auto
-    border-2 border-indigo-500
-  "
-  initial={{ y: -50, opacity: 0, filter: 'blur(10px)' }}
-  animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-  transition={{ duration: 1, delay: 0.1 }}
->
-  <p className="text-[0.55rem] lg:text-sm font-bold text-indigo-600 tracking-wide">
-    Sign-ups are now live. Create your account today to start using PrepSpective.
-  </p>
-</motion.div>
-
-
-
+            <motion.div
+              className="
+                bg-indigo-50 rounded-full
+                px-1 py-px         /* 1px vertical on all small/medium */
+                lg:px-4 lg:py-1.5  /* original padding on large screens */
+                text-sm font-medium text-indigo-600
+                inline-flex items-center gap-2 mx-auto
+                border-2 border-indigo-500
+              "
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.1 }}
+            >
+              <p className="text-[0.55rem] lg:text-sm font-bold text-indigo-600 tracking-wide">
+                Sign-ups are now live. Create your account today to start using PrepSpective.
+              </p>
+            </motion.div>
 
             <div>
               <motion.h1
                 className="text-5xl font-bold tracking-tight md:text-7xl lg:text-9xl bg-gradient-to-b from-indigo-700 via-indigo-400 to-indigo-800 bg-clip-text text-transparent"
                 style={{ fontFamily: "Segoe" }}
-                initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
-                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 1, delay: 0.2 }}>
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.2 }}
+              >
                 <span className="font-extralight italic">Walk in Ready.</span> <br />
                 Walk Out Hired.
               </motion.h1>
 
               <motion.p
                 className="text-lg lg:text-2xl text-gray-500 max-w-2xl mx-auto"
-                initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
-                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 1, delay: 0.3 }}>
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.3 }}
+              >
                 The only interview prep platform you&rsquo;ll ever need. We&rsquo;re not saying it&rsquo;s magic, but it&rsquo;s <em>pretty</em> close.
               </motion.p>
             </div>
@@ -92,9 +91,10 @@ export default function ModernHero() {
             {/* Conditional Buttons */}
             <motion.div
               className="w-full max-w-md mx-auto"
-              initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1, delay: 0.3 }}>
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
+            >
               {isSignedIn ? (
                 <div className="flex justify-center gap-4">
                   <Link href="/ai" passHref>
@@ -118,10 +118,9 @@ export default function ModernHero() {
               ) : (
                 <div className="flex justify-center gap-4">
                   <SignInButton mode="modal">
-                    <Button variant="outline"size="lg" className="group text-lg">
+                    <Button variant="outline" size="lg" className="group text-lg">
                       <span className="flex items-center gap-2">
                         Login
-                        {/* <ArrowRight className="transform transition-transform duration-200 group-hover:translate-x-1" /> */}
                       </span>
                     </Button>
                   </SignInButton>
@@ -130,7 +129,6 @@ export default function ModernHero() {
                     <Button variant="default" size="lg" className="group text-lg">
                       <span className="flex items-center gap-2">
                         Sign Up
-                        {/* <ArrowRight className="transform transition-transform duration-200 group-hover:translate-x-1" /> */}
                       </span>
                     </Button>
                   </SignUpButton>
@@ -140,9 +138,10 @@ export default function ModernHero() {
 
             <motion.div
               className="mt-12 w-full max-w-3xl mx-auto"
-              initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 2, delay: 0 }}>
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 2, delay: 0 }}
+            >
               <p className="text-sm text-gray-500 mb-4 text-center">
                 Our Users have landed offers at Top Companies
               </p>
@@ -153,7 +152,8 @@ export default function ModernHero() {
                       <motion.div
                         key={`${client.name}-${index}`}
                         whileHover={{ scale: 1 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      >
                         <Image
                           src={client.src}
                           alt={client.name}
@@ -169,7 +169,8 @@ export default function ModernHero() {
                       <motion.div
                         key={`${client.name}-${index}-duplicate`}
                         whileHover={{ scale: 1 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      >
                         <Image
                           src={client.src}
                           alt={client.name}

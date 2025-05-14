@@ -126,6 +126,14 @@ body {
   border: none;
 }
 
+/* globals.css */
+
+@keyframes toast-progress {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
+
+
 /* nprogress customization */
 #nprogress .bar {
   background: #5141ff !important; /* Tailwind's indigo-700 */

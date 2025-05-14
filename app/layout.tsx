@@ -49,12 +49,12 @@ function AuthListener() {
     if (prevSignedIn.current !== isSignedIn) {
       if (isSignedIn) {
         toast({
-          title: "Oh, look who is back.",
+          title: "Oh, look who is back!",
           description: "You are logged in.",
         });
       } else {
         toast({
-          title: "We will pretend to miss you.",
+          title: "We will miss you, come back soon!.",
           description: "You have logged out.",
         });
       }
