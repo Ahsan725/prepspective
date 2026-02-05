@@ -48,20 +48,20 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
   return (
     <div className="relative w-full h-full bg-zinc-900 rounded-[2rem] shadow-sm border border-zinc-800 p-5 flex flex-col items-center justify-between overflow-hidden">
         
-       {/* Top Controls Container for Mode and Atmosphere Selectors */}
-       <div className="flex flex-col items-center gap-3 z-10 relative top-1">
-         {/* Mode Selectors - Clean, removed grey background box */}
-         <div className="flex gap-3">
+       {/* Top Controls Container for Mode and Atmosphere Selectors - Horizontal Row */}
+       <div className="flex items-center gap-4 z-10 relative top-1">
+         {/* Mode Selectors */}
+         <div className="flex gap-2.5">
            {[
                { id: 'work', label: 'Focus' },
-               { id: 'shortBreak', label: 'Short Break' },
-               { id: 'longBreak', label: 'Long Break' }
+               { id: 'shortBreak', label: 'Short' },
+               { id: 'longBreak', label: 'Long' }
            ].map((m) => (
                <button
                   key={m.id}
                   onClick={() => setMode && setMode(m.id as any)}
                   className={cn(
-                      "px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 border border-transparent",
+                      "px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 border border-transparent",
                       mode === m.id 
                           ? "text-white border-zinc-700 bg-zinc-800" 
                           : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
@@ -72,8 +72,11 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
             ))}
          </div>
 
-         {/* Atmosphere Selectors - Added as requested */}
-         <div className="flex gap-3">
+         {/* Vertical Divider */}
+         <div className="w-px h-5 bg-zinc-800" />
+
+         {/* Atmosphere Selectors */}
+         <div className="flex gap-2.5">
             {[
                 { id: 'none', label: 'Clear' },
                 { id: 'snow', label: 'Snow' },
@@ -83,7 +86,7 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
                    key={e.id}
                    onClick={() => setAmbientEffect && setAmbientEffect(e.id as any)}
                    className={cn(
-                       "px-3 py-1 rounded-full text-[10px] font-medium transition-all duration-300 border border-transparent",
+                       "px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 border border-transparent",
                        ambientEffect === e.id 
                            ? "text-zinc-200 border-zinc-800 bg-zinc-900/50" 
                            : "text-zinc-600 hover:text-zinc-400 hover:bg-zinc-800/30"
