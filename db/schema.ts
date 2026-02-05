@@ -114,3 +114,20 @@ export type SelectPost = typeof postsTable.$inferSelect;
 // Type inference for waitlist
 export type InsertWaitlist = typeof waitlistTable.$inferInsert;
 export type SelectWaitlist = typeof waitlistTable.$inferSelect;
+
+// Brag Sheet table
+export const bragSheetTable = sqliteTable('brag_sheet', {
+  id: integer('id').primaryKey(),
+  userId: text('user_id').notNull(),
+  title: text('title').notNull(),
+  description: text('description'),
+  category: text('category').notNull(), // Impact, Leadership, Technical, etc.
+  metric: text('metric'), // Quantifiable results
+  date: text('date').notNull(), // ISO date string
+  createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`).notNull(),
+  updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`).notNull().$onUpdate(() => sql`CURRENT_TIMESTAMP`),
+});
+
+// Type inference for brag sheet
+export type InsertBragItem = typeof bragSheetTable.$inferInsert;
+export type SelectBragItem = typeof bragSheetTable.$inferSelect;
