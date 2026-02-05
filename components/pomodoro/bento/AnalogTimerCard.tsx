@@ -13,9 +13,11 @@ interface AnalogTimerCardProps {
   setMode?: (mode: 'work' | 'shortBreak' | 'longBreak') => void;
   onToggle: () => void;
   onReset: () => void;
+  ambientEffect?: 'none' | 'snow' | 'rain';
+  setAmbientEffect?: (effect: 'none' | 'snow' | 'rain') => void;
 }
 
-const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, isActive, mode, onToggle, onReset, setMode }) => {
+const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, isActive, mode, onToggle, onReset, setMode, ambientEffect, setAmbientEffect }) => {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -46,27 +48,52 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
   return (
     <div className="relative w-full h-full bg-zinc-900 rounded-[2rem] shadow-sm border border-zinc-800 p-5 flex flex-col items-center justify-between overflow-hidden">
         
-       {/* Mode Selectors - Clean, removed grey background box */}
-       <div className="flex gap-3 z-10 relative top-1">
-         {[
-             { id: 'work', label: 'Focus' },
-             { id: 'shortBreak', label: 'Short Break' },
-             { id: 'longBreak', label: 'Long Break' }
-         ].map((m) => (
-             <button
-                key={m.id}
-                onClick={() => setMode && setMode(m.id as any)}
-                className={cn(
-                    "px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 border border-transparent",
-                    mode === m.id 
-                        ? "text-white border-zinc-700 bg-zinc-800" 
-                        : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
-                )}
-             >
-                 {m.label}
-             </button>
-         ))}
-      </div>
+       {/* Top Controls Container for Mode and Atmosphere Selectors */}
+       <div className="flex flex-col items-center gap-3 z-10 relative top-1">
+         {/* Mode Selectors - Clean, removed grey background box */}
+         <div className="flex gap-3">
+           {[
+               { id: 'work', label: 'Focus' },
+               { id: 'shortBreak', label: 'Short Break' },
+               { id: 'longBreak', label: 'Long Break' }
+           ].map((m) => (
+               <button
+                  key={m.id}
+                  onClick={() => setMode && setMode(m.id as any)}
+                  className={cn(
+                      "px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 border border-transparent",
+                      mode === m.id 
+                          ? "text-white border-zinc-700 bg-zinc-800" 
+                          : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
+                  )}
+               >
+                   {m.label}
+                </button>
+            ))}
+         </div>
+
+         {/* Atmosphere Selectors - Added as requested */}
+         <div className="flex gap-3">
+            {[
+                { id: 'none', label: 'Clear' },
+                { id: 'snow', label: 'Snow' },
+                { id: 'rain', label: 'Rain' }
+            ].map((e) => (
+                <button
+                   key={e.id}
+                   onClick={() => setAmbientEffect && setAmbientEffect(e.id as any)}
+                   className={cn(
+                       "px-3 py-1 rounded-full text-[10px] font-medium transition-all duration-300 border border-transparent",
+                       ambientEffect === e.id 
+                           ? "text-zinc-200 border-zinc-800 bg-zinc-900/50" 
+                           : "text-zinc-600 hover:text-zinc-400 hover:bg-zinc-800/30"
+                   )}
+                >
+                    {e.label}
+                </button>
+            ))}
+         </div>
+       </div>
 
       {/* Responsive Layout Container: Clock on Left/Top, Time & Controls on Right/Bottom */}
       <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full min-h-0 overflow-hidden px-4">
