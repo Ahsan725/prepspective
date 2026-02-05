@@ -54,13 +54,15 @@ const MusicCard = () => {
 
     return (
         <div className="bg-zinc-900 text-white rounded-[2rem] p-6 flex flex-col justify-between shadow-sm col-span-3 md:col-span-1 min-h-[220px]">
-            {/* Header / Mode Switcher */}
-            <div className="flex justify-between items-center mb-4 bg-zinc-800/50 p-1 rounded-full">
+            {/* Header / Mode Switcher - Centered and matched to Timer style */}
+            <div className="flex justify-center items-center gap-3 mb-6 relative">
                 <button
                     onClick={() => switchMode('music')}
                     className={cn(
-                        "flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium transition-all",
-                        mode === 'music' ? "bg-indigo-600 text-white shadow-md" : "text-zinc-400 hover:text-white"
+                        "px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 border border-transparent flex items-center gap-2",
+                        mode === 'music' 
+                            ? "text-white border-zinc-700 bg-zinc-800" 
+                            : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
                     )}
                 >
                     <MusicIcon className="w-3 h-3" /> Music
@@ -68,8 +70,10 @@ const MusicCard = () => {
                 <button
                     onClick={() => switchMode('white_noise')}
                     className={cn(
-                        "flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium transition-all",
-                        mode === 'white_noise' ? "bg-indigo-600 text-white shadow-md" : "text-zinc-400 hover:text-white"
+                        "px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 border border-transparent flex items-center gap-2",
+                        mode === 'white_noise' 
+                            ? "text-white border-zinc-700 bg-zinc-800" 
+                            : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
                     )}
                 >
                     <Zap className="w-3 h-3" /> White Noise

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Check, Sparkles } from 'lucide-react';
+import { Plus, Trash2, Check, ListTodo } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import canvasConfetti from 'canvas-confetti';
 
@@ -79,8 +79,8 @@ const LuxTodoList = () => {
     <div className="bg-zinc-900 text-white rounded-[2rem] p-6 shadow-sm col-span-3 md:col-span-1 h-full min-h-[400px] flex flex-col">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-xl font-bold flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-indigo-500" />
-            Task
+            <ListTodo className="w-5 h-5 text-indigo-500" />
+          Task
         </h3>
         <span className="text-xs text-zinc-500 bg-zinc-800 px-2 py-1 rounded-md">{todos.filter(t => !t.completed).length} Pending</span>
       </div>

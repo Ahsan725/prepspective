@@ -33,14 +33,14 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
   // Theme Colors
   const needleColors = {
     work: 'bg-indigo-500',
-    shortBreak: 'bg-teal-400',
-    longBreak: 'bg-purple-400',
+    shortBreak: 'bg-blue-500',
+    longBreak: 'bg-emerald-500',
   };
 
   const modeBgColors = {
     work: 'bg-indigo-600 hover:bg-indigo-500 shadow-indigo-900/40',
-    shortBreak: 'bg-teal-600 hover:bg-teal-500 shadow-teal-900/40',
-    longBreak: 'bg-purple-600 hover:bg-purple-500 shadow-purple-900/40',
+    shortBreak: 'bg-blue-600 hover:bg-blue-500 shadow-blue-900/40',
+    longBreak: 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-900/40',
   };
 
   return (
@@ -77,7 +77,7 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
                 className={cn(
                     "relative w-[180px] h-[180px] md:w-[220px] md:h-[220px] lg:w-[260px] lg:h-[260px] rounded-full",
                     "shadow-[0_0_50px_-10px] border-4 border-zinc-800 bg-zinc-900 transition-all duration-500",
-                    mode === 'work' ? "shadow-indigo-500/20" : mode === 'shortBreak' ? "shadow-teal-500/20" : "shadow-purple-500/20"
+                    mode === 'work' ? "shadow-indigo-500/20" : mode === 'shortBreak' ? "shadow-blue-500/20" : "shadow-emerald-500/20"
                 )}
             >
                 {/* Minute Hand */}
