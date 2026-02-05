@@ -44,10 +44,10 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
   };
 
   return (
-    <div className="relative w-full h-full bg-zinc-900 rounded-[2rem] shadow-sm border border-zinc-800 p-6 flex flex-col items-center justify-between overflow-hidden">
+    <div className="relative w-full h-full bg-zinc-900 rounded-[2rem] shadow-sm border border-zinc-800 p-5 flex flex-col items-center justify-between overflow-hidden">
         
        {/* Mode Selectors - Clean, removed grey background box */}
-       <div className="flex gap-4 z-10 relative top-2">
+       <div className="flex gap-3 z-10 relative top-1">
          {[
              { id: 'work', label: 'Focus' },
              { id: 'shortBreak', label: 'Short Break' },
@@ -68,18 +68,19 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
          ))}
       </div>
 
-      {/* Clock Face & Digital Time */}
-       <div className="relative flex-1 flex flex-col items-center justify-center w-full my-4">
-            
-            {/* Analog Clock */}
+      {/* Responsive Layout Container: Clock on Left/Top, Time & Controls on Right/Bottom */}
+      <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full min-h-0 overflow-hidden px-4">
+        
+        {/* Left Side: Analog Clock Face */}
+        <div className="relative flex items-center justify-center">
             <div 
                 className={cn(
-                    "relative w-[220px] h-[220px] md:w-[280px] md:h-[280px] rounded-full",
-                    "shadow-[0_0_50px_-10px] border-4 border-zinc-800 bg-zinc-900", // Glow effect aligned with user request
+                    "relative w-[180px] h-[180px] md:w-[220px] md:h-[220px] lg:w-[260px] lg:h-[260px] rounded-full",
+                    "shadow-[0_0_50px_-10px] border-4 border-zinc-800 bg-zinc-900 transition-all duration-500",
                     mode === 'work' ? "shadow-indigo-500/20" : mode === 'shortBreak' ? "shadow-teal-500/20" : "shadow-purple-500/20"
                 )}
             >
-                {/* Minute Hand - Longer/Thicker - Grey/White */}
+                {/* Minute Hand */}
                 <div 
                     className="absolute top-1/2 left-1/2 w-1.5 h-[40%] bg-zinc-200 origin-bottom rounded-full"
                     style={{ 
@@ -88,7 +89,7 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
                     }}
                 />
                 
-                {/* Second Hand - Thin/Colored - Updates every second */}
+                {/* Second Hand */}
                 <div 
                     className={cn(
                         "absolute top-1/2 left-1/2 w-0.5 h-[45%] origin-bottom rounded-full transition-transform duration-300 ease-linear",
@@ -102,38 +103,46 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
                 {/* Center Point */}
                 <div className={cn("absolute top-1/2 left-1/2 w-3 h-3 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-sm z-10 border-2 border-zinc-900", needleColors[mode])} />
             </div>
+        </div>
 
-             {/* Digital Time Display (Below Clock) */}
-             <div className="mt-8 text-5xl md:text-7xl font-bold text-white tracking-tighter">
-                {formattedTime}
-             </div>
-             <div className="text-zinc-500 font-medium tracking-widest uppercase text-xs mt-2">
-                {isActive ? 'Session in Progress' : 'Ready to Start'}
-             </div>
-       </div>
+        {/* Right Side: Digital Time, Status, and Controls */}
+        <div className="flex flex-col items-center md:items-start justify-center gap-6">
+            
+            {/* Digital Time Display */}
+            <div className="flex flex-col items-center md:items-start">
+              <div className="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter tabular-nums leading-none">
+                  {formattedTime}
+              </div>
+              <div className="text-zinc-500 font-bold tracking-[0.2em] uppercase text-[10px] md:text-xs mt-3 flex items-center gap-2">
+                 <span className={cn("w-1.5 h-1.5 rounded-full animate-pulse", isActive ? needleColors[mode] : "bg-zinc-700")} />
+                 {isActive ? 'Session in Progress' : 'Ready to Start'}
+              </div>
+            </div>
 
-      {/* Controls: Restart & Play/Pause */}
-      <div className="relative z-10 mb-2 flex items-center gap-4">
-          <Button 
-            onClick={onReset}
-            variant="outline"
-            size="icon"
-            className="w-12 h-12 rounded-full border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800 bg-transparent"
-             title="Restart Timer"
-          >
-             <RotateCcw className="w-5 h-5" />
-          </Button>
+            {/* Controls: Restart & Play/Pause */}
+            <div className="flex items-center gap-4">
+                <Button 
+                    onClick={onReset}
+                    variant="outline"
+                    size="icon"
+                    className="w-12 h-12 rounded-full border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-800 bg-transparent transition-all active:scale-95"
+                    title="Restart Timer"
+                >
+                    <RotateCcw className="w-5 h-5" />
+                </Button>
 
-          <Button 
-            onClick={onToggle}
-            className={cn(
-                "px-8 py-6 text-lg rounded-full shadow-xl hover:scale-105 transition-all flex items-center gap-2", 
-                modeBgColors[mode]
-            )}
-          >
-             {isActive ? <Pause className="fill-current w-5 h-5" /> : <Play className="fill-current ml-1 w-5 h-5" />}
-             {isActive ? 'Pause' : 'Start'}
-          </Button>
+                <Button 
+                    onClick={onToggle}
+                    className={cn(
+                        "px-10 py-7 text-xl font-bold rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3", 
+                        modeBgColors[mode]
+                    )}
+                >
+                    {isActive ? <Pause className="fill-current w-6 h-6" /> : <Play className="fill-current ml-1 w-6 h-6" />}
+                    {isActive ? 'Pause' : 'Start'}
+                </Button>
+            </div>
+        </div>
       </div>
 
     </div>

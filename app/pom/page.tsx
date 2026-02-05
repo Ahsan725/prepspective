@@ -29,10 +29,10 @@ const BentoPomodoroPage = () => {
            
             {/* Left Column (Span 2) */}
             <div className="col-span-1 md:col-span-2 flex flex-col gap-3 h-full min-h-0">
-                {/* Top Row: Music & Date - Split 50/50 */}
+                {/* Top Row: Date & Music - Split 50/50 */}
                 <div className="h-auto min-h-[200px] grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <MusicCard />
                     <DateTimeCard />
+                    <MusicCard />
                 </div>
 
                 {/* Bottom: Timer Card - Flex grow to fill available space */}
