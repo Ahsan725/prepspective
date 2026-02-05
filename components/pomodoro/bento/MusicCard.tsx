@@ -9,14 +9,14 @@ type AudioMode = 'music' | 'white_noise';
 
 const TRACKS = {
     music: [
-        { title: "Lofi Beats - Chill", url: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" },
-        { title: "Study Session", url: "https://cdn.pixabay.com/audio/2022/11/02/audio_64866ec560.mp3" },
-        { title: "Focus Flow", url: "https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d0.mp3" }
+        { title: "Aeon", url: "/music/aeon.mp3" },
+        { title: "Angels By My Side", url: "/music/angelsbymyside.mp3" },
+        { title: "Hearty", url: "/music/hearty.mp3" }
     ],
     white_noise: [
-        { title: "Rain Sounds", url: "https://cdn.pixabay.com/audio/2021/08/09/audio_0dcdd97d42.mp3" }, 
-        { title: "Coffee Shop", url: "https://cdn.pixabay.com/audio/2014/06/16/09/16/coffee-36940_1280.mp3" }, 
-        { title: "Forest Ambience", url: "https://cdn.pixabay.com/audio/2021/09/06/audio_3e4d941785.mp3" }
+        { title: "Cafe Noise", url: "/whitenoise/freesound_community-cafe-noise-32940.mp3" }, 
+        { title: "City Ambience", url: "/whitenoise/guillermoanaya-city-ambience-121693.mp3" }, 
+        { title: "Calming Rain", url: "/whitenoise/liecio-calming-rain-257596.mp3" }
     ]
 };
 
@@ -91,14 +91,26 @@ const MusicCard = () => {
                 </p>
             </div>
 
-            {/* Visualizer / Progress Mock */}
-            <div className="bg-zinc-800 h-1.5 rounded-full w-full mb-6 overflow-hidden relative">
-                <motion.div
-                    className="absolute top-0 left-0 bottom-0 bg-indigo-500 rounded-full"
-                    initial={{ width: '0%' }}
-                    animate={{ width: isPlaying ? '100%' : '0%' }}
-                    transition={{ duration: 180, ease: 'linear', repeat: Infinity }}
-                />
+            {/* Soundwave Visualizer */}
+            <div className="flex items-center justify-between gap-0.5 h-12 mb-6 w-full px-1">
+                {Array.from({ length: 50 }).map((_, i) => (
+                    <motion.div
+                        key={i}
+                        className="w-1 bg-indigo-500 rounded-full"
+                        animate={{
+                            height: isPlaying ? [4, Math.random() * 24 + 4, Math.random() * 16 + 4, 4] : 4,
+                            opacity: isPlaying ? [0.5, 1, 0.5] : 0.3
+                        }}
+                        transition={{
+                            duration: Math.random() * 0.5 + 0.3, // Random duration between 0.3s and 0.8s
+                            repeat: Infinity,
+                            repeatType: "mirror",
+                            delay: Math.random() * 0.5,
+                            ease: "easeInOut"
+                        }}
+                        style={{ height: 4 }}
+                    />
+                ))}
             </div>
 
             {/* Controls */}
