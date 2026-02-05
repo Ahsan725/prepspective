@@ -15,6 +15,7 @@ interface TodoItem {
 const LuxTodoList = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [input, setInput] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Load from local storage
   useEffect(() => {
@@ -28,12 +29,15 @@ const LuxTodoList = () => {
             { id: '3', text: 'Social media content', completed: false }
         ]);
     }
+    setIsLoaded(true);
   }, []);
 
   // Save to local storage
   useEffect(() => {
-    localStorage.setItem('pomodoro-todos', JSON.stringify(todos));
-  }, [todos]);
+    if (isLoaded) {
+        localStorage.setItem('pomodoro-todos', JSON.stringify(todos));
+    }
+  }, [todos, isLoaded]);
 
   const addTodo = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -95,13 +99,13 @@ const LuxTodoList = () => {
               <button
                 onClick={() => toggleTodo(todo.id)}
                 className={cn(
-                  "flex-shrink-0 w-6 h-6 rounded-lg border-2 transition-all duration-300 flex items-center justify-center",
+                  "flex-shrink-0 w-8 h-8 rounded-full border-2 transition-all duration-300 flex items-center justify-center", // Bigger & Circle
                   todo.completed 
                     ? "bg-indigo-600 border-indigo-600" 
                     : "border-zinc-700 bg-zinc-800/50 hover:border-indigo-500 hover:bg-zinc-800"
                 )}
               >
-                {todo.completed && <Check className="w-4 h-4 text-white" strokeWidth={3} />}
+                {todo.completed && <Check className="w-5 h-5 text-white" strokeWidth={3} />}
               </button>
               
               <span 
@@ -153,14 +157,18 @@ const LuxTodoList = () => {
       
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
+          width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
+          background: rgba(39, 39, 42, 0.5); /* Zinc-800/50 */
+          border-radius: 99px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(82, 82, 91, 0.5);
-          border-radius: 4px;
+          background: #6366f1; /* Indigo-500 */
+          border-radius: 99px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #4f46e5; /* Indigo-600 */
         }
       `}</style>
     </div>
