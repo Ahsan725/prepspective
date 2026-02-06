@@ -20,6 +20,8 @@ import {
   Users,
   UserCog,
   LogOut,
+  Trophy,
+  Timer,
 } from "lucide-react";
 import {
   SignedIn,
@@ -83,6 +85,18 @@ const subMenuItemsOne = [
     description: "Pinpoints your specific data structure knowledge gaps ",
     icon: <Target className="size-5 shrink-0 text-indigo-700" />,
     href: "/skillscan",
+  },
+  {
+    title: "Brag Sheet",
+    description: "Track your wins and professional achievements",
+    icon: <Trophy className="size-5 shrink-0 text-indigo-700" />,
+    href: "/brag",
+  },
+  {
+    title: "Pomodoro Timer",
+    description: "Boost productivity with focused work sessions",
+    icon: <Timer className="size-5 shrink-0 text-indigo-700" />,
+    href: "/pom",
   },
 ];
 
@@ -173,7 +187,7 @@ const CustomNavbar: React.FC = () => {
   };
 
   return (
-    <section className="w-full py-4 px-4 sm:px-6 lg:px-8">
+    <section className="w-full py-4 px-4 sm:px-6 lg:px-8 relative z-50">
       <div className="container mx-auto max-w-7xl">
         {/* ---------------- Desktop Navbar ---------------- */}
         <nav className="hidden lg:flex items-center justify-between">

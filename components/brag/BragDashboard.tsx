@@ -5,7 +5,6 @@ import { SelectBragItem } from '@/db/schema';
 import BragGrid from './BragGrid';
 import BragTimeline from './BragTimeline';
 import BragFilterBar from './BragFilterBar';
-import GoalProgress from './GoalProgress';
 import { LayoutGrid, GitBranch, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -37,13 +36,6 @@ const BragDashboard = ({ items }: BragDashboardProps) => {
 
   return (
     <div className="space-y-8">
-      {/* Top Section: Goals Only (Heatmap removed) */}
-      <div className="grid grid-cols-1 gap-6">
-        <GoalProgress current={items.length} target={50} />
-      </div>
-
-      <div className="w-full h-px bg-zinc-800" />
-
       {/* Controls: Search, Filter, View Toggle */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <BragFilterBar 
