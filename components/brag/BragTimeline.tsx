@@ -2,9 +2,12 @@
 
 import React, { useState } from 'react';
 import { SelectBragItem } from '@/db/schema';
-import { Trophy, Star, Lightbulb, TrendingUp, Calendar } from 'lucide-react';
+import { Trophy, Star, Lightbulb, TrendingUp, Calendar, MoreVertical, Pencil, Trash2, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import BragEntrySheet from './BragEntrySheet';
+import { deleteBragItem } from '@/lib/actions/brag-actions';
+import { useRouter } from 'next/navigation';
+import { BragItemFormSheet } from './BragItemFormSheet';
 
 interface BragTimelineProps {
   items: SelectBragItem[];
@@ -35,18 +38,104 @@ const groupByYearMonth = (items: SelectBragItem[]) => {
 
 const TimelineCard = ({ item, isLeft }: { item: SelectBragItem; isLeft: boolean }) => {
   const [showSheet, setShowSheet] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const config = categoryConfig[item.category] || categoryConfig.Other;
   const Icon = config.icon;
+
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      await deleteBragItem(item.id);
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+      setIsDeleting(false);
+    }
+  };
+
+  const handleCardClick = (e: React.MouseEvent) => {
+     if ((e.target as HTMLElement).closest('.card-menu')) return;
+     if (isEditing || isDeleting) return;
+     setShowSheet(true);
+  };
+
+  // Delete Confirmation View
+  if (isDeleting) {
+    return (
+       <div className={cn(
+        "w-full bg-zinc-900 border border-red-500/30 rounded-2xl p-4 flex flex-col justify-center items-center text-center space-y-3",
+        CARD_HEIGHT
+      )}>
+        <div className="w-8 h-8 bg-red-500/10 rounded-full flex items-center justify-center">
+            <Trash2 className="w-4 h-4 text-red-500" />
+        </div>
+        <p className="text-white font-medium text-xs">Delete this?</p>
+        <div className="flex gap-2 w-full px-2">
+            <button
+              onClick={() => setIsDeleting(false)}
+              className="flex-1 py-1.5 bg-zinc-800 text-white rounded-lg font-medium text-xs hover:bg-zinc-700"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleDelete}
+              disabled={loading}
+              className="flex-1 py-1.5 bg-red-600 text-white rounded-lg font-medium text-xs hover:bg-red-700 disabled:opacity-50 flex items-center justify-center"
+            >
+              {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : 'Delete'}
+            </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
       <div
-        onClick={() => setShowSheet(true)}
+        onClick={handleCardClick}
         className={cn(
-          "w-full p-4 bg-zinc-900 border border-zinc-800 rounded-2xl hover:border-zinc-700 transition-colors cursor-pointer",
+          "w-full p-4 bg-zinc-900 border border-zinc-800 rounded-2xl hover:border-zinc-700 transition-colors cursor-pointer relative group",
           CARD_HEIGHT
         )}
       >
+        {/* Menu Button */}
+        <div className="card-menu absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+          <div className="relative">
+            <button
+              onClick={(e) => { e.stopPropagation(); setShowMenu(!showMenu); }}
+              className="p-1.5 hover:bg-zinc-800 rounded-lg transition-colors bg-zinc-900/50 backdrop-blur-sm"
+            >
+              <MoreVertical className="w-3.5 h-3.5 text-zinc-400" />
+            </button>
+            {showMenu && (
+              <>
+                <div className="fixed inset-0 z-10" onClick={(e) => { e.stopPropagation(); setShowMenu(false); }} />
+                <div className="absolute right-0 top-8 z-20 bg-zinc-800 border border-zinc-700 rounded-lg shadow-xl overflow-hidden min-w-[100px]">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setIsEditing(true); setShowMenu(false); }}
+                    className="w-full px-3 py-2 text-left text-xs text-white hover:bg-zinc-700 flex items-center gap-2"
+                  >
+                    <Pencil className="w-3 h-3" /> Edit
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setIsDeleting(true); setShowMenu(false); }}
+                    className="w-full px-3 py-2 text-left text-xs text-red-400 hover:bg-zinc-700 flex items-center gap-2"
+                  >
+                    <Trash2 className="w-3 h-3" /> Delete
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
         <div className="flex flex-col h-full">
           <div className="flex items-center gap-2 mb-2">
             <div className={cn("p-1.5 rounded-lg border", config.bg, config.border)}>
@@ -62,7 +151,7 @@ const TimelineCard = ({ item, isLeft }: { item: SelectBragItem; isLeft: boolean 
             )}
           </div>
 
-          <h4 className="text-sm font-bold text-white mb-1 line-clamp-2 leading-snug">{item.title}</h4>
+          <h4 className="text-sm font-bold text-white mb-1 line-clamp-2 leading-snug pr-6">{item.title}</h4>
           
           {item.description && (
             <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed flex-grow">{item.description}</p>
@@ -76,6 +165,12 @@ const TimelineCard = ({ item, isLeft }: { item: SelectBragItem; isLeft: boolean 
       </div>
 
       <BragEntrySheet item={item} open={showSheet} onOpenChange={setShowSheet} />
+      
+      <BragItemFormSheet 
+        open={isEditing} 
+        onOpenChange={setIsEditing} 
+        initialData={item}
+      />
     </>
   );
 };

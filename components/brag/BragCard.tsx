@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react';
 import { SelectBragItem } from '@/db/schema';
-import { Trophy, Star, Lightbulb, TrendingUp, Calendar, MoreVertical, Pencil, Trash2, X, Loader2 } from 'lucide-react';
+import { Trophy, Star, Lightbulb, TrendingUp, Calendar, MoreVertical, Pencil, Trash2, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { deleteBragItem, updateBragItem } from '@/lib/actions/brag-actions';
+import { deleteBragItem } from '@/lib/actions/brag-actions';
 import { useRouter } from 'next/navigation';
 import BragEntrySheet from './BragEntrySheet';
+import { BragItemFormSheet } from './BragItemFormSheet';
 
 interface BragCardProps {
   item: SelectBragItem;
@@ -27,7 +28,7 @@ const categoryColors: Record<string, { icon: string; bg: string; border: string 
   Other: { icon: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/30' },
 };
 
-const CARD_HEIGHT = 'h-[200px]';
+const CARD_HEIGHT = 'h-[220px]';
 
 const BragCard = ({ item, className }: BragCardProps) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -37,16 +38,9 @@ const BragCard = ({ item, className }: BragCardProps) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const [editData, setEditData] = useState({
-    title: item.title,
-    description: item.description || '',
-    metric: item.metric || '',
-    category: item.category,
-    date: item.date,
-  });
-
   const Icon = categoryIcons[item.category] || Star;
   const colors = categoryColors[item.category] || categoryColors.Other;
+  const tagsList = item.tags ? item.tags.split(',').filter(Boolean) : [];
 
   const handleDelete = async () => {
     setLoading(true);
@@ -61,74 +55,11 @@ const BragCard = ({ item, className }: BragCardProps) => {
     }
   };
 
-  const handleUpdate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await updateBragItem(item.id, editData);
-      router.refresh();
-      setIsEditing(false);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleCardClick = (e: React.MouseEvent) => {
-    // Don't open sheet if clicking on menu or edit/delete buttons
     if ((e.target as HTMLElement).closest('.card-menu')) return;
     if (isEditing || isDeleting) return;
     setShowSheet(true);
   };
-
-  // Edit Modal
-  if (isEditing) {
-    return (
-      <div className={cn("w-full bg-zinc-900 border border-zinc-700 rounded-2xl p-5 overflow-hidden", CARD_HEIGHT, className)}>
-        <form onSubmit={handleUpdate} className="space-y-3 h-full flex flex-col">
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium text-zinc-400">Edit</span>
-            <button type="button" onClick={() => setIsEditing(false)} className="p-1 hover:bg-zinc-800 rounded">
-              <X className="w-4 h-4 text-zinc-500" />
-            </button>
-          </div>
-          <input
-            value={editData.title}
-            onChange={(e) => setEditData({ ...editData, title: e.target.value })}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm focus:border-indigo-500 outline-none"
-            placeholder="Title"
-            required
-          />
-          <div className="grid grid-cols-2 gap-2">
-            <input
-              value={editData.metric}
-              onChange={(e) => setEditData({ ...editData, metric: e.target.value })}
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm focus:border-indigo-500 outline-none"
-              placeholder="Metric"
-            />
-            <select
-              value={editData.category}
-              onChange={(e) => setEditData({ ...editData, category: e.target.value })}
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white text-sm focus:border-indigo-500 outline-none"
-            >
-              <option value="Impact">Impact</option>
-              <option value="Leadership">Leadership</option>
-              <option value="Technical">Technical</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-auto w-full py-2 bg-indigo-600 text-white rounded-lg font-medium text-sm hover:bg-indigo-700 disabled:opacity-50 flex items-center justify-center gap-2"
-          >
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Save'}
-          </button>
-        </form>
-      </div>
-    );
-  }
 
   // Delete Confirmation
   if (isDeleting) {
@@ -164,7 +95,7 @@ const BragCard = ({ item, className }: BragCardProps) => {
       <div
         onClick={handleCardClick}
         className={cn(
-          "w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-5 overflow-hidden transition-colors hover:border-zinc-700 group relative cursor-pointer",
+          "w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-5 overflow-hidden transition-colors hover:border-zinc-700 group relative cursor-pointer flex flex-col",
           CARD_HEIGHT,
           className
         )}
@@ -200,34 +131,53 @@ const BragCard = ({ item, className }: BragCardProps) => {
           </div>
         </div>
 
-        <div className="flex flex-col h-full">
-          <div className="flex justify-between items-start mb-3">
-            <div className={cn("p-2 rounded-xl border", colors.bg, colors.border)}>
-              <Icon className={cn("w-4 h-4", colors.icon)} />
-            </div>
-            {item.metric && (
-              <span className={cn("text-[10px] font-semibold uppercase tracking-wider px-2 py-1 rounded-full border truncate max-w-[100px]", colors.bg, colors.border, colors.icon)}>
-                {item.metric}
+        <div className="flex justify-between items-start mb-3">
+          <div className={cn("px-3 py-1 rounded-full border text-[10px] font-semibold uppercase tracking-wider", colors.bg, colors.border, colors.icon)}>
+             {item.category}
+          </div>
+          {item.metric && (
+            <span className={cn("text-[10px] font-semibold uppercase tracking-wider px-2 py-1 rounded-full border truncate max-w-[100px]", colors.bg, colors.border, colors.icon)}>
+              {item.metric}
+            </span>
+          )}
+        </div>
+
+        <h3 className="text-base font-bold text-white mb-2 line-clamp-2 leading-snug pr-4">
+          {item.title}
+        </h3>
+
+        {/* Tags Row */}
+        {tagsList.length > 0 && (
+          <div className="flex gap-1.5 mb-2 overflow-hidden items-center flex-wrap max-h-[22px]">
+            {tagsList.slice(0, 3).map(tag => (
+              <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-md bg-zinc-800 text-zinc-400 border border-zinc-700 whitespace-nowrap">
+                #{tag}
               </span>
+            ))}
+            {tagsList.length > 3 && (
+              <span className="text-[10px] text-zinc-500">+{tagsList.length - 3}</span>
             )}
           </div>
+        )}
 
-          <h3 className="text-base font-bold text-white mb-2 line-clamp-2 leading-snug pr-4">
-            {item.title}
-          </h3>
+        <p className="text-zinc-500 text-sm flex-grow line-clamp-2 leading-relaxed">
+          {item.description}
+        </p>
 
-          <p className="text-zinc-500 text-sm flex-grow line-clamp-2 leading-relaxed">
-            {item.description}
-          </p>
-
-          <div className="flex items-center gap-2 text-zinc-600 mt-auto pt-2">
-            <Calendar className="w-3 h-3" />
-            <span className="text-xs">{new Date(item.date).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}</span>
-          </div>
+        <div className="flex items-center gap-2 text-zinc-600 mt-auto pt-2">
+          <Calendar className="w-3 h-3" />
+          <span className="text-xs">{new Date(item.date).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}</span>
         </div>
       </div>
 
       <BragEntrySheet item={item} open={showSheet} onOpenChange={setShowSheet} />
+      
+      {/* Edit Sheet */}
+      <BragItemFormSheet 
+        open={isEditing} 
+        onOpenChange={setIsEditing} 
+        initialData={item}
+      />
     </>
   );
 };

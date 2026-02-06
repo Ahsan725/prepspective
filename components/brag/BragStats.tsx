@@ -40,7 +40,7 @@ const BragStats = ({ items }: BragStatsProps) => {
   }));
 
   return (
-    <div className="w-full h-24 mt-4">
+    <div className="w-full h-64 mt-4">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={chartData}>
           <defs>

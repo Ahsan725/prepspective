@@ -123,6 +123,7 @@ export const bragSheetTable = sqliteTable('brag_sheet', {
   description: text('description'),
   category: text('category').notNull(), // Impact, Leadership, Technical, etc.
   metric: text('metric'), // Quantifiable results
+  tags: text('tags').notNull().default(''), // Comma-separated tags
   date: text('date').notNull(), // ISO date string
   createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`).notNull(),
   updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`).notNull().$onUpdate(() => sql`CURRENT_TIMESTAMP`),

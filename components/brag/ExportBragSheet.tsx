@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { SelectBragItem } from '@/db/schema';
-import { Copy, Check, FileText } from 'lucide-react';
+import { Copy, Check, FileText, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ExportBragSheetProps {
@@ -83,6 +83,19 @@ const ExportBragSheet = ({ items }: ExportBragSheetProps) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleDownload = () => {
+    const markdown = generateMarkdown();
+    const blob = new Blob([markdown], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `brag-sheet-${new Date().toISOString().slice(0, 10)}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   if (items.length === 0) return null;
 
   return (
@@ -97,14 +110,23 @@ const ExportBragSheet = ({ items }: ExportBragSheetProps) => {
         )}
       >
         {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-        <span>{copied ? 'Copied' : 'Copy for Review'}</span>
+        <span>{copied ? 'Copied' : 'Copy Text'}</span>
       </button>
+      
       <button
         onClick={() => handleCopy('markdown')}
         className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-white hover:border-zinc-700 transition-all"
       >
         <FileText className="w-4 h-4" />
-        <span>Copy as Markdown</span>
+        <span>Copy MD</span>
+      </button>
+
+      <button
+        onClick={handleDownload}
+        className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-white hover:border-zinc-700 transition-all"
+      >
+        <Download className="w-4 h-4" />
+        <span>Download MD</span>
       </button>
     </div>
   );
