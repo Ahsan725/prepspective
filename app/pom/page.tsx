@@ -11,8 +11,7 @@ import LuxTodoList from '@/components/pomodoro/LuxTodoList';
 import AmbientEffect from '@/components/pomodoro/AmbientEffect';
 
 const BentoPomodoroPage = () => {
-  const { mode, timeLeft, isActive, toggleTimer, resetTimer, setMode } = usePomodoro();
-  const [ambientEffect, setAmbientEffect] = useState<'none' | 'snow' | 'rain'>('none');
+  const { mode, timeLeft, isActive, toggleTimer, resetTimer, setMode, isDocked, toggleDock, ambientEffect, setAmbientEffect } = usePomodoro();
   
   // Calculate max time based on mode for the analog progress
   const getMaxTime = (m: string) => {
@@ -26,8 +25,7 @@ const BentoPomodoroPage = () => {
 
   return (
     <div className="h-[calc(100vh-5rem)] bg-zinc-50 text-zinc-900 flex items-center justify-center p-2 overflow-hidden relative">
-       {/* Ambient Effect Overlay - User requested it over everything */}
-       <AmbientEffect type={ambientEffect} />
+       {/* Ambient Effect Overlay - Handled Globally by PomodoroProvider */}
 
        {/* Main Grid Container */}
        <div className="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-3 relative z-10">
@@ -52,6 +50,8 @@ const BentoPomodoroPage = () => {
                         onReset={resetTimer}
                         ambientEffect={ambientEffect}
                         setAmbientEffect={setAmbientEffect}
+                        isDocked={isDocked}
+                        toggleDock={toggleDock}
                     />
                 </div>
             </div>

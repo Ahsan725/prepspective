@@ -3,7 +3,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Play, Pause, RotateCcw } from 'lucide-react';
+import { Play, Pause, RotateCcw, Minimize2 } from 'lucide-react';
 
 interface AnalogTimerCardProps {
   timeLeft: number;
@@ -15,9 +15,14 @@ interface AnalogTimerCardProps {
   onReset: () => void;
   ambientEffect?: 'none' | 'snow' | 'rain';
   setAmbientEffect?: (effect: 'none' | 'snow' | 'rain') => void;
+  isDocked?: boolean;
+  toggleDock?: (value?: boolean) => void;
 }
 
-const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, isActive, mode, onToggle, onReset, setMode, ambientEffect, setAmbientEffect }) => {
+const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ 
+  timeLeft, maxTime, isActive, mode, onToggle, onReset, setMode, 
+  ambientEffect, setAmbientEffect, isDocked, toggleDock 
+}) => {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -96,6 +101,18 @@ const AnalogTimerCard: React.FC<AnalogTimerCardProps> = ({ timeLeft, maxTime, is
                 </button>
             ))}
          </div>
+
+          {/* Vertical Divider */}
+          <div className="w-px h-5 bg-zinc-800" />
+
+          {/* Dock Button */}
+          <button
+            onClick={() => toggleDock && toggleDock(true)}
+            className="p-1.5 rounded-full text-zinc-500 hover:text-white hover:bg-zinc-800 transition-all border border-transparent hover:border-zinc-700"
+            title="Minimize to Header"
+          >
+            <Minimize2 className="w-4 h-4" />
+          </button>
        </div>
 
       {/* Responsive Layout Container: Clock on Left/Top, Time & Controls on Right/Bottom */}

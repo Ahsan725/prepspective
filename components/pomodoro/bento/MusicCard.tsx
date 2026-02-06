@@ -1,66 +1,33 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { Play, Pause, SkipForward, Music as MusicIcon, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-
-type AudioMode = 'music' | 'white_noise';
-
-const TRACKS = {
-    music: [
-        { title: "Aeon", url: "/music/aeon.mp3" },
-        { title: "Angels By My Side", url: "/music/angelsbymyside.mp3" },
-        { title: "Hearty", url: "/music/hearty.mp3" }
-    ],
-    white_noise: [
-        { title: "Cafe Noise", url: "/whitenoise/freesound_community-cafe-noise-32940.mp3" }, 
-        { title: "City Ambience", url: "/whitenoise/guillermoanaya-city-ambience-121693.mp3" }, 
-        { title: "Calming Rain", url: "/whitenoise/liecio-calming-rain-257596.mp3" }
-    ]
-};
+import { usePomodoro } from '@/hooks/usePomodoro';
+import { TRACKS } from '@/context/PomodoroContext';
 
 const MusicCard = () => {
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [mode, setMode] = useState<AudioMode>('music');
-    const [trackIndex, setTrackIndex] = useState(0);
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const { 
+        isAudioPlaying, 
+        audioMode, 
+        trackIndex, 
+        toggleAudio, 
+        setAudioMode, 
+        nextTrack 
+    } = usePomodoro();
 
-    const currentTrack = TRACKS[mode][trackIndex];
-
-    useEffect(() => {
-        if (audioRef.current) {
-            audioRef.current.volume = 0.5;
-            if (isPlaying) {
-                audioRef.current.play().catch(e => console.log("Audio play failed:", e));
-            } else {
-                audioRef.current.pause();
-            }
-        }
-    }, [isPlaying, trackIndex, mode]);
-
-    const togglePlay = () => setIsPlaying(!isPlaying);
-
-    const nextTrack = () => {
-        setTrackIndex((prev) => (prev + 1) % TRACKS[mode].length);
-        setIsPlaying(true);
-    };
-
-    const switchMode = (newMode: AudioMode) => {
-        setMode(newMode);
-        setTrackIndex(0);
-        setIsPlaying(false);
-    };
+    const currentTrack = TRACKS[audioMode][trackIndex];
 
     return (
         <div className="bg-zinc-900 text-white rounded-[2rem] p-6 flex flex-col justify-between shadow-sm col-span-3 md:col-span-1 min-h-[220px]">
-            {/* Header / Mode Switcher - Centered and matched to Timer style */}
+            {/* Header / Mode Switcher */}
             <div className="flex justify-center items-center gap-3 mb-6 relative">
                 <button
-                    onClick={() => switchMode('music')}
+                    onClick={() => setAudioMode('music')}
                     className={cn(
                         "px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 border border-transparent flex items-center gap-2",
-                        mode === 'music' 
+                        audioMode === 'music' 
                             ? "text-white border-zinc-700 bg-zinc-800" 
                             : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
                     )}
@@ -68,10 +35,10 @@ const MusicCard = () => {
                     <MusicIcon className="w-3 h-3" /> Music
                 </button>
                 <button
-                    onClick={() => switchMode('white_noise')}
+                    onClick={() => setAudioMode('white_noise')}
                     className={cn(
                         "px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 border border-transparent flex items-center gap-2",
-                        mode === 'white_noise' 
+                        audioMode === 'white_noise' 
                             ? "text-white border-zinc-700 bg-zinc-800" 
                             : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
                     )}
@@ -84,8 +51,8 @@ const MusicCard = () => {
             <div className="mb-4">
                 <h3 className="text-lg font-bold truncate">{currentTrack.title}</h3>
                 <p className="text-zinc-400 text-xs mt-1 flex items-center gap-2">
-                    {mode === 'music' ? 'Lo-Fi / Study' : 'Ambient / Noise'}
-                    {isPlaying && (
+                    {audioMode === 'music' ? 'Lo-Fi / Study' : 'Ambient / Noise'}
+                    {isAudioPlaying && (
                         <span className="flex gap-0.5 items-end h-3">
                             <motion.span className="w-0.5 bg-indigo-500 block" animate={{ height: [2, 10, 4] }} transition={{ repeat: Infinity, duration: 0.5 }} />
                             <motion.span className="w-0.5 bg-indigo-500 block" animate={{ height: [4, 12, 6] }} transition={{ repeat: Infinity, duration: 0.4 }} />
@@ -102,11 +69,11 @@ const MusicCard = () => {
                         key={i}
                         className="w-1 bg-indigo-500 rounded-full"
                         animate={{
-                            height: isPlaying ? [4, Math.random() * 24 + 4, Math.random() * 16 + 4, 4] : 4,
-                            opacity: isPlaying ? [0.5, 1, 0.5] : 0.3
+                            height: isAudioPlaying ? [4, Math.random() * 24 + 4, Math.random() * 16 + 4, 4] : 4,
+                            opacity: isAudioPlaying ? [0.5, 1, 0.5] : 0.3
                         }}
                         transition={{
-                            duration: Math.random() * 0.5 + 0.3, // Random duration between 0.3s and 0.8s
+                            duration: Math.random() * 0.5 + 0.3,
                             repeat: Infinity,
                             repeatType: "mirror",
                             delay: Math.random() * 0.5,
@@ -120,10 +87,10 @@ const MusicCard = () => {
             {/* Controls */}
             <div className="flex justify-center items-center gap-6">
                 <button
-                    onClick={togglePlay}
+                    onClick={toggleAudio}
                     className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center hover:bg-indigo-500 hover:scale-105 transition-all shadow-lg shadow-indigo-900/20"
                 >
-                    {isPlaying ? <Pause className="w-5 h-5 fill-current text-white" /> : <Play className="w-5 h-5 fill-current text-white ml-1" />}
+                    {isAudioPlaying ? <Pause className="w-5 h-5 fill-current text-white" /> : <Play className="w-5 h-5 fill-current text-white ml-1" />}
                 </button>
 
                 <button
@@ -133,16 +100,6 @@ const MusicCard = () => {
                      <SkipForward className="w-4 h-4 fill-current text-white" />
                 </button>
             </div>
-            
-            <audio 
-                ref={audioRef}
-                src={currentTrack.url}
-                loop
-                onEnded={() => {
-                    // Loop is true, but just in case
-                    if(isPlaying) audioRef.current?.play();
-                }}
-            />
         </div>
     );
 };

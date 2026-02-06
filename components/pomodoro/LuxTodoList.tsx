@@ -2,9 +2,26 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Check, ListTodo } from 'lucide-react';
+import { Plus, Trash2, Check, ListTodo, GripVertical } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import canvasConfetti from 'canvas-confetti';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface TodoItem {
   id: string;
@@ -12,10 +29,89 @@ interface TodoItem {
   completed: boolean;
 }
 
+interface SortableTodoItemProps {
+  todo: TodoItem;
+  toggleTodo: (id: string) => void;
+  removeTodo: (id: string) => void;
+}
+
+const SortableTodoItem = ({ todo, toggleTodo, removeTodo }: SortableTodoItemProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: todo.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 50 : "auto",
+    position: isDragging ? "relative" : "relative",
+  } as React.CSSProperties;
+
+  return (
+    <li
+      ref={setNodeRef}
+      style={style}
+      className={cn(
+        "group flex items-center gap-3 py-3 border-b border-zinc-800/50 last:border-0 bg-zinc-900", // Increased padding
+        isDragging && "opacity-50 shadow-xl ring-1 ring-indigo-500/50 rounded-lg z-50 bg-zinc-800"
+      )}
+    >
+      {/* Drag Handle */}
+      <button 
+        {...attributes} 
+        {...listeners} 
+        className="text-zinc-600 hover:text-zinc-400 cursor-grab active:cursor-grabbing p-1 touch-none"
+      >
+        <GripVertical className="w-5 h-5" />
+      </button>
+
+      <button
+        onClick={() => toggleTodo(todo.id)}
+        className={cn(
+          "flex-shrink-0 w-8 h-8 rounded-full border-2 transition-all duration-300 flex items-center justify-center", 
+          todo.completed 
+            ? "bg-indigo-600 border-indigo-600" 
+            : "border-zinc-700 bg-zinc-800/50 hover:border-indigo-500 hover:bg-zinc-800"
+        )}
+      >
+        {todo.completed && <Check className="w-5 h-5 text-white" strokeWidth={3} />}
+      </button>
+      
+      <span 
+        className={cn(
+            "flex-1 text-lg font-medium transition-all duration-300", // Increased text size to text-lg
+            todo.completed ? "text-zinc-500 line-through" : "text-zinc-200"
+        )}
+      >
+        {todo.text}
+      </span>
+
+      <button
+        onClick={() => removeTodo(todo.id)}
+        className="opacity-0 group-hover:opacity-100 text-zinc-600 hover:text-red-400 transition-opacity p-1"
+      >
+        <Trash2 className="w-5 h-5" />
+      </button>
+    </li>
+  );
+};
+
 const LuxTodoList = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [input, setInput] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   // Load from local storage
   useEffect(() => {
@@ -39,6 +135,18 @@ const LuxTodoList = () => {
     }
   }, [todos, isLoaded]);
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setTodos((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
   const addTodo = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!input.trim()) return;
@@ -61,8 +169,8 @@ const LuxTodoList = () => {
             canvasConfetti({
                 particleCount: 30,
                 spread: 50,
-                origin: { x: 0.8, y: 0.5 }, // Adjust origin for right column
-                colors: ['#4f46e5', '#818cf8', '#c7d2fe'] // Indigo scale
+                origin: { x: 0.8, y: 0.5 },
+                colors: ['#4f46e5', '#818cf8', '#c7d2fe']
             });
         }
         return { ...t, completed: !t.completed };
@@ -85,47 +193,28 @@ const LuxTodoList = () => {
         <span className="text-xs text-zinc-500 bg-zinc-800 px-2 py-1 rounded-md">{todos.filter(t => !t.completed).length} Pending</span>
       </div>
 
-      <ul className="space-y-3 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-        <AnimatePresence initial={false} mode='popLayout'>
-          {todos.map((todo) => (
-            <motion.li
-              key={todo.id}
-              layout
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              className="group flex items-center gap-3 py-2 border-b border-zinc-800/50 last:border-0"
+      <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+        <DndContext 
+            sensors={sensors} 
+            collisionDetection={closestCenter} 
+            onDragEnd={handleDragEnd}
+        >
+            <SortableContext 
+                items={todos} 
+                strategy={verticalListSortingStrategy}
             >
-              <button
-                onClick={() => toggleTodo(todo.id)}
-                className={cn(
-                  "flex-shrink-0 w-8 h-8 rounded-full border-2 transition-all duration-300 flex items-center justify-center", // Bigger & Circle
-                  todo.completed 
-                    ? "bg-indigo-600 border-indigo-600" 
-                    : "border-zinc-700 bg-zinc-800/50 hover:border-indigo-500 hover:bg-zinc-800"
-                )}
-              >
-                {todo.completed && <Check className="w-5 h-5 text-white" strokeWidth={3} />}
-              </button>
-              
-              <span 
-                className={cn(
-                    "flex-1 text-sm font-medium transition-all duration-300",
-                    todo.completed ? "text-zinc-500 line-through" : "text-zinc-200"
-                )}
-              >
-                {todo.text}
-              </span>
-
-              <button
-                onClick={() => removeTodo(todo.id)}
-                className="opacity-0 group-hover:opacity-100 text-zinc-600 hover:text-red-400 transition-opacity p-1"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </motion.li>
-          ))}
-        </AnimatePresence>
+                <ul className="space-y-1">
+                    {todos.map((todo) => (
+                        <SortableTodoItem 
+                            key={todo.id} 
+                            todo={todo} 
+                            toggleTodo={toggleTodo} 
+                            removeTodo={removeTodo} 
+                        />
+                    ))}
+                </ul>
+            </SortableContext>
+        </DndContext>
         
         {todos.length === 0 && (
             <div className="flex flex-col items-center justify-center h-40 text-zinc-600 text-sm">
@@ -133,7 +222,7 @@ const LuxTodoList = () => {
                 <p>Add one below to focus!</p>
             </div>
         )}
-      </ul>
+      </div>
 
       {/* Input at bottom */}
       <form onSubmit={addTodo} className="mt-6 relative">
@@ -143,7 +232,7 @@ const LuxTodoList = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Add a new focus task..."
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-white placeholder:text-zinc-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none pr-10"
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-base text-white placeholder:text-zinc-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none pr-10"
             />
             <button 
                 type="submit"

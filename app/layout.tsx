@@ -12,6 +12,7 @@ import AdSense from "../components/AdSense";
 import TopProgressBar from "@/components/ui/topProgressBar";
 import { useEffect, useRef } from "react";
 import { useToast } from '@/hooks/use-toast';
+import { PomodoroProvider } from '@/context/PomodoroContext';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -85,12 +86,14 @@ export default function RootLayout({
           <AdSense pId="1030596789108573" />
         </head>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <TopProgressBar />
-          <AuthListener />
-          <CustomNavbar />
-          {children}
-          <Analytics />
-          <Toaster />
+          <PomodoroProvider>
+            <TopProgressBar />
+            <AuthListener />
+            <CustomNavbar />
+            {children}
+            <Analytics />
+            <Toaster />
+          </PomodoroProvider>
         </body>
       </html>
     </ClerkProvider>

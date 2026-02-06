@@ -62,6 +62,7 @@ import {
 import { cn } from "@/lib/utils";
 import ContactForm from "@/components/ui/contactForm";
 import { ModernSidebar } from "@/components/ui/modern-sidebar";
+import PomodoroMiniWidget from "@/components/pomodoro/PomodoroMiniWidget";
 
 // -----------------------------
 // Sub‑menu items
@@ -301,6 +302,7 @@ const CustomNavbar: React.FC = () => {
 
           {/* Right side buttons */}
           <div className="flex items-center gap-2">
+            <PomodoroMiniWidget />
             {pathname === "/" && (
               <div className="hidden md:block">
                 <TooltipProvider>
