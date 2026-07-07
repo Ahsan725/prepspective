@@ -114,6 +114,11 @@ export const useCombinedViewData = () => {
               round.roundType.toLowerCase().includes('oa')
             );
           }
+          if (badge === 'HR') {
+            return r.rounds.some((round) =>
+              round.roundType.toLowerCase().includes('hr')
+            );
+          }
           if (badge === 'Behavioral') {
             return r.questions.some(
               (q) => q.type.toLowerCase() === 'behavioral'
@@ -173,4 +178,3 @@ export const useCombinedViewData = () => {
     levelOptions, // Add this to make it available in the component
   };
 };
-

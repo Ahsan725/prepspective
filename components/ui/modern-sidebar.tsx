@@ -21,6 +21,9 @@ import {
   CheckCircle,
   EyeOff,
   Mail,
+  MessageSquareText,
+  SquarePen,
+  Menu,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -47,13 +50,13 @@ const sidebarItems = [
     href: "/",
   },
   {
-    icon: FileText,
-    label: "Experiences",
-    href: "/search",
+    icon: MessageSquareText,
+    label: "Interview Experiences",
+    href: "/interview/search",
   },
   {
-    icon: NotebookPen,
-    label: "Add Entry",
+    icon: SquarePen,
+    label: "Share an Experience",
     href: "/exp",
   },
   {
@@ -145,7 +148,17 @@ export function ModernSidebar() {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>{/* Trigger button remains unchanged */}</SheetTrigger>
+      <SheetTrigger asChild>
+        <Button
+          variant="outline"
+          className="h-10 gap-2 rounded-full px-3 text-indigo-700"
+          aria-label="Open quick navigation (Command K)"
+        >
+          <Menu className="h-4 w-4" />
+          <span className="hidden xl:inline text-xs">Quick menu</span>
+          <kbd className="hidden xl:inline rounded border bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">⌘K</kbd>
+        </Button>
+      </SheetTrigger>
       <SheetContent
         side="left"
         className="sidebar-content w-[300px] p-0 border-r-0 flex flex-col bg-gradient-to-r from-black/95 to-indigo-700/95 "
