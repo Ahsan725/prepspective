@@ -22,6 +22,8 @@ import {
   LogOut,
   Trophy,
   Timer,
+  MessageSquareText,
+  SquarePen,
 } from "lucide-react";
 import {
   SignedIn,
@@ -69,6 +71,20 @@ import PomodoroMiniWidget from "@/components/pomodoro/PomodoroMiniWidget";
 // -----------------------------
 
 const subMenuItemsOne = [
+  {
+    title: "Interview Experiences",
+    description: "Explore real interview journeys, questions, and outcomes",
+    icon: <MessageSquareText className="size-5 shrink-0 text-indigo-700" />,
+    href: "/interview/search",
+    isPublic: true,
+  },
+  {
+    title: "Share an Experience",
+    description: "Help the community by submitting your interview journey",
+    icon: <SquarePen className="size-5 shrink-0 text-indigo-700" />,
+    href: "/exp",
+    isPublic: true,
+  },
   {
     title: "Lists",
     description: "Curated LeetCode Study lists with solutions and tracking",
@@ -226,20 +242,33 @@ const CustomNavbar: React.FC = () => {
                       <NavigationMenuLink>
                         {subMenuItemsOne.map((item, idx) => (
                           <li key={idx}>
-                            <ProtectedLink
-                              href={item.href}
-                              className={cn(
-                                "flex gap-4 select-none rounded-md p-3 transition-colors hover:bg-indigo-50 hover:text-indigo-700 text-gray-600"
-                              )}
-                            >
-                              {item.icon}
-                              <div>
-                                <div className="text-sm font-semibold">{item.title}</div>
-                                <p className="text-sm leading-snug text-muted-foreground">
-                                  {item.description}
-                                </p>
-                              </div>
-                            </ProtectedLink>
+                            {item.isPublic ? (
+                              <Link
+                                href={item.href}
+                                className="flex gap-4 select-none rounded-md p-3 transition-colors hover:bg-indigo-50 hover:text-indigo-700 text-gray-600"
+                              >
+                                {item.icon}
+                                <div>
+                                  <div className="text-sm font-semibold">{item.title}</div>
+                                  <p className="text-sm leading-snug text-muted-foreground">
+                                    {item.description}
+                                  </p>
+                                </div>
+                              </Link>
+                            ) : (
+                              <ProtectedLink
+                                href={item.href}
+                                className="flex gap-4 select-none rounded-md p-3 transition-colors hover:bg-indigo-50 hover:text-indigo-700 text-gray-600"
+                              >
+                                {item.icon}
+                                <div>
+                                  <div className="text-sm font-semibold">{item.title}</div>
+                                  <p className="text-sm leading-snug text-muted-foreground">
+                                    {item.description}
+                                  </p>
+                                </div>
+                              </ProtectedLink>
+                            )}
                           </li>
                         ))}
                       </NavigationMenuLink>
@@ -278,6 +307,15 @@ const CustomNavbar: React.FC = () => {
               </NavigationMenuList>
             </NavigationMenu>
 
+            <Link
+              href="/interview/search"
+              className={cn(
+                "ml-1 z-20 text-muted-foreground bg-white",
+                buttonVariants({ variant: "ghost" })
+              )}
+            >
+              Experiences
+            </Link>
             <Link
               href="/about"
               className={cn(
@@ -402,22 +440,39 @@ const CustomNavbar: React.FC = () => {
                         Products
                       </AccordionTrigger>
                       <AccordionContent className="mt-2 space-y-2">
-                        {subMenuItemsOne.map((item, idx) => (
-                          <ProtectedLink
-                            key={idx}
-                            href={item.href}
-                            onClick={closeSheet}
-                            className="flex gap-4 rounded-md p-3 hover:bg-indigo-50"
-                          >
-                            {item.icon}
-                            <div>
-                              <div className="text-sm font-semibold">{item.title}</div>
-                              <p className="text-sm leading-snug text-muted-foreground">
-                                {item.description}
-                              </p>
-                            </div>
-                          </ProtectedLink>
-                        ))}
+                        {subMenuItemsOne.map((item, idx) =>
+                          item.isPublic ? (
+                            <Link
+                              key={idx}
+                              href={item.href}
+                              onClick={closeSheet}
+                              className="flex gap-4 rounded-md p-3 hover:bg-indigo-50"
+                            >
+                              {item.icon}
+                              <div>
+                                <div className="text-sm font-semibold">{item.title}</div>
+                                <p className="text-sm leading-snug text-muted-foreground">
+                                  {item.description}
+                                </p>
+                              </div>
+                            </Link>
+                          ) : (
+                            <ProtectedLink
+                              key={idx}
+                              href={item.href}
+                              onClick={closeSheet}
+                              className="flex gap-4 rounded-md p-3 hover:bg-indigo-50"
+                            >
+                              {item.icon}
+                              <div>
+                                <div className="text-sm font-semibold">{item.title}</div>
+                                <p className="text-sm leading-snug text-muted-foreground">
+                                  {item.description}
+                                </p>
+                              </div>
+                            </ProtectedLink>
+                          )
+                        )}
                       </AccordionContent>
                     </AccordionItem>
 
@@ -449,6 +504,12 @@ const CustomNavbar: React.FC = () => {
 
                   <Link href="/about" onClick={closeSheet} className="text-muted-foreground">
                     About
+                  </Link>
+                  <Link href="/interview/search" onClick={closeSheet} className="text-muted-foreground">
+                    Interview Experiences
+                  </Link>
+                  <Link href="/exp" onClick={closeSheet} className="text-muted-foreground">
+                    Share an Experience
                   </Link>
                 </div>
 

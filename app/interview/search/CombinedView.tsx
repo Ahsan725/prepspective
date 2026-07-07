@@ -354,6 +354,14 @@ const CombinedView: React.FC = () => {
                       </span>
                     )}
 
+                    {result.rounds.some((round) =>
+                      round.roundType.toLowerCase().includes('hr')
+                    ) && (
+                      <span className="px-2 py-1 text-xs font-semibold text-pink-800 bg-pink-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
+                        HR
+                      </span>
+                    )}
+
                     {/* LeetCode Badge */}
                     {result.questions.some((q) => q.leetcodeLink) && (
                       <span className="px-2 py-1 text-xs font-semibold text-teal-800 bg-teal-100 rounded-full sm:px-1 sm:py-0.5 sm:text-[10px]">
@@ -466,4 +474,3 @@ const CombinedView: React.FC = () => {
 };
 
 export default CombinedView;
-
