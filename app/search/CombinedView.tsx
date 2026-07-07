@@ -60,29 +60,33 @@ const CombinedView: React.FC = () => {
         selectedFilters.every((filter) => {
           const normalizedFilter = filter.toLowerCase();
 
-          // Match job offer status 
-          if (
-            (result.jobOffer ? 'offer' : 'no offer').toLowerCase() ===
-            normalizedFilter
-          )
+          if ((result.jobOffer ? 'offer' : 'no offer') === normalizedFilter) {
             return true;
+          }
 
-// Match LeetCode badge filter
-if (
-  filter.toLowerCase() === 'leetcode' &&
-    result.questions.some((question) => question.leetcodeLink)
-  ) {
-    return true;
-  }
-  
-
-          // Match round types (e.g., system design)
           if (
-            result.rounds.some(
-              (round) => round.roundType.toLowerCase() === normalizedFilter
+            normalizedFilter === 'leetcode' &&
+            result.questions.some((question) => question.leetcodeLink)
+          ) {
+            return true;
+          }
+
+          if (
+            (normalizedFilter === 'behavioral' || normalizedFilter === 'technical') &&
+            result.questions.some(
+              (question) => question.type.toLowerCase() === normalizedFilter
             )
-          )
+          ) {
             return true;
+          }
+
+          if (
+            result.rounds.some((round) =>
+              round.roundType.toLowerCase().includes(normalizedFilter)
+            )
+          ) {
+            return true;
+          }
 
           return false;
         });

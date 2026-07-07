@@ -75,7 +75,7 @@ const subMenuItemsOne = [
     title: "Interview Experiences",
     description: "Explore real interview journeys, questions, and outcomes",
     icon: <MessageSquareText className="size-5 shrink-0 text-indigo-700" />,
-    href: "/interview/search",
+    href: "/search",
     isPublic: true,
   },
   {
@@ -308,7 +308,7 @@ const CustomNavbar: React.FC = () => {
             </NavigationMenu>
 
             <Link
-              href="/interview/search"
+              href="/search"
               className={cn(
                 "ml-1 z-20 text-muted-foreground bg-white",
                 buttonVariants({ variant: "ghost" })
@@ -505,7 +505,7 @@ const CustomNavbar: React.FC = () => {
                   <Link href="/about" onClick={closeSheet} className="text-muted-foreground">
                     About
                   </Link>
-                  <Link href="/interview/search" onClick={closeSheet} className="text-muted-foreground">
+                  <Link href="/search" onClick={closeSheet} className="text-muted-foreground">
                     Interview Experiences
                   </Link>
                   <Link href="/exp" onClick={closeSheet} className="text-muted-foreground">
