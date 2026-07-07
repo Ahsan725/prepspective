@@ -52,7 +52,7 @@ const sidebarItems = [
   {
     icon: MessageSquareText,
     label: "Interview Experiences",
-    href: "/interview/search",
+    href: "/search",
   },
   {
     icon: SquarePen,
