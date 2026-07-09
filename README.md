@@ -2,7 +2,7 @@
 
 PrepSpective is an interview preparation platform built around focused practice, measurable progress, and real candidate experiences.
 
-[View the live product](https://prepspective.vercel.app)
+[View the live product](https://prepspective.com)
 
 ![PrepSpective landing page](public/screenshots/home.jpg)
 
